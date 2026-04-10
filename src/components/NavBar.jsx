@@ -9,7 +9,7 @@
             The Digital Curator
           </div>
           <div className="hidden md:flex items-center gap-10 font-['Newsreader',_serif] tracking-tight text-lg">
-            <a href="#" className="text-[#9e1b1b] font-semibold border-b-2 border-[#9e1b1b] pb-1">Browse</a>
+            <a href="#" className="text-[#9e1b1b] font-semibold border-b-2 border-[#9e1b1b] pb-1">123</a>
             <a href="#" className="text-[#5f5e5e] hover:text-[#1b1c1a] transition-all duration-300">Live Auctions</a>
             <a href="#" className="text-[#5f5e5e] hover:text-[#1b1c1a] transition-all duration-300">Private Sales</a>
             <a href="#" className="text-[#5f5e5e] hover:text-[#1b1c1a] transition-all duration-300">Artisans</a>
