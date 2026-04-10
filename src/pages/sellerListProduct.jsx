@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserListProduct = () => {
+const SellerUserListProduct = () => {
   const inventoryItems = [
     {
       id: 1,
@@ -188,4 +188,4 @@ const UserListProduct = () => {
   );
 };
 
-export default UserListProduct;
+export default SellerUserListProduct;

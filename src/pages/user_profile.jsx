@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserPage = () => {
+const UserProfilePage = () => {
   return (
     <div className="bg-surface text-on-surface min-h-screen font-body selection:bg-primary-container selection:text-white">
       {/* 
@@ -254,4 +254,4 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export default UserProfilePage;
