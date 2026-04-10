@@ -3,23 +3,6 @@ import React from 'react';
 const AuctionPage = () => {
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] selection:bg-[#570000]/20 min-h-screen">
-      {/* Top Navigation Bar */}
-      <nav className="fixed top-0 w-full z-50 border-b-[0.5px] border-stone-200/50 bg-stone-50/70 backdrop-blur-xl">
-        <div className="flex justify-between items-center px-12 py-6 max-w-[1920px] mx-auto">
-          <div className="text-2xl font-['Noto_Serif'] italic text-[#570000]">The Digital Curator</div>
-          <div className="hidden lg:flex items-center space-x-8">
-            <a href="#" className="font-['Noto_Serif'] uppercase tracking-widest text-[11px] text-[#570000] border-b border-[#570000] pb-1">Current Auctions</a>
-            <a href="#" className="font-['Noto_Serif'] uppercase tracking-widest text-[11px] text-stone-600 hover:text-stone-900 transition-colors">Private Sales</a>
-            <a href="#" className="font-['Noto_Serif'] uppercase tracking-widest text-[11px] text-stone-600 hover:text-stone-900 transition-colors">Artists</a>
-            <a href="#" className="font-['Noto_Serif'] uppercase tracking-widest text-[11px] text-stone-600 hover:text-stone-900 transition-colors">Provenance</a>
-          </div>
-          <div className="flex items-center space-x-6">
-            <button className="material-symbols-outlined text-stone-600 hover:opacity-70 transition-opacity">favorite</button>
-            <button className="material-symbols-outlined text-stone-600 hover:opacity-70 transition-opacity">person</button>
-          </div>
-        </div>
-      </nav>
-
       <main className="pt-28 pb-20 px-12 max-w-[1920px] mx-auto">
         {/* Hero Section & Sidebar Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-24">

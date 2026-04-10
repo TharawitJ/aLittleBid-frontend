@@ -3,29 +3,7 @@ import React from 'react';
 const AddProduct = () => {
   return (
     <div className="min-h-screen bg-[#fbf9f6] text-[#1b1c1a] font-['Manrope'] selection:bg-[#9e1b1b] selection:text-white">
-      {/* TopNavBar */}
-      <nav className="fixed top-0 w-full z-50 bg-[#fbf9f6]/80 backdrop-blur-md border-b border-[#f5f3f0]">
-        <div className="flex justify-between items-center px-6 md:px-12 py-6 max-w-[1920px] mx-auto">
-          <div className="text-2xl font-['Newsreader'] italic font-medium">The Digital Curator</div>
-          <div className="hidden md:flex items-center gap-x-8 font-['Newsreader'] font-medium tracking-tight">
-            <a className="text-[#59413e] hover:text-[#7a0009] transition-colors duration-300" href="#">Home</a>
-            <a className="text-[#59413e] hover:text-[#7a0009] transition-colors duration-300" href="#">Auctions</a>
-            <a className="text-[#59413e] hover:text-[#7a0009] transition-colors duration-300" href="#">Products</a>
-            <a className="text-[#59413e] hover:text-[#7a0009] transition-colors duration-300" href="#">My orders</a>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="material-symbols-outlined text-2xl text-[#59413e] cursor-pointer">account_circle</span>
-          </div>
-        </div>
-      </nav>
-
       <main className="pt-32 pb-24 px-6 md:px-24 max-w-[1440px] mx-auto">
-        {/* Header */}
-        <header className="mb-16">
-          <h1 className="font-['Newsreader'] text-5xl md:text-6xl mb-4">Consign an Item</h1>
-          <p className="text-[#59413e] text-lg">Provide detailed information about your masterpiece to begin the curation process.</p>
-        </header>
-
         {/* Stepper */}
         <div className="mb-20 flex flex-wrap gap-y-6 justify-between items-center max-w-4xl border-b border-[#e1bebb]/15 pb-8">
           <div className="flex items-center gap-3">
