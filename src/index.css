@@ -1,1 +1,30 @@
 @import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default
+}
+
+@theme {
+  /* Colors */
+  --color-primary: #570000;
+  --color-primary-container: #800000;
+  --color-on-primary: #ffffff;
+  --color-surface: #fcf9f8;
+  --color-surface-container-low: #f6f3f2;
+  --color-surface-container-high: #ebe7e7;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-surface: #1c1b1b;
+  --color-on-surface-variant: #5a413d;
+  --color-secondary: #5e5e5e;
+  --color-outline-variant: #e2bfb9;
+
+  /* Font Families */
+  --font-headline: "Noto Serif", serif;
+  --font-body: "Manrope", sans-serif;
+  --font-label: "Manrope", sans-serif;
+
+  /* Border Radius */
+  --radius-default: 0.125rem;
+
+  --background-home-bg: url('/src/assets/blackwatches.jpeg');
+}
+

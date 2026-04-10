@@ -9,3 +9,5 @@ function App() {
       <RouterProvider router={AppRouter} />
     </>
   )};
+
+  export default App

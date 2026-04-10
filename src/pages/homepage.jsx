@@ -3,6 +3,9 @@
  * High-End Editorial Art Auction House Landing Page
  * Based on the "Digital Curator" design system.
  */
+import blackwatches from '../assets/blackwatches.jpeg'
+import auction_sold from '../assets/auction_sold.jpeg'
+import auction from '../assets/auction.jpeg'
 
 const HomePage = () => {
   return (
@@ -30,16 +33,18 @@ const HomePage = () => {
       <main className="pt-24">
         {/* Hero Section */}
         <section className="relative h-[80vh] min-h-[600px] flex items-center px-6 md:px-12 overflow-hidden">
-          <div className="absolute inset-0 z-0">
+          <div className="bg-home-bg absolute inset-0 z-0">
             <img 
               className="w-full h-full object-cover grayscale-[20%] opacity-40" 
               alt="expansive minimalist white gallery room"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQVBg-wYg4wLdAZPRhtJSW8vEzMsZ-1fMTy7ArmhzD_0YOMGT4ROskeYZ9A9i4MVpRpySJHhvskDZxIHXCJlh_jGQ06HHofICYvNWCJ0OZ9wN5XavhJCAjJYpoKFKeHlakqmeKumGBoPD0gz0CjdebHasEaZIUM99V7Hvf9yN9km1oaTpNfKU4QasmxogHjjcgEmC2slHjEwO7W90MRgbHtpWl1pHscL6fpd2Mw0k7ylemk_qOuuvSxEFVCJOAULWodu7YADiGB-tE" 
+              src={blackwatches} 
+              // src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQVBg-wYg4wLdAZPRhtJSW8vEzMsZ-1fMTy7ArmhzD_0YOMGT4ROskeYZ9A9i4MVpRpySJHhvskDZxIHXCJlh_jGQ06HHofICYvNWCJ0OZ9wN5XavhJCAjJYpoKFKeHlakqmeKumGBoPD0gz0CjdebHasEaZIUM99V7Hvf9yN9km1oaTpNfKU4QasmxogHjjcgEmC2slHjEwO7W90MRgbHtpWl1pHscL6fpd2Mw0k7ylemk_qOuuvSxEFVCJOAULWodu7YADiGB-tE" 
             />
           </div>
           <div className="relative z-10 max-w-4xl">
             <span className="font-label uppercase tracking-[0.2em] text-primary mb-4 block font-semibold">Curated Excellence</span>
-            <h1 className="font-headline text-6xl md:text-8xl text-on-surface leading-tight mb-8">Where Art Finds Its True Value</h1>
+            <h1 className="font-headline text-6xl md:text-8xl text-on-surface leading-tight">Join the Thrill</h1>
+            <h1 className="font-headline text-6xl md:text-8xl text-on-surface leading-tight mb-8">of the Bid</h1>
             <div className="flex gap-4">
               <button className="bg-gradient-to-r from-primary to-primary-container text-on-primary px-10 py-4 rounded-DEFAULT font-label uppercase tracking-widest text-xs hover:shadow-xl transition-all active:scale-95 duration-200">
                 Register to Bid
