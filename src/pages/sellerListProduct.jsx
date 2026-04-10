@@ -44,37 +44,6 @@ const SellerUserListProduct = () => {
 
   return (
     <div className="min-h-screen bg-[#fbf9f6] text-[#1b1c1a] font-['Manrope']">
-      {/* TopNavBar */}
-      <header className="bg-[#fbf9f6]/80 backdrop-blur-xl sticky top-0 z-50 border-b border-[#efeeeb]">
-        <div className="flex justify-between items-center w-full px-8 py-4 max-w-[1440px] mx-auto">
-          <div className="flex items-center gap-12">
-            <span className="text-2xl font-['Newsreader'] italic font-medium">The Digital Curator</span>
-            <nav className="hidden md:flex gap-8">
-              <a className="font-medium border-b border-[#9e1b1b] text-[#9e1b1b]" href="#">Auctions</a>
-              <a className="text-[#59413e] hover:text-[#9e1b1b] transition-colors" href="#">Exhibitions</a>
-              <a className="text-[#59413e] hover:text-[#9e1b1b] transition-colors" href="#">Private Sales</a>
-              <a className="text-[#59413e] hover:text-[#9e1b1b] transition-colors" href="#">Consign</a>
-            </nav>
-          </div>
-          <div className="flex items-center gap-6">
-            <div className="relative hidden lg:block">
-              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#59413e] text-sm">search</span>
-              <input 
-                type="text" 
-                placeholder="Search inventory..." 
-                className="bg-[#f5f3f0] border-none rounded-sm pl-10 pr-4 py-2 text-sm w-64 focus:ring-1 focus:ring-[#7a0009]"
-              />
-            </div>
-            <div className="flex items-center gap-4">
-              <button className="material-symbols-outlined text-[#59413e] hover:text-[#7a0009] transition-colors">notifications</button>
-              <div className="w-8 h-8 rounded-full bg-[#e4e2df] flex items-center justify-center overflow-hidden">
-                <span className="material-symbols-outlined text-[#59413e]">person</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
       <main className="max-w-[1440px] mx-auto flex min-h-screen">
         {/* SideNavBar */}
         <aside className="hidden md:flex flex-col gap-4 p-6 bg-[#f5f3f0] w-64 border-r border-[#efeeeb] sticky top-[73px] h-[calc(100vh-73px)]">

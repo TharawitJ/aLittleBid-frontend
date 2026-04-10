@@ -3,25 +3,6 @@ import React from 'react';
 const ProductDetailBid = () => {
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
-      {/* Top Navigation */}
-      <header className="fixed top-0 w-full z-50 flex justify-between items-center px-12 py-6 max-w-screen-2xl mx-auto bg-stone-50/70 backdrop-blur-md border-b-[0.5px] border-stone-200/20">
-        <div className="flex items-center gap-8">
-          <span className="font-['Noto_Serif'] italic text-2xl text-[#570000]">A little Bid</span>
-          <nav className="hidden md:flex gap-8">
-            <a href="#" className="text-[#570000] font-semibold border-b border-[#570000] pb-1 font-['Manrope'] uppercase tracking-widest text-[10px]">Auctions</a>
-            <a href="#" className="text-stone-600 font-medium hover:text-[#570000] transition-colors duration-300 font-['Manrope'] uppercase tracking-widest text-[10px]">Artists</a>
-            <a href="#" className="text-stone-600 font-medium hover:text-[#570000] transition-colors duration-300 font-['Manrope'] uppercase tracking-widest text-[10px]">About</a>
-          </nav>
-        </div>
-        <div className="flex items-center gap-6">
-          <div className="flex gap-4">
-            <span className="material-symbols-outlined text-stone-600 cursor-pointer">notifications</span>
-            <span className="material-symbols-outlined text-stone-600 cursor-pointer">favorite</span>
-          </div>
-          <button className="bg-[#570000] text-white px-6 py-2 text-xs font-['Manrope'] uppercase tracking-widest rounded-sm">Sign In</button>
-        </div>
-      </header>
-
       <main className="pt-32 pb-24 px-6 md:px-12 max-w-screen-2xl mx-auto text-left">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Left Column: Image & Details */}

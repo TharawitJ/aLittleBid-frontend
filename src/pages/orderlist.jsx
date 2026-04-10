@@ -40,32 +40,6 @@ const OrderList = () => {
 
   return (
     <div className="min-h-screen bg-[#fbf9f6] text-[#1b1c1a] font-['Manrope'] selection:bg-[#9e1b1b] selection:text-white">
-      {/* TopNavBar */}
-      <header className="bg-[#fbf9f6]/80 backdrop-blur-md sticky top-0 z-50 border-b border-[#efeeeb]">
-        <div className="flex justify-between items-center w-full px-8 py-4 max-w-[1920px] mx-auto">
-          <div className="flex items-center gap-8">
-            <a className="text-2xl font-['Newsreader'] italic tracking-tighter" href="#">The Digital Curator</a>
-            <nav className="hidden md:flex gap-6 items-center">
-              <a className="text-[#59413e] font-medium hover:text-[#7a0009] transition-colors" href="#">Auctions</a>
-              <a className="text-[#59413e] font-medium hover:text-[#7a0009] transition-colors" href="#">Private Sales</a>
-              <a className="text-[#59413e] font-medium hover:text-[#7a0009] transition-colors" href="#">The Journal</a>
-              <a className="text-[#1b1c1a] border-b border-[#7a0009] pb-1 font-semibold" href="#">My Orders</a>
-            </nav>
-          </div>
-          <div className="flex items-center gap-4">
-            <button className="p-2 text-[#59413e] hover:text-[#7a0009] transition-colors">
-              <span className="material-symbols-outlined">notifications</span>
-            </button>
-            <button className="p-2 text-[#59413e] hover:text-[#7a0009] transition-colors">
-              <span className="material-symbols-outlined">shopping_bag</span>
-            </button>
-            <div className="w-8 h-8 rounded-full bg-[#e4e2df] flex items-center justify-center overflow-hidden border border-[#e1bebb]/30">
-              <span className="material-symbols-outlined text-[#59413e]">person</span>
-            </div>
-          </div>
-        </div>
-      </header>
-
       <main className="flex-grow max-w-[1200px] w-full mx-auto px-8 py-16">
         {/* Page Header */}
         <header className="mb-16">
@@ -74,7 +48,6 @@ const OrderList = () => {
             Manage and track your successful acquisitions from our global gallery network.
           </p>
         </header>
-
         {/* Order List */}
         <section className="flex flex-col gap-8">
           {orders.map((order) => (
