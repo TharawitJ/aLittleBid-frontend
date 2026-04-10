@@ -1,42 +1,39 @@
-      import React from 'react';
-      
-      const NavBar = () => {
-        
-        return (
-        <nav className="fixed top-0 w-full z-50 bg-[#fbf9f6]/80 backdrop-blur-md border-b border-[#e1bebb]/15">
-        <div className="flex justify-between items-center px-8 py-5 w-full max-w-screen-2xl mx-auto">
-          <div className="text-2xl font-['Newsreader',_serif] italic font-semibold text-[#1b1c1a]">
-            The Digital Curator
-          </div>
-          <div className="hidden md:flex items-center gap-10 font-['Newsreader',_serif] tracking-tight text-lg">
-            <a href="#" className="text-[#9e1b1b] font-semibold border-b-2 border-[#9e1b1b] pb-1">123</a>
-            <a href="#" className="text-[#5f5e5e] hover:text-[#1b1c1a] transition-all duration-300">Live Auctions</a>
-            <a href="#" className="text-[#5f5e5e] hover:text-[#1b1c1a] transition-all duration-300">Private Sales</a>
-            <a href="#" className="text-[#5f5e5e] hover:text-[#1b1c1a] transition-all duration-300">Artisans</a>
-          </div>
-          <div className="flex items-center gap-6">
-            <div className="hidden lg:flex items-center bg-[#efeeeb] px-4 py-2 rounded-sm group">
-              <span className="material-symbols-outlined text-[#59413e] text-lg">search</span>
-              <input 
-                type="text" 
-                placeholder="Search archives..." 
-                className="bg-transparent border-none focus:ring-0 text-sm ml-2 placeholder-[#59413e]/60"
-              />
-            </div>
-            <div className="flex items-center gap-5 text-[#9e1b1b]">
-              <button className="hover:opacity-70 transition-opacity">
-                <span className="material-symbols-outlined text-2xl">notifications
-                </span>
-              </button>
-              <button className="hover:opacity-70 transition-opacity">
-                <span className="material-symbols-outlined text-2xl">favorite</span>
-              </button>
-              <button className="font-['Newsreader',_serif] italic px-6 py-1.5 border border-[#7a0009] text-[#7a0009] hover:bg-[#7a0009] hover:text-white transition-all duration-300">
-                Sign In
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>)}
+import React from 'react';
+import { Link } from 'react-router';
 
-      export default NavBar;
+const NavBar = () => {
+  return (
+    <>
+      <nav className="top-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-6 max-w-screen-2xl mx-auto bg-surface/70 backdrop-blur-md border-b-[0.5px] border-outline-variant/20">
+        {/* <div className="flex items-center gap-8"> */}
+          <Link to='/'>
+            <div className="font-headline italic text-2xl text-primary">A little Bid</div>
+          </Link>
+          <div className="hidden md:flex gap-15">
+            <Link to='/auction'>
+              <div className="text-secondary font-semibold pb-1 font-label uppercase tracking-widest text-[10px]">Auctions</div>
+            </Link>
+            <Link to='/products'>
+              <div className="text-secondary font-medium hover:text-primary transition-colors duration-300 font-label uppercase tracking-widest text-[10px]">Products</div>
+            </Link>
+            <Link to='/my_order_list'>
+              <div className="text-secondary font-medium hover:text-primary transition-colors duration-300 font-label uppercase tracking-widest text-[10px]">My Order</div>
+            </Link>
+            <Link to='/payment'>
+              <div className="text-secondary font-medium hover:text-primary transition-colors duration-300 font-label uppercase tracking-widest text-[10px]">Payment</div>
+            </Link>
+          </div>
+        {/* </div> */}
+        <div className="flex items-center gap-6">
+          <button className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">favorite</button>
+          <button className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">notifications</button>
+          <button className="bg-primary text-on-primary px-6 py-2 rounded-DEFAULT font-label uppercase tracking-widest text-[10px] hover:bg-primary-container transition-all active:scale-95 duration-200">
+            Sign In
+          </button>
+        </div>
+      </nav>
+    </>
+  )
+}
+
+export default NavBar;

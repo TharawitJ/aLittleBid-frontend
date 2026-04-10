@@ -10,27 +10,8 @@ import auction from '../assets/auction.jpeg'
 const HomePage = () => {
   return (
     <div className="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-primary min-h-screen">
-      {/* Top Navigation Bar */}
-      <nav className="fixed top-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-6 max-w-screen-2xl mx-auto bg-surface/70 backdrop-blur-md border-b-[0.5px] border-outline-variant/20">
-        <div className="flex items-center gap-8">
-          <span className="font-headline italic text-2xl text-primary">A little Bid</span>
-          <div className="hidden md:flex gap-6">
-            <a className="text-primary font-semibold border-b border-primary pb-1 font-label uppercase tracking-widest text-[10px]" href="#auctions">Auctions</a>
-            <a className="text-secondary font-medium hover:text-primary transition-colors duration-300 font-label uppercase tracking-widest text-[10px]" href="#artists">Artists</a>
-            <a className="text-secondary font-medium hover:text-primary transition-colors duration-300 font-label uppercase tracking-widest text-[10px]" href="#provenance">Provenance</a>
-            <a className="text-secondary font-medium hover:text-primary transition-colors duration-300 font-label uppercase tracking-widest text-[10px]" href="#about">About</a>
-          </div>
-        </div>
-        <div className="flex items-center gap-6">
-          <button className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">favorite</button>
-          <button className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors">notifications</button>
-          <button className="bg-primary text-on-primary px-6 py-2 rounded-DEFAULT font-label uppercase tracking-widest text-[10px] hover:bg-primary-container transition-all active:scale-95 duration-200">
-            Sign In
-          </button>
-        </div>
-      </nav>
 
-      <main className="pt-24">
+      <main className="">
         {/* Hero Section */}
         <section className="relative h-[80vh] min-h-[600px] flex items-center px-6 md:px-12 overflow-hidden">
           <div className="bg-home-bg absolute inset-0 z-0">

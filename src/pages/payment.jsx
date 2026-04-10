@@ -3,24 +3,8 @@ import React from 'react';
 const Payment = () => {
   return (
     <div className="min-h-screen bg-[#fbf9f6] text-[#1b1c1a] font-['Manrope'] selection:bg-[#9e1b1b] selection:text-white">
-      {/* Top Navigation */}
-      <header className="bg-[#fbf9f6]/80 backdrop-blur-md sticky top-0 z-50 border-b border-[#efeeeb]">
-        <div className="flex justify-between items-center px-8 py-4 max-w-full mx-auto">
-          <div className="text-2xl font-['Newsreader'] italic font-medium">Heritage Reserve</div>
-          <nav className="hidden md:flex gap-8 items-center">
-            <a className="text-[#59413e] hover:text-[#7a0009] text-sm tracking-wide" href="#">Galleries</a>
-            <a className="text-[#7a0009] font-semibold border-b-2 border-[#7a0009] pb-1 text-sm tracking-wide" href="#">Auctions</a>
-            <a className="text-[#59413e] hover:text-[#7a0009] text-sm tracking-wide" href="#">Private Sales</a>
-            <a className="text-[#59413e] hover:text-[#7a0009] text-sm tracking-wide" href="#">Valuations</a>
-          </nav>
-          <div className="flex items-center gap-6">
-            <span className="material-symbols-outlined text-[#59413e] cursor-pointer">shopping_bag</span>
-            <span className="material-symbols-outlined text-[#59413e] cursor-pointer">person</span>
-          </div>
-        </div>
-      </header>
 
-      <main className="max-w-7xl mx-auto px-8 py-12 md:py-20">
+      <main className="max-w-7xl mx-auto px-8 py-12">
         <div className="flex flex-col lg:flex-row gap-16">
           {/* Left Column: Order Content */}
           <div className="flex-1 space-y-12">

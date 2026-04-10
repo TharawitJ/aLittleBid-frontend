@@ -3,24 +3,6 @@ import React from 'react';
 const ProductPage = () => {
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
-      {/* Header */}
-      <header className="fixed top-0 w-full z-50 flex justify-between items-center px-12 py-6 max-w-screen-2xl mx-auto bg-stone-50/70 backdrop-blur-md border-b-[0.5px] border-stone-200/20">
-        <div className="flex items-center gap-12">
-          <a href="#" className="font-['Noto_Serif'] italic text-2xl text-[#570000]">A little Bid</a>
-          <nav className="hidden md:flex gap-8 items-center">
-            <a href="#" className="text-[#570000] font-semibold border-b border-[#570000] pb-1">Auctions</a>
-            <a href="#" className="text-stone-600 font-medium hover:text-[#570000] transition-colors">Artists</a>
-            <a href="#" className="text-stone-600 font-medium hover:text-[#570000] transition-colors">Provenance</a>
-          </nav>
-        </div>
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-4 text-stone-700">
-            <span className="material-symbols-outlined cursor-pointer hover:text-[#570000]">notifications</span>
-            <span className="material-symbols-outlined cursor-pointer hover:text-[#570000]">favorite</span>
-            <button className="text-[10px] font-semibold uppercase tracking-widest px-4 py-2 border border-stone-300 hover:border-[#570000] hover:text-[#570000] transition-all">Sign In</button>
-          </div>
-        </div>
-      </header>
 
       <main className="pt-32 pb-24 px-12 max-w-screen-2xl mx-auto">
         <section className="mb-20 text-center">

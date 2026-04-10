@@ -9,34 +9,6 @@ const UserProfilePage = () => {
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
       */}
 
-      {/* TopNavBar */}
-      <header className="fixed top-0 w-full z-50 bg-[#fbf9f6]/80 backdrop-blur-md">
-        <div className="flex justify-between items-center px-8 py-4 w-full max-w-screen-2xl mx-auto">
-          <div className="text-2xl font-serif italic text-stone-900 tracking-tight font-headline">
-            The Digital Curator
-          </div>
-          <nav className="hidden md:flex items-center gap-8 font-serif font-headline tracking-tight">
-            <a className="text-stone-600 hover:text-stone-900 transition-all duration-300 hover:opacity-80" href="#">Browse</a>
-            <a className="text-stone-600 hover:text-stone-900 transition-all duration-300 hover:opacity-80" href="#">Live Auctions</a>
-            <a className="text-stone-600 hover:text-stone-900 transition-all duration-300 hover:opacity-80" href="#">Private Sales</a>
-            <a className="text-stone-600 hover:text-stone-900 transition-all duration-300 hover:opacity-80" href="#">Artisans</a>
-          </nav>
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-4 text-stone-600">
-              <span className="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">notifications</span>
-              <span className="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">favorite</span>
-            </div>
-            <div className="w-10 h-10 rounded-full bg-surface-variant overflow-hidden border border-outline-variant/20">
-              <img 
-                className="w-full h-full object-cover" 
-                alt="Profile" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEmxS5abXBU1AOkPJIudSE4Pap_GR7iXzHZmggHyXhCRj7hfphpIPMu_5CjIsuW5Gzl5fPTYXyNnyE5dyYlYChA24ZNiImy1Uh-1DBTEDjs4iYf1-OwlMj-6yQbDaTFUFwlGqduPkf7S3kbR6Jz1v6ADeUpFasFOrq1D1iA8Ji_TfmvYwiACvPWm5kYcy-EOCOfmjAwi38mTM0LRMUpigfDh3pJZg2J-K4AoqyBZkhRHjoEQSPCTRRoSLBI44wiCfuLEBJThLHL1xa"
-              />
-            </div>
-          </div>
-        </div>
-      </header>
-
       <main className="pt-24 pb-20 max-w-screen-2xl mx-auto px-8 flex gap-12">
         {/* Sidebar Navigation */}
         <aside className="w-64 flex-shrink-0">
