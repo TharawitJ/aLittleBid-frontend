@@ -7,9 +7,7 @@ function MainLayout() {
     <>
       <div>
         <NavBar />
-        <div>
-          <Outlet />
-        </div>
+        <Outlet />
       </div>
     </>
   );
