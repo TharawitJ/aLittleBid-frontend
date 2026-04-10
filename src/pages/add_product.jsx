@@ -3,14 +3,7 @@ import React from 'react';
 const AddProduct = () => {
   return (
     <div className="min-h-screen bg-[#fbf9f6] text-[#1b1c1a] font-['Manrope'] selection:bg-[#9e1b1b] selection:text-white">
-
       <main className="pt-32 pb-24 px-6 md:px-24 max-w-[1440px] mx-auto">
-        {/* Header */}
-        <header className="mb-16">
-          <h1 className="font-['Newsreader'] text-5xl md:text-6xl mb-4">Consign an Item</h1>
-          <p className="text-[#59413e] text-lg">Provide detailed information about your masterpiece to begin the curation process.</p>
-        </header>
-
         {/* Stepper */}
         <div className="mb-20 flex flex-wrap gap-y-6 justify-between items-center max-w-4xl border-b border-[#e1bebb]/15 pb-8">
           <div className="flex items-center gap-3">

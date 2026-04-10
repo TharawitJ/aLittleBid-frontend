@@ -3,21 +3,6 @@ import React from 'react';
 const ProductPageForSeller = () => {
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-stone-50/70 backdrop-blur-xl border-b border-stone-200/20">
-        <div className="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
-          <div className="text-2xl font-['Noto_Serif'] italic text-[#570000]">A Little Bid</div>
-          <div className="hidden md:flex items-center space-x-8">
-            {['Auctions', 'Artists', 'Insights'].map(link => (
-              <a key={link} href="#" className="text-stone-600 hover:text-[#570000] transition-colors text-[10.5px] font-semibold uppercase tracking-widest">{link}</a>
-            ))}
-          </div>
-          <div className="flex items-center space-x-2 bg-[#800000] text-white px-3 py-1 rounded-full">
-            <span className="material-symbols-outlined">account_circle</span>
-          </div>
-        </div>
-      </nav>
-
       <main className="pt-24 pb-20 max-w-7xl mx-auto px-8 text-left">
         <header className="mb-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">

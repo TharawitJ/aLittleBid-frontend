@@ -3,7 +3,6 @@ import React from 'react';
 const ProductPage = () => {
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
-
       <main className="pt-32 pb-24 px-12 max-w-screen-2xl mx-auto">
         <section className="mb-20 text-center">
           <span className="text-[10px] font-semibold uppercase tracking-widest text-[#800000] mb-4 block">Curated Selections</span>

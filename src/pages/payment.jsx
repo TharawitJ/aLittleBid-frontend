@@ -3,8 +3,7 @@ import React from 'react';
 const Payment = () => {
   return (
     <div className="min-h-screen bg-[#fbf9f6] text-[#1b1c1a] font-['Manrope'] selection:bg-[#9e1b1b] selection:text-white">
-
-      <main className="max-w-7xl mx-auto px-8 py-12">
+      <main className="max-w-7xl mx-auto px-8 py-12 md:py-20">
         <div className="flex flex-col lg:flex-row gap-16">
           {/* Left Column: Order Content */}
           <div className="flex-1 space-y-12">

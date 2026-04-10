@@ -40,9 +40,7 @@ const OrderList = () => {
 
   return (
     <div className="min-h-screen bg-[#fbf9f6] text-[#1b1c1a] font-['Manrope'] selection:bg-[#9e1b1b] selection:text-white">
-      {/* TopNavBar */}
-
-      <main className="flex-grow max-w-[1200px] w-full mx-auto px-8">
+      <main className="flex-grow max-w-[1200px] w-full mx-auto px-8 py-16">
         {/* Page Header */}
         <header className="mb-16">
           <h1 className="text-5xl font-['Newsreader'] font-light mb-4">My Orders</h1>
@@ -50,7 +48,6 @@ const OrderList = () => {
             Manage and track your successful acquisitions from our global gallery network.
           </p>
         </header>
-
         {/* Order List */}
         <section className="flex flex-col gap-8">
           {orders.map((order) => (

@@ -5,10 +5,8 @@ import NavBar from "../components/NavBar";
 function MainLayout() {
   return (
     <>
-      <div>
-        <NavBar />
+        <NavBar/>
         <Outlet />
-      </div>
     </>
   );
 }

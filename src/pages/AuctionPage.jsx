@@ -3,8 +3,7 @@ import React from 'react';
 const AuctionPage = () => {
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] selection:bg-[#570000]/20 min-h-screen">
-
-      <main className="pb-20 px-12 max-w-[1920px] mx-auto">
+      <main className="pt-28 pb-20 px-12 max-w-[1920px] mx-auto">
         {/* Hero Section & Sidebar Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-24">
           {/* Main Hero */}

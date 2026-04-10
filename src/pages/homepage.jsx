@@ -1,8 +1,3 @@
-
-/**
- * High-End Editorial Art Auction House Landing Page
- * Based on the "Digital Curator" design system.
- */
 import blackwatches from '../assets/blackwatches.jpeg'
 import auction_sold from '../assets/auction_sold.jpeg'
 import auction from '../assets/auction.jpeg'
@@ -10,8 +5,7 @@ import auction from '../assets/auction.jpeg'
 const HomePage = () => {
   return (
     <div className="bg-surface text-on-surface font-body selection:bg-primary-fixed selection:text-primary min-h-screen">
-
-      <main className="">
+      <main className="pt-24">
         {/* Hero Section */}
         <section className="relative h-[80vh] min-h-[600px] flex items-center px-6 md:px-12 overflow-hidden">
           <div className="bg-home-bg absolute inset-0 z-0">
