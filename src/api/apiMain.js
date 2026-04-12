@@ -15,6 +15,7 @@ mainApi.interceptors.request.use( config => {
   return config
 })
 
+// api Path connecting with backend using by zustand at stores
 export const getAllUser=()=>mainApi.get('/api/users');
 export const getUserById=(userid)=>mainApi.get(`/api/users/${userid}`);
 export const deleteUserById=(userid)=>mainApi.delete(`/api/users/${userid}`);
