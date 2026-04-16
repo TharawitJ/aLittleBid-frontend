@@ -1,13 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router';
 import { LogoutIcon } from '../icons';
-<<<<<<< HEAD
-=======
 import EditUserProfile from '../components/EditUserProfile';
 import EditUserAddress from '../components/EditUserAddress';
->>>>>>> dev
+import useUserStore from "../stores/user.store.js"
 
 const UserProfilePage = () => {
+  
   return (
     <div className="bg-surface text-on-surface min-h-screen font-body selection:bg-primary-container selection:text-white">
       <main className="pt-12 pb-20 max-w-screen-2xl mx-auto px-8 flex gap-12">
@@ -78,10 +77,6 @@ const UserProfilePage = () => {
                 </div>
               </div>
             </div>
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
           </div>
 
           {/* Dashboard Grid */}
@@ -90,11 +85,6 @@ const UserProfilePage = () => {
             <div className="bg-surface-container-lowest p-8 rounded-sm space-y-8">
               <div className="flex justify-between items-baseline">
                 <h2 className="text-xl font-serif italic font-headline text-on-surface">Personal Details</h2>
-<<<<<<< HEAD
-                <a className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4" href="#">Edit Profile</a>
-              </div>
-              <form action="">
-=======
                 <button type="button" className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4">Edit Profile</button>
               </div>
 
@@ -204,7 +194,6 @@ const UserProfilePage = () => {
               </div>
 
               {/* <form action="">
->>>>>>> dev
                 <div className="grid grid-cols-2 gap-x-8 gap-y-10">
                   <div className="space-y-1">
                     <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">First Name</label>
@@ -287,21 +276,12 @@ const UserProfilePage = () => {
                       defaultValue=""
                     />
                   </div>
-<<<<<<< HEAD
-                </div>
-                <div className='flex justify-between mt-10'>
-                  <button type="button" className='text-label bg-gray-400 w-20 py-1 rounded-sm text-white font-label'>Cancle</button>
-                  <button className='text-label bg-green-600/80 w-20 py-1 rounded-sm text-white font-label'>Save</button>
-                </div>
-              </form>
-=======
                 </div> */}
               {/* <div className='flex justify-between mt-10'>
                   <button type="button" className='text-label bg-gray-400 w-20 py-1 rounded-sm text-white font-label'>Cancle</button>
                   <button className='text-label bg-green-600/80 w-20 py-1 rounded-sm text-white font-label'>Save</button>
                 </div> */}
               {/* </form> */}
->>>>>>> dev
             </div>
 
             <div className="space-y-12">
@@ -335,7 +315,7 @@ const UserProfilePage = () => {
               </div>
 
               {/* Security Section */}
-              <div className="bg-surface-container-low p-8 rounded-sm space-y-6">
+              {/* <div className="bg-surface-container-low p-8 rounded-sm space-y-6">
                 <h2 className="text-xl font-serif italic font-headline text-on-surface">Security</h2>
                 <div className="space-y-4">
                   <button className="w-full flex items-center justify-between group">
@@ -356,7 +336,7 @@ const UserProfilePage = () => {
                     <button className="text-[10px] uppercase tracking-widest text-stone-500 font-bold hover:text-primary">Configure</button>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -374,8 +354,6 @@ const UserProfilePage = () => {
             </div>
           </div>
         </section>
-<<<<<<< HEAD
-=======
 
         <dialog className='modal' id='openeditprofile-modal' onClose={() => navigate('/user_profile')}>
           <div className="modal-box">
@@ -388,7 +366,6 @@ const UserProfilePage = () => {
             <EditUserAddress />
           </div>
         </dialog>
->>>>>>> dev
       </main>
 
       {/* Footer */}

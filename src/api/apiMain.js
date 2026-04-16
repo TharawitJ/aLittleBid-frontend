@@ -1,4 +1,4 @@
-import useUserStore from '../stores/userStore'
+import useUserStore from '../stores/user.store.js'
 import axios from 'axios'
 
 export const mainApi = axios.create({

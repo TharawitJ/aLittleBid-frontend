@@ -2,26 +2,15 @@ import React from "react";
 import MainLayout from "../layouts/mainLayout.jsx";
 import  {createBrowserRouter} from "react-router";
 import UserProfilePage from "../pages/UserProfilePage.jsx"
-<<<<<<< HEAD
-import HomePage from "../pages/homepage.jsx";
-import AuctionPage from "../pages/AuctionPage.jsx";
-import SellerUserListProduct from "../pages/sellerListProduct.jsx"
-=======
 import HomePage from "../pages/HomePage.jsx";
 import AuctionPage from "../pages/AuctionPage.jsx";
 import SellerUserListProduct from "../pages/SellerListProduct.jsx"
->>>>>>> dev
 import ProductPageForSeller from "../pages/ProductPageForSeller"
 import ProductDetailBid from "../pages/ProductDetailBid"
 import ProductPage from "../pages/ProductPage"
 import AddProduct from "../pages/AddProduct.jsx"
-<<<<<<< HEAD
-import OrderList from "../pages/orderlist.jsx"
-import Payment from "../pages/payment.jsx"
-=======
 import OrderList from "../pages/OrderList.jsx"
 import Payment from "../pages/Payment.jsx"
->>>>>>> dev
 // import ActiveBid from "../pages/ActiveBid.jsx";
 import Favorite from "../pages/Favorite.jsx";
 import ActiveBid from "../pages/ActiveBid.jsx";

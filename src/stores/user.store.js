@@ -6,7 +6,7 @@ import {
   apiGetAllUser,
   apiGetUserById,
   apiDeleteUserById,
-} from "../api/mainApi";
+} from "../api/apiMain.js";
 
 const useUserStore = create()(
   persist(
