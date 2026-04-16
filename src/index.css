@@ -1,20 +1,24 @@
 @import "tailwindcss";
+
 @plugin "daisyui" {
   themes: light --default
 }
 
 @theme {
   /* Colors */
-  --color-primary: #570000;
-  --color-primary-container: #800000;
+  --color-red: #A62C2B;
+  --color-dark-red: #860000;
+  --color-black: #000000;
+  --color-grey: #919191;
+  --color-yellow: #eee720;
+  --color-purple: #ad20ee;
+  --color-green: #358d64;
   --color-on-primary: #ffffff;
   --color-surface: #fcf9f8;
   --color-surface-container-low: #f6f3f2;
   --color-surface-container-high: #ebe7e7;
   --color-surface-container-lowest: #ffffff;
-  --color-on-surface: #1c1b1b;
   --color-on-surface-variant: #5a413d;
-  --color-secondary: #5e5e5e;
   --color-outline-variant: #e2bfb9;
 
   /* Font Families */
