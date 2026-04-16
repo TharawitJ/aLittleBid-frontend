@@ -1,10 +1,18 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, NavLink } from "react-router";
-import { BlackCartIcon, BlackHeartIcon, LogoutIcon, UserIcon, UserIconNoCircle } from "../icons";
+import {
+  BlackCartIcon,
+  BlackHeartIcon,
+  LogoutIcon,
+  UserIcon,
+  UserIconNoCircle,
+} from "../icons";
+import useUserStore from "../stores/user.store.js";
 
 const NavBar = () => {
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
+  const { logout } = useUserStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,61 +40,98 @@ const NavBar = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   const navLinkClass = ({ isActive }) =>
-    `text-black font-medium hover:text-red transition-colors duration-300 font-label uppercase tracking-widest text-[12px] ${isActive
-      ? "text-red border-b-2 border-red font-bold"
-      : "text-[#5f5e5e] font-medium"
+    `text-black font-medium hover:text-red transition-colors duration-300 font-label uppercase tracking-widest text-[12px] ${
+      isActive
+        ? "text-red border-b-2 border-red font-bold"
+        : "text-[#5f5e5e] font-medium"
     }`;
 
   return (
-    <nav className="top-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-6 max-w-screen-2xl mx-auto bg-surface/70 backdrop-blur-md border-b-[0.5px] border-outline-variant/20">
+    <nav
+      className={`sticky top-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-6 max-w-screen-2xl mx-auto bg-surface/70 backdrop-blur-md border-b-[0.5px] border-outline-variant/20 ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
       <Link>
-        <div className="font-headline italic text-2xl text-red">A Little Bid</div>
+        <div className="font-headline italic text-2xl text-red">
+          A Little Bid
+        </div>
       </Link>
       <div className="hidden md:flex gap-12">
-        <NavLink to='/' className={navLinkClass}>Home</NavLink>
-        <NavLink to='/auction' className={navLinkClass}>Auctions</NavLink>
-        <NavLink to='/products' className={navLinkClass}>Products</NavLink>
-        <NavLink to='/activebid' className={navLinkClass}>Active Bid</NavLink>
+        <NavLink to="/" className={navLinkClass}>
+          Home
+        </NavLink>
+        <NavLink to="/auction" className={navLinkClass}>
+          Auctions
+        </NavLink>
+        <NavLink to="/products" className={navLinkClass}>
+          Products
+        </NavLink>
+        <NavLink to="/activebid" className={navLinkClass}>
+          Active Bid
+        </NavLink>
         {/* <NavLink to='/my_order_list' className={navLinkClass}>My Orders</NavLink>
         <NavLink to='/payment' className={navLinkClass}>Payment</NavLink> */}
       </div>
       <div className="flex items-center gap-6">
-        <NavLink to="" className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors w-6"><BlackHeartIcon /></NavLink>
-        <NavLink to="/my_order_list" className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors w-6"><BlackCartIcon/></NavLink>
+        <NavLink
+          to=""
+          className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors w-6"
+        >
+          <BlackHeartIcon />
+        </NavLink>
+        <NavLink
+          to="/my_order_list"
+          className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors w-6"
+        >
+          <BlackCartIcon />
+        </NavLink>
         {/* <NavLink to='/user_profile' className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors w-7"><UserIcon /></NavLink> */}
         {/* <button className="w-6 rounded-xl font-label uppercase tracking-widest text-[10px] hover:bg-gray-300 hover:w-8 transition-all active:scale-95 duration-200">
             <LogoutIcon/>
           </button> */}
-          <div className="dropdown dropdown-end">
-  {/* ส่วนปุ่มกด (Trigger) */}
-  <div 
-    tabIndex={0} 
-    role="button" 
-    className="w-7 h-7 flex items-center justify-center rounded-xl transition-all active:scale-95 duration-200 cursor-pointer"
-  >
-    <UserIcon />
-  </div>
+        <div className="dropdown dropdown-end">
+          {/* ส่วนปุ่มกด (Trigger) */}
+          <div
+            tabIndex={0}
+            role="button"
+            className="w-7 h-7 flex items-center justify-center rounded-xl transition-all active:scale-95 duration-200 cursor-pointer"
+          >
+            <UserIcon />
+          </div>
 
-  {/* ส่วนเนื้อหา (Menu) */}
-  <ul 
-    tabIndex={0} 
-    className="dropdown-content menu bg-surface-container-lowest rounded-box z-10 w-50 p-2 shadow-sm border border-outline-variant mt-2"
-  >
-    <li>
-      <NavLink to="/user_profile" className="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-colors rounded-lg">
-      <UserIconNoCircle className="w-5"/>
-        <span className="font-label text-[12px] uppercase tracking-widest text-primary">My Profile</span>
-      </NavLink>
-    </li>
-    <li>
-      <button className="flex items-center gap-3 px-4 py-2 hover:bg-red-50 transition-colors rounded-lg text-primary">
-        <LogoutIcon className='w-5'/>
-        <span className="font-label text-[12px] uppercase tracking-widest">Log out</span>
-      </button>
-    </li>
-  </ul>
-</div>
+          {/* ส่วนเนื้อหา (Menu) */}
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu bg-surface-container-lowest rounded-box z-10 w-50 p-2 shadow-sm border border-outline-variant mt-2"
+          >
+            <li>
+              <NavLink
+                to="/user_profile"
+                className="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-colors rounded-lg"
+              >
+                <UserIconNoCircle className="w-5" />
+                <span className="font-label text-[12px] uppercase tracking-widest text-on-surface">
+                  My Profile
+                </span>
+              </NavLink>
+            </li>
+            <li>
+              <button
+                className="flex items-center gap-3 px-4 py-2 
+      hover:bg-red-50 transition-colors rounded-lg text-primary"
+                onClick={logout}
+              >
+                <LogoutIcon className="w-4" />
+                <span className="font-label text-[12px] uppercase tracking-widest">
+                  Log out
+                </span>
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
   );
