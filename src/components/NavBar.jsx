@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { NavLink } from "react-router";
 
 const NavBar = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -30,12 +31,13 @@ const NavBar = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  const navLinkClass = (isActive) =>
+  const navLinkClass = ({isActive}) =>
     `pb-1 transition-all duration-200 ${
       isActive
-        ? "text-[#9e1b1b] border-b-2 border-[#9cff93] font-bold"
+        ? "text-[#9e1b1b] border-b-2 border-[#9e1b1b] font-bold"
         : "text-[#5f5e5e] font-medium hover:text-white"
     }`;
+    
 
   return (
     <nav
@@ -48,30 +50,21 @@ const NavBar = () => {
           The Digital Curator
         </div>
         <div className="hidden md:flex items-center gap-10 font-['Newsreader',_serif] tracking-tight text-lg">
-          <a
-            href="#"
-            className="text-[#9e1b1b] font-semibold border-b-2 border-[#9e1b1b] pb-1"
+          <NavLink className={navLinkClass}
+            to="/"
           >
             123
-          </a>
-          <a
-            href="#"
-            className="text-[#5f5e5e] hover:text-[#1b1c1a] transition-all duration-300"
+          </NavLink>
+          <NavLink className={navLinkClass}
+            to="/products"
           >
-            Live Auctions
-          </a>
-          <a
-            href="#"
-            className="text-[#5f5e5e] hover:text-[#1b1c1a] transition-all duration-300"
+            456
+          </NavLink>
+          <NavLink className={navLinkClass}
+            to="/payment"
           >
-            Private Sales
-          </a>
-          <a
-            href="#"
-            className="text-[#5f5e5e] hover:text-[#1b1c1a] transition-all duration-300"
-          >
-            Artisans
-          </a>
+            678
+          </NavLink>
         </div>
         <div className="flex items-center gap-6">
           <div className="hidden lg:flex items-center bg-[#efeeeb] px-4 py-2 rounded-sm group">
