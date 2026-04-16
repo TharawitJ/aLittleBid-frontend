@@ -119,7 +119,7 @@ const AuctionPage = () => {
             <div className="flex items-center gap-6">
               <h2 className="font-['Noto_Serif'] text-4xl text-red">Ongoing Auction</h2>
               <div className="h-[1px] flex-grow bg-stone-200"></div>
-              <div className="dropdown dropdown-end">
+              <div className="dropdown dropdown-center">
                 <div tabIndex={0} role="button" className="btn m-1 bg-dark-red text-white tracking-widest ">Categories</div>
                 <ul tabIndex="-1" className="dropdown-content menu bg-white text-dark-red rounded-box z-1 w-40 p-2 shadow-sm">
                   <li><a>Electronics</a></li>
