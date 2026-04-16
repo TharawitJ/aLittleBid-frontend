@@ -76,12 +76,12 @@ const NavBar = () => {
     <li>
       <NavLink to="/user_profile" className="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-colors rounded-lg">
       <UserIconNoCircle className="w-5"/>
-        <span className="font-label text-[12px] uppercase tracking-widest text-on-surface">My Profile</span>
+        <span className="font-label text-[12px] uppercase tracking-widest text-primary">My Profile</span>
       </NavLink>
     </li>
     <li>
       <button className="flex items-center gap-3 px-4 py-2 hover:bg-red-50 transition-colors rounded-lg text-primary">
-        <LogoutIcon className='w-4'/>
+        <LogoutIcon className='w-5'/>
         <span className="font-label text-[12px] uppercase tracking-widest">Log out</span>
       </button>
     </li>

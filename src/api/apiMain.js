@@ -1,4 +1,4 @@
-import useUserStore from '../stores/userStore'
+// import useUserStore from '../stores/userStore'
 import axios from 'axios'
 
 export const mainApi = axios.create({
@@ -19,3 +19,5 @@ mainApi.interceptors.request.use( config => {
 export const getAllUser=()=>mainApi.get('/api/users');
 export const getUserById=(userid)=>mainApi.get(`/api/users/${userid}`);
 export const deleteUserById=(userid)=>mainApi.delete(`/api/users/${userid}`);
+
+export const editUserAddressById=(userId, addressId)=>mainApi.patch(`/api/users/${userId}/addresses/${addressId}`, data);
