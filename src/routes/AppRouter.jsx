@@ -1,16 +1,19 @@
 import React from "react";
 import MainLayout from "../layouts/mainLayout.jsx";
 import  {createBrowserRouter} from "react-router";
-import UserProfilePage from "../pages/user_profile"
-import HomePage from "../pages/homepage";
+import UserProfilePage from "../pages/UserProfilePage.jsx"
+import HomePage from "../pages/homepage.jsx";
 import AuctionPage from "../pages/AuctionPage.jsx";
-import SellerUserListProduct from "../pages/sellerListProduct"
+import SellerUserListProduct from "../pages/sellerListProduct.jsx"
 import ProductPageForSeller from "../pages/ProductPageForSeller"
 import ProductDetailBid from "../pages/ProductDetailBid"
 import ProductPage from "../pages/ProductPage"
-import AddProduct from "../pages/add_product"
-import OrderList from "../pages/orderlist"
-import Payment from "../pages/payment"
+import AddProduct from "../pages/AddProduct.jsx"
+import OrderList from "../pages/orderlist.jsx"
+import Payment from "../pages/payment.jsx"
+// import ActiveBid from "../pages/ActiveBid.jsx";
+import Favorite from "../pages/Favorite.jsx";
+import ActiveBid from "../pages/ActiveBid.jsx";
 
 const Rounter = createBrowserRouter([
   {
@@ -24,8 +27,10 @@ const Rounter = createBrowserRouter([
       { path: "seller_product", element: <ProductPageForSeller /> },
       { path: "product_detail_bid", element: <ProductDetailBid /> },
       { path: "products", element: <ProductPage /> },
+      { path: "activebid", element: <ActiveBid /> },
       { path: "add_product", element: <AddProduct /> },
       { path: "my_order_list", element: <OrderList /> },
+      { path: "favorite", element: <Favorite /> },
       { path: "payment", element: <Payment /> },
     ],
   },

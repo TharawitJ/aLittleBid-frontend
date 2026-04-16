@@ -4,7 +4,7 @@ const AddProduct = () => {
   return (
     <div className="min-h-screen bg-[#fbf9f6] text-[#1b1c1a] font-['Manrope'] selection:bg-[#9e1b1b] selection:text-white">
       <main className="pt-32 pb-24 px-6 md:px-24 max-w-[1440px] mx-auto">
-        {/* Stepper */}
+        {/* Stepper
         <div className="mb-20 flex flex-wrap gap-y-6 justify-between items-center max-w-4xl border-b border-[#e1bebb]/15 pb-8">
           <div className="flex items-center gap-3">
             <span className="text-xs font-bold text-[#7a0009] tracking-[0.2em] uppercase">01. ITEM DETAILS</span>
@@ -21,7 +21,7 @@ const AddProduct = () => {
           <div className="flex items-center text-[#59413e]/40">
             <span className="text-xs font-bold tracking-[0.2em] uppercase">04. REVIEW</span>
           </div>
-        </div>
+        </div> */}
 
         {/* Two Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -99,7 +99,7 @@ const AddProduct = () => {
             {/* Action Buttons */}
             <div className="flex items-center gap-6 pt-12">
               <button className="bg-gradient-to-br from-[#7a0009] to-[#9e1b1b] text-white px-8 py-4 rounded-sm text-sm font-bold tracking-widest uppercase hover:shadow-lg hover:shadow-[#7a0009]/20 transition-all active:scale-[0.98]">
-                Continue to Media
+                Confirm Product Details
               </button>
               <button className="text-[#59413e] hover:text-[#7a0009] transition-colors text-sm font-bold tracking-widest uppercase underline underline-offset-8 decoration-[#e1bebb]/30">
                 Save Draft
@@ -119,12 +119,12 @@ const AddProduct = () => {
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-[#7a0009]/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
-                    <span className="material-symbols-outlined text-white text-3xl">edit</span>
+                    <button className="material-symbols-outlined text-white text-3xl">delete</button>
                   </div>
                 </div>
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="aspect-square bg-[#eae8e5] rounded-sm flex items-center justify-center border-2 border-dashed border-[#e1bebb]/40">
-                    <span className="material-symbols-outlined text-[#59413e]/30">add</span>
+                    <span className="material-symbols-outlined text-[#59413e]/30">add {i}</span>
                   </div>
                 ))}
               </div>
@@ -132,19 +132,6 @@ const AddProduct = () => {
                 <span className="material-symbols-outlined text-3xl text-[#7a0009] mb-4">cloud_upload</span>
                 <p className="text-sm font-semibold mb-1">Drag & drop files here</p>
                 <p className="text-xs text-[#59413e]">PNG, JPG or JPEG (max. 10MB)</p>
-              </div>
-            </div>
-
-            {/* Curator's Tip */}
-            <div className="bg-[#7a0009]/5 p-8 border-l-4 border-[#7a0009]">
-              <div className="flex items-start gap-4">
-                <span className="material-symbols-outlined text-[#7a0009] fill-1">lightbulb</span>
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-[#7a0009] mb-3">Curator's Tip</h4>
-                  <p className="text-sm text-[#59413e] leading-relaxed italic">
-                    "High-resolution photography taken in natural, diffuse light increases buyer confidence by 42%. Ensure your primary shot captures the full dimension of the frame or object."
-                  </p>
-                </div>
               </div>
             </div>
           </div>

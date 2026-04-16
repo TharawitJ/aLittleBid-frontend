@@ -113,18 +113,6 @@ const OrderList = () => {
           </div>
         </section>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-[#efeeeb] mt-16 py-8 px-12">
-        <div className="flex flex-col md:flex-row justify-between items-center w-full gap-4 max-w-[1920px] mx-auto">
-          <span className="text-[#59413e] text-[0.75rem] tracking-wide uppercase">© 2024 The Digital Curator. All Rights Reserved.</span>
-          <nav className="flex flex-wrap justify-center gap-8">
-            {['Privacy Policy', 'Terms of Sale', 'Auction Rules', 'Contact Curator'].map((link) => (
-              <a key={link} className="text-[#59413e] text-[0.75rem] tracking-wide uppercase hover:text-[#1b1c1a] underline decoration-[#e4e2df]" href="#">{link}</a>
-            ))}
-          </nav>
-        </div>
-      </footer>
     </div>
   );
 };
