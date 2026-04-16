@@ -1,12 +1,23 @@
-import React from 'react';
-import { NavLink } from 'react-router';
-import { LogoutIcon } from '../icons';
-import EditUserProfile from '../components/EditUserProfile';
-import EditUserAddress from '../components/EditUserAddress';
-import useUserStore from "../stores/user.store.js"
+import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router";
+import { LogoutIcon } from "../icons";
+import EditUserProfile from "../components/EditUserProfile";
+import EditUserAddress from "../components/EditUserAddress";
+import useUserStore from "../stores/user.store.js";
 
 const UserProfilePage = () => {
+  const { logout, getUserById } = useUserStore();
+  const user = useUserStore((state) => state.user);
+  useEffect(() => {
+    getUserById();
+  }, []);
+
   
+  const { id, username, email, firstname, lastname, phone, role, addresses } =
+  user;
+
+  const defaultAddress = addresses.find((item) => item.isDefault === true);
+
   return (
     <div className="bg-surface text-on-surface min-h-screen font-body selection:bg-primary-container selection:text-white">
       <main className="pt-12 pb-20 max-w-screen-2xl mx-auto px-8 flex gap-12">
@@ -16,24 +27,48 @@ const UserProfilePage = () => {
             <nav className="flex flex-col gap-1">
               <NavLink className="flex items-center gap-3 px-4 py-3 text-[#7a0009] font-semibold border-l-2 border-[#7a0009] bg-surface-container-low transition-all duration-300">
                 {/* <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>person</span> */}
-                <span className="text-sm tracking-wide uppercase font-medium">Profile</span>
+                <span className="text-sm tracking-wide uppercase font-medium">
+                  Profile
+                </span>
               </NavLink>
-              <NavLink to="/activebid" className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300">
+              <NavLink
+                to="/activebid"
+                className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300"
+              >
                 {/* <span className="material-symbols-outlined">gavel</span> */}
-                <span className="text-sm tracking-wide uppercase font-medium">Bidding Activity</span>
+                <span className="text-sm tracking-wide uppercase font-medium">
+                  Bidding Activity
+                </span>
               </NavLink>
-              <NavLink to="/favorite" className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300" href="#">
+              <NavLink
+                to="/favorite"
+                className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300"
+                href="#"
+              >
                 {/* <span className="material-symbols-outlined">visibility</span> */}
-                <span className="text-sm tracking-wide uppercase font-medium">Watchlist</span>
+                <span className="text-sm tracking-wide uppercase font-medium">
+                  Watchlist
+                </span>
               </NavLink>
-              <NavLink to="/seller_list_product" className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300" href="#">
+              <NavLink
+                to="/seller_list_product"
+                className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300"
+                href="#"
+              >
                 {/* <span className="material-symbols-outlined">sell</span> */}
-                <span className="text-sm tracking-wide uppercase font-medium">Consignments</span>
+                <span className="text-sm tracking-wide uppercase font-medium">
+                  Consignments
+                </span>
               </NavLink>
 
               <div className="pt-8 mt-8 border-t border-outline-variant/30 flex">
-                <button type="button" className="text-label uppercase items-center gap-3 px-4 py-3 text-stone-400 hover:text-dark-red transition-all duration-300 flex"><LogoutIcon className="w-5" />
-                  <span className='text-sm'>Logout</span>
+                <button
+                  onClick={logout}
+                  type="button"
+                  className="text-label uppercase items-center gap-3 px-4 py-3 text-stone-400 hover:text-dark-red transition-all duration-300 flex"
+                >
+                  <LogoutIcon className="w-5" />
+                  <span className="text-sm">Logout</span>
                 </button>
               </div>
             </nav>
@@ -54,25 +89,41 @@ const UserProfilePage = () => {
                   />
                 </div>
                 <button className="bg-gray-300 text-grey/60 shadow-lg hover:scale-105 transition-transform w-full">
-                  <span className="material-symbols-outlined text-sm">edit</span>
+                  <span className="material-symbols-outlined text-sm">
+                    edit
+                  </span>
                 </button>
               </div>
-              <div className='flex flex-col gap-5'>
+              <div className="flex flex-col gap-5">
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
-                    <h1 className="text-4xl font-serif italic text-red font-headline">Alexander Sterling</h1>
-                    <span className="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] uppercase tracking-[0.2em] font-bold rounded-sm">Elite Member</span>
+                    <h1 className="text-4xl font-serif italic text-red font-headline">
+                      {firstname} {lastname}
+                    </h1>
+                    <span className="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] uppercase tracking-[0.2em] font-bold rounded-sm">
+                      {role}
+                    </span>
                   </div>
-                  <p className="text-stone-500 font-light tracking-wide italic">Member since November 2019 • London, UK</p>
+                  <p className="text-stone-500 font-light tracking-wide italic">
+                    Member since November 2019 • London, UK
+                  </p>
                 </div>
                 <div className="flex gap-12">
                   <div className="text-right">
-                    <span className="block text-3xl font-serif text-primary font-headline">12</span>
-                    <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Active Bids</span>
+                    <span className="block text-3xl font-serif text-primary font-headline">
+                      12
+                    </span>
+                    <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                      Active Bids
+                    </span>
                   </div>
                   <div className="text-right">
-                    <span className="block text-3xl font-serif text-primary font-headline">47</span>
-                    <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Won Items</span>
+                    <span className="block text-3xl font-serif text-primary font-headline">
+                      47
+                    </span>
+                    <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                      Won Items
+                    </span>
                   </div>
                 </div>
               </div>
@@ -84,8 +135,15 @@ const UserProfilePage = () => {
             {/* Personal Details Card */}
             <div className="bg-surface-container-lowest p-8 rounded-sm space-y-8">
               <div className="flex justify-between items-baseline">
-                <h2 className="text-xl font-serif italic font-headline text-on-surface">Personal Details</h2>
-                <button type="button" className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4">Edit Profile</button>
+                <h2 className="text-xl font-serif italic font-headline text-on-surface">
+                  Personal Details
+                </h2>
+                <button
+                  type="button"
+                  className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4"
+                >
+                  Edit Profile
+                </button>
               </div>
 
               <div className="grid grid-cols-2 gap-x-8 gap-y-10">
@@ -97,7 +155,7 @@ const UserProfilePage = () => {
                     className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                     defaultValue=""
                   >
-                    Alexander
+                    {firstname}
                   </p>
                 </div>
                 <div className="space-y-1">
@@ -105,7 +163,7 @@ const UserProfilePage = () => {
                     Last Name
                   </label>
                   <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                    Sterling
+                    {lastname}
                   </p>
                 </div>
                 <div className="col-span-2 space-y-1">
@@ -113,7 +171,7 @@ const UserProfilePage = () => {
                     Username
                   </label>
                   <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                    username
+                    {username}
                   </p>
                 </div>
                 <div className="col-span-2 space-y-1">
@@ -121,7 +179,7 @@ const UserProfilePage = () => {
                     Email Address
                   </label>
                   <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                    a.sterling@curator.com
+                    {email}
                   </p>
                 </div>
                 <div className="col-span-2 space-y-1">
@@ -129,25 +187,32 @@ const UserProfilePage = () => {
                     Phone Number
                   </label>
                   <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                    +44 20 7946 0123
+                    {phone}
                   </p>
                 </div>
               </div>
 
               {/* Address form */}
-              <div className=''>
+              <div className="">
                 <div className="flex justify-between items-baseline w-full my-10">
-                  <h2 className="text-xl font-serif italic font-headline text-on-surface">Address</h2>
-                  <button type="button" className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4">Edit Address</button>
+                  <h2 className="text-xl font-serif italic font-headline text-on-surface">
+                    Address
+                  </h2>
+                  <button
+                    type="button"
+                    className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4"
+                  >
+                    Edit Address
+                  </button>
                 </div>
 
-                <div className='grid grid-cols-2 gap-x-8 gap-y-10'>
+                <div className="grid grid-cols-2 gap-x-8 gap-y-10">
                   <div className="space-y-1">
                     <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
                       Label
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      label
+                      {defaultAddress?.label}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -155,7 +220,7 @@ const UserProfilePage = () => {
                       Street
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      street
+                      {defaultAddress?.street}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -163,7 +228,7 @@ const UserProfilePage = () => {
                       City
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      city
+                      {defaultAddress?.city}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -171,7 +236,7 @@ const UserProfilePage = () => {
                       State
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      state
+                      {defaultAddress?.state}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -179,7 +244,7 @@ const UserProfilePage = () => {
                       Postal Code
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      10000
+                      {defaultAddress?.postalCode}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -187,7 +252,7 @@ const UserProfilePage = () => {
                       Country
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      Thailand
+                      {defaultAddress?.country}
                     </p>
                   </div>
                 </div>
@@ -287,20 +352,32 @@ const UserProfilePage = () => {
             <div className="space-y-12">
               {/* Auction Preferences */}
               <div className="bg-surface-container-low p-8 rounded-sm space-y-6">
-                <h2 className="text-xl font-serif italic font-headline text-on-surface">Auction Preferences</h2>
+                <h2 className="text-xl font-serif italic font-headline text-on-surface">
+                  Auction Preferences
+                </h2>
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
                     <div className="space-y-1">
-                      <span className="block text-sm font-medium">Outbid Notifications</span>
-                      <span className="block text-xs text-on-surface-variant">Instant alerts when you are no longer the highest bidder</span>
+                      <span className="block text-sm font-medium">
+                        Outbid Notifications
+                      </span>
+                      <span className="block text-xs text-on-surface-variant">
+                        Instant alerts when you are no longer the highest bidder
+                      </span>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input type="checkbox" defaultChecked className="sr-only peer" />
+                      <input
+                        type="checkbox"
+                        defaultChecked
+                        className="sr-only peer"
+                      />
                       <div className="w-11 h-6 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                     </label>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Preferred Currency</label>
+                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                      Preferred Currency
+                    </label>
                     <div className="relative">
                       <select className="w-full appearance-none bg-surface-container-lowest border border-outline-variant/30 py-3 px-4 text-sm pr-10 focus:ring-0 focus:border-primary">
                         <option>GBP (£) - British Pound Sterling</option>
@@ -308,7 +385,9 @@ const UserProfilePage = () => {
                         <option>EUR (€) - Euro</option>
                         <option>CHF (Fr) - Swiss Franc</option>
                       </select>
-                      <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-stone-400">expand_more</span>
+                      <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-stone-400">
+                        expand_more
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -343,11 +422,18 @@ const UserProfilePage = () => {
           {/* Sticky Save Actions */}
           <div className="pt-12 mt-12 border-t border-outline-variant/30 flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="flex items-center gap-4 text-stone-500">
-              <span className="material-symbols-outlined text-primary/60">security</span>
-              <p className="text-xs italic leading-relaxed max-w-md">Your sensitive information is encrypted using industry-standard protocols. Last login: Today at 09:12 AM from London, UK.</p>
+              <span className="material-symbols-outlined text-primary/60">
+                security
+              </span>
+              <p className="text-xs italic leading-relaxed max-w-md">
+                Your sensitive information is encrypted using industry-standard
+                protocols. Last login: Today at 09:12 AM from London, UK.
+              </p>
             </div>
             <div className="flex items-center gap-6">
-              <button className="text-[10px] uppercase tracking-widest font-bold text-stone-500 hover:text-on-surface transition-colors">Discard Changes</button>
+              <button className="text-[10px] uppercase tracking-widest font-bold text-stone-500 hover:text-on-surface transition-colors">
+                Discard Changes
+              </button>
               <button className="bg-gradient-to-br from-primary to-primary-container text-white px-10 py-4 text-[10px] uppercase tracking-[0.2em] font-bold shadow-lg hover:opacity-90 transition-all active:scale-95 rounded-[2px]">
                 Save Profile
               </button>
@@ -355,13 +441,21 @@ const UserProfilePage = () => {
           </div>
         </section>
 
-        <dialog className='modal' id='openeditprofile-modal' onClose={() => navigate('/user_profile')}>
+        <dialog
+          className="modal"
+          id="openeditprofile-modal"
+          onClose={() => navigate("/user_profile")}
+        >
           <div className="modal-box">
             <EditUserProfile />
           </div>
         </dialog>
 
-        <dialog className='modal' id='openeditaddress-modal' onClose={() => navigate('/user_profile')}>
+        <dialog
+          className="modal"
+          id="openeditaddress-modal"
+          onClose={() => navigate("/user_profile")}
+        >
           <div className="modal-box">
             <EditUserAddress />
           </div>
@@ -375,10 +469,30 @@ const UserProfilePage = () => {
             The Digital Curator
           </div>
           <div className="flex gap-8 mb-6 md:mb-0">
-            <a className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors" href="#">Privacy Policy</a>
-            <a className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors" href="#">Terms of Service</a>
-            <a className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors" href="#">Shipping & Returns</a>
-            <a className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors" href="#">Contact Us</a>
+            <a
+              className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors"
+              href="#"
+            >
+              Privacy Policy
+            </a>
+            <a
+              className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors"
+              href="#"
+            >
+              Terms of Service
+            </a>
+            <a
+              className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors"
+              href="#"
+            >
+              Shipping & Returns
+            </a>
+            <a
+              className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors"
+              href="#"
+            >
+              Contact Us
+            </a>
           </div>
           <p className="font-body uppercase tracking-widest text-[10px] text-stone-500">
             © 2024 The Digital Curator. All rights reserved.

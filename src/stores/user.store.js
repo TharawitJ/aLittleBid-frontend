@@ -22,6 +22,14 @@ const useUserStore = create()(
         return resp;
       },
 
+      getUserById: async () => {
+        const id = 7
+        const resp = await apiGetUserById(id);
+        set({user:resp.data.responses})
+        // console.log(resp.data.responses)
+        return resp.data.responses
+      },
+
       // Action to log out
       logout: () => set({ user: null, token: "" }),
 

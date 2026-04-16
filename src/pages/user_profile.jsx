@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import useUserStore from "../stores/user.store.js";
 
 const UserProfilePage = () => {
+  const { logout, getUserById } = useUserStore();
+  const user = getUserById();
+  useEffect(() => {
+    console.log(user);
+    console.log("abc");
+  }, []);
+
   return (
     <div className="bg-surface text-on-surface min-h-screen font-body selection:bg-primary-container selection:text-white">
       {/* 
@@ -63,8 +71,7 @@ const UserProfilePage = () => {
                   Settings
                 </span>
               </a>
-              <div className="pt-8 mt-8 border-t border-outline-variant/30">
-              </div>
+              <div className="pt-8 mt-8 border-t border-outline-variant/30"></div>
             </nav>
           </div>
         </aside>
