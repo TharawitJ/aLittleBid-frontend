@@ -2,31 +2,38 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { editUserAddressById } from '../api/apiMain';
 import Swal from 'sweetalert2'
+import useUserStore from '../stores/user.store';
 
-function EditUserAddress() {
+function EditUserAddress({data}) {
+    // console.log('addressesmodal', data)
     const [isLoading, setIsLoading] = useState(false)
     const { register, handleSubmit, reset, watch, setValue, formState } = useForm({
         // resolver: zodResolver(editProfileSchema),
         mode: 'onSubmit',
         // defaultValues: {
-            //     firstname: user?.firstname,
-            //     lastname: user?.lastname,
-            //     username: user?.username,
-            //     email: user?.email,
-            //     phoneNumber: user?.phoneNumber,
-            // }
+        //         label: user?.firstname,
+        //         lastname: user?.lastname,
+        //         username: user?.username,
+        //         email: user?.email,
+        //         phone: user?.phone,
+        //     }
         })
     const user = useUserStore(state => state.user)
-    const userAddress = useUserStore(state => state.userAddress)
+    console.log('useredit', user)
+    const userAddresses = useUserStore(state => state.userAddress)
+    console.log('useraddressesedit', userAddresses)
     const editUserAddress = useUserStore(state => state.editUserAddress)
 
     
-    const onSubmit = async (data) => {
-        console.log('Data', data)
+    const onSubmit = async (body) => {
+        console.log('Data', body)
         setIsLoading(true)
         try {
-            const resp = await editUserAddress(user.id, userAddress.id, data)
-            console.log('resp', resp)
+            const resp = await editUserAddress(user.id, data.id, body)
+            // console.log('resp', resp)
+            setIsLoading(false)
+            Swal.fire({title: 'Address Updated'})
+            document.getElementById('openeditaddress-modal').close();
         } catch (error) {
             Swal.fire({
                 title: 'Error'
@@ -48,14 +55,15 @@ function EditUserAddress() {
     return (
         <div >
              <div className='text-center mb-10 font-headline uppercase text-dark-red tracking-wider text-2xl'>Edit Address</div>
-            <form handleSubmit={onSubmit}>
+             
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='grid grid-cols-2 gap-x-8 gap-y-10'>
                     <div className="space-y-1">
                         <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Label</label>
                         <input
                             className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                             type="text"
-                            defaultValue="label"
+                            defaultValue={data.label}
                             {...register('label')}
                         />
                     </div>
@@ -65,7 +73,7 @@ function EditUserAddress() {
                         <input
                             className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                             type="text"
-                            defaultValue="street"
+                            defaultValue={data.street}
                             {...register('street')}
                         />
                     </div>
@@ -75,7 +83,7 @@ function EditUserAddress() {
                         <input
                             className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                             type="text"
-                            defaultValue="city"
+                            defaultValue={data.city}
                             {...register('city')}
                         />
                     </div>
@@ -85,7 +93,7 @@ function EditUserAddress() {
                     <input
                         className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                         type="text"
-                        defaultValue="state"
+                        defaultValue={data.state}
                         {...register('state')}
                     />
                     </div>
@@ -95,7 +103,7 @@ function EditUserAddress() {
                     <input
                         className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                         type="text"
-                        defaultValue="10000"
+                        defaultValue={data.postalCode}
                         {...register('postalCode')}
                     />
                     </div>
@@ -105,7 +113,7 @@ function EditUserAddress() {
                     <input
                         className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                         type="text"
-                        defaultValue="Thailand"
+                        defaultValue={data.country}
                         {...register('country')}
                     />
                     </div>

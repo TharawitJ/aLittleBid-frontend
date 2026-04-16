@@ -9,16 +9,22 @@ import { useEffect, useState } from "react";
 const UserProfilePage = () => {
   const { logout, getUserById } = useUserStore();
   const user = useUserStore((state) => state.user);
+  // console.log('user', user)
+  const userAddresses = useUserStore((state) => state.userAddresses);
+  console.log('userAddress', userAddresses)
   const navigate = useNavigate()
-
-  const { id, username, email, firstname, lastname, phone, role, addresses } = user;
 
   useEffect(() => {
     getUserById();
   }, []);
 
+  if (!user) return <div>Loading...</div>;
 
-  const defaultAddress = addresses.find((item) => item.isDefault === true);
+  const { id, username, email, firstname, lastname, phone, role, addresses } = user;
+  // console.log('addresses', addresses)
+
+  // const defaultAddress = addresses?.find((item) => item.isDefault === true);
+  // console.log('defaultAddress', defaultAddress)
 
   const hdlOpenEditProfileModal = () => {
     try {
@@ -35,7 +41,7 @@ const UserProfilePage = () => {
       toast.error('cannot open modal')
     }
   }
-  
+
   return (
     <div className="bg-surface text-on-surface min-h-screen font-body selection:bg-primary-container selection:text-white">
       <main className="pt-12 pb-20 max-w-screen-2xl mx-auto px-8 flex gap-12">
@@ -202,13 +208,14 @@ const UserProfilePage = () => {
                   <button type="button" className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4" onClick={hdlOpenEditAddressModal}>Edit Address</button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-x-8 gap-y-10">
+                {userAddresses.map((e, i) => 
+                <div className="grid grid-cols-2 gap-x-8 gap-y-10" key={i}>
                   <div className="space-y-1">
                     <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
                       Label
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress?.label}
+                      {e.label}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -216,7 +223,7 @@ const UserProfilePage = () => {
                       Street
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress?.street}
+                      {e.street}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -224,7 +231,7 @@ const UserProfilePage = () => {
                       City
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress?.city}
+                      {e.city}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -232,7 +239,7 @@ const UserProfilePage = () => {
                       State
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress?.state}
+                      {e.state}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -240,7 +247,7 @@ const UserProfilePage = () => {
                       Postal Code
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress?.postalCode}
+                      {e.postalCode}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -248,10 +255,11 @@ const UserProfilePage = () => {
                       Country
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress?.country}
+                      {e.country}
                     </p>
                   </div>
-                </div>
+                </div>)}
+                
               </div>
             </div>
 
@@ -340,10 +348,12 @@ const UserProfilePage = () => {
           className="modal"
           id="openeditaddress-modal"
           onClose={() => navigate("/user_profile")}
-        >
+          >
+          {addresses?.map((e, i) => 
           <div className="modal-box">
-            <EditUserAddress />
+            <EditUserAddress key={i} data={e}/>  
           </div>
+          )}
         </dialog>
       </main>
 

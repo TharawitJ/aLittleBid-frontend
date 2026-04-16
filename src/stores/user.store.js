@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { editUserAddressById, getUserById } from "../api/apiMain";
+import { apiEditUserAddressById, getUserById } from "../api/apiMain.js";
 import { persist, createJSONStorage } from "zustand/middleware";
 import {
     apiLogin,
@@ -24,10 +24,13 @@ const useUserStore = create()(
             },
 
             getUserById: async () => {
-                const id = 7
+                const id = 61
                 const resp = await apiGetUserById(id);
-                set({ user: resp.data.responses })
-                // console.log(resp.data.responses)
+                set({
+                    user: resp.data.responses,
+                    userAddresses: resp.data.responses.addresses
+                })
+                // console.log('getuser',resp.data.responses.addresses)
                 return resp.data.responses
             },
 
@@ -42,14 +45,22 @@ const useUserStore = create()(
                     throw err;
                 }
             },
-            getUserById: async (userId) => {
-                const resp = await getUserById(userId)
-            },
-            editUserAddress: async (userId, adressId, data) => {
+            // getUserById: async (userId) => {
+            //     const resp = await getUserById(userId)
+            // },
+            editUserAddress: async (userId, addressId, data) => {
                 console.log('editaddress', data)
-                const resp = await editUserAddressById(userId, adressId, data)
-                console.log('resp_editAddress', resp)
-                set({ userAddress: resp.data })
+                try {
+                    const resp = await apiEditUserAddressById(userId, addressId, data)
+                    // console.log('resp_editAddress', resp.data.responses)
+                    set((state) => ({
+                        userAddresses: state.userAddresses.map((e) => e.id === addressId ? resp.data.responses : e)
+                    }))
+                    return resp.data.responses
+                } catch (error) {
+                    console.error('error', error)
+                    throw error
+                }
             }
         }),
         {
