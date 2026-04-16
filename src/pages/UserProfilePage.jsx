@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router';
 import { LogoutIcon } from '../icons';
+import EditUserProfile from '../components/EditUserProfile';
+import EditUserAddress from '../components/EditUserAddress';
 
 const UserProfilePage = () => {
   return (
@@ -73,7 +75,6 @@ const UserProfilePage = () => {
                 </div>
               </div>
             </div>
-
           </div>
 
           {/* Dashboard Grid */}
@@ -82,9 +83,115 @@ const UserProfilePage = () => {
             <div className="bg-surface-container-lowest p-8 rounded-sm space-y-8">
               <div className="flex justify-between items-baseline">
                 <h2 className="text-xl font-serif italic font-headline text-on-surface">Personal Details</h2>
-                <a className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4" href="#">Edit Profile</a>
+                <button type="button" className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4">Edit Profile</button>
               </div>
-              <form action="">
+
+              <div className="grid grid-cols-2 gap-x-8 gap-y-10">
+                <div className="space-y-1">
+                  <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                    First Name
+                  </label>
+                  <p
+                    className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
+                    defaultValue=""
+                  >
+                    Alexander
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                    Last Name
+                  </label>
+                  <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                    Sterling
+                  </p>
+                </div>
+                <div className="col-span-2 space-y-1">
+                  <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                    Username
+                  </label>
+                  <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                    username
+                  </p>
+                </div>
+                <div className="col-span-2 space-y-1">
+                  <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                    Email Address
+                  </label>
+                  <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                    a.sterling@curator.com
+                  </p>
+                </div>
+                <div className="col-span-2 space-y-1">
+                  <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                    Phone Number
+                  </label>
+                  <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                    +44 20 7946 0123
+                  </p>
+                </div>
+              </div>
+
+              {/* Address form */}
+              <div className=''>
+                <div className="flex justify-between items-baseline w-full my-10">
+                  <h2 className="text-xl font-serif italic font-headline text-on-surface">Address</h2>
+                  <button type="button" className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4">Edit Address</button>
+                </div>
+
+                <div className='grid grid-cols-2 gap-x-8 gap-y-10'>
+                  <div className="space-y-1">
+                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                      Label
+                    </label>
+                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                      label
+                    </p>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                      Street
+                    </label>
+                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                      street
+                    </p>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                      City
+                    </label>
+                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                      city
+                    </p>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                      State
+                    </label>
+                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                      state
+                    </p>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                      Postal Code
+                    </label>
+                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                      10000
+                    </p>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                      Country
+                    </label>
+                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                      Thailand
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* <form action="">
                 <div className="grid grid-cols-2 gap-x-8 gap-y-10">
                   <div className="space-y-1">
                     <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">First Name</label>
@@ -167,12 +274,12 @@ const UserProfilePage = () => {
                       defaultValue=""
                     />
                   </div>
-                </div>
-                <div className='flex justify-between mt-10'>
+                </div> */}
+              {/* <div className='flex justify-between mt-10'>
                   <button type="button" className='text-label bg-gray-400 w-20 py-1 rounded-sm text-white font-label'>Cancle</button>
                   <button className='text-label bg-green-600/80 w-20 py-1 rounded-sm text-white font-label'>Save</button>
-                </div>
-              </form>
+                </div> */}
+              {/* </form> */}
             </div>
 
             <div className="space-y-12">
@@ -245,6 +352,18 @@ const UserProfilePage = () => {
             </div>
           </div>
         </section>
+
+        <dialog className='modal' id='openeditprofile-modal' onClose={() => navigate('/user_profile')}>
+          <div className="modal-box">
+            <EditUserProfile />
+          </div>
+        </dialog>
+
+        <dialog className='modal' id='openeditaddress-modal' onClose={() => navigate('/user_profile')}>
+          <div className="modal-box">
+            <EditUserAddress />
+          </div>
+        </dialog>
       </main>
 
       {/* Footer */}
