@@ -3,7 +3,7 @@ import React from 'react';
 const ProductDetailBid = () => {
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
-      <main className="pt-32 pb-24 px-6 md:px-12 max-w-screen-2xl mx-auto text-left">
+      <main className="pt-12 pb-24 px-6 md:px-12 max-w-screen-2xl mx-auto text-left">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Left Column: Image & Details */}
           <div className="lg:col-span-7 space-y-16">
