@@ -53,10 +53,10 @@ const SellerUserListProduct = () => {
           </div>
           <nav className="flex flex-col gap-2">
             {[
-              { label: 'Electronics', icon: 'devices', active: true },
-              { label: 'Fashion', icon: 'apparel' },
-              { label: 'Home & Living', icon: 'home_pin' },
-              { label: 'Collectibles', icon: 'auto_awesome' }
+              { label: 'All' },
+              { label: 'Active Lots' },
+              { label: 'Sold' },
+              // { label: 'Collectibles', icon: 'auto_awesome' }
             ].map((nav) => (
               <a 
                 key={nav.label}
@@ -92,12 +92,12 @@ const SellerUserListProduct = () => {
 
           {/* Bento Filter Bar */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
-            <div className="col-span-1 md:col-span-3 bg-[#f5f3f0] p-1 rounded-sm flex items-center">
+            {/* <div className="col-span-1 md:col-span-3 bg-[#f5f3f0] p-1 rounded-sm flex items-center">
               <button className="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-[#7a0009] border-b-2 border-[#7a0009]">All Objects</button>
               <button className="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-[#59413e] hover:text-[#1b1c1a]">Active Lots</button>
               <button className="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-[#59413e] hover:text-[#1b1c1a]">Sold Items</button>
               <button className="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-[#59413e] hover:text-[#1b1c1a]">Drafts</button>
-            </div>
+            </div> */}
             <div className="bg-[#f5f3f0] p-4 flex items-center justify-between rounded-sm cursor-pointer">
               <span className="text-xs font-bold uppercase tracking-widest text-[#59413e]">Sort By</span>
               <span className="material-symbols-outlined text-lg text-[#59413e]">filter_list</span>
