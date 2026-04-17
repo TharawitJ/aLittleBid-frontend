@@ -1,51 +1,129 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2'
+import useUserStore from '../stores/user.store';
 
-function EditUserAddress() {
+function EditUserAddress({data}) {
+    // console.log('addressesmodal', data)
+    const [isLoading, setIsLoading] = useState(false)
+    const { register, handleSubmit, reset, watch, setValue, formState } = useForm({
+        // resolver: zodResolver(editProfileSchema),
+        mode: 'onSubmit',
+        // defaultValues: {
+        //         label: user?.firstname,
+        //         lastname: user?.lastname,
+        //         username: user?.username,
+        //         email: user?.email,
+        //         phone: user?.phone,
+        //     }
+        })
+    const user = useUserStore(state => state.user)
+    console.log('useredit', user)
+    const userAddresses = useUserStore(state => state.userAddress)
+    console.log('useraddressesedit', userAddresses)
+    const editUserAddress = useUserStore(state => state.editUserAddress)
+
+    
+    const onSubmit = async (body) => {
+        console.log('Data', body)
+        setIsLoading(true)
+        try {
+            const resp = await editUserAddress(user.id, data.id, body)
+            // console.log('resp', resp)
+            setIsLoading(false)
+            Swal.fire({title: 'Address Updated'})
+            document.getElementById('openeditaddress-modal').close();
+        } catch (error) {
+            Swal.fire({
+                title: 'Error'
+            })
+        }
+    }
+
+    const hdlCloseModal = () => {
+    // reset({
+    //   firstname: user.firstname,
+    //   lastname: user.lastname,
+    //   username: user.username,
+    //   email: user.email,
+    //   phone: user.phone
+    // });
+    document.getElementById('openeditaddress-modal').close();
+  }
+
     return (
-        <div>
-            <form action="">
-                <div className="col-span-2 space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Address</label>
-                    <br />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">Label</label>
+        <div >
+             <div className='text-center mb-10 font-headline uppercase text-dark-red tracking-wider text-2xl'>Edit Address</div>
+             
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className='grid grid-cols-2 gap-x-8 gap-y-10'>
+                    <div className="space-y-1">
+                        <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Label</label>
+                        <input
+                            className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
+                            type="text"
+                            defaultValue={data.label}
+                            {...register('label')}
+                        />
+                    </div>
+
+                    <div className="space-y-1">
+                        <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Street</label>
+                        <input
+                            className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
+                            type="text"
+                            defaultValue={data.street}
+                            {...register('street')}
+                        />
+                    </div>
+
+                    <div className="space-y-1">
+                        <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">City</label>
+                        <input
+                            className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
+                            type="text"
+                            defaultValue={data.city}
+                            {...register('city')}
+                        />
+                    </div>
+
+                    <div className="space-y-1">
+                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">State</label>
                     <input
                         className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                         type="text"
-                        defaultValue=""
+                        defaultValue={data.state}
+                        {...register('state')}
                     />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">Street</label>
+                    </div>
+
+                    <div className="space-y-1">
+                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Postal Code</label>
                     <input
                         className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                         type="text"
-                        defaultValue=""
+                        defaultValue={data.postalCode}
+                        {...register('postalCode')}
                     />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">City</label>
+                    </div>
+
+                    <div className="space-y-1">
+                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Country</label>
                     <input
                         className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                         type="text"
-                        defaultValue=""
+                        defaultValue={data.country}
+                        {...register('country')}
                     />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">Province</label>
-                    <input
-                        className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                        type="text"
-                        defaultValue=""
-                    />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">Country</label>
-                    <input
-                        className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                        type="text"
-                        defaultValue=""
-                    />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">Postal Code</label>
-                    <input
-                        className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                        type="text"
-                        defaultValue=""
-                    />
+                    </div>
+
                 </div>
-            </form>
-        </div>
+                 <div className='flex justify-between mt-10'>
+                    <button type="button" className='text-label bg-gray-400 w-20 py-1 rounded-sm text-white font-label' onClick={hdlCloseModal}>Cancle</button>
+                    <button className='text-label bg-primary w-20 py-1 rounded-sm text-white font-label'>Save</button>
+                </div>
+            </form >
+        </div >
     )
 }
 

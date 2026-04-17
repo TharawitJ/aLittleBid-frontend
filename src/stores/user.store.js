@@ -1,51 +1,72 @@
-import { create } from "zustand";
+import { create } from "zustand"
+import { apiEditUserAddressById, getUserById } from "../api/apiMain.js";
 import { persist, createJSONStorage } from "zustand/middleware";
 import {
-  apiLogin,
-  apiRegister,
-  apiGetAllUser,
-  apiGetUserById,
-  apiDeleteUserById,
+    apiLogin,
+    apiRegister,
+    apiGetAllUser,
+    apiGetUserById,
+    apiDeleteUserById,
 } from "../api/apiMain.js";
 
 const useUserStore = create()(
-  persist(
-    (set, get) => ({
-      user: null,
-      token: "",
-      userAddresses: [],
+    persist(
+        (set, get) => ({
+            user: null,
+            token: "",
+            userAddresses: [],
 
-      // Action to log in by Jammy
-      login: async (body) => {
-        const resp = await apiLogin(body);
-        set({ token: resp.data.token, user: resp.data.user });
-        return resp;
-      },
+            // Action to log in by Jammy
+            login: async (body) => {
+                const resp = await apiLogin(body);
+                set({ token: resp.data.token, user: resp.data.user });
+                return resp;
+            },
 
-      getUserById: async () => {
-        const id = 7
-        const resp = await apiGetUserById(id);
-        set({user:resp.data.responses})
-        // console.log(resp.data.responses)
-        return resp.data.responses
-      },
+            getUserById: async () => {
+                const id = 61
+                const resp = await apiGetUserById(id);
+                set({
+                    user: resp.data.responses,
+                    userAddresses: resp.data.responses.addresses
+                })
+                // console.log('getuser',resp.data.responses.addresses)
+                return resp.data.responses
+            },
 
-      // Action to log out
-      logout: () => set({ user: null, token: "" }),
+            // Action to log out
+            logout: () => set({ user: null, token: "" }),
 
-      deleteUser: async (userId) => {
-        try {
-          await apiDeleteUserById(userId);
-        } catch (err) {
-          console.error("Failed to delete user account", err);
-          throw err;
-        }
-      },
-    }),
-    {
-      name: "userProfile-storage",
-    },
-  ),
+            deleteUser: async (userId) => {
+                try {
+                    await apiDeleteUserById(userId);
+                } catch (err) {
+                    console.error("Failed to delete user account", err);
+                    throw err;
+                }
+            },
+            // getUserById: async (userId) => {
+            //     const resp = await getUserById(userId)
+            // },
+            editUserAddress: async (userId, addressId, data) => {
+                console.log('editaddress', data)
+                try {
+                    const resp = await apiEditUserAddressById(userId, addressId, data)
+                    // console.log('resp_editAddress', resp.data.responses)
+                    set((state) => ({
+                        userAddresses: state.userAddresses.map((e) => e.id === addressId ? resp.data.responses : e)
+                    }))
+                    return resp.data.responses
+                } catch (error) {
+                    console.error('error', error)
+                    throw error
+                }
+            }
+        }),
+        {
+            name: "userProfile-storage",
+        },
+    ),
 );
 
 export default useUserStore;
