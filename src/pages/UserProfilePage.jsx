@@ -1,22 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router";
-import { LogoutIcon } from "../icons";
-import EditUserProfile from "../components/EditUserProfile";
-import EditUserAddress from "../components/EditUserAddress";
+import { NavLink, useNavigate } from 'react-router';
+import { useForm } from 'react-hook-form';
+import { LogoutIcon } from '../icons';
+import EditUserProfile from '../components/EditUserProfile';
+import EditUserAddress from '../components/EditUserAddress';
 import useUserStore from "../stores/user.store.js";
+import { useEffect, useState } from "react";
 
 const UserProfilePage = () => {
   const { logout, getUserById } = useUserStore();
   const user = useUserStore((state) => state.user);
+  // console.log('user', user)
+  const userAddresses = useUserStore((state) => state.userAddresses);
+  console.log('userAddress', userAddresses)
+  const navigate = useNavigate()
+
   useEffect(() => {
     getUserById();
   }, []);
 
-  
-  const { id, username, email, firstname, lastname, phone, role, addresses } =
-  user;
+  if (!user) return <div>Loading...</div>;
 
-  const defaultAddress = addresses.find((item) => item.isDefault === true);
+  const { id, username, email, firstname, lastname, phone, role, addresses } = user;
+  // console.log('addresses', addresses)
+
+  // const defaultAddress = addresses?.find((item) => item.isDefault === true);
+  // console.log('defaultAddress', defaultAddress)
+
+  const hdlOpenEditProfileModal = () => {
+    try {
+      document.getElementById('openeditprofile-modal').showModal()
+    } catch (error) {
+      toast.error('cannot open modal')
+    }
+  }
+
+  const hdlOpenEditAddressModal = () => {
+    try {
+      document.getElementById('openeditaddress-modal').showModal()
+    } catch (error) {
+      toast.error('cannot open modal')
+    }
+  }
 
   return (
     <div className="bg-surface text-on-surface min-h-screen font-body selection:bg-primary-container selection:text-white">
@@ -88,7 +112,7 @@ const UserProfilePage = () => {
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQWXNGSz_a-rD6yGldzplUAef-8pXOgNJs6kgapTPhYWZmUF64rqW8K6B07KNWplQMPbaoHJtptuBXTSQWBf_A5TmWaRmDtDogWY94saf-YtlXpKr0dCU-zX546SF86zjsCEhU59whIQtlYFclb6TnCz4hR1gRTxiyMQFsUKwpx0MqEyMu-UfrqKAGF6V0WKg5X38Y2ua_qCK6lrLQxhaDD42AZYQi4ETBML_RzILckNG9KFfKizTA6RtEpSXGUpyQb4WLQKaP94ty"
                   />
                 </div>
-                <button className="bg-gray-300 text-grey/60 shadow-lg hover:scale-105 transition-transform w-full">
+                <button className="bg-gray-300  text-grey/60 shadow-lg hover:bg-white transition-transform w-full">
                   <span className="material-symbols-outlined text-sm">
                     edit
                   </span>
@@ -109,21 +133,13 @@ const UserProfilePage = () => {
                   </p>
                 </div>
                 <div className="flex gap-12">
-                  <div className="text-right">
-                    <span className="block text-3xl font-serif text-primary font-headline">
-                      12
-                    </span>
-                    <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
-                      Active Bids
-                    </span>
+                  <div className="text-center">
+                    <span className="block text-3xl font-serif text-primary font-headline">12</span>
+                    <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Active Bids</span>
                   </div>
-                  <div className="text-right">
-                    <span className="block text-3xl font-serif text-primary font-headline">
-                      47
-                    </span>
-                    <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
-                      Won Items
-                    </span>
+                  <div className="text-center">
+                    <span className="block text-3xl font-serif text-primary font-headline">47</span>
+                    <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Won Items</span>
                   </div>
                 </div>
               </div>
@@ -135,15 +151,8 @@ const UserProfilePage = () => {
             {/* Personal Details Card */}
             <div className="bg-surface-container-lowest p-8 rounded-sm space-y-8">
               <div className="flex justify-between items-baseline">
-                <h2 className="text-xl font-serif italic font-headline text-on-surface">
-                  Personal Details
-                </h2>
-                <button
-                  type="button"
-                  className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4"
-                >
-                  Edit Profile
-                </button>
+                <h2 className="text-xl font-serif italic font-headline text-on-surface text-dark-red">Personal Details</h2>
+                <button type="button" className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4" onClick={hdlOpenEditProfileModal}>Edit Profile</button>
               </div>
 
               <div className="grid grid-cols-2 gap-x-8 gap-y-10">
@@ -195,24 +204,18 @@ const UserProfilePage = () => {
               {/* Address form */}
               <div className="">
                 <div className="flex justify-between items-baseline w-full my-10">
-                  <h2 className="text-xl font-serif italic font-headline text-on-surface">
-                    Address
-                  </h2>
-                  <button
-                    type="button"
-                    className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4"
-                  >
-                    Edit Address
-                  </button>
+                  <h2 className="text-xl font-serif italic font-headline text-on-surface text-dark-red">Address</h2>
+                  <button type="button" className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4" onClick={hdlOpenEditAddressModal}>Edit Address</button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-x-8 gap-y-10">
+                {userAddresses.map((e, i) => 
+                <div className="grid grid-cols-2 gap-x-8 gap-y-10" key={i}>
                   <div className="space-y-1">
                     <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
                       Label
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress?.label}
+                      {e.label}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -220,7 +223,7 @@ const UserProfilePage = () => {
                       Street
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress?.street}
+                      {e.street}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -228,7 +231,7 @@ const UserProfilePage = () => {
                       City
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress?.city}
+                      {e.city}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -236,7 +239,7 @@ const UserProfilePage = () => {
                       State
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress?.state}
+                      {e.state}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -244,7 +247,7 @@ const UserProfilePage = () => {
                       Postal Code
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress?.postalCode}
+                      {e.postalCode}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -252,101 +255,12 @@ const UserProfilePage = () => {
                       Country
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress?.country}
+                      {e.country}
                     </p>
                   </div>
-                </div>
+                </div>)}
+                
               </div>
-
-              {/* <form action="">
-                <div className="grid grid-cols-2 gap-x-8 gap-y-10">
-                  <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">First Name</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue="Alexander"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Last Name</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue="Sterling"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Username</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue="Sterling"
-                    />
-                  </div>
-                  <div className="col-span-2 space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Email Address</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="email"
-                      defaultValue="a.sterling@curator.com"
-                    />
-                  </div>
-                  <div className="col-span-2 space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Phone Number</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="tel"
-                      defaultValue="+44 20 7946 0123"
-                    />
-                  </div>
-                  <div className="col-span-2 space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Address</label>
-                    <br />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">House No.</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      placeholder=''
-                      defaultValue=""
-                    />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">Street</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue=""
-                    />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">City</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue=""
-                    />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">Province</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue=""
-                    />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">Country</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue=""
-                    />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">Postal Code</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue=""
-                    />
-                  </div>
-                </div> */}
-              {/* <div className='flex justify-between mt-10'>
-                  <button type="button" className='text-label bg-gray-400 w-20 py-1 rounded-sm text-white font-label'>Cancle</button>
-                  <button className='text-label bg-green-600/80 w-20 py-1 rounded-sm text-white font-label'>Save</button>
-                </div> */}
-              {/* </form> */}
             </div>
 
             <div className="space-y-12">
@@ -392,51 +306,6 @@ const UserProfilePage = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Security Section */}
-              {/* <div className="bg-surface-container-low p-8 rounded-sm space-y-6">
-                <h2 className="text-xl font-serif italic font-headline text-on-surface">Security</h2>
-                <div className="space-y-4">
-                  <button className="w-full flex items-center justify-between group">
-                    <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-stone-400">lock</span>
-                      <span className="text-sm font-medium">Change Password</span>
-                    </div>
-                    <span className="material-symbols-outlined text-stone-400 group-hover:text-primary transition-colors">chevron_right</span>
-                  </button>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-stone-400">verified_user</span>
-                      <div className="space-y-0.5">
-                        <span className="block text-sm font-medium">Two-Factor Auth</span>
-                        <span className="block text-[10px] text-green-700 font-bold uppercase tracking-wider">Enabled via Authenticator App</span>
-                      </div>
-                    </div>
-                    <button className="text-[10px] uppercase tracking-widest text-stone-500 font-bold hover:text-primary">Configure</button>
-                  </div>
-                </div>
-              </div> */}
-            </div>
-          </div>
-
-          {/* Sticky Save Actions */}
-          <div className="pt-12 mt-12 border-t border-outline-variant/30 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="flex items-center gap-4 text-stone-500">
-              <span className="material-symbols-outlined text-primary/60">
-                security
-              </span>
-              <p className="text-xs italic leading-relaxed max-w-md">
-                Your sensitive information is encrypted using industry-standard
-                protocols. Last login: Today at 09:12 AM from London, UK.
-              </p>
-            </div>
-            <div className="flex items-center gap-6">
-              <button className="text-[10px] uppercase tracking-widest font-bold text-stone-500 hover:text-on-surface transition-colors">
-                Discard Changes
-              </button>
-              <button className="bg-gradient-to-br from-primary to-primary-container text-white px-10 py-4 text-[10px] uppercase tracking-[0.2em] font-bold shadow-lg hover:opacity-90 transition-all active:scale-95 rounded-[2px]">
-                Save Profile
-              </button>
             </div>
           </div>
         </section>
@@ -455,10 +324,12 @@ const UserProfilePage = () => {
           className="modal"
           id="openeditaddress-modal"
           onClose={() => navigate("/user_profile")}
-        >
+          >
+          {addresses?.map((e, i) => 
           <div className="modal-box">
-            <EditUserAddress />
+            <EditUserAddress key={i} data={e}/>  
           </div>
+          )}
         </dialog>
       </main>
 
