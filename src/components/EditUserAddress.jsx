@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2'
 import useUserStore from '../stores/user.store';
 
-function EditUserAddress({data}) {
-    // console.log('addressesmodal', data)
+function EditUserAddress({defaultAddress}) {
+    console.log('addressesmodal', defaultAddress)
     const [isLoading, setIsLoading] = useState(false)
     const { register, handleSubmit, reset, watch, setValue, formState } = useForm({
         // resolver: zodResolver(editProfileSchema),
@@ -28,7 +28,7 @@ function EditUserAddress({data}) {
         console.log('Data', body)
         setIsLoading(true)
         try {
-            const resp = await editUserAddress(user.id, data.id, body)
+            const resp = await editUserAddress(user.id, defaultAddress.id, body)
             // console.log('resp', resp)
             setIsLoading(false)
             Swal.fire({title: 'Address Updated'})
@@ -41,14 +41,17 @@ function EditUserAddress({data}) {
     }
 
     const hdlCloseModal = () => {
-    reset({
-      label: data.label,
-      street: data.street,
-      city: data.city,
-      state: data.state,
-      postalCode: data.postalCode,
-      country: data.country
-    });
+    // reset({
+    //   label: data?.label,
+    //   street: data?.street,
+    //   city: data?.city,
+    //   state: data?.state,
+    //   postalCode: data?.postalCode,
+    //   country: data?.country
+    // });
+    // if (defaultAddress) {
+    //     reset(defaultAddress)
+    // }
     document.getElementById('openeditaddress-modal').close();
   }
 
@@ -63,7 +66,7 @@ function EditUserAddress({data}) {
                         <input
                             className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                             type="text"
-                            defaultValue={data.label}
+                            defaultValue={defaultAddress?.label}
                             {...register('label')}
                         />
                     </div>
@@ -73,7 +76,7 @@ function EditUserAddress({data}) {
                         <input
                             className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                             type="text"
-                            defaultValue={data.street}
+                            defaultValue={defaultAddress?.street}
                             {...register('street')}
                         />
                     </div>
@@ -83,7 +86,7 @@ function EditUserAddress({data}) {
                         <input
                             className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                             type="text"
-                            defaultValue={data.city}
+                            defaultValue={defaultAddress?.city}
                             {...register('city')}
                         />
                     </div>
@@ -93,7 +96,7 @@ function EditUserAddress({data}) {
                     <input
                         className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                         type="text"
-                        defaultValue={data.state}
+                        defaultValue={defaultAddress?.state}
                         {...register('state')}
                     />
                     </div>
@@ -103,7 +106,7 @@ function EditUserAddress({data}) {
                     <input
                         className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                         type="text"
-                        defaultValue={data.postalCode}
+                        defaultValue={defaultAddress?.postalCode}
                         {...register('postalCode')}
                     />
                     </div>
@@ -113,7 +116,7 @@ function EditUserAddress({data}) {
                     <input
                         className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                         type="text"
-                        defaultValue={data.country}
+                        defaultValue={defaultAddress?.country}
                         {...register('country')}
                     />
                     </div>
