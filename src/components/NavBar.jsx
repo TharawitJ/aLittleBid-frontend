@@ -72,8 +72,6 @@ const NavBar = () => {
         <NavLink to="/activebid" className={navLinkClass}>
           Active Bid
         </NavLink>
-        {/* <NavLink to='/my_order_list' className={navLinkClass}>My Orders</NavLink>
-        <NavLink to='/payment' className={navLinkClass}>Payment</NavLink> */}
       </div>
       <div className="flex items-center gap-6">
         <NavLink
@@ -88,10 +86,6 @@ const NavBar = () => {
         >
           <BlackCartIcon />
         </NavLink>
-        {/* <NavLink to='/user_profile' className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors w-7"><UserIcon /></NavLink> */}
-        {/* <button className="w-6 rounded-xl font-label uppercase tracking-widest text-[10px] hover:bg-gray-300 hover:w-8 transition-all active:scale-95 duration-200">
-            <LogoutIcon/>
-          </button> */}
         <div className="dropdown dropdown-end">
           {/* ส่วนปุ่มกด (Trigger) */}
           <div
