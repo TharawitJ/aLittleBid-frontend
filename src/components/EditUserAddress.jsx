@@ -8,19 +8,12 @@ function EditUserAddress({defaultAddress}) {
     const [isLoading, setIsLoading] = useState(false)
     const { register, handleSubmit, reset, watch, setValue, formState } = useForm({
         // resolver: zodResolver(editProfileSchema),
-        mode: 'onSubmit',
-        // defaultValues: {
-        //         label: user?.firstname,
-        //         lastname: user?.lastname,
-        //         username: user?.username,
-        //         email: user?.email,
-        //         phone: user?.phone,
-        //     }
+        mode: 'onSubmit'
         })
     const user = useUserStore(state => state.user)
     // console.log('useredit', user)
     const userAddresses = useUserStore(state => state.userAddress)
-    console.log('useraddressesedit', userAddresses)
+    // console.log('useraddressesedit', userAddresses)
     const editUserAddress = useUserStore(state => state.editUserAddress)
 
     
@@ -41,17 +34,9 @@ function EditUserAddress({defaultAddress}) {
     }
 
     const hdlCloseModal = () => {
-    // reset({
-    //   label: data?.label,
-    //   street: data?.street,
-    //   city: data?.city,
-    //   state: data?.state,
-    //   postalCode: data?.postalCode,
-    //   country: data?.country
-    // });
-    // if (defaultAddress) {
-    //     reset(defaultAddress)
-    // }
+    if (defaultAddress) {
+        reset(defaultAddress)
+    }
     document.getElementById('openeditaddress-modal').close();
   }
 

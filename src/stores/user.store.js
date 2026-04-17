@@ -1,5 +1,4 @@
 import { create } from "zustand"
-import { apiEditUserAddressById, getUserById } from "../api/apiMain.js";
 import { persist, createJSONStorage } from "zustand/middleware";
 import {
     apiLogin,
@@ -7,6 +6,8 @@ import {
     apiGetAllUser,
     apiGetUserById,
     apiDeleteUserById,
+    apiEditUserAddressById,
+    apiEditUserProfileById
 } from "../api/apiMain.js";
 
 const useUserStore = create()(
@@ -45,9 +46,18 @@ const useUserStore = create()(
                     throw err;
                 }
             },
-            // getUserById: async (userId) => {
-            //     const resp = await getUserById(userId)
-            // },
+            editUserProfile: async (userId, data) => {
+                console.log('editaddress', data)
+                try {
+                    const resp = await apiEditUserProfileById(userId, data)
+                    console.log('resp_editprofile', resp.data.responses)
+                     set({user: resp.data.responses,})
+                    return resp.data.responses
+                } catch (error) {
+                    console.error('error', error)
+                    throw error
+                }
+            },
             editUserAddress: async (userId, addressId, data) => {
                 console.log('editaddress', data)
                 try {

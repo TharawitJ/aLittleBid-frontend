@@ -20,10 +20,10 @@ const UserProfilePage = () => {
 
   if (!user) return <div>Loading...</div>;
 
-  const { id, username, email, firstname, lastname, phone, role, addresses } =
-    user;
+  const { id, username, email, firstname, lastname, phone, role, addresses } = user;
 
-  const defaultAddress = addresses?.find((item) => item.isDefault === true);
+  const defaultAddress = userAddresses?.find((item) => item.isDefault === true);
+  console.log('defaultAddress', defaultAddress)
 
   const hdlOpenEditProfileModal = () => {
     try {
