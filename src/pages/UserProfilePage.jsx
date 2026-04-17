@@ -259,7 +259,6 @@ const UserProfilePage = () => {
                     </p>
                   </div>
                 </div>)}
-                
               </div>
             </div>
 

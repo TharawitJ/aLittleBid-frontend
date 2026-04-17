@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
+import useUserStore from '../stores/user.store';
 
 function EditUserProfile() {
+    const [isLoading, setIsLoading] = useState(false)
+    const user = useUserStore(state => state.user)
     const { register, handleSubmit, reset, watch, setValue, formState } = useForm({
         // resolver: zodResolver(editProfileSchema),
         mode: 'onSubmit',
@@ -15,7 +18,13 @@ function EditUserProfile() {
     })
 
     // const onSubmit = async (data) => {
-        
+    //     console.log('dataaa', data)
+    //     setIsLoading(true)
+    //     try {
+    //         const resp = await
+    //     } catch (error) {
+            
+    //     }
     // }
 
     const hdlCloseModal = () => {
@@ -31,7 +40,7 @@ function EditUserProfile() {
     return (
         <div>
             <div className='text-center mb-10 font-headline uppercase text-dark-red tracking-wider text-2xl'>Edit Profile</div>
-            <form>
+            <form >
                 <div className="grid grid-cols-2 gap-x-8 gap-y-10">
                     <div className="space-y-1">
                         <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">First Name</label>
@@ -75,7 +84,7 @@ function EditUserProfile() {
                             className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                             type="tel"
                             defaultValue="+44 20 7946 0123"
-                             {...register('phonenumber')}
+                             {...register('phone')}
                         />
                     </div>
                 </div>

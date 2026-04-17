@@ -18,7 +18,7 @@ function EditUserAddress({data}) {
         //     }
         })
     const user = useUserStore(state => state.user)
-    console.log('useredit', user)
+    // console.log('useredit', user)
     const userAddresses = useUserStore(state => state.userAddress)
     console.log('useraddressesedit', userAddresses)
     const editUserAddress = useUserStore(state => state.editUserAddress)
@@ -41,13 +41,14 @@ function EditUserAddress({data}) {
     }
 
     const hdlCloseModal = () => {
-    // reset({
-    //   firstname: user.firstname,
-    //   lastname: user.lastname,
-    //   username: user.username,
-    //   email: user.email,
-    //   phone: user.phone
-    // });
+    reset({
+      label: data.label,
+      street: data.street,
+      city: data.city,
+      state: data.state,
+      postalCode: data.postalCode,
+      country: data.country
+    });
     document.getElementById('openeditaddress-modal').close();
   }
 
