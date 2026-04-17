@@ -1,44 +1,54 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
+import useUserStore from '../stores/user.store';
+import Swal from 'sweetalert2';
 
 function EditUserProfile() {
+    const [isLoading, setIsLoading] = useState(false)
+    const user = useUserStore(state => state.user)
+    const editUserProfile = useUserStore(state => state.editUserProfile)
     const { register, handleSubmit, reset, watch, setValue, formState } = useForm({
         // resolver: zodResolver(editProfileSchema),
-        mode: 'onSubmit',
-        // defaultValues: {
-        //     firstname: user?.firstname,
-        //     lastname: user?.lastname,
-        //     username: user?.username,
-        //     email: user?.email,
-        //     phoneNumber: user?.phoneNumber,
-        // }
+        mode: 'onSubmit'
     })
 
-    // const onSubmit = async (data) => {
-        
-    // }
+    const onSubmit = async (data) => {
+        console.log('dataaa', data)
+        setIsLoading(true)
+        try {
+            const resp = await editUserProfile(user.id, data)
+            Swal.fire({
+                title: "Profile Updated"
+            })
+            document.getElementById('openeditprofile-modal').close();
+        } catch (error) {
+            Swal.fire({
+                title: "Profile Update failed"
+            })
+        }
+    }
 
     const hdlCloseModal = () => {
-        // reset({
-        //   firstname: user.firstname,
-        //   lastname: user.lastname,
-        //   username: user.username,
-        //   email: user.email,
-        //   phone: user.phone
-        // });
+        reset({
+          firstname: user.firstname,
+          lastname: user.lastname,
+          username: user.username,
+          email: user.email,
+          phone: user.phone
+        });
         document.getElementById('openeditprofile-modal').close();
     }
     return (
         <div>
             <div className='text-center mb-10 font-headline uppercase text-dark-red tracking-wider text-2xl'>Edit Profile</div>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid grid-cols-2 gap-x-8 gap-y-10">
                     <div className="space-y-1">
                         <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">First Name</label>
                         <input
                             className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                             type="text"
-                            defaultValue="Alexander"
+                            defaultValue={user.firstname}
                             {...register('firstname')}
                         />
                     </div>
@@ -47,7 +57,7 @@ function EditUserProfile() {
                         <input
                             className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                             type="text"
-                            defaultValue="Sterling"
+                            defaultValue={user.lastname}
                              {...register('lastname')}
                         />
                     </div>
@@ -56,7 +66,7 @@ function EditUserProfile() {
                         <input
                             className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                             type="text"
-                            defaultValue="Sterling"
+                            defaultValue={user.username}
                              {...register('username')}
                         />
                     </div>
@@ -65,7 +75,7 @@ function EditUserProfile() {
                         <input
                             className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                             type="email"
-                            defaultValue="a.sterling@curator.com"
+                            defaultValue={user.email}
                              {...register('email')}
                         />
                     </div>
@@ -74,8 +84,8 @@ function EditUserProfile() {
                         <input
                             className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                             type="tel"
-                            defaultValue="+44 20 7946 0123"
-                             {...register('phonenumber')}
+                            defaultValue={user.phone}
+                             {...register('phone')}
                         />
                     </div>
                 </div>

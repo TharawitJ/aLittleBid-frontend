@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 
 const AuctionPage = () => {
   // Populars sort by count users bid or bidding counts
   // Ongoing Auction change to sort product by lesser time's left
+
+  const scrollRef = useRef(null)
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
-      <main className="pt-8 pb-20 px-12 max-w-[1920px] mx-auto">
+      <main className=" pb-20 px-12 max-w-[1920px] mx-auto">
         <div className="flex items-center">
           <div className="font-headline text-4xl text-red my-8 mr-6">
             Populars
@@ -13,9 +15,9 @@ const AuctionPage = () => {
           <div className="h-[1px] flex-grow bg-stone-200"></div>
         </div>
         {/* Hero Section & Sidebar Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-24 w-full px-4 md:px-8">
+        <div className="grid grid-cols-2 lg:grid-cols-12 gap-8 mb-24 w-full px-4 md:px-8">
           {/* Main Hero */}
-          <div className="lg:col-span-8 group cursor-pointer relative overflow-hidden rounded-2xl shadow-xl h-full md:h-full">
+          <div className="lg:col-span-5 group cursor-pointer relative overflow-hidden rounded-2xl shadow-xl h-full md:h-full">
             <div className="relative w-full h-full">
               <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvgXMAB9rXZppdIyVFwnbyl0aZ1xuGdRyWrsI2Hi7htMsLJYlQfR592QAxC86WPGVIGhmZhNC8nPb7iqAx1b-eBsIhGfcsO94JMDxObkKctdlUfobrLqW0Kq4W-1pKvFQfQvzVDGvHs4MXapVj-uKodykXRnzDcygV6n9QyyhVsdVIDLi292kyP8F_WqdyIGCG_N__aZkNkfS7VM9pU60qM_SKUzdbdMmh_I08MZe1LeMt_9MkPHdGIRx5UPgClsTvSAOMTF1THQKv"
@@ -57,21 +59,21 @@ const AuctionPage = () => {
           </div>
 
           {/* Smaller Lots Column */}
-          <div className="md:col-span-6 h-full flex flex-row overflow-x-auto gap-6 pb-4 scrollbar-hide snap-x snap-mandatory">
-            <div className="group cursor-pointer flex-1">
-              <div className="relative overflow-hidden rounded-md h-full">
+          <div className="lg:col-span-7 flex flex-row overflow-x-auto gap-6 pb-6 snap-x snap-mandatory no-scrollbar ">
+            <div className="min-w-[280px] md:min-w-[320px] group cursor-pointer snap-start bg-on-surface rounded-xl shadow-sm border border-stone-100">
+              <div className="relative overflow-hidden rounded-t-xl">
                 <img
                   className="w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   alt="Patek Heritage"
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpFpbxMtXrk-gAQTJlnM-kPYDSICNwrJ_1E-rbxKyIspXOg5Nk4ECjL2O9VpcWgm-Xut2g7IAUSLSCI5y_c7Rc9shIbIVlgm3BdTCVQ9wSbdxeHX2TguhQFgohftgqge20yA1wgx6vQIsXEC0hx4a9TTW10-ZQ-Sm6PIsNMa4qz4EMzlHsXvKGhBIR31IqTHcsBLyl9lR2mC8vo8bq1zarp-rp6N6cLKMxsgj67vkdT83XGerTFOkXa3GjNgT880lh0_A_JcsEcVcq"
                 />
 
-                <div className="flex justify-between items-center m-3">
+                <div className="flex justify-between items-center m-6">
                   <div>
-                    <h4 className="font-headline text-lg">
+                    <h4 className="font-headline text-xl my-2">
                       Patek Heritage '52
                     </h4>
-                    <p className="text-red text-sm font-semibold">$18,200</p>
+                    <p className="text-red text-lg font-semibold my-2">$18,200</p>
                     <span className="font-headline text-primary text-sm">
                       Time Over: 59m 18s
                     </span>
@@ -85,20 +87,74 @@ const AuctionPage = () => {
               </div>
             </div>
 
-            <div className="group cursor-pointer flex-1">
-              <div className="relative overflow-hidden rounded-md h-full">
+            <div className="min-w-[280px] md:min-w-[320px] group cursor-pointer snap-start bg-on-surface rounded-xl shadow-sm border border-stone-100">
+              <div className="relative overflow-hidden rounded-t-xl">
                 <img
                   className="w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   alt="Royal Emerald Suite"
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7lNWJDmFn8e4aoRcuUAZrUzCFNtp6FMAzyu9zvjxHB-SflolrRjidTePqlBdkEm212h_7lQKkw2bMUX_uJyF_ghamrOsgpEhdFdPMDhOOaLXY7vVyX7cfIryPpfl5CaBezU8yzBQkPgLClVftaTZ9taQ9UoKvUNM7DtrD9OIKhetLjsaRFfBMEIkAfTzJ8eXjgyIHAqxNtI4oesSQ84AXvPa8P5Ta6r5fIls-UDa38RnKlBgFZ_RilSVqwNdeFe-zzwoM9RciG2dR"
                 />
 
-                <div className="flex justify-between items-center m-3">
+                <div className="flex justify-between items-center m-6">
                   <div>
-                    <h4 className="font-headline text-lg">
+                    <h4 className="font-headline text-xl my-2">
                       Patek Heritage '52
                     </h4>
-                    <p className="text-red text-sm font-semibold">$18,200</p>
+                    <p className="text-red text-lg font-semibold my-2">$18,200</p>
+                    <span className="font-headline text-primary text-sm">
+                      Time Over: 59m 18s
+                    </span>
+                  </div>
+                  <div>
+                    <button className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
+                      JOIN
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="min-w-[200px] md:min-w-[320px] group cursor-pointer snap-start bg-on-surface rounded-xl shadow-sm border border-stone-100">
+              <div className="relative overflow-hidden rounded-t-xl">
+                <img
+                  className="w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  alt="Royal Emerald Suite"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7lNWJDmFn8e4aoRcuUAZrUzCFNtp6FMAzyu9zvjxHB-SflolrRjidTePqlBdkEm212h_7lQKkw2bMUX_uJyF_ghamrOsgpEhdFdPMDhOOaLXY7vVyX7cfIryPpfl5CaBezU8yzBQkPgLClVftaTZ9taQ9UoKvUNM7DtrD9OIKhetLjsaRFfBMEIkAfTzJ8eXjgyIHAqxNtI4oesSQ84AXvPa8P5Ta6r5fIls-UDa38RnKlBgFZ_RilSVqwNdeFe-zzwoM9RciG2dR"
+                />
+
+                <div className="flex justify-between items-center m-6">
+                  <div>
+                    <h4 className="font-headline text-xl my-2">
+                      Patek Heritage '52
+                    </h4>
+                    <p className="text-red text-lg font-semibold my-2">$18,200</p>
+                    <span className="font-headline text-primary text-sm">
+                      Time Over: 59m 18s
+                    </span>
+                  </div>
+                  <div>
+                    <button className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
+                      JOIN
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="min-w-[200px] md:min-w-[320px] group cursor-pointer snap-start bg-on-surface rounded-xl shadow-sm border border-stone-100">
+              <div className="relative overflow-hidden rounded-t-xl">
+                <img
+                  className="w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  alt="Royal Emerald Suite"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7lNWJDmFn8e4aoRcuUAZrUzCFNtp6FMAzyu9zvjxHB-SflolrRjidTePqlBdkEm212h_7lQKkw2bMUX_uJyF_ghamrOsgpEhdFdPMDhOOaLXY7vVyX7cfIryPpfl5CaBezU8yzBQkPgLClVftaTZ9taQ9UoKvUNM7DtrD9OIKhetLjsaRFfBMEIkAfTzJ8eXjgyIHAqxNtI4oesSQ84AXvPa8P5Ta6r5fIls-UDa38RnKlBgFZ_RilSVqwNdeFe-zzwoM9RciG2dR"
+                />
+
+                <div className="flex justify-between items-center m-6">
+                  <div>
+                    <h4 className="font-headline text-xl my-2">
+                      Patek Heritage '52
+                    </h4>
+                    <p className="text-red text-lg font-semibold my-2">$18,200</p>
                     <span className="font-headline text-primary text-sm">
                       Time Over: 59m 18s
                     </span>

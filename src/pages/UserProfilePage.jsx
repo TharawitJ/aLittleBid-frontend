@@ -20,11 +20,10 @@ const UserProfilePage = () => {
 
   if (!user) return <div>Loading...</div>;
 
-  const { id, username, email, firstname, lastname, phone, role, addresses } =
-    user;
+  const { id, username, email, firstname, lastname, phone, role, addresses } = user;
 
-  const defaultAddress = addresses?.find((item) => item.isDefault === true);
-  console.log(defaultAddress)
+  const defaultAddress = userAddresses?.find((item) => item.isDefault === true);
+  console.log('defaultAddress', defaultAddress)
 
   const hdlOpenEditProfileModal = () => {
     try {
@@ -233,7 +232,7 @@ const UserProfilePage = () => {
                       Label
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress.label}
+                      {defaultAddress?.label}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -241,7 +240,7 @@ const UserProfilePage = () => {
                       Street
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress.street}
+                      {defaultAddress?.street}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -249,7 +248,7 @@ const UserProfilePage = () => {
                       City
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress.city}
+                      {defaultAddress?.city}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -257,7 +256,7 @@ const UserProfilePage = () => {
                       State
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress.state}
+                      {defaultAddress?.state}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -265,7 +264,7 @@ const UserProfilePage = () => {
                       Postal Code
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress.postalCode}
+                      {defaultAddress?.postalCode}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -273,7 +272,7 @@ const UserProfilePage = () => {
                       Country
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {defaultAddress.country}
+                      {defaultAddress?.country}
                     </p>
                   </div>
                 </div>
@@ -337,7 +336,7 @@ const UserProfilePage = () => {
           </div>
         </dialog>
 
-        <dialog
+        {/* <dialog
           className="modal"
           id="openeditaddress-modal"
           onClose={() => navigate("/user_profile")}
@@ -347,6 +346,16 @@ const UserProfilePage = () => {
               <EditUserAddress key={i} data={e} />
             </div>
           ))}
+        </dialog> */}
+
+        <dialog
+          className="modal"
+          id="openeditaddress-modal"
+          onClose={() => navigate("/user_profile")}
+        >
+            <div className="modal-box">
+              <EditUserAddress defaultAddress={defaultAddress} />
+            </div>
         </dialog>
       </main>
       {/* Footer */}

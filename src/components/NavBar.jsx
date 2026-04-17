@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, NavLink } from "react-router";
 import {
+  BagIcon,
   BlackCartIcon,
   BlackHeartIcon,
   LogoutIcon,
@@ -112,6 +113,19 @@ const NavBar = () => {
                 </span>
               </NavLink>
             </li>
+
+            <li>
+              <NavLink
+                to="/seller_list_product"
+                className="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-colors rounded-lg"
+              >
+                <BagIcon/>
+                <span className="font-label text-[12px] uppercase tracking-widest text-primary">
+                  My products
+                </span>
+              </NavLink>
+            </li>
+
             <li>
               <button
                 className="flex items-center gap-3 px-4 py-2 
