@@ -112,7 +112,7 @@ const UserProfilePage = () => {
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQWXNGSz_a-rD6yGldzplUAef-8pXOgNJs6kgapTPhYWZmUF64rqW8K6B07KNWplQMPbaoHJtptuBXTSQWBf_A5TmWaRmDtDogWY94saf-YtlXpKr0dCU-zX546SF86zjsCEhU59whIQtlYFclb6TnCz4hR1gRTxiyMQFsUKwpx0MqEyMu-UfrqKAGF6V0WKg5X38Y2ua_qCK6lrLQxhaDD42AZYQi4ETBML_RzILckNG9KFfKizTA6RtEpSXGUpyQb4WLQKaP94ty"
                   />
                 </div>
-                <button className="bg-gray-300 text-grey/60 shadow-lg hover:scale-105 transition-transform w-full">
+                <button className="bg-gray-300  text-grey/60 shadow-lg hover:bg-white transition-transform w-full">
                   <span className="material-symbols-outlined text-sm">
                     edit
                   </span>
@@ -306,30 +306,6 @@ const UserProfilePage = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Security Section */}
-              {/* <div className="bg-surface-container-low p-8 rounded-sm space-y-6">
-                <h2 className="text-xl font-serif italic font-headline text-on-surface">Security</h2>
-                <div className="space-y-4">
-                  <button className="w-full flex items-center justify-between group">
-                    <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-stone-400">lock</span>
-                      <span className="text-sm font-medium">Change Password</span>
-                    </div>
-                    <span className="material-symbols-outlined text-stone-400 group-hover:text-primary transition-colors">chevron_right</span>
-                  </button>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-stone-400">verified_user</span>
-                      <div className="space-y-0.5">
-                        <span className="block text-sm font-medium">Two-Factor Auth</span>
-                        <span className="block text-[10px] text-green-700 font-bold uppercase tracking-wider">Enabled via Authenticator App</span>
-                      </div>
-                    </div>
-                    <button className="text-[10px] uppercase tracking-widest text-stone-500 font-bold hover:text-primary">Configure</button>
-                  </div>
-                </div>
-              </div> */}
             </div>
           </div>
         </section>
