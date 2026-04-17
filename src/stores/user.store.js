@@ -1,12 +1,11 @@
 import { create } from "zustand"
-import { apiEditUserAddressById, getUserById } from "../api/apiMain.js";
 import { persist, createJSONStorage } from "zustand/middleware";
 import {
     apiLogin,
     apiRegister,
     apiGetAllUser,
     apiGetUserById,
-    apiDeleteUserById,
+    apiDeleteUserById, apiEditUserAddressById 
 } from "../api/apiMain.js";
 
 const useUserStore = create()(
