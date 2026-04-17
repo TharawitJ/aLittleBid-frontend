@@ -13,9 +13,9 @@ const UserProfilePage = () => {
   }, []);
 
   
-  const { id, username, email, firstname, lastname, phone, role, addresses } =
+  const { id, username, email, firstname, lastname, phone, role, addresses , bid} =
   user;
-
+  console.log(bid)
   const defaultAddress = addresses.find((item) => item.isDefault === true);
 
   return (
@@ -257,96 +257,6 @@ const UserProfilePage = () => {
                   </div>
                 </div>
               </div>
-
-              {/* <form action="">
-                <div className="grid grid-cols-2 gap-x-8 gap-y-10">
-                  <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">First Name</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue="Alexander"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Last Name</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue="Sterling"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Username</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue="Sterling"
-                    />
-                  </div>
-                  <div className="col-span-2 space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Email Address</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="email"
-                      defaultValue="a.sterling@curator.com"
-                    />
-                  </div>
-                  <div className="col-span-2 space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Phone Number</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="tel"
-                      defaultValue="+44 20 7946 0123"
-                    />
-                  </div>
-                  <div className="col-span-2 space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Address</label>
-                    <br />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">House No.</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      placeholder=''
-                      defaultValue=""
-                    />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">Street</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue=""
-                    />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">City</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue=""
-                    />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">Province</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue=""
-                    />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">Country</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue=""
-                    />
-                    <label className="text-[10px] uppercase tracking-widest text-grey font-bold">Postal Code</label>
-                    <input
-                      className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-                      type="text"
-                      defaultValue=""
-                    />
-                  </div>
-                </div> */}
-              {/* <div className='flex justify-between mt-10'>
-                  <button type="button" className='text-label bg-gray-400 w-20 py-1 rounded-sm text-white font-label'>Cancle</button>
-                  <button className='text-label bg-green-600/80 w-20 py-1 rounded-sm text-white font-label'>Save</button>
-                </div> */}
-              {/* </form> */}
             </div>
 
             <div className="space-y-12">
@@ -392,30 +302,6 @@ const UserProfilePage = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Security Section */}
-              {/* <div className="bg-surface-container-low p-8 rounded-sm space-y-6">
-                <h2 className="text-xl font-serif italic font-headline text-on-surface">Security</h2>
-                <div className="space-y-4">
-                  <button className="w-full flex items-center justify-between group">
-                    <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-stone-400">lock</span>
-                      <span className="text-sm font-medium">Change Password</span>
-                    </div>
-                    <span className="material-symbols-outlined text-stone-400 group-hover:text-primary transition-colors">chevron_right</span>
-                  </button>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-stone-400">verified_user</span>
-                      <div className="space-y-0.5">
-                        <span className="block text-sm font-medium">Two-Factor Auth</span>
-                        <span className="block text-[10px] text-green-700 font-bold uppercase tracking-wider">Enabled via Authenticator App</span>
-                      </div>
-                    </div>
-                    <button className="text-[10px] uppercase tracking-widest text-stone-500 font-bold hover:text-primary">Configure</button>
-                  </div>
-                </div>
-              </div> */}
             </div>
           </div>
 
