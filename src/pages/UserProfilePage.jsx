@@ -24,6 +24,7 @@ const UserProfilePage = () => {
     user;
 
   const defaultAddress = addresses?.find((item) => item.isDefault === true);
+  console.log(defaultAddress)
 
   const hdlOpenEditProfileModal = () => {
     try {
