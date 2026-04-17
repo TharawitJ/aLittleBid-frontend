@@ -1,25 +1,35 @@
-import useUserStore from '../stores/user.store.js'
-import axios from 'axios'
+import useUserStore from "../stores/user.store.js";
+import axios from "axios";
 
 export const mainApi = axios.create({
-  baseURL : 'http://localhost:3000/api',
-  headers : {
-    'Content-Type' : 'application/json'
+  baseURL: "http://localhost:3000/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+mainApi.interceptors.request.use((config) => {
+  const token = useUserStore.getState().token;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
-})
-mainApi.interceptors.request.use( config => {
-  const token = useUserStore.getState().token
-  if(token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
+  return config;
+});
 
 // api Path connecting with backend using by zustand at stores
-
+// USERS
 export const apiLogin = (body) => mainApi.post("/auth/login", body);
 export const apiRegister = (body) => mainApi.post("/auth/register", body);
-export const apiGetAllUser=()=>mainApi.get('/users');
-export const apiGetUserById=(userid)=>mainApi.get(`/users/${userid}`);
-export const apiDeleteUserById=(userid)=>mainApi.delete(`/users/${userid}`);
-export const apiEditUserAddressById=(userId, addressId, data)=>mainApi.patch(`/users/${userId}/addresses/${addressId}`, data);
+export const apiGetAllUser = () => mainApi.get("/users");
+export const apiGetUserById = (userid) => mainApi.get(`/users/${userid}`);
+export const apiDeleteUserById = (userid) => mainApi.delete(`/users/${userid}`);
+export const apiEditUserAddressById = (userId, addressId, data) =>
+  mainApi.patch(`/users/${userId}/addresses/${addressId}`, data);
+
+// PRODUCTS
+// export const app.use('/api/products', productRoutes);
+export const apiGetCategories = () => mainApi.get(`/products/categories`);
+export const apiGetAllProducts = () => mainApi.get(`/products`);
+export const apiGetProductsById = (productId) => mainApi.get(`/products/${productId}`);
+export const apiCreateProduct = () => mainApi.post(`/products`);
+export const apiUpdateProduct = (productId) => mainApi.patch(`/products/${productId}`);
+export const apiDeleteProduct = (productId) => mainApi.delete(`/products/${productId}`);
