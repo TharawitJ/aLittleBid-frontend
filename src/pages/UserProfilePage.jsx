@@ -1,8 +1,8 @@
-import { NavLink, useNavigate } from 'react-router';
-import { useForm } from 'react-hook-form';
-import { LogoutIcon } from '../icons';
-import EditUserProfile from '../components/EditUserProfile';
-import EditUserAddress from '../components/EditUserAddress';
+import { NavLink, useNavigate } from "react-router";
+import { useForm } from "react-hook-form";
+import { LogoutIcon } from "../icons";
+import EditUserProfile from "../components/EditUserProfile";
+import EditUserAddress from "../components/EditUserAddress";
 import useUserStore from "../stores/user.store.js";
 import { useEffect, useState } from "react";
 
@@ -11,8 +11,8 @@ const UserProfilePage = () => {
   const user = useUserStore((state) => state.user);
   // console.log('user', user)
   const userAddresses = useUserStore((state) => state.userAddresses);
-  console.log('userAddress', userAddresses)
-  const navigate = useNavigate()
+  console.log("userAddress", userAddresses);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUserById();
@@ -20,27 +20,26 @@ const UserProfilePage = () => {
 
   if (!user) return <div>Loading...</div>;
 
-  const { id, username, email, firstname, lastname, phone, role, addresses } = user;
-  // console.log('addresses', addresses)
+  const { id, username, email, firstname, lastname, phone, role, addresses } =
+    user;
 
-  // const defaultAddress = addresses?.find((item) => item.isDefault === true);
-  // console.log('defaultAddress', defaultAddress)
+  const defaultAddress = addresses?.find((item) => item.isDefault === true);
 
   const hdlOpenEditProfileModal = () => {
     try {
-      document.getElementById('openeditprofile-modal').showModal()
+      document.getElementById("openeditprofile-modal").showModal();
     } catch (error) {
-      toast.error('cannot open modal')
+      toast.error("cannot open modal");
     }
-  }
+  };
 
   const hdlOpenEditAddressModal = () => {
     try {
-      document.getElementById('openeditaddress-modal').showModal()
+      document.getElementById("openeditaddress-modal").showModal();
     } catch (error) {
-      toast.error('cannot open modal')
+      toast.error("cannot open modal");
     }
-  }
+  };
 
   return (
     <div className="bg-surface text-on-surface min-h-screen font-body selection:bg-primary-container selection:text-white">
@@ -50,7 +49,6 @@ const UserProfilePage = () => {
           <div className="sticky top-32 space-y-2">
             <nav className="flex flex-col gap-1">
               <NavLink className="flex items-center gap-3 px-4 py-3 text-[#7a0009] font-semibold border-l-2 border-[#7a0009] bg-surface-container-low transition-all duration-300">
-                {/* <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>person</span> */}
                 <span className="text-sm tracking-wide uppercase font-medium">
                   Profile
                 </span>
@@ -59,7 +57,6 @@ const UserProfilePage = () => {
                 to="/activebid"
                 className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300"
               >
-                {/* <span className="material-symbols-outlined">gavel</span> */}
                 <span className="text-sm tracking-wide uppercase font-medium">
                   Bidding Activity
                 </span>
@@ -69,7 +66,6 @@ const UserProfilePage = () => {
                 className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300"
                 href="#"
               >
-                {/* <span className="material-symbols-outlined">visibility</span> */}
                 <span className="text-sm tracking-wide uppercase font-medium">
                   Watchlist
                 </span>
@@ -79,7 +75,6 @@ const UserProfilePage = () => {
                 className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300"
                 href="#"
               >
-                {/* <span className="material-symbols-outlined">sell</span> */}
                 <span className="text-sm tracking-wide uppercase font-medium">
                   Consignments
                 </span>
@@ -134,12 +129,20 @@ const UserProfilePage = () => {
                 </div>
                 <div className="flex gap-12">
                   <div className="text-center">
-                    <span className="block text-3xl font-serif text-primary font-headline">12</span>
-                    <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Active Bids</span>
+                    <span className="block text-3xl font-serif text-primary font-headline">
+                      12
+                    </span>
+                    <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                      Active Bids
+                    </span>
                   </div>
                   <div className="text-center">
-                    <span className="block text-3xl font-serif text-primary font-headline">47</span>
-                    <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Won Items</span>
+                    <span className="block text-3xl font-serif text-primary font-headline">
+                      47
+                    </span>
+                    <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                      Won Items
+                    </span>
                   </div>
                 </div>
               </div>
@@ -151,8 +154,16 @@ const UserProfilePage = () => {
             {/* Personal Details Card */}
             <div className="bg-surface-container-lowest p-8 rounded-sm space-y-8">
               <div className="flex justify-between items-baseline">
-                <h2 className="text-xl font-serif italic font-headline text-on-surface text-dark-red">Personal Details</h2>
-                <button type="button" className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4" onClick={hdlOpenEditProfileModal}>Edit Profile</button>
+                <h2 className="text-xl font-serif italic font-headline text-on-surface text-dark-red">
+                  Personal Details
+                </h2>
+                <button
+                  type="button"
+                  className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4"
+                  onClick={hdlOpenEditProfileModal}
+                >
+                  Edit Profile
+                </button>
               </div>
 
               <div className="grid grid-cols-2 gap-x-8 gap-y-10">
@@ -204,18 +215,24 @@ const UserProfilePage = () => {
               {/* Address form */}
               <div className="">
                 <div className="flex justify-between items-baseline w-full my-10">
-                  <h2 className="text-xl font-serif italic font-headline text-on-surface text-dark-red">Address</h2>
-                  <button type="button" className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4" onClick={hdlOpenEditAddressModal}>Edit Address</button>
+                  <h2 className="text-xl font-serif italic font-headline text-on-surface text-dark-red">
+                    Address
+                  </h2>
+                  <button
+                    type="button"
+                    className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4"
+                    onClick={hdlOpenEditAddressModal}
+                  >
+                    Edit Address
+                  </button>
                 </div>
-
-                {userAddresses.map((e, i) => 
-                <div className="grid grid-cols-2 gap-x-8 gap-y-10" key={i}>
+                <div className="grid grid-cols-2 gap-x-8 gap-y-10">
                   <div className="space-y-1">
                     <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
                       Label
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {e.label}
+                      {defaultAddress.label}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -223,7 +240,7 @@ const UserProfilePage = () => {
                       Street
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {e.street}
+                      {defaultAddress.street}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -231,7 +248,7 @@ const UserProfilePage = () => {
                       City
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {e.city}
+                      {defaultAddress.city}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -239,7 +256,7 @@ const UserProfilePage = () => {
                       State
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {e.state}
+                      {defaultAddress.state}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -247,7 +264,7 @@ const UserProfilePage = () => {
                       Postal Code
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {e.postalCode}
+                      {defaultAddress.postalCode}
                     </p>
                   </div>
                   <div className="space-y-1">
@@ -255,10 +272,10 @@ const UserProfilePage = () => {
                       Country
                     </label>
                     <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                      {e.country}
+                      {defaultAddress.country}
                     </p>
                   </div>
-                </div>)}
+                </div>
               </div>
             </div>
 
@@ -323,15 +340,14 @@ const UserProfilePage = () => {
           className="modal"
           id="openeditaddress-modal"
           onClose={() => navigate("/user_profile")}
-          >
-          {addresses?.map((e, i) => 
-          <div className="modal-box">
-            <EditUserAddress key={i} data={e}/>  
-          </div>
-          )}
+        >
+          {addresses?.map((e, i) => (
+            <div className="modal-box">
+              <EditUserAddress key={i} data={e} />
+            </div>
+          ))}
         </dialog>
       </main>
-
       {/* Footer */}
       <footer className="bg-[#efeeeb] w-full py-12 px-8 border-t border-outline-variant/10">
         <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center w-full">
