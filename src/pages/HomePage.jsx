@@ -14,7 +14,7 @@ const HomePage = () => {
 
     useEffect(() => {
       getUserById();
-    }, []);
+    }, [user]);
 
     const userCheck =() =>{
       // console.log("userCheck",user)

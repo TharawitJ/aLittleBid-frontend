@@ -25,7 +25,7 @@ const useUserStore = create()(
             },
 
             getUserById: async () => {
-                const id = 3
+                const id = 7
                 const resp = await apiGetUserById(id);
                 set({
                     user: resp.data.responses,
@@ -46,6 +46,7 @@ const useUserStore = create()(
                     throw err;
                 }
             },
+
             editUserProfile: async (userId, data) => {
                 console.log('editaddress', data)
                 try {
@@ -58,6 +59,7 @@ const useUserStore = create()(
                     throw error
                 }
             },
+
             editUserAddress: async (userId, addressId, data) => {
                 console.log('editaddress', data)
                 try {

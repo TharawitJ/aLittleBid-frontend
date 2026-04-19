@@ -14,9 +14,9 @@ const UserProfilePage = () => {
   // console.log("userAddress", userAddresses);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getUserById();
-  }, []);
+  // useEffect(() => {
+  //   getUserById();
+  // }, [user]);
 
   if (!user) return <div>Loading...</div>;
 

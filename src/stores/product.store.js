@@ -13,6 +13,8 @@ const useProductStore = create()(
   persist((set, get) => ({
     allProducts: [],
     allCategories: [],
+    productPage: 1,
+    setProductPage:(page)=>set({productPage:page}),
 
     getAllProducts: async () => {
       const resp = await apiGetAllProducts();
