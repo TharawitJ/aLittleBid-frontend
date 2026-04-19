@@ -25,13 +25,13 @@ const useUserStore = create()(
             },
 
             getUserById: async () => {
-                const id = 61
+                const id = 3
                 const resp = await apiGetUserById(id);
                 set({
                     user: resp.data.responses,
                     userAddresses: resp.data.responses.addresses
                 })
-                // console.log('getuser',resp.data.responses.addresses)
+                // console.log('getuser',resp.data.responses)
                 return resp.data.responses
             },
 
@@ -50,7 +50,7 @@ const useUserStore = create()(
                 console.log('editaddress', data)
                 try {
                     const resp = await apiEditUserProfileById(userId, data)
-                    console.log('resp_editprofile', resp.data.responses)
+                    // console.log('resp_editprofile', resp.data.responses)
                      set({user: resp.data.responses,})
                     return resp.data.responses
                 } catch (error) {

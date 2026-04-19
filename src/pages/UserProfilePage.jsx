@@ -11,7 +11,7 @@ const UserProfilePage = () => {
   const user = useUserStore((state) => state.user);
   // console.log('user', user)
   const userAddresses = useUserStore((state) => state.userAddresses);
-  console.log("userAddress", userAddresses);
+  // console.log("userAddress", userAddresses);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,10 +20,10 @@ const UserProfilePage = () => {
 
   if (!user) return <div>Loading...</div>;
 
-  const { id, username, email, firstname, lastname, phone, role, addresses } = user;
+  const { id, username, email, firstname, lastname, phone, role } = user;
 
   const defaultAddress = userAddresses?.find((item) => item.isDefault === true);
-  console.log('defaultAddress', defaultAddress)
+  // console.log('defaultAddress', defaultAddress)
 
   const hdlOpenEditProfileModal = () => {
     try {
