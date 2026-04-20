@@ -28,7 +28,7 @@ export const ProductListByPages = ({ allProducts,limit}) => {
           className="px-4 py-2 bg-gray-200 disabled:opacity-50"
         >
           Next
-          {console.log("productPage",productPage)}
+          {/* {console.log("productPage",productPage)} */}
         </button>
       </div>
     </div>
