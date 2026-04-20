@@ -5,13 +5,31 @@
 import { NavLink } from 'react-router';
 import WelcomeGuest from '../components/WelcomeGuest';
 import WelcomeUser from '../components/WelcomeUser';
+import {useEffect} from "react"
+import useUserStore from "../stores/user.store.js";
+
 
 const HomePage = () => {
+  const { user,getUserById } = useUserStore();
+
+    useEffect(() => {
+      getUserById();
+    }, [user]);
+
+    const userCheck =() =>{
+      // console.log("userCheck",user)
+      if(!user){
+        return <WelcomeGuest/>
+      }
+      return <WelcomeUser/>
+    }
+
+
   return (
     <div className="bg-surface text-on-surface font-body min-h-screen">
 
       <main className="">
-        <WelcomeGuest/>
+        {userCheck()}
         {/* <WelcomeUser/> */}
 
         {/* Ongoing Auctions (Masonry Style Grid) */}
