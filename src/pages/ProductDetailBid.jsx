@@ -31,7 +31,7 @@ const ProductDetailBid = () => {
                 <p>This masterful oil on canvas captures the ethereal atmosphere of Venice at the cusp of twilight. The artist demonstrates an extraordinary command of light, utilizing delicate glazes to render the shimmering reflections upon the canal's surface.</p>
               </div>
 
-              <div className="space-y-0 divide-y divide-[#e2bfb9]/30 border-t border-b border-[#e2bfb9]/30">
+              {/* <div className="space-y-0 divide-y divide-[#e2bfb9]/30 border-t border-b border-[#e2bfb9]/30">
                 {['Provenance', 'Exhibition History', 'Shipping Information'].map((title) => (
                   <details key={title} className="group py-6">
                     <summary className="flex justify-between items-center cursor-pointer list-none">
@@ -43,7 +43,7 @@ const ProductDetailBid = () => {
                     </div>
                   </details>
                 ))}
-              </div>
+              </div> */}
             </div>
           </div>
 

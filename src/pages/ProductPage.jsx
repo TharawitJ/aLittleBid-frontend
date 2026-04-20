@@ -158,7 +158,7 @@ const ProductPage = () => {
                           <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-600 mb-1 block">
                             {category.name}
                           </span>
-                          <h3 className="font-['Noto_Serif'] text-xl h-12">
+                          <h3 className="font-['Noto_Serif'] text-xl h-12 mr-2">
                             {i.name}
                           </h3>
                         </div>

@@ -5,6 +5,7 @@ import EditUserProfile from "../components/EditUserProfile";
 import EditUserAddress from "../components/EditUserAddress";
 import useUserStore from "../stores/user.store.js";
 import { useEffect, useState } from "react";
+import Swal from 'sweetalert2'
 
 const UserProfilePage = () => {
   const { logout, getUserById } = useUserStore();
@@ -25,11 +26,15 @@ const UserProfilePage = () => {
   const defaultAddress = userAddresses?.find((item) => item.isDefault === true);
   // console.log('defaultAddress', defaultAddress)
 
+  const isSeller = user?.role === "SELLER";
+
   const hdlOpenEditProfileModal = () => {
     try {
       document.getElementById("openeditprofile-modal").showModal();
     } catch (error) {
-      toast.error("cannot open modal");
+      Swal.fire({
+        title: "Cannot Open Modal"
+      })
     }
   };
 
@@ -37,7 +42,9 @@ const UserProfilePage = () => {
     try {
       document.getElementById("openeditaddress-modal").showModal();
     } catch (error) {
-      toast.error("cannot open modal");
+       Swal.fire({
+        title: "Cannot Open Modal"
+      })
     }
   };
 
@@ -70,15 +77,19 @@ const UserProfilePage = () => {
                   Watchlist
                 </span>
               </NavLink>
-              <NavLink
-                to="/seller_list_product"
-                className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300"
-                href="#"
-              >
-                <span className="text-sm tracking-wide uppercase font-medium">
-                  Consignments
-                </span>
-              </NavLink>
+              {isSeller && (
+                <NavLink
+                  to="/seller_list_product"
+                  className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300"
+                  href="#"
+                >
+                  <span className="text-sm tracking-wide uppercase font-medium">
+                    Consignments
+                  </span>
+                </NavLink>
+              )
+              }
+
 
               <div className="pt-8 mt-8 border-t border-outline-variant/30 flex">
                 <button
@@ -353,9 +364,9 @@ const UserProfilePage = () => {
           id="openeditaddress-modal"
           onClose={() => navigate("/user_profile")}
         >
-            <div className="modal-box">
-              <EditUserAddress defaultAddress={defaultAddress} />
-            </div>
+          <div className="modal-box">
+            <EditUserAddress defaultAddress={defaultAddress} />
+          </div>
         </dialog>
       </main>
       {/* Footer */}
