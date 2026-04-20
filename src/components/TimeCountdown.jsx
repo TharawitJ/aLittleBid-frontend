@@ -28,11 +28,11 @@ function TimeCountdown(product) {
 
   return (
     <>
-      <div className="grid grid-cols-4 gap-4">
-        <div key={product.id} className="border p-4 rounded-xl">
-          <div className="text-red-500 font-bold">{formatTime(diff)}</div>
+      {/* <div className="grid grid-cols-4 gap-4"> */}
+        <div key={product.id} className="rounded-xl">
+          <div className="material-symbols-outlined text-[16px] text-primary">{formatTime(diff)}</div>
         </div>
-      </div>
+      {/* </div> */}
     </>
   );
 }

@@ -75,7 +75,7 @@ const AuctionPage = () => {
                     </h4>
                     <p className="text-red text-lg font-semibold my-2">$18,200</p>
                     <span className="font-headline text-primary text-sm">
-                      Time Over: 59m 18s
+                      Time Left: 59m 18s
                     </span>
                   </div>
                   <div>
@@ -102,7 +102,7 @@ const AuctionPage = () => {
                     </h4>
                     <p className="text-red text-lg font-semibold my-2">$18,200</p>
                     <span className="font-headline text-primary text-sm">
-                      Time Over: 59m 18s
+                      Time Left: 59m 18s
                     </span>
                   </div>
                   <div>
@@ -129,7 +129,7 @@ const AuctionPage = () => {
                     </h4>
                     <p className="text-red text-lg font-semibold my-2">$18,200</p>
                     <span className="font-headline text-primary text-sm">
-                      Time Over: 59m 18s
+                      Time Left: 59m 18s
                     </span>
                   </div>
                   <div>
@@ -156,7 +156,7 @@ const AuctionPage = () => {
                     </h4>
                     <p className="text-red text-lg font-semibold my-2">$18,200</p>
                     <span className="font-headline text-primary text-sm">
-                      Time Over: 59m 18s
+                      Time Left: 59m 18s
                     </span>
                   </div>
                   <div>
@@ -204,9 +204,12 @@ const AuctionPage = () => {
               </div>
             </div>
             <div className="text-label text-s text-primary ml-1">
-              Time Over: less than 1 hour
+              Time Left: less than 1 hour
             </div>
           </div>
+            <div className="text-l font-semibold uppercase tracking-widest text-stone-600 mb-10 block">
+              Category :
+            </div>
         </section>
 
         {/* Asymmetric Product Grid */}
@@ -261,7 +264,7 @@ const AuctionPage = () => {
                     {product.title}
                   </h3>
 
-                  <span className="text-primary">Time Over: 50m 30s</span>
+                  <span className="text-primary">Time Left: 50m 30s</span>
                 </div>
 
                 <div className="text-center mx-3">

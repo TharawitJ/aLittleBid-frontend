@@ -79,7 +79,7 @@ const ProductPage = () => {
               );
               // console.log(category.name)
               return (
-                <div key={i.id} className="group cursor-pointer w-full">
+                <div key={i.id} className="group cursor-pointer w-full h-full">
                   <div className="relative overflow-hidden rounded-3xl">
                     <img
                       src={`${i.images[0].imageUrl}`}
@@ -94,16 +94,16 @@ const ProductPage = () => {
                     </div>
                     <div className="bg-base-300 rounded-b-3xl px-5 py-3">
                       <div className="flex justify-between items-start">
-                        <div className="flex flex-col min-w-[176px] min-h-[52px] grow-0">
+                        <div className="flex flex-col items-baseline min-w-[176px] min-h-[52px] grow-0">                          
                           <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-600 mb-1 block">
                             {category.name}
                           </span>
-                          <h3 className="font-['Noto_Serif'] text-xl">
+                          <h3 className="font-['Noto_Serif'] text-xl h-12">
                             {i.name}
                           </h3>
                         </div>
                         <div className="text-center min-w-[67px]">
-                          <span className="font-headline uppercase text-[10px] text-stone-600">
+                          <span className="font-headline uppercase text-[10px] text-primary">
                             Current Bid{" "}
                           </span>
                           <p className="font-['Noto_Serif'] text-lg text-red text-xl">
@@ -115,6 +115,7 @@ const ProductPage = () => {
                         <div className="flex items-center gap-2 text-stone-500">
                           <span className="material-symbols-outlined text-[16px] text-primary">
                             {/* <TimeCountdown product={i}/> */}
+                            <div>Time Left: <TimeCountdown/></div>
                           </span>
                         </div>
                         <button className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
