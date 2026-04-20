@@ -4,15 +4,15 @@ const AuctionPage = () => {
   // Populars sort by count users bid or bidding counts
   // Ongoing Auction change to sort product by lesser time's left
 
-  const scrollRef = useRef(null)
+//   const scrollRef = useRef(null)
 
-  const scroll = (direction) => {
-  if (scrollRef.current) {
-    const { scrollLeft, clientWidth } = scrollRef.current;
-    const scrollTo = direction === 'left' ? -clientWidth : clientWidth;
-    scrollRef.current.scrollBy({ left: scrollTo, behavior: 'smooth' });
-  }
-};
+//   const scroll = (direction) => {
+//   if (scrollRef.current) {
+//     const { scrollLeft, clientWidth } = scrollRef.current;
+//     const scrollTo = direction === 'left' ? -clientWidth : clientWidth;
+//     scrollRef.current.scrollBy({ left: scrollTo, behavior: 'smooth' });
+//   }
+// };
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
