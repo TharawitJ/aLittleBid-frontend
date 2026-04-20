@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from "react";
 import useProductStore from "../stores/product.store.js";
-import TimeCountdown from "../components/TimeCountdown.jsx"
+import TimeCountdown from "../components/TimeCountdown.jsx";
+import { ProductListByPages } from "../components/PageProducts.jsx";
 
 const ProductPage = () => {
-  const { allProducts, allCategories, getAllProducts, getCategories } =
-    useProductStore();
+  const {
+    productPage,
+    allProducts,
+    allCategories,
+    getAllProducts,
+    getCategories,
+  } = useProductStore();
   const [selectCategory, setSelectCategory] = useState("");
+
+
   const hdlCategorySelect = (value) => {
+    if(value==="All"){
+      // getAllProductsByCategory()
+      // return setSelectCategory()
+    }
     setSelectCategory(value);
     // Optional: Close dropdown by removing focus from the button
     if (document.activeElement instanceof HTMLElement) {
@@ -18,8 +30,14 @@ const ProductPage = () => {
     getAllProducts();
     getCategories();
   }, []);
-  // console.log(allCategories);
-  // allProducts.slice(0,20).map((i)=>console.log(i))
+
+  const limit = 20;
+  // 1. Calculate the slice indexes
+  const startIndex = (productPage - 1) * limit;
+  const endIndex = startIndex + limit;
+
+  // 2. Slice the data for display
+  const displayedProducts = allProducts.slice(startIndex, endIndex);
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
@@ -42,9 +60,6 @@ const ProductPage = () => {
             <h2 className="text-4xl font-['Noto_Serif'] text-red">
               All Products
             </h2>
-            <p className="mt-2 text-primary">
-              Showing {allProducts.length} curated auction lots
-            </p>
           </div>
           <div className="dropdown dropdown-center">
             <div
@@ -58,6 +73,7 @@ const ProductPage = () => {
               tabIndex="-1"
               className="dropdown-content menu bg-white text-dark-red rounded-box z-1 w-40 p-2 shadow-sm"
             >
+              <li onClick={() => hdlCategorySelect("All")}><a>All</a></li>
               {allCategories.map((item) => (
                 <li onClick={() => hdlCategorySelect(item.name)}>
                   <a>{item.name}</a>
@@ -69,11 +85,20 @@ const ProductPage = () => {
         <div className="text-l font-semibold uppercase tracking-widest text-stone-600 mb-1 block">
           Category : {selectCategory}
         </div>
+        <p className="mt-2  text-primary ">
+          <span className="text-gray-700 font-bold text-xl">
+            {allProducts.length}
+          </span>
+          <span className="text-gray-600 ml-2">Products in total</span>
+          <p className="text-black mt-1">
+            showing {startIndex + 1} - {endIndex}
+          </p>
+        </p>
 
         {/* Ongoing Auction Grid */}
         <section className="mt-10">
           <div className="md:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {allProducts.slice(0, 20).map((i) => {
+            {displayedProducts.map((i) => {
               const category = allCategories.find(
                 (cat) => cat.id === i.categoryId,
               );
@@ -81,11 +106,18 @@ const ProductPage = () => {
               return (
                 <div key={i.id} className="group cursor-pointer w-full h-full">
                   <div className="relative overflow-hidden rounded-3xl">
-                    <img
-                      src={`${i.images[0].imageUrl}`}
+                    {i.images?.[0]?.imageUrl && (
+                      <img
+                        src={i.images[0].imageUrl}
+                        alt="Product"
+                        className="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    )}
+                    {/* <img
+                      src={`${i.images[0].imageUrl || `fallback.jpg`}`}
                       alt="Lot"
                       className="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
+                    /> */}
                     <div className="absolute top-4 right-4 bg-[#fcf9f8]/70 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1">
                       <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></div>
                       <span className="font-['Manrope'] text-[9px] uppercase tracking-tighter">
@@ -130,6 +162,7 @@ const ProductPage = () => {
           </div>
         </section>
       </main>
+      <ProductListByPages allProducts={allProducts} limit={limit} />
     </div>
   );
 };

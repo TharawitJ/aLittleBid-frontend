@@ -31,7 +31,7 @@ const useUserStore = create()(
                     user: resp.data.responses,
                     userAddresses: resp.data.responses.addresses
                 })
-                // console.log('getuser',resp.data.responses.addresses)
+                // console.log('getuser',resp.data.responses)
                 return resp.data.responses
             },
 
@@ -46,11 +46,12 @@ const useUserStore = create()(
                     throw err;
                 }
             },
+
             editUserProfile: async (userId, data) => {
                 console.log('editaddress', data)
                 try {
                     const resp = await apiEditUserProfileById(userId, data)
-                    console.log('resp_editprofile', resp.data.responses)
+                    // console.log('resp_editprofile', resp.data.responses)
                      set({user: resp.data.responses,})
                     return resp.data.responses
                 } catch (error) {
@@ -58,6 +59,7 @@ const useUserStore = create()(
                     throw error
                 }
             },
+
             editUserAddress: async (userId, addressId, data) => {
                 console.log('editaddress', data)
                 try {
