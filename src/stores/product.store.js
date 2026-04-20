@@ -18,12 +18,12 @@ const useProductStore = create()(
 
     getAllProducts: async () => {
       const resp = await apiGetAllProducts();
-      console.log("getAllProducts", resp.data.responses);
+      // console.log("getAllProducts", resp.data.responses);
       set({ allProducts: resp.data.responses });
     },
     getCategories: async () => {
       const resp = await apiGetCategories();
-      console.log("getCategories", resp.data.responses);
+      // console.log("getCategories", resp.data.responses);
       set({ allCategories: resp.data.responses });
     },
     // apiGetProductsById

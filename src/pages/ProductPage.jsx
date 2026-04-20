@@ -6,20 +6,34 @@ import { ProductListByPages } from "../components/PageProducts.jsx";
 const ProductPage = () => {
   const {
     productPage,
+    setProductPage,
     allProducts,
     allCategories,
     getAllProducts,
     getCategories,
   } = useProductStore();
-  const [selectCategory, setSelectCategory] = useState("");
+  const [selectCategoryId, setSelectCategoryId] = useState("");
+  const [selectCategoryName, setSelectCategoryName] = useState("All");
+  // const [productByCategory, setProductByCategory] = useState("");
+  const [currentProducts, setCurrentProducts] = useState(allProducts);
 
+  const hdlCategorySelect = (id, name) => {
+    setSelectCategoryId(id);
+    setProductPage(1);
+    setSelectCategoryName(name);
+    console.log(id);
+    console.log(name);
 
-  const hdlCategorySelect = (value) => {
-    if(value==="All"){
-      // getAllProductsByCategory()
-      // return setSelectCategory()
+    // Use the ID from the argument, NOT the state
+    // This fixes the "one step slow" bug!
+    let filtered;
+    if (name === "All" || !id) {
+      filtered = allProducts;
+    } else {
+      filtered = allProducts.filter((p) => p.categoryId === id);
     }
-    setSelectCategory(value);
+    console.log(filtered);
+    setCurrentProducts(filtered);
     // Optional: Close dropdown by removing focus from the button
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
@@ -30,6 +44,11 @@ const ProductPage = () => {
     getAllProducts();
     getCategories();
   }, []);
+  console.log("currentProducts", currentProducts);
+
+  // useEffect(()=>{
+  //   setCurrentProducts(productByCategory)
+  // },[productByCategory])
 
   const limit = 20;
   // 1. Calculate the slice indexes
@@ -37,7 +56,7 @@ const ProductPage = () => {
   const endIndex = startIndex + limit;
 
   // 2. Slice the data for display
-  const displayedProducts = allProducts.slice(startIndex, endIndex);
+  const displayedProducts = currentProducts.slice(startIndex, endIndex);
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
@@ -73,21 +92,30 @@ const ProductPage = () => {
               tabIndex="-1"
               className="dropdown-content menu bg-white text-dark-red rounded-box z-1 w-40 p-2 shadow-sm"
             >
-              <li onClick={() => hdlCategorySelect("All")}><a>All</a></li>
+              <li onClick={() => hdlCategorySelect(null, "All")}>
+                <a className={selectCategoryId === null ? "active" : ""}>
+                  All Products
+                </a>
+              </li>
               {allCategories.map((item) => (
-                <li onClick={() => hdlCategorySelect(item.name)}>
-                  <a>{item.name}</a>
+                <li
+                  key={item.id}
+                  onClick={() => hdlCategorySelect(item.id, item.name)}
+                >
+                  <a className={selectCategoryId === item.id ? "active" : ""}>
+                    {item.name}
+                  </a>
                 </li>
               ))}
             </ul>
           </div>
         </div>
         <div className="text-l font-semibold uppercase tracking-widest text-stone-600 mb-1 block">
-          Category : {selectCategory}
+          Category : {selectCategoryName}
         </div>
         <p className="mt-2  text-primary ">
           <span className="text-gray-700 font-bold text-xl">
-            {allProducts.length}
+            {currentProducts.length}
           </span>
           <span className="text-gray-600 ml-2">Products in total</span>
           <p className="text-black mt-1">
@@ -162,7 +190,7 @@ const ProductPage = () => {
           </div>
         </section>
       </main>
-      <ProductListByPages allProducts={allProducts} limit={limit} />
+      <ProductListByPages allProducts={currentProducts} limit={limit} />
     </div>
   );
 };

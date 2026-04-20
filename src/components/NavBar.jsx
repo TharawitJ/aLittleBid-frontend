@@ -12,6 +12,7 @@ import useUserStore from "../stores/user.store.js";
 
 const NavBar = () => {
   const [isVisible, setIsVisible] = useState(true);
+  // const [isSeller, setIsSeller] = useState(false);
   const lastScrollY = useRef(0);
   const { user, logout } = useUserStore();
 
@@ -48,25 +49,9 @@ const NavBar = () => {
         ? "text-red border-b-2 border-red font-bold"
         : "text-[#5f5e5e] font-medium"
     }`;
-  const userIsSeller = () => {
-    // console.log(user.role)
-    if (user.role !== "SELLER") {
-      return;
-    }
-    return (
-      <li>
-        <NavLink
-          to="/seller_list_product"
-          className="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-colors rounded-lg"
-        >
-          <BagIcon />
-          <span className="font-label text-[12px] uppercase tracking-widest text-primary">
-            My products
-          </span>
-        </NavLink>
-      </li>
-    );
-  };
+
+  const isSeller = user?.role === "SELLER";
+
   return (
     <nav
       className={`sticky top-0 w-full z-50 flex justify-between items-center px-6 md:px-12 py-6 max-w-screen-2xl mx-auto bg-surface/70 backdrop-blur-md border-b-[0.5px] border-outline-variant/20 ${
@@ -131,7 +116,19 @@ const NavBar = () => {
                 </span>
               </NavLink>
             </li>
-            {userIsSeller()}
+            {isSeller && (
+              <li>
+                <NavLink
+                  to="/seller_list_product"
+                  className="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-colors rounded-lg"
+                >
+                  <BagIcon />
+                  <span className="font-label text-[12px] uppercase tracking-widest text-primary">
+                    My products
+                  </span>
+                </NavLink>
+              </li>
+            )}
             <li>
               <button
                 className="flex items-center gap-3 px-4 py-2 
