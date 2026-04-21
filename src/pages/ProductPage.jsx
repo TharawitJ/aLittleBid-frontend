@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import useProductStore from "../stores/product.store.js";
 import TimeCountdown from "../components/TimeCountdown.jsx";
 import { ProductListByPages } from "../components/productPage/PageProducts.jsx";
-import { ProductCard } from "../components/productPage/ProductCard.jsx";
-
+import DisplayProducts from "../components/productPage/DisplayProducts.jsx"
 const ProductPage = () => {
   const {
     productPage,
@@ -22,8 +21,6 @@ const ProductPage = () => {
     setSelectCategoryId(id);
     setProductPage(1);
     setSelectCategoryName(name);
-    // console.log(id);
-    // console.log(name);
 
     // Use the ID from the argument, NOT the state
     // This fixes the "one step slow" bug!
@@ -33,7 +30,6 @@ const ProductPage = () => {
     } else {
       filtered = allProducts.filter((p) => p.categoryId === id);
     }
-    console.log(filtered);
     setCurrentProducts(filtered);
     // Optional: Close dropdown by removing focus from the button
     if (document.activeElement instanceof HTMLElement) {
@@ -45,19 +41,15 @@ const ProductPage = () => {
     getAllProducts();
     getCategories();
   }, []);
-  console.log("currentProducts", currentProducts);
+  // console.log("currentProducts", currentProducts);
 
-  // useEffect(()=>{
-  //   setCurrentProducts(productByCategory)
-  // },[productByCategory])
 
   const limit = 20;
   // 1. Calculate the slice indexes
   const startIndex = (productPage - 1) * limit;
   const endIndex = startIndex + limit;
-
   // 2. Slice the data for display
-  const displayedProducts = currentProducts.slice(startIndex, endIndex);
+  const displayProducts = currentProducts.slice(startIndex, endIndex);
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
@@ -114,7 +106,7 @@ const ProductPage = () => {
         <div className="text-l font-semibold uppercase tracking-widest text-stone-600 mb-1 block">
           Category : {selectCategoryName}
         </div>
-        <p className="mt-2  text-primary ">
+        <div className="mt-2  text-primary ">
           <span className="text-gray-700 font-bold text-xl">
             {currentProducts.length}
           </span>
@@ -122,12 +114,13 @@ const ProductPage = () => {
           <p className="text-black mt-1">
             showing {startIndex + 1} - {endIndex}
           </p>
-        </p>
+        </div>
 
         {/* Ongoing Auction Grid */}
         <section className="mt-10">
           <div className="md:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <ProductCard displayedProducts={displayedProducts} allCategories={allCategories}/>
+            <DisplayProducts displayProducts={displayProducts} allCategories={allCategories}/>
+
           </div>
         </section>
       </main>

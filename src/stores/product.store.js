@@ -13,8 +13,9 @@ const useProductStore = create()(
   persist((set, get) => ({
     allProducts: [],
     allCategories: [],
+    productById:[],
     productPage: 1,
-    setProductPage:(page)=>set({productPage:page}),
+    setProductPage: (page) => set({ productPage: page }),
 
     getAllProducts: async () => {
       const resp = await apiGetAllProducts();
@@ -26,7 +27,11 @@ const useProductStore = create()(
       // console.log("getCategories", resp.data.responses);
       set({ allCategories: resp.data.responses });
     },
-    // apiGetProductsById
+    getProductsById: async(id)=>{
+      const resp = await apiGetProductsById(id)
+      set({productById:resp.data.responses})
+      console.log("getProductsById",resp.data.responses )
+    }
     // apiCreateProduct
     // apiUpdateProduct
     // apiDeleteProduct

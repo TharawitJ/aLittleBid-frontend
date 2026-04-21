@@ -1,9 +1,18 @@
 import React from "react";
+import useProductStore from "../../stores/product.store.js"
+import { useNavigate } from "react-router";
 
-function ProductCard({displayedProducts,allCategories}) {
+function DisplayProducts({displayProducts,allCategories}) {
+    const navigate = useNavigate();
+    const getProductsById = useProductStore((state)=>state.getProductsById)
+    const hdlJoinClick=(id)=>{
+        getProductsById(id)
+        navigate(`/product_detail_bid`)
+    }
+
   return (
     <>
-      {displayedProducts.map((i) => {
+      {displayProducts.map((i) => {
         const category = allCategories.find((cat) => cat.id === i.categoryId);
         // console.log(category.name)
         return (
@@ -50,7 +59,7 @@ function ProductCard({displayedProducts,allCategories}) {
                       {/* <TimeCountdown product={i}/> */}
                     </span>
                   </div>
-                  <button className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
+                  <button onClick={(()=>hdlJoinClick(i.id))} className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
                     Join
                   </button>
                 </div>
@@ -63,4 +72,4 @@ function ProductCard({displayedProducts,allCategories}) {
   );
 }
 
-export default ProductCard;
+export default DisplayProducts;

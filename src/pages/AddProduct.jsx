@@ -5,25 +5,6 @@ const AddProduct = () => {
   return (
     <div className="min-h-screen bg-[#fbf9f6] text-[#1b1c1a] font-['Manrope'] selection:bg-[#9e1b1b] selection:text-white">
       <main className="pt-8 pb-24 px-6 md:px-24 max-w-[1440px] mx-auto">
-        {/* Stepper
-        <div className="mb-20 flex flex-wrap gap-y-6 justify-between items-center max-w-4xl border-b border-[#e1bebb]/15 pb-8">
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-bold text-[#7a0009] tracking-[0.2em] uppercase">01. ITEM DETAILS</span>
-            <div className="h-px w-8 bg-[#7a0009]"></div>
-          </div>
-          <div className="flex items-center gap-3 text-[#59413e]/40">
-            <span className="text-xs font-bold tracking-[0.2em] uppercase">02. MEDIA</span>
-            <div className="h-px w-8 bg-[#e1bebb]/40"></div>
-          </div>
-          <div className="flex items-center gap-3 text-[#59413e]/40">
-            <span className="text-xs font-bold tracking-[0.2em] uppercase">03. VALUATION</span>
-            <div className="h-px w-8 bg-[#e1bebb]/40"></div>
-          </div>
-          <div className="flex items-center text-[#59413e]/40">
-            <span className="text-xs font-bold tracking-[0.2em] uppercase">04. REVIEW</span>
-          </div>
-        </div> */}
-
         {/* Two Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Left Side: Forms */}
@@ -40,7 +21,7 @@ const AddProduct = () => {
                     <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">Product Name</label>
                     <input
                       type="text"
-                      placeholder=""
+                      placeholder="Product Name"
                       className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
                     />
                   </div>
@@ -83,9 +64,12 @@ const AddProduct = () => {
                   </div>
                   <div className="flex flex-col">
                     <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">End Time</label>
-                    <input 
-                    type="datetime-local"
-                    className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"/>
+                    <select name="endTime"
+                    className="min-h-[37px] border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30">
+                      <option value="1">1 day</option>
+                      <option value="3">3 day</option>
+                      <option value="5">5 day</option>
+                    </select>
                   </div>
                   <div className="flex flex-col">
                     <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">Starting Price (Bath)</label>

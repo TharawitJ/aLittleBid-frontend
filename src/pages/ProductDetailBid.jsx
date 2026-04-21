@@ -1,6 +1,19 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import useProductStore from "../stores/product.store.js"
+import useAuctionStore from "../stores/auction.store.js"
 
 const ProductDetailBid = () => {
+  const {productById,allCategories} = useProductStore()
+  const {allAuction,getAllAuction} = useAuctionStore()
+  const {id,categoryId,name,description,sellerId,updatedAt,images}=productById
+  useEffect(()=>{
+    getAllAuction()
+  })
+  console.log("allAuction",allAuction)
+  // console.log("allCategories",allCategories)
+  const filterCategoryName = allCategories.filter((cate)=>categoryId===cate.id)
+  // console.log("filterCategoryName",filterCategoryName)
+
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
       <main className="pt-12 pb-24 px-6 md:px-12 max-w-screen-2xl mx-auto text-left">
@@ -10,7 +23,7 @@ const ProductDetailBid = () => {
             <div className="relative group">
               <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-lg bg-[#f6f3f2]">
                 <img 
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXC3ayMh7zrKD4kqAbHUj-vUngJsvTQ2dp8oLwCCVbXrTiorzfjaR-HHips2w2cvWQ2WkPjbUNoTDj9gZZMPiFTACd_zrU-npaN2pPTJnFAPTlU-MFL_ZMPOWcvX6G_0of4QDmZEyOeAY5al-5bP3zdaynf2uhl44KrmkvDq-kzXKiAXkutSME5UJQ1HSEARIfHFzH9pnw4oC91Fm96gjfWj4UXtjvHO4B_mFpFFjeydwFzX8ggyeueCdLuY3X37ep5QZr5-w-gCil" 
+                  src={images[0].imageUrl}
                   alt="Artwork" 
                   className="w-full h-full object-cover"
                 />
@@ -22,13 +35,13 @@ const ProductDetailBid = () => {
 
             <div className="space-y-12">
               <div className="space-y-4">
-                <span className="font-['Manrope'] uppercase tracking-widest text-[10px] text-[#570000] font-bold">Lot 42 • Impressionist Evening</span>
-                <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">Twilight over the Grand Canal</h1>
+                <span className="font-['Manrope'] uppercase tracking-widest text-lg text-[#570000] font-bold">{filterCategoryName[0].name}</span>
+                <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">{name}</h1>
                 <p className="text-xl font-['Noto_Serif'] italic text-[#5e5e5e]">Attributed to Francesco Guardi (1712–1793)</p>
               </div>
 
               <div className="max-w-none text-lg text-[#5a413d] leading-relaxed font-light space-y-4">
-                <p>This masterful oil on canvas captures the ethereal atmosphere of Venice at the cusp of twilight. The artist demonstrates an extraordinary command of light, utilizing delicate glazes to render the shimmering reflections upon the canal's surface.</p>
+                <p>{description}</p>
               </div>
 
               <div className="space-y-0 divide-y divide-[#e2bfb9]/30 border-t border-b border-[#e2bfb9]/30">
@@ -68,7 +81,7 @@ const ProductDetailBid = () => {
                     <label className="font-['Manrope'] uppercase tracking-widest text-[10px] text-stone-500">Your Bid</label>
                     <div className="relative flex items-center">
                       <span className="absolute left-4 text-stone-400">€</span>
-                      <input type="number" placeholder="49,000" className="w-full bg-[#ebe7e7] border-none rounded-sm py-4 pl-8 pr-4 focus:ring-1 focus:ring-[#570000] focus:bg-white transition-all outline-none" />
+                      <input type="number" className="w-full bg-[#ebe7e7] border-none rounded-sm py-4 pl-8 pr-4 focus:ring-1 focus:ring-[#570000] focus:bg-white transition-all outline-none"/>
                     </div>
                   </div>
                   <button className="w-full bg-gradient-to-r from-[#570000] to-[#800000] text-white font-['Manrope'] uppercase tracking-widest py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold">
