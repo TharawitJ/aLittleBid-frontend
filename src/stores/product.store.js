@@ -13,7 +13,7 @@ const useProductStore = create()(
   persist((set, get) => ({
     allProducts: [],
     allCategories: [],
-    productById:[],
+    productById: [],
     productPage: 1,
     setProductPage: (page) => set({ productPage: page }),
 
@@ -27,13 +27,16 @@ const useProductStore = create()(
       // console.log("getCategories", resp.data.responses);
       set({ allCategories: resp.data.responses });
     },
-    getProductsById: async(id)=>{
-      console.log(typeof id)
-      const resp = await apiGetProductsById(id)
-      console.log("getProductsById",resp)
-      set({productById:resp.data.responses})
-    }
-    // apiCreateProduct
+    getProductsById: async (id) => {
+      const resp = await apiGetProductsById(id);
+      set({ productById: resp.data.responses });
+      console.log("getProductsById", resp.data.responses);
+    },
+    createProduct: async (body) => {
+      const resp = await apiCreateProduct(body);
+      set({ allProducts: resp.data.responses });
+      console.log("allProductsAfterCreate", resp.data.responses);
+    },
     // apiUpdateProduct
     // apiDeleteProduct
   })),

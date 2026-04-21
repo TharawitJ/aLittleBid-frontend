@@ -1,6 +1,6 @@
-import React from "react";
+import React, { Suspense } from "react";
 import MainLayout from "../layouts/mainLayout.jsx";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router";
 import UserProfilePage from "../pages/UserProfilePage.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import AuctionPage from "../pages/AuctionPage.jsx";
@@ -14,10 +14,17 @@ import Payment from "../pages/Payment.jsx";
 // import ActiveBid from "../pages/ActiveBid.jsx";
 import Favorite from "../pages/Favorite.jsx";
 import ActiveBid from "../pages/ActiveBid.jsx";
+
 import LoginPage from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";
+import useUserStore from "../stores/user.store.js";
 
-const Router = createBrowserRouter([
+const guestRouter = createBrowserRouter([
+  { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <Register /> },
+  { path: "*", element: <HomePage /> },
+]);
+const userRouter = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
@@ -40,4 +47,14 @@ const Router = createBrowserRouter([
   },
 ]);
 
-export default Router;
+function AppRouter() {
+  const user = useUserStore((state) => state.user);
+  const finalRouter = user ? userRouter : guestRouter;
+  return (
+    <Suspense>
+      {<RouterProvider router={finalRouter}></RouterProvider>}
+    </Suspense>
+  );
+}
+
+export default AppRouter;
