@@ -7,7 +7,7 @@ const useSocketStore = create()(persist((set, get) => ({
     connect: () => {
         if (!get().socket) {
             const newSocket = io('http://localhost:3000', {
-                // auth: { token: localStorage.getItem('token') }
+                auth: { token: localStorage.getItem('token') }
             });
 
             newSocket.on('connect', () => {

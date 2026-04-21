@@ -15,6 +15,8 @@ mainApi.interceptors.request.use((config) => {
   return config;
 });
 
+
+
 // api Path connecting with backend using by zustand at stores
 
 // USERS
@@ -26,19 +28,23 @@ export const apiDeleteUserById=(userid)=>mainApi.delete(`/users/${userid}`);
 export const apiEditUserProfileById=(userId, data)=>mainApi.patch(`/users/${userId}`, data);
 export const apiEditUserAddressById=(userId, addressId, data)=>mainApi.patch(`/users/${userId}/addresses/${addressId}`, data);
 
-// export const apiEditUserProfileById = (userId, authId, data) => mainApi.patch(`/users/${userId}`,data);
-
 // PRODUCTS
 export const apiGetCategories = () => mainApi.get(`/products/categories`);
 export const apiGetAllProducts = () => mainApi.get(`/products`);
-export const apiGetProductsById = (productId) => mainApi.get(`/products/${productId}`);
+export const apiGetProductsById = (productId) =>
+  mainApi.get(`/products/${productId}`);
 export const apiCreateProduct = () => mainApi.post(`/products`);
-export const apiUpdateProduct = (productId) => mainApi.patch(`/products/${productId}`);
-export const apiDeleteProduct = (productId) => mainApi.delete(`/products/${productId}`);
+export const apiUpdateProduct = (productId) =>
+  mainApi.patch(`/products/${productId}`);
+export const apiDeleteProduct = (productId) =>
+  mainApi.delete(`/products/${productId}`);
 
 // AUCTION
 export const apiGetAllAuction = () => mainApi.get(`/auctions`);
 export const apiCreateAuction = () => mainApi.post(`/auctions`);
-export const apiGetAuctionById = (auctionId) => mainApi.get(`/auctions/${auctionId}`);
-export const apiUpdateAuction = (auctionId) => mainApi.patch(`/auctions/${auctionId}`);
-export const apiDeleteAuction = (auctionId) => mainApi.delete(`/auctions/${auctionId}`);
+export const apiGetAuctionById = (auctionId) =>
+  mainApi.get(`/auctions/${auctionId}`);
+export const apiUpdateAuction = (auctionId) =>
+  mainApi.patch(`/auctions/${auctionId}`);
+export const apiDeleteAuction = (auctionId) =>
+  mainApi.delete(`/auctions/${auctionId}`);
