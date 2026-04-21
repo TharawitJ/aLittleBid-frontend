@@ -1,10 +1,6 @@
 import React from 'react'
-<<<<<<< HEAD:src/components/homePage/WelcomeGuest.jsx
 import blackwatches from '../../assets/blackwatches.jpeg'
-=======
-import blackwatches from '../assets/blackwatches.jpeg'
 import {useNavigate} from "react-router"
->>>>>>> dev:src/components/WelcomeGuest.jsx
 
 function WelcomeGuest() {
   const navigate = useNavigate();

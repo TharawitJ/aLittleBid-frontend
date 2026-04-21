@@ -1,6 +1,6 @@
-import React,{Suspense} from "react";
+import React, { Suspense } from "react";
 import MainLayout from "../layouts/mainLayout.jsx";
-import { createBrowserRouter,RouterProvider } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router";
 import UserProfilePage from "../pages/UserProfilePage.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import AuctionPage from "../pages/AuctionPage.jsx";
@@ -20,9 +20,9 @@ import Register from "../pages/Register.jsx";
 import useUserStore from "../stores/user.store.js";
 
 const guestRouter = createBrowserRouter([
-  { path: "/", element: <HomePage /> },
   { path: "/login", element: <LoginPage /> },
   { path: "/register", element: <Register /> },
+  { path: "*", element: <HomePage /> },
 ]);
 const userRouter = createBrowserRouter([
   {
