@@ -14,7 +14,7 @@ const useProductStore = create()(
     allProducts: [],
     allCategories: [],
     productPage: 1,
-    setProductPage:(page)=>set({productPage:page}),
+    setProductPage: (page) => set({ productPage: page }),
 
     getAllProducts: async () => {
       const resp = await apiGetAllProducts();
@@ -27,6 +27,11 @@ const useProductStore = create()(
       set({ allCategories: resp.data.responses });
     },
     // apiGetProductsById
+    getProductsById: async (id) => {
+      const resp = await apiGetProductsById(id);
+      // console.log("getProductsById", resp.data.responses);
+      set({ productById: resp.data.responses });
+    },
     // apiCreateProduct
     // apiUpdateProduct
     // apiDeleteProduct

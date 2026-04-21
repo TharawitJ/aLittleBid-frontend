@@ -35,3 +35,10 @@ export const apiGetProductsById = (productId) => mainApi.get(`/products/${produc
 export const apiCreateProduct = () => mainApi.post(`/products`);
 export const apiUpdateProduct = (productId) => mainApi.patch(`/products/${productId}`);
 export const apiDeleteProduct = (productId) => mainApi.delete(`/products/${productId}`);
+
+// AUCTION
+export const apiGetAllAuction = () => mainApi.get(`/auctions`);
+export const apiCreateAuction = () => mainApi.post(`/auctions`);
+export const apiGetAuctionById = (auctionId) => mainApi.get(`/auctions/${auctionId}`);
+export const apiUpdateAuction = (auctionId) => mainApi.patch(`/auctions/${auctionId}`);
+export const apiDeleteAuction = (auctionId) => mainApi.delete(`/auctions/${auctionId}`);
