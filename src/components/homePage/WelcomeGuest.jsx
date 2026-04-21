@@ -1,5 +1,5 @@
 import React from 'react'
-import blackwatches from '../assets/blackwatches.jpeg'
+import blackwatches from '../../assets/blackwatches.jpeg'
 
 function WelcomeGuest() {
   return (

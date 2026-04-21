@@ -1,8 +1,8 @@
 import { NavLink, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { LogoutIcon } from "../icons";
-import EditUserProfile from "../components/EditUserProfile";
-import EditUserAddress from "../components/EditUserAddress";
+import EditUserProfile from "../components/userPage/EditUserProfile";
+import EditUserAddress from "../components/userPage/EditUserAddress";
 import useUserStore from "../stores/user.store.js";
 import { useEffect, useState, useMemo } from "react";
 

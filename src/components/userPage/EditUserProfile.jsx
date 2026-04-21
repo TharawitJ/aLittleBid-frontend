@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import useUserStore from "../stores/user.store";
+import useUserStore from "../../stores/user.store";
 import Swal from "sweetalert2";
 
 function EditUserProfile() {
