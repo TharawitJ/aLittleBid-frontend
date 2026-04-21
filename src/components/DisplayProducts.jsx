@@ -6,6 +6,7 @@ function DisplayProducts({displayProducts,allCategories}) {
     const navigate = useNavigate();
     const getProductsById = useProductStore((state)=>state.getProductsById)
     const hdlJoinClick=(id)=>{
+      console.log('id', id)
         getProductsById(id)
         navigate(`/product_detail_bid`)
     }

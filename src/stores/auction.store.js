@@ -7,11 +7,16 @@ import {
   apiUpdateAuction,
   apiDeleteAuction,
 } from "../api/apiMain.js";
+import { connect } from "socket.io-client";
 
 const useAuctionStore = create()(
   persist((set, get) => ({
     allAuction: null,
     auctionById: null,
+    socket: null,
+    connect: () => {
+      
+    },
     getAllAuction: async () => {
       const resp = await apiGetAllAuction;
       console.log("apiGetAllAuction",apiGetAllAuction)

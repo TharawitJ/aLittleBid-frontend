@@ -25,13 +25,13 @@ const useUserStore = create()(
             },
 
             getUserById: async () => {
-                const id = 61
+                const id = 13
                 const resp = await apiGetUserById(id);
                 set({
                     user: resp.data.responses,
                     userAddresses: resp.data.responses.addresses
                 })
-                // console.log('getuser',resp.data.responses)
+                console.log('getuser',resp.data.responses)
                 return resp.data.responses
             },
 

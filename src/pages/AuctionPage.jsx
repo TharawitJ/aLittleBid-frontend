@@ -16,54 +16,54 @@ const AuctionPage = () => {
   //   }
   // };
 
-  // const { auctionRoom } = useParams()
-  // const [timeLeft, setTimeLeft] = useState(0)
-  // const socketRef = useRef(null)
+  const { auctionRoom } = useParams()
+  const [timeLeft, setTimeLeft] = useState(0)
+  const socketRef = useRef(null)
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token')
+  useEffect(() => {
+    const token = localStorage.getItem('token')
 
-  //   socketRef.current = io('http://localhost:3000', {
-  //     auth: { token }
-  //   })
+    socketRef.current = io('http://localhost:3000', {
+      auth: { token }
+    })
 
-  //   socketRef.current.on("connect", () => {
-  //     console.log('connected', socketRef.current.id)
-  //   })
+    socketRef.current.on("connect", () => {
+      console.log('connected', socketRef.current.id)
+    })
 
-  //   socketRef.current.emit('join', { auctionId: auctionRoom })
+    socketRef.current.emit('join', { auctionId: auctionRoom })
 
-  //   return () => {
-  //     socketRef.current.disconnect()
-  //   }
-  // }, [auctionRoom])
+    return () => {
+      socketRef.current.disconnect()
+    }
+  }, [auctionRoom])
 
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   socketRef.current.on()("bid:update", (newBid) => {
-  //     setBid(newBid)
-  //   })
+    socketRef.current.on()("bid:update", (newBid) => {
+      setBid(newBid)
+    })
 
-  //    socketRef.current.on("auction:timer", (data) => {
-  //     setTimeLeft(data.timeLeft)
-  //   })
+     socketRef.current.on("auction:timer", (data) => {
+      setTimeLeft(data.timeLeft)
+    })
 
-  //   const formatTime = (ms) => {
-  //     if (ms <= 0) return { h: "00", m: "00", s: "00" };
-  //     const seconds = Math.floor((ms / 1000) % 60);
-  //     const minutes = Math.floor((ms / (1000 * 60)) % 60);
-  //     const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
-  //     return {
-  //       h: hours.toString().padStart(2, '0'),
-  //       m: minutes.toString().padStart(2, '0'),
-  //       s: seconds.toString().padStart(2, '0')
-  //     };
-  //   };
+    const formatTime = (ms) => {
+      if (ms <= 0) return { h: "00", m: "00", s: "00" };
+      const seconds = Math.floor((ms / 1000) % 60);
+      const minutes = Math.floor((ms / (1000 * 60)) % 60);
+      const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+      return {
+        h: hours.toString().padStart(2, '0'),
+        m: minutes.toString().padStart(2, '0'),
+        s: seconds.toString().padStart(2, '0')
+      };
+    };
 
-  //   const time = formatTime(timeLeft);
+    const time = formatTime(timeLeft);
 
-  // }, [])
+  }, [])
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">

@@ -28,9 +28,10 @@ const useProductStore = create()(
       set({ allCategories: resp.data.responses });
     },
     getProductsById: async(id)=>{
+      console.log(typeof id)
       const resp = await apiGetProductsById(id)
+      console.log("getProductsById",resp)
       set({productById:resp.data.responses})
-      console.log("getProductsById",resp.data.responses )
     }
     // apiCreateProduct
     // apiUpdateProduct
