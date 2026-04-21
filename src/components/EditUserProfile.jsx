@@ -17,7 +17,7 @@ function EditUserProfile() {
 
   useEffect(() => {
     getUserById();
-  }, [user, editUserProfile]);
+  }, []);
 
   const onSubmit = async (data) => {
     console.log("dataaa", data);

@@ -38,7 +38,6 @@ const AuctionPage = () => {
     }
   }, [auctionRoom])
 
-
   useEffect(() => {
 
     socketRef.current.on()("bid:update", (newBid) => {

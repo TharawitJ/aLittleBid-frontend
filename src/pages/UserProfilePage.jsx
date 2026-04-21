@@ -4,8 +4,12 @@ import { LogoutIcon } from "../icons";
 import EditUserProfile from "../components/EditUserProfile";
 import EditUserAddress from "../components/EditUserAddress";
 import useUserStore from "../stores/user.store.js";
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import Swal from 'sweetalert2'
+=======
+import { useEffect, useState, useMemo } from "react";
+>>>>>>> dev
 
 const UserProfilePage = () => {
   const { logout, getUserById } = useUserStore();
@@ -18,12 +22,16 @@ const UserProfilePage = () => {
   // useEffect(() => {
   //   getUserById();
   // }, [user]);
+   // In UserProfilePage.jsx
 
+   const defaultAddress = useMemo(() => {
+     return userAddresses?.find((item) => item.isDefault === true);
+   }, [userAddresses]); 
+  
   if (!user) return <div>Loading...</div>;
 
   const { id, username, email, firstname, lastname, phone, role } = user;
 
-  const defaultAddress = userAddresses?.find((item) => item.isDefault === true);
   // console.log('defaultAddress', defaultAddress)
 
   const isSeller = user?.role === "SELLER";
