@@ -28,7 +28,6 @@ export const apiEditUserAddressById = (userId, addressId, data) =>
 export const apiEditUserProfileById = (userId, authId, data) => mainApi.patch(`/users/${userId}`,data);
 
 // PRODUCTS
-// export const app.use('/api/products', productRoutes);
 export const apiGetCategories = () => mainApi.get(`/products/categories`);
 export const apiGetAllProducts = () => mainApi.get(`/products`);
 export const apiGetProductsById = (productId) => mainApi.get(`/products/${productId}`);
