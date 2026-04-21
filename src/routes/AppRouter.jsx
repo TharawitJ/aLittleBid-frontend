@@ -1,24 +1,33 @@
-import React from "react";
+import React,{Suspense} from "react";
 import MainLayout from "../layouts/mainLayout.jsx";
-import  {createBrowserRouter} from "react-router";
-import UserProfilePage from "../pages/UserProfilePage.jsx"
+import { createBrowserRouter,RouterProvider } from "react-router";
+import UserProfilePage from "../pages/UserProfilePage.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import AuctionPage from "../pages/AuctionPage.jsx";
-import SellerUserListProduct from "../pages/SellerListProduct.jsx"
-import ProductPageForSeller from "../pages/ProductPageForSeller"
-import ProductDetailBid from "../pages/ProductDetailBid"
-import ProductPage from "../pages/ProductPage"
-import AddProduct from "../pages/AddProduct.jsx"
-import OrderList from "../pages/OrderList.jsx"
-import Payment from "../pages/Payment.jsx"
+import SellerUserListProduct from "../pages/SellerListProduct.jsx";
+import ProductPageForSeller from "../pages/ProductPageForSeller";
+import ProductDetailBid from "../pages/ProductDetailBid";
+import ProductPage from "../pages/ProductPage";
+import AddProduct from "../pages/AddProduct.jsx";
+import OrderList from "../pages/OrderList.jsx";
+import Payment from "../pages/Payment.jsx";
 // import ActiveBid from "../pages/ActiveBid.jsx";
 import Favorite from "../pages/Favorite.jsx";
 import ActiveBid from "../pages/ActiveBid.jsx";
 
-const Rounter = createBrowserRouter([
+import LoginPage from "../pages/Login.jsx";
+import Register from "../pages/Register.jsx";
+import useUserStore from "../stores/user.store.js";
+
+const guestRouter = createBrowserRouter([
+  { path: "/", element: <HomePage /> },
+  { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <Register /> },
+]);
+const userRouter = createBrowserRouter([
   {
     path: "/",
-    element:<MainLayout/>,
+    element: <MainLayout />,
     children: [
       { index: true, element: <HomePage /> },
       { path: "user_profile", element: <UserProfilePage /> },
@@ -32,8 +41,20 @@ const Rounter = createBrowserRouter([
       { path: "my_order_list", element: <OrderList /> },
       { path: "favorite", element: <Favorite /> },
       { path: "payment", element: <Payment /> },
+      { path: "login", element: <LoginPage /> },
+      { path: "register", element: <Register /> },
     ],
   },
 ]);
 
-export default Rounter;
+function AppRouter() {
+  const user = useUserStore((state) => state.user);
+  const finalRouter = user ? userRouter : guestRouter;
+  return (
+    <Suspense>
+      {<RouterProvider router={finalRouter}></RouterProvider>}
+    </Suspense>
+  );
+}
+
+export default AppRouter;

@@ -1,12 +1,13 @@
-import React from "react"
+import React from "react";
+import { RouterProvider } from "react-router";
 import AppRouter from "./routes/AppRouter.jsx";
-import { RouterProvider } from "react-router"
 
 function App() {
   return (
     <>
-      <RouterProvider router={AppRouter} />
+      <AppRouter />
     </>
-  )};
+  );
+}
 
-  export default App
+export default App;

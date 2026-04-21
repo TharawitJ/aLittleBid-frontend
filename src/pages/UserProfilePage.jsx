@@ -15,9 +15,8 @@ const UserProfilePage = () => {
   const navigate = useNavigate();
 
   // useEffect(() => {
-  //   getUserById();
+  //   getUserById(id);
   // }, [user]);
-   // In UserProfilePage.jsx
 
    const defaultAddress = useMemo(() => {
      return userAddresses?.find((item) => item.isDefault === true);
