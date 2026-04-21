@@ -1,6 +1,6 @@
 import { Link, NavLink } from 'react-router'
-import auction_sold from '../assets/auction_sold.jpeg'
-import useUserStore from "../stores/user.store.js";
+import auction_sold from '../../assets/auction_sold.jpeg'
+import useUserStore from "../../stores/user.store.js";
 
 
 function WelcomeUser() {

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import useUserStore from "../stores/user.store";
+import useUserStore from "../../stores/user.store";
 
 function EditUserAddress({ defaultAddress }) {
-  console.log("addressesmodal", defaultAddress);
+  // console.log("addressesmodal", defaultAddress);
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, reset, watch, setValue, formState } = useForm(
     {
@@ -17,7 +17,7 @@ function EditUserAddress({ defaultAddress }) {
   useEffect(() => {
     if (defaultAddress) {
       reset(defaultAddress);
-  console.log("useEffect", defaultAddress);
+  // console.log("useEffect", defaultAddress);
 
     }
   }, [defaultAddress, reset]);
@@ -29,7 +29,7 @@ function EditUserAddress({ defaultAddress }) {
   const editUserAddress = useUserStore((state) => state.editUserAddress);
 
   const onSubmit = async (body) => {
-    console.log("Data", body);
+    // console.log("Data", body);
     setIsLoading(true);
     try {
       const resp = await editUserAddress(user.id, defaultAddress.id, body);

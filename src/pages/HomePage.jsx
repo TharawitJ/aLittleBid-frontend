@@ -3,8 +3,8 @@
 // import auction_sold from '../assets/auction_sold.jpeg'
 // import auction from '../assets/auction.jpeg'
 import { NavLink } from 'react-router';
-import WelcomeGuest from '../components/WelcomeGuest';
-import WelcomeUser from '../components/WelcomeUser';
+import WelcomeGuest from '../components/homePage/WelcomeGuest';
+import WelcomeUser from '../components/homePage/WelcomeUser';
 import {useEffect} from "react"
 import useUserStore from "../stores/user.store.js";
 

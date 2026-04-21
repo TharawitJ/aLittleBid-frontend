@@ -1,5 +1,5 @@
 import React from "react";
-import useProductStore from "../stores/product.store.js"
+import useProductStore from "../../stores/product.store.js"
 import { useNavigate } from "react-router";
 
 function DisplayProducts({displayProducts,allCategories}) {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import useProductStore from "../stores/product.store.js";
 import TimeCountdown from "../components/TimeCountdown.jsx";
-import { ProductListByPages } from "../components/PageProducts.jsx";
-import DisplayProducts from "../components/DisplayProducts.jsx"
+import { ProductListByPages } from "../components/productPage/PageProducts.jsx";
+import DisplayProducts from "../components/productPage/DisplayProducts.jsx"
 const ProductPage = () => {
   const {
     productPage,

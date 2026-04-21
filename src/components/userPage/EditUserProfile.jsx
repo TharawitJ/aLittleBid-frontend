@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import useUserStore from "../stores/user.store";
+import useUserStore from "../../stores/user.store";
 import Swal from "sweetalert2";
 
 function EditUserProfile() {
@@ -20,7 +20,7 @@ function EditUserProfile() {
   }, []);
 
   const onSubmit = async (data) => {
-    console.log("dataaa", data);
+    // console.log("dataaa", data);
     setIsLoading(true);
     try {
       const resp = await editUserProfile(user.id, data);

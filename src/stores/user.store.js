@@ -24,8 +24,7 @@ const useUserStore = create()(
                 return resp;
             },
 
-            getUserById: async () => {
-                const id = 5
+            getUserById: async (id) => {
                 const resp = await apiGetUserById(id);
                 set({
                     user: resp.data.responses,
