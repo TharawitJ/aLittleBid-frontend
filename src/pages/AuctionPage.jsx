@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
-import { io } from 'socket.io-client'
+import useSocketStore from "../stores/socket.store";
+import {io} from 'socket.io-client'
 
 const AuctionPage = () => {
   // Populars sort by count users bid or bidding counts
@@ -16,53 +17,46 @@ const AuctionPage = () => {
   //   }
   // };
 
-  const { auctionRoom } = useParams()
+  const { auctionId } = useParams()
   const [timeLeft, setTimeLeft] = useState(0)
-  const socketRef = useRef(null)
+  const {socket, connect} = useSocketStore()
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
+    
+    connect()
 
-    socketRef.current = io('http://localhost:3000', {
-      auth: { token }
-    })
-
-    socketRef.current.on("connect", () => {
-      console.log('connected', socketRef.current.id)
-    })
-
-    socketRef.current.emit('join', { auctionId: auctionRoom })
+    socket.emit('join', { auctionId: auctionId })
 
     return () => {
-      socketRef.current.disconnect()
+      socket.emit('leave_auction', auctionId)
     }
-  }, [auctionRoom])
+  }, [socket, auctionId])
 
-  useEffect(() => {
 
-    socketRef.current.on()("bid:update", (newBid) => {
-      setBid(newBid)
-    })
+  // useEffect(() => {
+  //   socket.on("bid:update", (newBid) => {
+  //     setBid(newBid)
+  //   })
 
-     socketRef.current.on("auction:timer", (data) => {
-      setTimeLeft(data.timeLeft)
-    })
+  //    socket.on("auction:timer", (data) => {
+  //     setTimeLeft(data.timeLeft)
+  //   })
 
-    const formatTime = (ms) => {
-      if (ms <= 0) return { h: "00", m: "00", s: "00" };
-      const seconds = Math.floor((ms / 1000) % 60);
-      const minutes = Math.floor((ms / (1000 * 60)) % 60);
-      const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
-      return {
-        h: hours.toString().padStart(2, '0'),
-        m: minutes.toString().padStart(2, '0'),
-        s: seconds.toString().padStart(2, '0')
-      };
-    };
+  //   const formatTime = (ms) => {
+  //     if (ms <= 0) return { h: "00", m: "00", s: "00" };
+  //     const seconds = Math.floor((ms / 1000) % 60);
+  //     const minutes = Math.floor((ms / (1000 * 60)) % 60);
+  //     const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+  //     return {
+  //       h: hours.toString().padStart(2, '0'),
+  //       m: minutes.toString().padStart(2, '0'),
+  //       s: seconds.toString().padStart(2, '0')
+  //     };
+  //   };
 
-    const time = formatTime(timeLeft);
+  //   const time = formatTime(timeLeft);
 
-  }, [])
+  // }, [])
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">

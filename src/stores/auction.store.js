@@ -13,6 +13,22 @@ const useAuctionStore = create()(
   persist((set, get) => ({
     allAuction: null,
     auctionById: null,
+    currentBid: 0,
+    endTime: 0,
+    serverOffset: 0,
+    updateBid: (bidPrice) => {
+      set({
+        currentBid: bidPrice
+      })
+    },
+    syncTime: ({endTime, serverTime}) => {
+      const offset = serverTime - Date.now()
+      set({endTime, serverOffset: offset})
+    },
+    updateEndtime: (endTime) => {
+      set({endTime})
+    },
+
     getAllAuction: async () => {
       const resp = await apiGetAllAuction;
       console.log("apiGetAllAuction",apiGetAllAuction)

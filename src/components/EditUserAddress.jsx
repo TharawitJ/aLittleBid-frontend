@@ -3,20 +3,6 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import useUserStore from "../stores/user.store";
 
-<<<<<<< HEAD
-function EditUserAddress({defaultAddress}) {
-    // console.log('addressesmodal', defaultAddress)
-    const [isLoading, setIsLoading] = useState(false)
-    const { register, handleSubmit, reset, watch, setValue, formState } = useForm({
-        // resolver: zodResolver(editProfileSchema),
-        mode: 'onSubmit'
-        })
-    const user = useUserStore(state => state.user)
-    // console.log('useredit', user)
-    const userAddresses = useUserStore(state => state.userAddress)
-    // console.log('useraddressesedit', userAddresses)
-    const editUserAddress = useUserStore(state => state.editUserAddress)
-=======
 function EditUserAddress({ defaultAddress }) {
   console.log("addressesmodal", defaultAddress);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +13,6 @@ function EditUserAddress({ defaultAddress }) {
       defaultValues: defaultAddress, // initialize with prop
     },
   );
->>>>>>> dev
 
   useEffect(() => {
     if (defaultAddress) {

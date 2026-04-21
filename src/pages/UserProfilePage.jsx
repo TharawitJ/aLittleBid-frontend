@@ -4,12 +4,8 @@ import { LogoutIcon } from "../icons";
 import EditUserProfile from "../components/EditUserProfile";
 import EditUserAddress from "../components/EditUserAddress";
 import useUserStore from "../stores/user.store.js";
-<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import Swal from 'sweetalert2'
-=======
-import { useEffect, useState, useMemo } from "react";
->>>>>>> dev
 
 const UserProfilePage = () => {
   const { logout, getUserById } = useUserStore();
