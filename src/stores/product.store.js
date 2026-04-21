@@ -15,7 +15,7 @@ const useProductStore = create()(
     allCategories: [],
     productById:[],
     productPage: 1,
-    setProductPage:(page)=>set({productPage:page}),
+    setProductPage: (page) => set({ productPage: page }),
 
     getAllProducts: async () => {
       const resp = await apiGetAllProducts();

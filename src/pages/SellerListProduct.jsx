@@ -1,6 +1,15 @@
 import React from 'react';
+import useProductStore from "../stores/product.store.js"
+import useUserStore from "../stores/user.store.js"
 
 const SellerUserListProduct = () => {
+  const {allProducts}=useProductStore()
+  const {user}=useUserStore()
+
+  const filterSellerProduct = allProducts.filter((p)=>p.seller === user.id)
+  console.log(filterSellerProduct)
+  console.log("user",user)
+  // console.log()
   const inventoryItems = [
     {
       id: 1,
