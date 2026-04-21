@@ -20,7 +20,7 @@ function EditUserProfile() {
   }, []);
 
   const onSubmit = async (data) => {
-    console.log("dataaa", data);
+    // console.log("dataaa", data);
     setIsLoading(true);
     try {
       const resp = await editUserProfile(user.id, data);
