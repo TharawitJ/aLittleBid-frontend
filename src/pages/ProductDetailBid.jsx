@@ -44,7 +44,7 @@ const ProductDetailBid = () => {
                 <p>{description}</p>
               </div>
 
-              <div className="space-y-0 divide-y divide-[#e2bfb9]/30 border-t border-b border-[#e2bfb9]/30">
+              {/* <div className="space-y-0 divide-y divide-[#e2bfb9]/30 border-t border-b border-[#e2bfb9]/30">
                 {['Provenance', 'Exhibition History', 'Shipping Information'].map((title) => (
                   <details key={title} className="group py-6">
                     <summary className="flex justify-between items-center cursor-pointer list-none">
@@ -56,7 +56,7 @@ const ProductDetailBid = () => {
                     </div>
                   </details>
                 ))}
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -68,7 +68,7 @@ const ProductDetailBid = () => {
                   <div>
                     <p className="font-['Manrope'] text-[10px] text-stone-500 mb-2 uppercase tracking-widest">Current Bid</p>
                     <p className="text-4xl font-['Noto_Serif'] text-[#570000] font-bold">€48,500</p>
-                    <p className="text-xs text-[#5e5e5e] mt-1">Approx. $52,400 USD</p>
+                    <p className="text-[14px] text-primary mt-3 text-headline">Highest Bidder: Username</p>
                   </div>
                   <div className="text-right">
                     <p className="font-['Manrope'] text-[10px] text-stone-500 mb-2 uppercase tracking-widest">Time Left</p>
@@ -76,35 +76,92 @@ const ProductDetailBid = () => {
                   </div>
                 </div>
 
+<<<<<<< HEAD
+                <form>
+                  <div className="space-y-6">
+                    <div className="space-y-2">
+                      <label className="font-['Manrope'] uppercase tracking-widest text-[10px] text-stone-500">Your Bid</label>
+                      <div className="relative flex items-center">
+                        <span className="absolute left-4 text-stone-400">B</span>
+                        <input type="text" placeholder="" className="w-full bg-[#ebe7e7] border-none rounded-sm py-4 pl-8 pr-4 focus:ring-1 focus:ring-[#570000] focus:bg-white transition-all outline-none" />
+                      </div>
+=======
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <label className="font-['Manrope'] uppercase tracking-widest text-[10px] text-stone-500">Your Bid</label>
                     <div className="relative flex items-center">
                       <span className="absolute left-4 text-stone-400">€</span>
                       <input type="number" className="w-full bg-[#ebe7e7] border-none rounded-sm py-4 pl-8 pr-4 focus:ring-1 focus:ring-[#570000] focus:bg-white transition-all outline-none"/>
+>>>>>>> dev
                     </div>
+                    <button className="w-full bg-gradient-to-r from-[#570000] to-[#800000] text-white font-['Manrope'] uppercase tracking-widest py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold">
+                      Place Bid
+                    </button>
                   </div>
-                  <button className="w-full bg-gradient-to-r from-[#570000] to-[#800000] text-white font-['Manrope'] uppercase tracking-widest py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold">
-                    Place Bid
-                  </button>
-                </div>
+                </form>
               </div>
 
-              <div className="bg-stone-900 text-stone-50 p-8 rounded-lg relative overflow-hidden">
+              <div className="bg-[#f6f3f2]  text-stone-50 p-8 rounded-lg relative max-h-[300px]">
                 <div className="relative z-10 space-y-4">
-                  <h3 className="font-['Noto_Serif'] text-xl text-left">The Curator's Note</h3>
-                  <p className="text-xs text-stone-400 font-light leading-relaxed italic text-left">
+                  <h3 className="font-['Noto_Serif'] text-xl text-left font-bold text-red">Live Bid Feed</h3>
+                  {/* <p className="text-xs text-stone-400 font-light leading-relaxed italic text-left">
                     "This specific canvas represents the pinnacle of 18th-century veduta painting. The 'ghostly' architecture is a signature mark of Guardi's later style."
-                  </p>
-                  <div className="flex items-center gap-4 pt-4">
-                    <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
-                      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe" alt="Curator" className="w-full h-full object-cover" />
+                  </p> */}
+
+                  <div className='flex flex-col gap-3 overflow-y-auto max-h-[200px]'>
+                    <div className='flex justify-between items-center'>
+                      <div className="flex items-center gap-4 pt-4">
+                        <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
+                          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe" alt="Curator" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="text-left">
+                          <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">Julian Vane</p>
+                          <p className="text-[14px] text-stone-500 uppercase tracking-widest">10,000</p>
+                        </div>
+                      </div>
+                      <div className='text-[12px] text-stone-500 tracking-widest'>Just now</div>
                     </div>
-                    <div className="text-left">
-                      <p className="text-[10px] font-bold font-['Manrope'] uppercase tracking-widest">Julian Vane</p>
-                      <p className="text-[9px] text-stone-500 uppercase tracking-widest">Head of Old Masters</p>
+
+                    <div className='flex justify-between items-center'>
+                      <div className="flex items-center gap-4 pt-4">
+                        <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
+                          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe" alt="Curator" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="text-left">
+                          <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">Julian Vane</p>
+                          <p className="text-[14px] text-stone-500 uppercase tracking-widest">10,000</p>
+                        </div>
+                      </div>
+                      <div className='text-[12px] text-stone-500 tracking-widest'>5 mins ago</div>
+                    </div>
+
+                    <div className='flex justify-between items-center'>
+                      <div className="flex items-center gap-4 pt-4">
+                        <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
+                          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe" alt="Curator" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="text-left">
+                          <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">Julian Vane</p>
+                          <p className="text-[14px] text-stone-500 uppercase tracking-widest">10,000</p>
+                        </div>
+                      </div>
+                      <div className='text-[12px] text-stone-500 tracking-widest'>5 mins ago</div>
+                    </div>
+
+                    <div className='flex justify-between items-center'>
+                      <div className="flex items-center gap-4 pt-4">
+                        <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
+                          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe" alt="Curator" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="text-left">
+                          <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">Julian Vane</p>
+                          <p className="text-[14px] text-stone-500 uppercase tracking-widest">10,000</p>
+                        </div>
+                      </div>
+                      <div className='text-[12px] text-stone-500 tracking-widest'>5 mins ago</div>
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>

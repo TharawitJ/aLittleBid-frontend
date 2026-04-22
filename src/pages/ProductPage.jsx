@@ -119,8 +119,72 @@ const ProductPage = () => {
         {/* Ongoing Auction Grid */}
         <section className="mt-10">
           <div className="md:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<<<<<<< HEAD
+            {displayedProducts.map((i) => {
+              const category = allCategories.find(
+                (cat) => cat.id === i.categoryId,
+              );
+              // console.log(category.name)
+              return (
+                <div key={i.id} className="group cursor-pointer w-full h-full">
+                  <div className="relative overflow-hidden rounded-3xl">
+                    {i.images?.[0]?.imageUrl && (
+                      <img
+                        src={i.images[0].imageUrl}
+                        alt="Product"
+                        className="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    )}
+                    {/* <img
+                      src={`${i.images[0].imageUrl || `fallback.jpg`}`}
+                      alt="Lot"
+                      className="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-105"
+                    /> */}
+                    <div className="absolute top-4 right-4 bg-[#fcf9f8]/70 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1">
+                      <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></div>
+                      <span className="font-['Manrope'] text-[9px] uppercase tracking-tighter">
+                        Live Now
+                      </span>
+                    </div>
+                    <div className="bg-base-300 rounded-b-3xl px-5 py-3">
+                      <div className="flex justify-between items-start">
+                        <div className="flex flex-col items-baseline min-w-[176px] min-h-[52px] grow-0">                          
+                          <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-600 mb-1 block">
+                            {category.name}
+                          </span>
+                          <h3 className="font-['Noto_Serif'] text-xl h-12 mr-2">
+                            {i.name}
+                          </h3>
+                        </div>
+                        <div className="text-center min-w-[67px]">
+                          <span className="font-headline uppercase text-[10px] text-primary">
+                            Current Bid{" "}
+                          </span>
+                          <p className="font-['Noto_Serif'] text-lg text-red text-xl">
+                            ${(1000 * i.id).toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="mt-6 flex justify-between items-center">
+                        <div className="flex items-center gap-2 text-stone-500">
+                          <span className="material-symbols-outlined text-[16px] text-primary">
+                            {/* <TimeCountdown product={i}/> */}
+                            <div>Time Left: <TimeCountdown/></div>
+                          </span>
+                        </div>
+                        <button className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
+                          Join
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+=======
             <DisplayProducts displayProducts={displayProducts} allCategories={allCategories}/>
 
+>>>>>>> dev
           </div>
         </section>
       </main>
