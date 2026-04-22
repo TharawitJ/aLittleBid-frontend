@@ -85,7 +85,7 @@ const NavBar = () => {
           <BlackHeartIcon />
         </NavLink>
         <NavLink
-          to="/my_order_list"
+          to="/my_orders"
           className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors w-6"
         >
           <BlackCartIcon />
