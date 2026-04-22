@@ -8,68 +8,76 @@ import useSocketStore from '../stores/socket.store.js';
 
 const ProductDetailBid = () => {
   const { productById, allCategories } = useProductStore()
-  const { allAuction, getAllAuction } = useAuctionStore()
+  const { auctionById, getAuctionById } = useAuctionStore()
   const { socket, connect, joinAuction, leaveAuction } = useSocketStore()
   // console.log('allAuction', allAuction)
   const { id, categoryId, name, description, sellerId, updatedAt, images } = productById
   // console.log('productById', productById)
   // console.log('images',images)
   const { auctionId } = useParams()
+  console.log('auctionId', auctionId)
   const [timeLeft, setTimeLeft] = useState(0)
   const [bid, setBid] = useState(0)
   const [input, setInput] = useState('')
-  const {register, handleSubmit, reset} = useForm()
+  const { register, handleSubmit, reset } = useForm()
 
   useEffect(() => {
-    getAllAuction()
-  })
-  console.log("allAuction", allAuction)
+    getAuctionById()
+  },[])
+  // console.log("allAuction", allAuction)
   // console.log("allCategories",allCategories)
   const filterCategoryName = allCategories.filter((cate) => categoryId === cate.id)
   // console.log("filterCategoryName",filterCategoryName)
 
 
   useEffect(() => {
-    connect()
 
     if (socket) {
       joinAuction(auctionId)
+      alert("join successful")
 
-      return () => {
-      leaveAuction(auctionId)
-      }
+      // return () => {
+      //   leaveAuction(auctionId)
+      // }
     }
-  }, [socket, auctionId])
+  }, [auctionId])
+
+
+  const hdlOnSubmit = (bidPrice) => {
+    socket.emit("send_bid", { auctionId: auctionId, amount: bidPrice })
+  }
 
   useEffect(() => {
-    
-    socket.on("bid_update", (newBid) => {
-      setBid(newBid)
-    })
-    
-    socket.on("auction:timer", (time) => {
-      setTimeLeft(time.timeLeft)
-    })
-    
-    const formatTime = (ms) => {
-      if (ms <= 0) return { h: "00", m: "00", s: "00" };
-      const seconds = Math.floor((ms / 1000) % 60);
-      const minutes = Math.floor((ms / (1000 * 60)) % 60);
-      const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
-      return {
-        h: hours.toString().padStart(2, '0'),
-        m: minutes.toString().padStart(2, '0'),
-        s: seconds.toString().padStart(2, '0')
-      };
-    };
-    
-    const time = formatTime(timeLeft);
-    
+
+    if (socket) {
+      socket.on("bid_update", (newBid) => {
+        setBid(newBid)
+      })
+
+      return () => socket.off("bid_update");
+    }
+
+
+    // socket.on("auction:timer", (time) => {
+    //   setTimeLeft(time.timeLeft)
+    // })
+
+    // const formatTime = (ms) => {
+    //   if (ms <= 0) return { h: "00", m: "00", s: "00" };
+    //   const seconds = Math.floor((ms / 1000) % 60);
+    //   const minutes = Math.floor((ms / (1000 * 60)) % 60);
+    //   const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+    //   return {
+    //     h: hours.toString().padStart(2, '0'),
+    //     m: minutes.toString().padStart(2, '0'),
+    //     s: seconds.toString().padStart(2, '0')
+    //   };
+    // };
+
+    // const time = formatTime(timeLeft);
+
   }, [])
 
-  const onSubmit = (bidPrice) => {
-     socket.emit("send_bid", { auctionId: auctionRoom, amount: bidPrice })
-  }
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
@@ -133,17 +141,17 @@ const ProductDetailBid = () => {
                   </div>
                 </div>
 
-                <form onSubmit={handleSubmit(onsubmit)}>
+                <form onSubmit={handleSubmit(hdlOnSubmit)}>
                   <div className="space-y-6">
                     <div className="space-y-2">
                       <label className="font-['Manrope'] uppercase tracking-widest text-[10px] text-stone-500">Your Bid</label>
                       <div className="relative flex items-center">
                         <span className="absolute left-4 text-stone-400">B</span>
-                        <input 
-                        type="text" 
-                        placeholder="" 
-                        {...register('amount')}
-                        className="w-full bg-[#ebe7e7] border-none rounded-sm py-4 pl-8 pr-4 focus:ring-1 focus:ring-[#570000] focus:bg-white transition-all outline-none" />
+                        <input
+                          type="number"
+                          placeholder=""
+                          {...register('amount')}
+                          className="w-full bg-[#ebe7e7] border-none rounded-sm py-4 pl-8 pr-4 focus:ring-1 focus:ring-[#570000] focus:bg-white transition-all outline-none" />
                       </div>
                     </div>
                     <button className="w-full bg-gradient-to-r from-[#570000] to-[#800000] text-white font-['Manrope'] uppercase tracking-widest py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold">
@@ -155,7 +163,7 @@ const ProductDetailBid = () => {
 
               <div className="bg-[#f6f3f2]  text-stone-50 p-8 rounded-lg relative max-h-[300px]">
                 <div className="relative z-10 space-y-4">
-                  <h3 className="font-['Noto_Serif'] text-xl text-left font-bold text-red">Live Bid Feed</h3>
+                  <h3 className="font-['Noto_Serif'] text-xl text-left font-bold text-red">Live Bid</h3>
                   {/* <p className="text-xs text-stone-400 font-light leading-relaxed italic text-left">
                     "This specific canvas represents the pinnacle of 18th-century veduta painting. The 'ghostly' architecture is a signature mark of Guardi's later style."
                   </p> */}

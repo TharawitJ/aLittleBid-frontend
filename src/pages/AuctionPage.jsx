@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import useSocketStore from "../stores/socket.store";
-import {io} from 'socket.io-client'
+import { io } from 'socket.io-client'
 
 const AuctionPage = () => {
   // Populars sort by count users bid or bidding counts
@@ -19,18 +19,20 @@ const AuctionPage = () => {
 
   const { auctionId } = useParams()
   const [timeLeft, setTimeLeft] = useState(0)
-  const {socket, connect} = useSocketStore()
+  const socket = useSocketStore(state => state.socket)
+  const connect = useSocketStore(state => state.connect)
+  // const {socket, connect} = useSocketStore()
 
   useEffect(() => {
-    
+
     connect()
+    console.log('socket', socket)
+    // socket.emit('join', { auctionId: auctionId })
 
-    socket.emit('join', { auctionId: auctionId })
-
-    return () => {
-      socket.emit('leave_auction', auctionId)
-    }
-  }, [socket, auctionId])
+    // return () => {
+    //   socket.emit('leave_auction', auctionId)
+    // }
+  }, [])
 
 
   // useEffect(() => {

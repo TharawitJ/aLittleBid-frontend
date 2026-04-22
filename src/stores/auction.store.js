@@ -30,32 +30,33 @@ const useAuctionStore = create()(
     },
 
     getAllAuction: async () => {
-      const resp = await apiGetAllAuction;
-      console.log("apiGetAllAuction",apiGetAllAuction)
-      set({allAuction:resp.data.token})
+      const resp = await apiGetAllAuction();
+      console.log('respGet', resp)
+      // console.log("apiGetAllAuction",apiGetAllAuction)
+      set({allAuction:resp.data.responses})
     },
     createAuction: async (body) => {
       await apiCreateAuction(body);
       console.log("apiCreateAuction",apiCreateAuction)
       const resp = await apiGetAllAuction;
-      set({allAuction:resp.data.token})
+      set({allAuction:resp.data.responses})
     },
     getAuctionById: async (auctionId) => {
       const resp = await apiGetAuctionById(auctionId);
       console.log("apiGetAuctionById",apiGetAuctionById)
-      set({auctionById:resp.data.token})
+      set({auctionById:resp.data.responses})
 
     },
     updateAuction: async (auctionId) => {
       const resp = await apiUpdateAuction(auctionId);
       console.log("apiUpdateAuction",apiUpdateAuction)
-      set({allAuction:resp.data.token})
+      set({allAuction:resp.data.responses})
 
     },
     deleteAuction: async (auctionId) => {
       const resp = await apiDeleteAuction(auctionId);
       console.log("apiDeleteAuction",apiDeleteAuction)
-      set({allAuction:resp.data.token})
+      set({allAuction:resp.data.responses})
 
     },
   })),

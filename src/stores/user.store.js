@@ -37,8 +37,8 @@ const useUserStore = create()(
 
             // Action to log out
             logout: () => {
-                set({ user: null, token: "" })
                 useSocketStore.getState().disconnect();
+                set({ user: null, token: "" })
             },
 
             deleteUser: async (userId) => {

@@ -34,7 +34,7 @@ const userRouter = createBrowserRouter([
       { path: "auction", element: <AuctionPage /> },
       { path: "seller_list_product", element: <SellerUserListProduct /> },
       { path: "seller_product", element: <ProductPageForSeller /> },
-      { path: "product_detail_bid", element: <ProductDetailBid /> },
+      { path: "product_detail_bid/:auctionId", element: <ProductDetailBid /> },
       { path: "products", element: <ProductPage /> },
       { path: "activebid", element: <ActiveBid /> },
       { path: "add_product", element: <AddProduct /> },
@@ -49,6 +49,7 @@ const userRouter = createBrowserRouter([
 
 function AppRouter() {
   const user = useUserStore((state) => state.user);
+  // console.log('user', user)
   const finalRouter = user ? userRouter : guestRouter;
   return (
     <Suspense>
