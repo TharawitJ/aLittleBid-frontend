@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useProductStore from "../stores/product.store.js";
+import useProductStore from "../../stores/product.store.js";
 
 export const ProductListByPages = ({ allProducts,limit}) => {
   const productPage = useProductStore((state) => state.productPage);

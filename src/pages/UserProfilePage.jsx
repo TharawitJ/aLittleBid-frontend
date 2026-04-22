@@ -1,11 +1,10 @@
 import { NavLink, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { LogoutIcon } from "../icons";
-import EditUserProfile from "../components/EditUserProfile";
-import EditUserAddress from "../components/EditUserAddress";
+import EditUserProfile from "../components/userPage/EditUserProfile";
+import EditUserAddress from "../components/userPage/EditUserAddress";
 import useUserStore from "../stores/user.store.js";
-import { useEffect, useState } from "react";
-import Swal from 'sweetalert2'
+import { useEffect, useState, useMemo } from "react";
 
 const UserProfilePage = () => {
   const { logout, getUserById } = useUserStore();
@@ -16,14 +15,17 @@ const UserProfilePage = () => {
   const navigate = useNavigate();
 
   // useEffect(() => {
-  //   getUserById();
+  //   getUserById(id);
   // }, [user]);
 
+   const defaultAddress = useMemo(() => {
+     return userAddresses?.find((item) => item.isDefault === true);
+   }, [userAddresses]); 
+  
   if (!user) return <div>Loading...</div>;
 
   const { id, username, email, firstname, lastname, phone, role } = user;
 
-  const defaultAddress = userAddresses?.find((item) => item.isDefault === true);
   // console.log('defaultAddress', defaultAddress)
 
   const isSeller = user?.role === "SELLER";

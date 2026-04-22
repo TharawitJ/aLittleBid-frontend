@@ -1,7 +1,15 @@
 import React from 'react'
-import blackwatches from '../assets/blackwatches.jpeg'
+import blackwatches from '../../assets/blackwatches.jpeg'
+import {useNavigate} from "react-router"
 
 function WelcomeGuest() {
+  const navigate = useNavigate();
+  const hdnNavLogin=()=>{
+    navigate("/login")
+  }
+    const hdnNavRegister=()=>{
+    navigate("/register")
+  }
   return (
     <div>
          <section className="relative h-[80vh] min-h-[600px] flex items-center px-6 md:px-12 overflow-hidden">
@@ -18,10 +26,10 @@ function WelcomeGuest() {
                     <h1 className="font-headline text-6xl md:text-8xl text-black leading-tight">Join the Thrill</h1>
                     <h1 className="font-headline text-6xl md:text-8xl text-black leading-tight mb-8">of the Bid</h1>
                     <div className="flex gap-4">
-                      <button className="bg-gradient-to-r from-dark-red to-red text-on-primary px-10 py-4 rounded-xl font-label uppercase tracking-widest text-xs hover:shadow-xl transition-all active:scale-95 duration-200">
+                      <button onClick={hdnNavRegister} className="bg-gradient-to-r from-dark-red to-red text-on-primary px-10 py-4 rounded-xl font-label uppercase tracking-widest text-xs hover:shadow-xl transition-all active:scale-95 duration-200">
                         Register
                       </button>
-                      <button className="bg-white border-outline-variant/30 text-on-surface px-10 py-4 rounded-xl font-label uppercase tracking-widest text-xs hover:bg-surface-container-low transition-all active:scale-95 duration-200">
+                      <button onClick={hdnNavLogin} className="bg-white border-outline-variant/30 text-on-surface px-10 py-4 rounded-xl font-label uppercase tracking-widest text-xs hover:bg-surface-container-low transition-all active:scale-95 duration-200">
                         Login
                       </button>
                     </div>
