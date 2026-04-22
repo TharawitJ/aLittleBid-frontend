@@ -24,6 +24,9 @@ const useUserStore = create()(
                 set({ token: resp.data.token, user: resp.data.user });
                 return resp;
             },
+            register:async(body)=>{
+                const resp = await apiRegister(body)
+            },
 
             getUserById: async (id) => {
                 const resp = await apiGetUserById(id);

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
-import { apiRegister } from "../api/apiMain.js";
+import useUserStore from "../stores/user.store.js";
 // ─── Icon components (คงเดิมทั้งหมด) ─────────────────────────────────────
 const EnvelopeIcon = () => (
   <svg
@@ -149,6 +149,7 @@ export default function ALittleBidRegister() {
     role: "", // Buyer หรือ Seller
     phone: "",
   });
+  const {register}=useUserStore()
 
   const [agreed, setAgreed] = useState(false);
   const [errors, setErrors] = useState({});
@@ -232,7 +233,7 @@ export default function ALittleBidRegister() {
       console.log("payload", payload);
 
       // 2. ส่ง Request
-      const res = await apiRegister(payload);
+      register(payload);
       // 3. อ่าน Response
 
       setSuccess(true);
