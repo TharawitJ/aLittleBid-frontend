@@ -6,7 +6,7 @@ import HomePage from "../pages/HomePage.jsx";
 import AuctionPage from "../pages/AuctionPage.jsx";
 import SellerUserListProduct from "../pages/SellerListProduct.jsx";
 import ProductPageForSeller from "../pages/ProductPageForSeller.jsx";
-import ProductDetailBid from "../pages/ProductDetailBid.jsx";
+import AuctionBid from "../pages/AuctionBid.jsx";
 import ProductPage from "../pages/ProductPage.jsx";
 import AddProduct from "../pages/AddProduct.jsx";
 import OrderList from "../pages/OrderList.jsx";
@@ -33,7 +33,7 @@ const userRouter = createBrowserRouter([
       { path: "user_profile", element: <UserProfilePage /> },
       { path: "ongoing_auctions", element: <AuctionPage /> },
       { path: "seller_products", element: <SellerUserListProduct /> },
-      { path: "auction_bid/:auctionId", element: <ProductDetailBid /> },
+      { path: "auction_bid/:auctionId", element: <AuctionBid /> },
       { path: "products", element: <ProductPage /> },
       { path: "my_active_bids", element: <ActiveBid /> },
       { path: "add_product", element: <AddProduct /> },

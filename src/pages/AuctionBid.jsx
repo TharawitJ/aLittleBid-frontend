@@ -11,16 +11,13 @@ const ProductDetailBid = () => {
   const { productById, allCategories } = useProductStore()
   const { auctionById, getAuctionById, updateBid, currentBid } = useAuctionStore()
   const { socket, connect, joinAuction, leaveAuction } = useSocketStore()
-  const { bidData, getAllBid } = useBidStore()
-  console.log('bidData', bidData)
-  // console.log('allAuction', allAuction)
-  // console.log('socket', socket)
+  // const { bidData, getAllBid } = useBidStore()
+  // console.log('bidData', bidData)
   const { id, categoryId, name, description, sellerId, updatedAt, images } = productById
-  // console.log('productById', productById)
-  // console.log('images',images)
   const { auctionId } = useParams()
-  // console.log('auctionId', auctionId)
   const [timeLeft, setTimeLeft] = useState(0)
+  const [bidData, setBidData] = useState([])
+  console.log('bidData', bidData)
   const { register, handleSubmit, reset } = useForm()
 
   useEffect(() => {
@@ -68,12 +65,11 @@ const ProductDetailBid = () => {
 
   useEffect(() => {
 
-    
-
     if (socket) {
       socket.on("newest_bid", (updatedBid) => {
         console.log('updatedBid', updatedBid)
-        getAllBid()
+        setBidData(updatedBid)
+        // getAllBid()
         // updateBid(newBid)
       })
 
@@ -111,7 +107,7 @@ const ProductDetailBid = () => {
             <div className="relative group">
               <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-lg bg-[#f6f3f2]">
                 <img
-                  src={images[0].imageUrl}
+                  src={images?.[0].imageUrl}
                   alt="Artwork"
                   className="w-full h-full object-cover"
                 />
@@ -123,7 +119,7 @@ const ProductDetailBid = () => {
 
             <div className="space-y-12">
               <div className="space-y-4">
-                <span className="font-['Manrope'] uppercase tracking-widest text-lg text-[#570000] font-bold">{filterCategoryName[0].name}</span>
+                <span className="font-['Manrope'] uppercase tracking-widest text-lg text-[#570000] font-bold">{filterCategoryName[0]?.name}</span>
                 <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">{name}</h1>
                 <p className="text-xl font-['Noto_Serif'] italic text-[#5e5e5e]">Attributed to Francesco Guardi (1712–1793)</p>
               </div>
