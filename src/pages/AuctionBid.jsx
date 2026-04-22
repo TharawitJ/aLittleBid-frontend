@@ -5,12 +5,16 @@ import useAuctionStore from "../stores/auction.store.js"
 import { useParams } from 'react-router';
 import { useForm } from 'react-hook-form';
 import useSocketStore from '../stores/socket.store.js';
+import useBidStore from '../stores/bid.store.js';
 
 const ProductDetailBid = () => {
   const { productById, allCategories } = useProductStore()
   const { auctionById, getAuctionById, updateBid, currentBid } = useAuctionStore()
   const { socket, connect, joinAuction, leaveAuction } = useSocketStore()
+  const { bidData, getAllBid } = useBidStore()
+  console.log('bidData', bidData)
   // console.log('allAuction', allAuction)
+  // console.log('socket', socket)
   const { id, categoryId, name, description, sellerId, updatedAt, images } = productById
   // console.log('productById', productById)
   // console.log('images',images)
@@ -20,7 +24,9 @@ const ProductDetailBid = () => {
   const { register, handleSubmit, reset } = useForm()
 
   useEffect(() => {
-    getAuctionById()
+    if (auctionId) {
+      getAuctionById(auctionId)
+    }
   },[])
   // console.log("allAuction", allAuction)
   // console.log("allCategories",allCategories)
@@ -30,7 +36,9 @@ const ProductDetailBid = () => {
 
   useEffect(() => {
 
-    if (socket) {
+    connect()
+
+    if (socket && auctionId) {
       joinAuction(auctionId)
       alert("join successful")
 
@@ -38,23 +46,35 @@ const ProductDetailBid = () => {
       //   leaveAuction(auctionId)
       // }
     }
-  }, [auctionId])
+  }, [socket, auctionId])
 
 
-  const hdlOnSubmit = (bidPrice) => {
-    try {
-      socket.emit("send_bid", { auctionId: auctionId, amount: bidPrice })
-      
-    } catch (error) {
-      
+  const hdlOnSubmit = ({amount}) => {
+    console.log('amount', amount)
+    // const bid = Number(amount);
+    // console.log('bid', bid)
+    if (!amount || amount <= 0) {
+        return alert("Please enter a valid price");
     }
+
+    if (socket) {
+        socket.emit("send_bid", { auctionId, amount });
+        alert('bid successful')
+    } else {
+        alert("Socket disconnected. Please try again.");
+    }
+
   }
 
   useEffect(() => {
 
+    
+
     if (socket) {
-      socket.on("bid_update", (newBid) => {
-        updateBid(newBid)
+      socket.on("newest_bid", (updatedBid) => {
+        console.log('updatedBid', updatedBid)
+        getAllBid()
+        // updateBid(newBid)
       })
 
       return () => socket.off("bid_update");
@@ -135,7 +155,7 @@ const ProductDetailBid = () => {
                 <div className="flex justify-between items-start mb-10">
                   <div>
                     <p className="font-['Manrope'] text-[10px] text-stone-500 mb-2 uppercase tracking-widest">Current Bid</p>
-                    <p className="text-4xl font-['Noto_Serif'] text-[#570000] font-bold">€48,500</p>
+                    <p className="text-4xl font-['Noto_Serif'] text-[#570000] font-bold">{currentBid}</p>
                     <p className="text-[14px] text-primary mt-3 text-headline">Highest Bidder: Username</p>
                   </div>
                   <div className="text-right">
@@ -171,7 +191,8 @@ const ProductDetailBid = () => {
                     "This specific canvas represents the pinnacle of 18th-century veduta painting. The 'ghostly' architecture is a signature mark of Guardi's later style."
                   </p> */}
 
-                  <div className='flex flex-col gap-3 overflow-y-auto max-h-[200px]'>
+              {/* {bidData.map((e) => 
+              <div className='flex flex-col gap-3 overflow-y-auto max-h-[200px]'>
                     <div className='flex justify-between items-center'>
                       <div className="flex items-center gap-4 pt-4">
                         <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
@@ -184,46 +205,9 @@ const ProductDetailBid = () => {
                       </div>
                       <div className='text-[12px] text-stone-500 tracking-widest'>Just now</div>
                     </div>
-
-                    <div className='flex justify-between items-center'>
-                      <div className="flex items-center gap-4 pt-4">
-                        <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
-                          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe" alt="Curator" className="w-full h-full object-cover" />
-                        </div>
-                        <div className="text-left">
-                          <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">Julian Vane</p>
-                          <p className="text-[14px] text-stone-500 uppercase tracking-widest">10,000</p>
-                        </div>
-                      </div>
-                      <div className='text-[12px] text-stone-500 tracking-widest'>5 mins ago</div>
-                    </div>
-
-                    <div className='flex justify-between items-center'>
-                      <div className="flex items-center gap-4 pt-4">
-                        <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
-                          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe" alt="Curator" className="w-full h-full object-cover" />
-                        </div>
-                        <div className="text-left">
-                          <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">Julian Vane</p>
-                          <p className="text-[14px] text-stone-500 uppercase tracking-widest">10,000</p>
-                        </div>
-                      </div>
-                      <div className='text-[12px] text-stone-500 tracking-widest'>5 mins ago</div>
-                    </div>
-
-                    <div className='flex justify-between items-center'>
-                      <div className="flex items-center gap-4 pt-4">
-                        <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
-                          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe" alt="Curator" className="w-full h-full object-cover" />
-                        </div>
-                        <div className="text-left">
-                          <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">Julian Vane</p>
-                          <p className="text-[14px] text-stone-500 uppercase tracking-widest">10,000</p>
-                        </div>
-                      </div>
-                      <div className='text-[12px] text-stone-500 tracking-widest'>5 mins ago</div>
-                    </div>
                   </div>
+              )} */}
+                  
 
                 </div>
               </div>

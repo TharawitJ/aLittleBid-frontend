@@ -48,3 +48,6 @@ export const apiUpdateAuction = (auctionId) =>
   mainApi.patch(`/auctions/${auctionId}`);
 export const apiDeleteAuction = (auctionId) =>
   mainApi.delete(`/auctions/${auctionId}`);
+
+export const apiGetAllBid = () => mainApi.get(`/bids`)
+export const apiGetBidById = (bidId) => mainApi.get(`/bids/${bidId}`)

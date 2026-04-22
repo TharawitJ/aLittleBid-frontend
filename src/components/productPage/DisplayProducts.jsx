@@ -7,8 +7,8 @@ function DisplayProducts({displayProducts,allCategories}) {
     const getAuctionById = useAuctionStore((state)=>state.getAuctionById)
     const hdlJoinClick=(id)=>{
       // console.log('id', id)
-        getAuctionById(id)
-        navigate(`/product_detail_bid/${id}`)
+      getAuctionById(id)
+      navigate(`/auction_bid/${id}`)
     }
 
   return (

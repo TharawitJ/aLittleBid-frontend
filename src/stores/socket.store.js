@@ -6,6 +6,7 @@ import useUserStore from "./user.store.js";
 const useSocketStore = create()(persist((set, get) => ({
     socket: null,
     connect: () => {
+        if (get().socket?.connected) return;
         // console.log('sockettes')
         const newSocket = io('http://localhost:3000', {
             auth: { token: useUserStore.getState().token }
@@ -13,10 +14,9 @@ const useSocketStore = create()(persist((set, get) => ({
         // console.log('newSocket', newSocket)
         newSocket.on('connect', () => {
             console.log('Connected');
+            console.log('newSocket', newSocket)
+            set({ socket: newSocket });
         });
-
-        set({ socket: newSocket });
-
     },
     disconnect: () => {
         // console.log('sockettesttttttt', get().socket)
