@@ -1,14 +1,14 @@
 import React from "react";
-import useProductStore from "../../stores/product.store.js"
+import useAuctionStore from "../../stores/auction.store.js"
 import { useNavigate } from "react-router";
 
 function DisplayProducts({displayProducts,allCategories}) {
     const navigate = useNavigate();
-    const getProductsById = useProductStore((state)=>state.getProductsById)
+    const getAuctionById = useAuctionStore((state)=>state.getAuctionById)
     const hdlJoinClick=(id)=>{
       // console.log('id', id)
-        getProductsById(id)
-        navigate(`/auction_bid/${id}`)
+      getAuctionById(id)
+      navigate(`/auction_bid/${id}`)
     }
 
   return (

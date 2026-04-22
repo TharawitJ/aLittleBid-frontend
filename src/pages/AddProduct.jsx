@@ -3,36 +3,71 @@ import { useForm } from "react-hook-form";
 import { CrossIcon, PhotoIcon } from "../icons";
 import useProductStore from "../stores/product.store.js";
 import useAuctionStore from "../stores/auction.store.js";
+import useUserStore from "../stores/user.store.js";
 import Swal from "sweetalert2";
 
-
 const AddProduct = () => {
-  const { createProduct ,allCategories} = useProductStore();
+  const { createProduct, allCategories } =
+    useProductStore();
   const { createAuction } = useAuctionStore();
+  const { user } = useUserStore();
   const [isLoading, setIsLoading] = useState(false);
-
   const { register, handleSubmit, reset, watch, setValue, formState } = useForm(
     {
       // resolver: zodResolver(editProfileSchema),
       mode: "onSubmit",
     },
   );
+
   const onSubmit = async (data) => {
-    const {description,name,startTime,endTime,startingPrice,reservePrice,minIncrement} = data
-    const productTableData = {description,name}
-    const auctionTableData = {startTime,endTime,startingPrice,reservePrice,minIncrement}
-    console.log("add_product", productTableData);
-    console.log("add_product", auctionTableData);
+    const {
+      description,
+      name,
+      startTime,
+      endTime,
+      startingPrice,
+      reservePrice,
+      minIncrement,
+      category,
+    } = data;
+    // const selectedCategory = allCategories.find(c => c.name === data.categoryName);
+
     setIsLoading(true);
+    // console.log("user", user);
+    const start = new Date(data.startTime);
+    console.log('start', start)
+
+    // 2. Calculate End Date: Start (in ms) + (Hours * ms in an hour)
+    const durationInMs = Number(data.durationHours) * 60 * 60 * 1000;
+    const end = new Date(start.getTime() + durationInMs);
+    console.log('end', end)
     try {
-      await createProduct(productTableData);
+      const productTableData = {
+        description,
+        name,
+        categoryId: Number(category),
+        // sellerId: user.id,
+      };
+      const newProduct = await createProduct(productTableData);
+      const auctionTableData = {
+        // Converts to 2026-04-22T12:31:00.000Z
+        startTime: start.toISOString(),
+        endTime: end.toISOString(),
+        startingPrice: Number(data.startingPrice),
+        reservePrice: Number(data.reservePrice),
+        minIncrement: Number(data.minIncrement),
+        productId: newProduct.id,
+      };
+      console.log("productTableData", productTableData);
+      console.log("auctionTableData", auctionTableData);
       await createAuction(auctionTableData);
       Swal.fire({
-        title: "Profile Updated",
+        title: "Product created!",
       });
     } catch (error) {
+      console.log(error);
       Swal.fire({
-        title: "Profile Update failed",
+        title: "Failed to create product",
       });
     }
   };
@@ -63,16 +98,24 @@ const AddProduct = () => {
                       type="text"
                       placeholder="Product Name"
                       className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
-                    {...register("name")}
+                      {...register("name")}
                     />
                   </div>
                   <div className="flex flex-col">
                     <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
                       Category
                     </label>
-                    <select className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-2 text-base focus:ring-0 focus:border-[#7a0009] transition-all appearance-none" {...register("category")}>
+                    <select
+                      onChange={(e) => console.log(e.target.value)}
+                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-2 text-base focus:ring-0 focus:border-[#7a0009] transition-all appearance-none"
+                      {...register("category")}
+                    >
                       <option>Select a category</option>
-                      {allCategories.map((item)=><option key={item.id} value={item.id}>{item.name}</option>)}
+                      {allCategories.map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="flex flex-col">
@@ -83,7 +126,7 @@ const AddProduct = () => {
                       rows="4"
                       placeholder="product details"
                       className="border-1 border-[#8d706d]/30 bg-transparent px-3 py-3 text-base focus:ring-0 focus:border-[#7a0009] transition-all resize-none"
-                    {...register("description")}
+                      {...register("description")}
                     ></textarea>
                   </div>
                 </div>
@@ -109,7 +152,7 @@ const AddProduct = () => {
                       type="datetime-local"
                       placeholder=""
                       className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
-                    {...register("startTime")}
+                      {...register("startTime")}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -119,7 +162,7 @@ const AddProduct = () => {
                     <select
                       name="endTime"
                       className="min-h-[37px] border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
-                    {...register("endTime")}
+                      {...register("durationHours")}
                     >
                       <option value="24">1 day</option>
                       <option value="72">3 day</option>
@@ -133,7 +176,8 @@ const AddProduct = () => {
                     <input
                       type="text"
                       className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
-                    {...register("startingPrice")}/>
+                      {...register("startingPrice")}
+                    />
                   </div>
                   <div className="flex flex-col">
                     <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
@@ -142,7 +186,7 @@ const AddProduct = () => {
                     <input
                       type="text"
                       className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
-                    {...register("reservePrice")}
+                      {...register("reservePrice")}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -152,7 +196,7 @@ const AddProduct = () => {
                     <input
                       type="text"
                       className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
-                    {...register("minIncrement")}
+                      {...register("minIncrement")}
                     />
                   </div>
                 </div>
@@ -204,7 +248,10 @@ const AddProduct = () => {
         </div>
 
         <div className="flex justify-center items-center gap-6 pt-30">
-          <button onClick={handleSubmit(onSubmit)} className="bg-gradient-to-br from-dark-red to-red-600 text-white px-8 py-4 rounded-sm text-sm font-bold tracking-widest uppercase hover:shadow-lg hover:shadow-[#7a0009]/20 transition-all active:scale-[0.98]">
+          <button
+            onClick={handleSubmit(onSubmit)}
+            className="bg-gradient-to-br from-dark-red to-red-600 text-white px-8 py-4 rounded-sm text-sm font-bold tracking-widest uppercase hover:shadow-lg hover:shadow-[#7a0009]/20 transition-all active:scale-[0.98]"
+          >
             Create New Product
           </button>
           <button className="text-white bg-gradient-to-r from-primary to-secondary text-on-primary w-30 py-4 rounded-l hover:text-[#7a0009] transition-colors text-sm font-bold tracking-widest uppercase decoration-[#e1bebb]/30">
