@@ -15,7 +15,8 @@ const useSocketStore = create()(persist((set, get) => ({
             console.log('Connected');
         });
 
-        set({ socket: newSocket });
+        set({ socket: newSocket.id });
+        console.log('newSocket', newSocket)
 
     },
     disconnect: () => {

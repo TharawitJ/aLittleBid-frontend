@@ -11,6 +11,7 @@ const ProductDetailBid = () => {
   const { auctionById, getAuctionById, updateBid, currentBid } = useAuctionStore()
   const { socket, connect, joinAuction, leaveAuction } = useSocketStore()
   // console.log('allAuction', allAuction)
+  console.log('socket', socket)
   const { id, categoryId, name, description, sellerId, updatedAt, images } = productById
   // console.log('productById', productById)
   // console.log('images',images)
@@ -20,7 +21,9 @@ const ProductDetailBid = () => {
   const { register, handleSubmit, reset } = useForm()
 
   useEffect(() => {
-    getAuctionById()
+    if (auctionId) {
+      getAuctionById(auctionId)
+    }
   },[])
   // console.log("allAuction", allAuction)
   // console.log("allCategories",allCategories)
@@ -41,19 +44,26 @@ const ProductDetailBid = () => {
   }, [auctionId])
 
 
-  const hdlOnSubmit = (bidPrice) => {
-    try {
-      socket.emit("send_bid", { auctionId: auctionId, amount: bidPrice })
-      
-    } catch (error) {
-      
+  const hdlOnSubmit = ({amount}) => {
+    console.log('amount', amount)
+    // const bid = Number(amount);
+    // console.log('bid', bid)
+    if (!amount || amount <= 0) {
+        return alert("Please enter a valid price");
     }
+
+    if (socket) {
+        socket.emit("send_bid", { auctionId, amount });
+    } else {
+        alert("Socket disconnected. Please try again.");
+    }
+
   }
 
   useEffect(() => {
 
     if (socket) {
-      socket.on("bid_update", (newBid) => {
+      socket.on("newest_bid", (newBid) => {
         updateBid(newBid)
       })
 
@@ -135,7 +145,7 @@ const ProductDetailBid = () => {
                 <div className="flex justify-between items-start mb-10">
                   <div>
                     <p className="font-['Manrope'] text-[10px] text-stone-500 mb-2 uppercase tracking-widest">Current Bid</p>
-                    <p className="text-4xl font-['Noto_Serif'] text-[#570000] font-bold">€48,500</p>
+                    <p className="text-4xl font-['Noto_Serif'] text-[#570000] font-bold">{currentBid}</p>
                     <p className="text-[14px] text-primary mt-3 text-headline">Highest Bidder: Username</p>
                   </div>
                   <div className="text-right">
