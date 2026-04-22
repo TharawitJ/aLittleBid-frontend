@@ -7,7 +7,7 @@ import useUserStore from "../stores/user.store.js";
 import Swal from "sweetalert2";
 
 const AddProduct = () => {
-  const { createProduct, allCategories, productIdForAuction } =
+  const { createProduct, allCategories } =
     useProductStore();
   const { createAuction } = useAuctionStore();
   const { user } = useUserStore();
