@@ -26,7 +26,6 @@ export const apiGetUserById = (userid) => mainApi.get(`/users/${userid}`);
 export const apiDeleteUserById = (userid) => mainApi.delete(`/users/${userid}`);
 export const apiEditUserAddressById = (userId, addressId, data) =>
   mainApi.patch(`/users/${userId}/addresses/${addressId}`, data);
-
 export const apiEditUserProfileById = (userId, authId, data) =>
   mainApi.patch(`/users/${userId}`, data);
 
