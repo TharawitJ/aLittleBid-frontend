@@ -9,6 +9,7 @@ import {
     apiEditUserAddressById,
     apiEditUserProfileById
 } from "../api/apiMain.js";
+import useSocketStore from './socket.store.js'
 
 const useUserStore = create()(
     persist(
@@ -30,12 +31,15 @@ const useUserStore = create()(
                     user: resp.data.responses,
                     userAddresses: resp.data.responses.addresses
                 })
-                // console.log('getuser',resp.data.responses)
+                console.log('getuser', resp.data.responses)
                 return resp.data.responses
             },
 
             // Action to log out
-            logout: () => set({ user: null, token: "" }),
+            logout: () => {
+                useSocketStore.getState().disconnect();
+                set({ user: null, token: "" })
+            },
 
             deleteUser: async (userId) => {
                 try {
@@ -51,7 +55,7 @@ const useUserStore = create()(
                 try {
                     const resp = await apiEditUserProfileById(userId, data)
                     // console.log('resp_editprofile', resp.data.responses)
-                     set({user: resp.data.responses,})
+                    set({ user: resp.data.responses, })
                     return resp.data.responses
                 } catch (error) {
                     console.error('error', error)

@@ -6,8 +6,9 @@ function DisplayProducts({displayProducts,allCategories}) {
     const navigate = useNavigate();
     const getProductsById = useProductStore((state)=>state.getProductsById)
     const hdlJoinClick=(id)=>{
+      // console.log('id', id)
         getProductsById(id)
-        navigate(`/product_detail_bid`)
+        navigate(`/product_detail_bid/${id}`)
     }
 
   return (
@@ -42,7 +43,7 @@ function DisplayProducts({displayProducts,allCategories}) {
                     <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-600 mb-1 block">
                       {category.name}
                     </span>
-                    <h3 className="font-['Noto_Serif'] text-xl">{i.name}</h3>
+                    <h3 className="font-['Noto_Serif'] text-xl h-12">{i.name}</h3>
                   </div>
                   <div className="text-center min-w-[67px]">
                     <span className="font-headline uppercase text-[10px] text-stone-600">

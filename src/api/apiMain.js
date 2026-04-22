@@ -28,8 +28,6 @@ export const apiDeleteUserById=(userid)=>mainApi.delete(`/users/${userid}`);
 export const apiEditUserProfileById=(userId, data)=>mainApi.patch(`/users/${userId}`, data);
 export const apiEditUserAddressById=(userId, addressId, data)=>mainApi.patch(`/users/${userId}/addresses/${addressId}`, data);
 
-// export const apiEditUserProfileById = (userId, authId, data) => mainApi.patch(`/users/${userId}`,data);
-
 // PRODUCTS
 export const apiGetCategories = () => mainApi.get(`/products/categories`);
 export const apiGetAllProducts = () => mainApi.get(`/products`);
