@@ -6,7 +6,7 @@ import HomePage from "../pages/HomePage.jsx";
 import AuctionPage from "../pages/AuctionPage.jsx";
 import SellerUserListProduct from "../pages/SellerListProduct.jsx";
 import ProductPageForSeller from "../pages/ProductPageForSeller.jsx";
-import ProductDetailBid from "../pages/ProductDetailBid.jsx";
+import ProductDetailBid from "../pages/AuctionBid.jsx";
 import ProductPage from "../pages/ProductPage.jsx";
 import AddProduct from "../pages/AddProduct.jsx";
 import OrderList from "../pages/OrderList.jsx";

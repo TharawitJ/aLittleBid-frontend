@@ -67,7 +67,7 @@ const NavBar = () => {
         <NavLink to="/" className={navLinkClass}>
           Home
         </NavLink>
-        <NavLink to="/ongoing_auctionss" className={navLinkClass}>
+        <NavLink to="/ongoing_auctions" className={navLinkClass}>
           Auctions
         </NavLink>
         <NavLink to="/products" className={navLinkClass}>
@@ -85,7 +85,7 @@ const NavBar = () => {
           <BlackHeartIcon />
         </NavLink>
         <NavLink
-          to="/my_order_list"
+          to="/my_orders"
           className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors w-6"
         >
           <BlackCartIcon />
