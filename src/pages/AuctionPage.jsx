@@ -1,10 +1,65 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router";
+import useSocketStore from "../stores/socket.store";
+import { io } from 'socket.io-client'
 
 const AuctionPage = () => {
   // Populars sort by count users bid or bidding counts
   // Ongoing Auction change to sort product by lesser time's left
 
-  const scrollRef = useRef(null)
+  //   const scrollRef = useRef(null)
+
+  //   const scroll = (direction) => {
+  //   if (scrollRef.current) {
+  //     const { scrollLeft, clientWidth } = scrollRef.current;
+  //     const scrollTo = direction === 'left' ? -clientWidth : clientWidth;
+  //     scrollRef.current.scrollBy({ left: scrollTo, behavior: 'smooth' });
+  //   }
+  // };
+
+  const { auctionId } = useParams()
+  const [timeLeft, setTimeLeft] = useState(0)
+  const socket = useSocketStore(state => state.socket)
+  const connect = useSocketStore(state => state.connect)
+  // const {socket, connect} = useSocketStore()
+
+  useEffect(() => {
+
+    connect()
+    console.log('socket', socket)
+    // socket.emit('join', { auctionId: auctionId })
+
+    // return () => {
+    //   socket.emit('leave_auction', auctionId)
+    // }
+  }, [])
+
+
+  // useEffect(() => {
+  //   socket.on("bid:update", (newBid) => {
+  //     setBid(newBid)
+  //   })
+
+  //    socket.on("auction:timer", (data) => {
+  //     setTimeLeft(data.timeLeft)
+  //   })
+
+  //   const formatTime = (ms) => {
+  //     if (ms <= 0) return { h: "00", m: "00", s: "00" };
+  //     const seconds = Math.floor((ms / 1000) % 60);
+  //     const minutes = Math.floor((ms / (1000 * 60)) % 60);
+  //     const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+  //     return {
+  //       h: hours.toString().padStart(2, '0'),
+  //       m: minutes.toString().padStart(2, '0'),
+  //       s: seconds.toString().padStart(2, '0')
+  //     };
+  //   };
+
+  //   const time = formatTime(timeLeft);
+
+  // }, [])
+
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
       <main className=" pb-20 px-12 max-w-[1920px] mx-auto">
@@ -59,7 +114,7 @@ const AuctionPage = () => {
           </div>
 
           {/* Smaller Lots Column */}
-          <div className="lg:col-span-7 flex flex-row overflow-x-auto gap-6 pb-6 snap-x snap-mandatory no-scrollbar ">
+          <div className="lg:col-span-7 flex flex-row overflow-x-auto gap-6 pb-6 snap-x snap-mandatory no-scrollbar">
             <div className="min-w-[280px] md:min-w-[320px] group cursor-pointer snap-start bg-on-surface rounded-xl shadow-sm border border-stone-100">
               <div className="relative overflow-hidden rounded-t-xl">
                 <img
@@ -75,7 +130,7 @@ const AuctionPage = () => {
                     </h4>
                     <p className="text-red text-lg font-semibold my-2">$18,200</p>
                     <span className="font-headline text-primary text-sm">
-                      Time Over: 59m 18s
+                      Time Left: 59m 18s
                     </span>
                   </div>
                   <div>
@@ -102,7 +157,7 @@ const AuctionPage = () => {
                     </h4>
                     <p className="text-red text-lg font-semibold my-2">$18,200</p>
                     <span className="font-headline text-primary text-sm">
-                      Time Over: 59m 18s
+                      Time Left: 59m 18s
                     </span>
                   </div>
                   <div>
@@ -129,7 +184,7 @@ const AuctionPage = () => {
                     </h4>
                     <p className="text-red text-lg font-semibold my-2">$18,200</p>
                     <span className="font-headline text-primary text-sm">
-                      Time Over: 59m 18s
+                      Time Left: 59m 18s
                     </span>
                   </div>
                   <div>
@@ -156,7 +211,7 @@ const AuctionPage = () => {
                     </h4>
                     <p className="text-red text-lg font-semibold my-2">$18,200</p>
                     <span className="font-headline text-primary text-sm">
-                      Time Over: 59m 18s
+                      Time Left: 59m 18s
                     </span>
                   </div>
                   <div>
@@ -166,6 +221,14 @@ const AuctionPage = () => {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="flex justify-end gap-2 mt-4">
+              <button onClick={() => scroll('left')} className="p-3 border border-stone-300 hover:bg-stone-100 transition-colors">
+                <span className="material-symbols-outlined">arrow_back</span>
+              </button>
+              <button onClick={() => scroll('right')} className="p-3 border border-stone-300 hover:bg-stone-100 transition-colors">
+                <span className="material-symbols-outlined">arrow_forward</span>
+              </button>
             </div>
           </div>
         </div>
@@ -204,8 +267,11 @@ const AuctionPage = () => {
               </div>
             </div>
             <div className="text-label text-s text-primary ml-1">
-              Time Over: less than 1 hour
+              Time Left: less than 1 hour
             </div>
+          </div>
+          <div className="text-l font-semibold uppercase tracking-widest text-stone-600 mb-10 block">
+            Category :
           </div>
         </section>
 
@@ -261,7 +327,7 @@ const AuctionPage = () => {
                     {product.title}
                   </h3>
 
-                  <span className="text-primary">Time Over: 50m 30s</span>
+                  <span className="text-primary">Time Left: 50m 30s</span>
                 </div>
 
                 <div className="text-center mx-3">

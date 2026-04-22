@@ -18,23 +18,22 @@ mainApi.interceptors.request.use((config) => {
 
 
 // api Path connecting with backend using by zustand at stores
+
 // USERS
 export const apiLogin = (body) => mainApi.post("/auth/login", body);
 export const apiRegister = (body) => mainApi.post("/auth/register", body);
-export const apiGetAllUser = () => mainApi.get("/users");
-export const apiGetUserById = (userid) => mainApi.get(`/users/${userid}`);
-export const apiDeleteUserById = (userid) => mainApi.delete(`/users/${userid}`);
-export const apiEditUserAddressById = (userId, addressId, data) =>
-  mainApi.patch(`/users/${userId}/addresses/${addressId}`, data);
-export const apiEditUserProfileById = (userId, authId, data) =>
-  mainApi.patch(`/users/${userId}`, data);
+export const apiGetAllUser=()=>mainApi.get('/users');
+export const apiGetUserById=(userid)=>mainApi.get(`/users/${userid}`);
+export const apiDeleteUserById=(userid)=>mainApi.delete(`/users/${userid}`);
+export const apiEditUserProfileById=(userId, data)=>mainApi.patch(`/users/${userId}`, data);
+export const apiEditUserAddressById=(userId, addressId, data)=>mainApi.patch(`/users/${userId}/addresses/${addressId}`, data);
 
 // PRODUCTS
 export const apiGetCategories = () => mainApi.get(`/products/categories`);
 export const apiGetAllProducts = () => mainApi.get(`/products`);
 export const apiGetProductsById = (productId) =>
   mainApi.get(`/products/${productId}`);
-export const apiCreateProduct = () => mainApi.post(`/products`);
+export const apiCreateProduct = (body) => mainApi.post(`/products`,body);
 export const apiUpdateProduct = (productId) =>
   mainApi.patch(`/products/${productId}`);
 export const apiDeleteProduct = (productId) =>
@@ -42,7 +41,7 @@ export const apiDeleteProduct = (productId) =>
 
 // AUCTION
 export const apiGetAllAuction = () => mainApi.get(`/auctions`);
-export const apiCreateAuction = () => mainApi.post(`/auctions`);
+export const apiCreateAuction = (body) => mainApi.post(`/auctions`,body);
 export const apiGetAuctionById = (auctionId) =>
   mainApi.get(`/auctions/${auctionId}`);
 export const apiUpdateAuction = (auctionId) =>

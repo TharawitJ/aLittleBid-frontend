@@ -11,19 +11,18 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
+  const login = useUserStore(state => state.login)
   const navigate = useNavigate();
-  const {login}=useUserStore()
 
   const canSubmit = validateEmail(email) && password.length >= 8;
 
-  async function handleLogin() {
+  function handleLogin() {
     if (!canSubmit) return;
     setLoading(true);
 
     try {
       const response = login({ email, password });
       const data = response.data;
-      localStorage.setItem("token", data.token);
 
       console.log("Login Success:", data);
       alert("Login Successful!");

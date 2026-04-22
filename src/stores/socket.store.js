@@ -1,0 +1,69 @@
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { io } from 'socket.io-client'
+import useUserStore from "./user.store.js";
+
+const useSocketStore = create()(persist((set, get) => ({
+    socket: null,
+    connect: () => {
+        // console.log('sockettes')
+        const newSocket = io('http://localhost:3000', {
+            auth: { token: useUserStore.getState().token }
+        });
+        // console.log('newSocket', newSocket)
+        newSocket.on('connect', () => {
+            console.log('Connected');
+        });
+
+        set({ socket: newSocket });
+
+    },
+    disconnect: () => {
+        // console.log('sockettesttttttt', get().socket)
+        try {
+            const socket = get().socket
+            // console.log('disconnectingsocket')
+            if (socket) {
+                socket.off()
+                socket.disconnect()
+                set({ socket: null })
+            }
+        } catch (error) {
+            console.log('error', error)
+            alert("Logout failed")
+        }
+    },
+    joinAuction: (auctionId) => {
+        try {
+            const socket = get().socket
+            if (socket) {
+                socket.emit('join_auction', auctionId);
+            }
+            // alert("join successful")
+        } catch (error) {
+            alert("join auction failed")
+        }
+    },
+    leaveAuction: (auctionId) => {
+        try {
+            const socket = get().socket
+            if (socket) {
+                socket.emit('leave_auction', auntionId);
+            }
+            alert("leave auction")
+        } catch (error) {
+            alert("leave auction failed")
+        }
+    }
+}),
+    {
+        name: 'socket-storage',
+        // 🔥 เพิ่มส่วนนี้เพื่อกรองเอา socket ออกจากการเซฟลง LocalStorage
+        partialize: (state) =>
+            Object.fromEntries(
+                Object.entries(state).filter(([key]) => !['socket'].includes(key))
+            ),
+    }
+))
+
+export default useSocketStore
