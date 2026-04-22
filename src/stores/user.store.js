@@ -21,14 +21,15 @@ const useUserStore = create()(
             // Action to log in by Jammy
             login: async (body) => {
                 const resp = await apiLogin(body);
-                set({ token: resp.data.token, user: resp.data.user });
-                return resp;
+                set({ token: resp.data.token,user: resp.data.user});
+                console.log('resp.data', resp.data)
+                return resp.data.user;
             },
             register:async(body)=>{
                 const resp = await apiRegister(body)
             },
-
             getUserById: async (id) => {
+                console.log('id', id)
                 const resp = await apiGetUserById(id);
                 set({
                     user: resp.data.responses,
@@ -37,6 +38,7 @@ const useUserStore = create()(
                 console.log('getuser', resp.data.responses)
                 return resp.data.responses
             },
+
 
             // Action to log out
             logout: () => {

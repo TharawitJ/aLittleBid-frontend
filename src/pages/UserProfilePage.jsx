@@ -10,24 +10,22 @@ import Swal from 'sweetalert2'
 const UserProfilePage = () => {
   const { logout, getUserById } = useUserStore();
   const user = useUserStore((state) => state.user);
-  // console.log('user', user)
   const userAddresses = useUserStore((state) => state.userAddresses);
-  // console.log("userAddress", userAddresses);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    getUserById(id);
-  }, []);
-
-   const defaultAddress = useMemo(() => {
-     return userAddresses?.find((item) => item.isDefault === true);
-   }, [userAddresses]); 
+  const { id, username, email, firstname, lastname, phone, role } = user;
+  
+  // useEffect(() => {
+  //   if(id){
+  //   getUserById(id);
+  //   }
+  // }, [id,getUserById]);
+  
+  const defaultAddress = useMemo(() => {
+    return userAddresses?.find((item) => item.isDefault === true);
+  }, [userAddresses]); 
   
   if (!user) return <div>Loading...</div>;
-
-  const { id, username, email, firstname, lastname, phone, role } = user;
-
-  // console.log('defaultAddress', defaultAddress)
+  
 
   const isSeller = user?.role === "SELLER";
 

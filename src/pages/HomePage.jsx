@@ -5,16 +5,12 @@
 import { NavLink } from 'react-router';
 import WelcomeGuest from '../components/homePage/WelcomeGuest';
 import WelcomeUser from '../components/homePage/WelcomeUser';
-import {useEffect} from "react"
+// import {useEffect} from "react"
 import useUserStore from "../stores/user.store.js";
 
 
 const HomePage = () => {
-  const { user,getUserById } = useUserStore();
-
-    useEffect(() => {
-      getUserById();
-    }, [user]);
+  const { user } = useUserStore();
 
     const userCheck =() =>{
       // console.log("userCheck",user)
