@@ -8,7 +8,7 @@ function DisplayProducts({displayProducts,allCategories}) {
     const hdlJoinClick=(id)=>{
       // console.log('id', id)
         getProductsById(id)
-        navigate(`/product_detail_bid/${id}`)
+        navigate(`/auction_bid/${id}`)
     }
 
   return (

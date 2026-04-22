@@ -28,11 +28,17 @@ const AuctionPage = () => {
     connect()
     console.log('socket', socket)
     // socket.emit('join', { auctionId: auctionId })
-
     // return () => {
     //   socket.emit('leave_auction', auctionId)
     // }
   }, [])
+
+  useEffect(() => {
+    if(socket) {
+      console.log('socket after connectec', socket)
+      console.log('socket id', socket.id)
+    }
+  }, [socket])
 
 
   // useEffect(() => {
