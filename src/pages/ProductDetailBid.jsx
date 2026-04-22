@@ -145,6 +145,7 @@ const ProductDetailBid = () => {
                 </div>
 
                 <form onSubmit={handleSubmit(hdlOnSubmit)}>
+                <form>
                   <div className="space-y-6">
                     <div className="space-y-2">
                       <label className="font-['Manrope'] uppercase tracking-widest text-[10px] text-stone-500">Your Bid</label>
