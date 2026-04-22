@@ -16,9 +16,9 @@ const useAuctionStore = create()(
     currentBid: 0,
     endTime: 0,
     serverOffset: 0,
-    updateBid: (bidPrice) => {
+    updateBid: (newBid) => {
       set({
-        currentBid: bidPrice
+        currentBid: newBid
       })
     },
     syncTime: ({endTime, serverTime}) => {

@@ -8,17 +8,15 @@ import useSocketStore from '../stores/socket.store.js';
 
 const ProductDetailBid = () => {
   const { productById, allCategories } = useProductStore()
-  const { auctionById, getAuctionById } = useAuctionStore()
+  const { auctionById, getAuctionById, updateBid, currentBid } = useAuctionStore()
   const { socket, connect, joinAuction, leaveAuction } = useSocketStore()
   // console.log('allAuction', allAuction)
   const { id, categoryId, name, description, sellerId, updatedAt, images } = productById
   // console.log('productById', productById)
   // console.log('images',images)
   const { auctionId } = useParams()
-  console.log('auctionId', auctionId)
+  // console.log('auctionId', auctionId)
   const [timeLeft, setTimeLeft] = useState(0)
-  const [bid, setBid] = useState(0)
-  const [input, setInput] = useState('')
   const { register, handleSubmit, reset } = useForm()
 
   useEffect(() => {
@@ -44,14 +42,19 @@ const ProductDetailBid = () => {
 
 
   const hdlOnSubmit = (bidPrice) => {
-    socket.emit("send_bid", { auctionId: auctionId, amount: bidPrice })
+    try {
+      socket.emit("send_bid", { auctionId: auctionId, amount: bidPrice })
+      
+    } catch (error) {
+      
+    }
   }
 
   useEffect(() => {
 
     if (socket) {
       socket.on("bid_update", (newBid) => {
-        setBid(newBid)
+        updateBid(newBid)
       })
 
       return () => socket.off("bid_update");
