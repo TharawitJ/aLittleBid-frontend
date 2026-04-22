@@ -1,16 +1,23 @@
-import React from "react";
+import React,{useEffect} from "react";
 import useAuctionStore from "../../stores/auction.store.js"
+import useBidStore from "../../stores/bid.store.js"
 import { useNavigate } from "react-router";
 
 function DisplayProducts({displayProducts,allCategories}) {
     const navigate = useNavigate();
     const getAuctionById = useAuctionStore((state)=>state.getAuctionById)
+    const {bidData,getAllBid,getBidById}=useBidStore()
     const hdlJoinClick=(id)=>{
       // console.log('id', id)
       getAuctionById(id)
       navigate(`/auction_bid/${id}`)
     }
-
+    useEffect(()=>{
+      getAllBid()
+      // getBidById()
+      console.log('bidData', bidData)
+    },[])
+    
   return (
     <>
       {displayProducts.map((i) => {
