@@ -6,10 +6,10 @@ function TimeCountdown({ product }) {
   //   const {allProducts}=props
   const { allAuction } = useAuctionStore();
   const [now, setNow] = useState(() => Date.now());
-  const filteredProduct = allAuction.filter(
+  const filteredProduct = allAuction?.filter(
     (item) => item.productId === product.id,
   );
-  const filteredProductByStatus = allAuction.filter(
+  const filteredProductByStatus = allAuction?.filter(
     (item) => item.productId === "ACTIVE",
   );
   console.log("filteredProductByStatus", filteredProductByStatus);
@@ -23,7 +23,7 @@ function TimeCountdown({ product }) {
   
   // Safe version using optional chaining and a fallback
   const getEndTimeMs = (products) => {
-    const endTimeStr = products[0]?.endTime;
+    const endTimeStr = products?.[0]?.endTime;
     return endTimeStr ? new Date(endTimeStr).getTime() : 0;
   };
   

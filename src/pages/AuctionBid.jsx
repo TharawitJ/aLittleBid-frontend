@@ -7,9 +7,11 @@ import { useForm } from 'react-hook-form';
 import useSocketStore from '../stores/socket.store.js';
 import useBidStore from '../stores/bid.store.js';
 import useUserStore from '../stores/user.store.js';
+import TimeCountdown from '../components/TimeCountdown.jsx';
 
 const AuctionBid = () => {
-  const { productById, allCategories } = useProductStore()
+  const { productById, allCategories, getProductById } = useProductStore()
+  console.log('productById', productById)
   const { auctionById, getAuctionById, setCurrentPrice, currentPrice } = useAuctionStore()
   console.log('auctionById', auctionById)
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore()
@@ -185,7 +187,7 @@ const AuctionBid = () => {
                   </div>
                   <div className="text-right">
                     <p className="font-['Manrope'] text-[10px] text-stone-500 mb-2 uppercase tracking-widest">Time Left</p>
-                    <p className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]">2d : 14h : 08m</p>
+                    <p className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]"><TimeCountdown product={auctionById.product}/></p>
                   </div>
                 </div>
 
