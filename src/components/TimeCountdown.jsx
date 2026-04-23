@@ -1,13 +1,36 @@
 import React, { useState, useEffect } from "react";
+import useAuctionStore from "../stores/auction.store.js";
 
-function TimeCountdown(product) {
+function TimeCountdown({ product }) {
   // Use a single state to track the "now" timestamp
   //   const {allProducts}=props
+  const { allAuction } = useAuctionStore();
   const [now, setNow] = useState(() => Date.now());
-  const endTime = (product) => new Date(product.endTime).getTime();
-  const diff = endTime - now;
+  const filteredProduct = allAuction.filter(
+    (item) => item.productId === product.id,
+  );
+  const filteredProductByStatus = allAuction.filter(
+    (item) => item.productId === "ACTIVE",
+  );
+  console.log("filteredProductByStatus", filteredProductByStatus);
 
-  console.log("timeout", product);
+  const endTime = (filteredProduct) =>
+    new Date(filteredProduct[0]?.endTime).getTime();
+  
+  // console.log("product", product);
+  // console.log("allAuction", filteredProduct);
+  // console.log("endTime", endTime);
+  
+  // Safe version using optional chaining and a fallback
+  const getEndTimeMs = (products) => {
+    const endTimeStr = products[0]?.endTime;
+    return endTimeStr ? new Date(endTimeStr).getTime() : 0;
+  };
+  
+  const targetTime = getEndTimeMs(filteredProduct);
+  const diff = targetTime - now;
+  console.log("diff", diff);
+  const isEnded = now > targetTime;
 
   // Simple formatting logic
   const formatTime = (ms) => {
@@ -29,9 +52,12 @@ function TimeCountdown(product) {
   return (
     <>
       {/* <div className="grid grid-cols-4 gap-4"> */}
-        <div key={product.id} className="rounded-xl">
-          <div className="material-symbols-outlined text-[16px] text-primary">{formatTime(diff)}</div>
+      <div key={product.id} className="rounded-xl text-red-950">
+        Time Left
+        <div className="material-symbols-outlined text-[16px] text-primary">
+          {formatTime(diff)}
         </div>
+      </div>
       {/* </div> */}
     </>
   );

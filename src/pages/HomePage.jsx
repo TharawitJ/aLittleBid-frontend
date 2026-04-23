@@ -1,41 +1,42 @@
-
 // import blackwatches from '../assets/blackwatches.jpeg'
 // import auction_sold from '../assets/auction_sold.jpeg'
 // import auction from '../assets/auction.jpeg'
-import { NavLink } from 'react-router';
-import WelcomeGuest from '../components/homePage/WelcomeGuest';
-import WelcomeUser from '../components/homePage/WelcomeUser';
-import { useEffect } from "react"
+import { NavLink } from "react-router";
+import WelcomeGuest from "../components/homePage/WelcomeGuest";
+import WelcomeUser from "../components/homePage/WelcomeUser";
+import { useEffect } from "react";
 import useUserStore from "../stores/user.store.js";
-import useSocketStore from '../stores/socket.store.js';
-
+import useProductStore from "../stores/product.store.js";
+import useAuctionStore from "../stores/auction.store.js";
+import useSocketStore from "../stores/socket.store.js";
 
 const HomePage = () => {
   const { user, getUserById } = useUserStore();
-  const { connect } = useSocketStore()
+  const { getAllAuction } = useAuctionStore();
+  const { getAllProducts,getCategories } = useProductStore();
+  const { connect } = useSocketStore();
 
   useEffect(() => {
-    getUserById();
-  }, [user])
+    getUserById(user.id);
+    getAllAuction();
+    getAllProducts();
+    getCategories();
+  }, []);
 
   const userCheck = () => {
     // console.log("userCheck",user)
     if (!user) {
-      return <WelcomeGuest />
+      return <WelcomeGuest />;
     }
-    return <WelcomeUser />
-  }
+    return <WelcomeUser />;
+  };
 
   useEffect(() => {
-
-    connect()
-
-  }, [])
-
+    connect();
+  }, []);
 
   return (
     <div className="bg-surface text-on-surface font-body min-h-screen">
-
       <main className="">
         {userCheck()}
         {/* <WelcomeUser/> */}
@@ -44,10 +45,17 @@ const HomePage = () => {
         <section id="auctions" className="px-6 md:px-12 py-24 bg-surface">
           <div className="flex justify-between items-end mb-16">
             <div>
-              <span className="font-label uppercase tracking-widest text-primary text-[10px]">Live Collection</span>
-              <h2 className="font-headline text-4xl mt-2 text-red">Ongoing Auctions</h2>
+              <span className="font-label uppercase tracking-widest text-primary text-[10px]">
+                Live Collection
+              </span>
+              <h2 className="font-headline text-4xl mt-2 text-red">
+                Ongoing Auctions
+              </h2>
             </div>
-            <NavLink to="/auction" className="text-primary font-label uppercase tracking-widest text-[10px] border-b border-primary/20 pb-1 hover:border-primary transition-all">
+            <NavLink
+              to="/auction"
+              className="text-primary font-label uppercase tracking-widest text-[10px] border-b border-primary/20 pb-1 hover:border-primary transition-all"
+            >
               View All
             </NavLink>
           </div>
@@ -65,10 +73,16 @@ const HomePage = () => {
                   <div>
                     {/* <p className="font-label uppercase tracking-widest text-[10px] text-secondary mb-1">Lot 042</p> */}
                     <h3 className="font-headline text-xl">Venetian Twilight</h3>
-                    <p className="font-label font-semibold text-red mt-1 ">Current: $42,500</p>
-                    <span className='font-label text-primary text-l'>Time over: 59:18</span>
+                    <p className="font-label font-semibold text-red mt-1 ">
+                      Current: $42,500
+                    </p>
+                    <span className="font-label text-primary text-l">
+                      Time over: 59:18
+                    </span>
                   </div>
-                  <button className="btn material-symbols-outlined text-primary hover:bg-gradient-to-r from-dark-red to-red hover:text-on-primary">JOIN</button>
+                  <button className="btn material-symbols-outlined text-primary hover:bg-gradient-to-r from-dark-red to-red hover:text-on-primary">
+                    JOIN
+                  </button>
                 </div>
               </div>
             </div>
@@ -84,11 +98,17 @@ const HomePage = () => {
                   />
                   <div className="absolute bottom-4 left-4 right-4 p-4 flex justify-between items-center rounded-lg bg-white/70 backdrop-blur-[20px]">
                     <div>
-                      <h4 className="font-headline text-lg">Patek Heritage '52</h4>
+                      <h4 className="font-headline text-lg">
+                        Patek Heritage '52
+                      </h4>
                       <p className="text-red text-sm font-semibold">$18,200</p>
-                      <span className='font-label text-primary text-sm'>Time over: 59:18</span>
+                      <span className="font-label text-primary text-sm">
+                        Time over: 59:18
+                      </span>
                     </div>
-                    <button className="btn material-symbols-outlined text-primary hover:bg-gradient-to-r from-dark-red to-red hover:text-on-primary">JOIN</button>
+                    <button className="btn material-symbols-outlined text-primary hover:bg-gradient-to-r from-dark-red to-red hover:text-on-primary">
+                      JOIN
+                    </button>
                   </div>
                 </div>
               </div>
@@ -102,11 +122,17 @@ const HomePage = () => {
                   />
                   <div className="absolute bottom-4 left-4 right-4 p-4 flex justify-between items-center rounded-lg bg-white/70 backdrop-blur-[20px]">
                     <div>
-                      <h4 className="font-headline text-lg">Royal Emerald Suite</h4>
+                      <h4 className="font-headline text-lg">
+                        Royal Emerald Suite
+                      </h4>
                       <p className="text-red text-sm font-semibold">$9,400</p>
-                      <span className='font-label text-primary text-sm'>Time over: 59:18</span>
+                      <span className="font-label text-primary text-sm">
+                        Time over: 59:18
+                      </span>
                     </div>
-                    <button className="btn material-symbols-outlined text-primary hover:bg-gradient-to-r from-dark-red to-red hover:text-on-primary">JOIN</button>
+                    <button className="btn material-symbols-outlined text-primary hover:bg-gradient-to-r from-dark-red to-red hover:text-on-primary">
+                      JOIN
+                    </button>
                   </div>
                 </div>
               </div>
