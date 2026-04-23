@@ -9,6 +9,8 @@ import Swal from "sweetalert2";
 const UserProfilePage = () => {
   const { logout, getUserById } = useUserStore();
   const user = useUserStore((state) => state.user);
+  console.log("userprofile", user);
+
   const userAddresses = useUserStore((state) => state.userAddresses);
   // console.log("userAddress", userAddresses);
   const navigate = useNavigate();
@@ -19,7 +21,21 @@ const UserProfilePage = () => {
 
   if (!user) return <div>Loading...</div>;
 
-  const { id, username, email, firstname, lastname, phone, role } = user;
+  const {
+    id,
+    username,
+    email,
+    firstname,
+    lastname,
+    name,
+    avatarUrl,
+    phone,
+    role,
+  } = user;
+
+  const showName = firstname || name?.split(" ")[0] || "n/a";
+  const showLastname = lastname || name?.split(" ")[1] || "n/a";
+  const showUsername = username || name?.split(" ")[1] || "n/a";
 
   // console.log('defaultAddress', defaultAddress)
 
@@ -123,7 +139,7 @@ const UserProfilePage = () => {
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
                     <h1 className="text-4xl font-serif italic text-red font-headline">
-                      {firstname} {lastname}
+                      {showName} {showLastname}
                     </h1>
                     <span className="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] uppercase tracking-[0.2em] font-bold rounded-sm">
                       {role}
@@ -181,7 +197,7 @@ const UserProfilePage = () => {
                     className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                     defaultValue=""
                   >
-                    {firstname}
+                    {showName}
                   </p>
                 </div>
                 <div className="space-y-1">
@@ -189,7 +205,7 @@ const UserProfilePage = () => {
                     Last Name
                   </label>
                   <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                    {lastname}
+                    {showLastname}
                   </p>
                 </div>
                 <div className="col-span-2 space-y-1">
@@ -197,7 +213,7 @@ const UserProfilePage = () => {
                     Username
                   </label>
                   <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                    {username}
+                    {showUsername}
                   </p>
                 </div>
                 <div className="col-span-2 space-y-1">
