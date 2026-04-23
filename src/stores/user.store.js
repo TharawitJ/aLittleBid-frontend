@@ -29,7 +29,12 @@ const useUserStore = create()(
             register:async(body)=>{
                 const resp = await apiRegister(body)
             },
-
+            getAllUser: async () => {
+                const resp = await apiGetAllUser()
+                console.log('resp_getAllUser', resp)
+                set({user: resp.data.responses})
+                return resp.data.responses
+            },
             getUserById: async (id) => {
                 const resp = await apiGetUserById(id);
                 set({
