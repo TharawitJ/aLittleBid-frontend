@@ -7,6 +7,7 @@ export const mainApi = axios.create({
     "Content-Type": "application/json",
   },
 });
+
 mainApi.interceptors.request.use((config) => {
   const token = useUserStore.getState().token;
   if (token) {
@@ -15,14 +16,12 @@ mainApi.interceptors.request.use((config) => {
   return config;
 });
 
-
-
 // api Path connecting with backend using by zustand at stores
 // USERS
 export const apiLogin = (body) => mainApi.post("/auth/login", body);
 export const apiRegister = (body) => mainApi.post("/auth/register", body);
 export const apiGetAllUser = () => mainApi.get("/users");
-export const apiGetUserById = (userid) => mainApi.get(`/users/${userid}`);
+export const apiGetUserById = () => mainApi.get(`/users/me`);
 export const apiDeleteUserById = (userid) => mainApi.delete(`/users/${userid}`);
 export const apiEditUserAddressById = (userId, addressId, data) =>
   mainApi.patch(`/users/${userId}/addresses/${addressId}`, data);

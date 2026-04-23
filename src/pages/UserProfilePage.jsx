@@ -9,15 +9,9 @@ import { useEffect, useState, useMemo } from "react";
 const UserProfilePage = () => {
   const { logout, getUserById } = useUserStore();
   const user = useUserStore((state) => state.user);
-  // console.log('user', user)
   const userAddresses = useUserStore((state) => state.userAddresses);
   // console.log("userAddress", userAddresses);
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   getUserById();
-  // }, [user]);
-   // In UserProfilePage.jsx
 
    const defaultAddress = useMemo(() => {
      return userAddresses?.find((item) => item.isDefault === true);
