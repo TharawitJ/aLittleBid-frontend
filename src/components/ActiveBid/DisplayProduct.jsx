@@ -1,29 +1,45 @@
 import React,{useEffect} from "react";
 import useAuctionStore from "../../stores/auction.store.js"
 import useBidStore from "../../stores/bid.store.js"
+import useUserStore from "../../stores/user.store.js"
+import useProductStore from "../../stores/product.store.js"
+import TimeCountdown from "../TimeCountdown.jsx"
 import { useNavigate } from "react-router";
 
-function DisplayProducts({displayProducts,allCategories}) {
+function DisplayProducts() {
     const navigate = useNavigate();
     const getAuctionById = useAuctionStore((state)=>state.getAuctionById)
+    const {allAuction,getAllAuction} = useAuctionStore()
+    const user = useUserStore((state)=>state.user)
+    const {allProducts,allCategories} = useProductStore()
     const {bidData,getAllBid,getBidById}=useBidStore()
-    const hdlJoinClick=(id)=>{
-      getAuctionById(id)
-      navigate(`/auction_bid/${id}`)
-    }
+
+    const hdlJoinClick =  (id) => {
+      try {
+        // console.log('id', id)
+        getAuctionById(id)
+        navigate(`/auction_bid/${id}`)
+      } catch (error) {
+        console.log(error.message)
+      }}
+      
+      useEffect(()=>{
+        getAllBid()
+        getAllAuction()
+      },[])
+
     // getAllBid Filter bidderId === userId
+    const filteredBidByUser = bidData.filter((item)=>item.bidderId === user.id)
     // getAuctionByBidId then getProductByAuctionId
-    useEffect(()=>{
-      getAllBid()
-      // getBidById()
-      console.log('bidData', bidData)
-    },[])
-    // displayProducts.filter()
+    const filteredAuctionByBid = allAuction.filter((item)=>item.id == filteredBidByUser[0].id)
+    const displayProducts = allProducts.filter((item)=>item.id===filteredAuctionByBid[0].productId)
     
   return (
     <>
       {displayProducts.map((i) => {
         const category = allCategories.find((cat) => cat.id === i.categoryId);
+        const auction = allAuction?.find((a) => a.productId === i.id);
+        const auctionId = auction?.id || i.id; 
         // console.log(category.name)
         return (
           <div key={i.id} className="group cursor-pointer w-full">
@@ -66,10 +82,10 @@ function DisplayProducts({displayProducts,allCategories}) {
                 <div className="mt-6 flex justify-between items-center">
                   <div className="flex items-center gap-2 text-stone-500">
                     <span className="material-symbols-outlined text-[16px] text-primary">
-                      {/* <TimeCountdown product={i}/> */}
+                      <TimeCountdown product={i}/>
                     </span>
                   </div>
-                  <button onClick={(()=>hdlJoinClick(i.auctionId))} className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
+                  <button onClick={(()=>hdlJoinClick(auctionId))} className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
                     Join
                   </button>
                 </div>

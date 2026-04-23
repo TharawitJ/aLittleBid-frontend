@@ -12,7 +12,6 @@ export default function LoginPage() {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const login = useUserStore(state => state.login)
-  const getUserById=useUserStore(state=>state.getUserById)
   const navigate = useNavigate();
 
   const canSubmit = validateEmail(email) && password.length >= 8;

@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-import React, { useEffect, useCallback } from "react";
-import useAuctionStore from "../../stores/auction.store.js";
-import useBidStore from "../../stores/bid.store.js";
-=======
 import React, { useEffect } from "react";
 import useAuctionStore from "../../stores/auction.store.js"
 import useBidStore from "../../stores/bid.store.js"
->>>>>>> dev
+import TimeCountdown from "../TimeCountdown.jsx"
 import { useNavigate } from "react-router";
 
 function DisplayProducts({ displayProducts, allCategories }) {
@@ -86,7 +81,7 @@ function DisplayProducts({ displayProducts, allCategories }) {
                 <div className="mt-6 flex justify-between items-center">
                   <div className="flex items-center gap-2 text-stone-500">
                     <span className="material-symbols-outlined text-[16px] text-primary">
-                      {/* <TimeCountdown product={i}/> */}
+                      <TimeCountdown product={i}/>
                     </span>
                   </div>
                   <button onClick={(() => hdlJoinClick(auctionId))} className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">

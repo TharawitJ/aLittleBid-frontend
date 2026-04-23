@@ -44,8 +44,8 @@ export const apiGetAllAuction = () => mainApi.get(`/auctions`);
 export const apiCreateAuction = (body) => mainApi.post(`/auctions`,body);
 export const apiGetAuctionById = (auctionId) =>
   mainApi.get(`/auctions/${auctionId}`);
-export const apiGetProductById = (productId) =>
-  mainApi.get(`/auctions/${productId}`);
+export const apiGetAcutionByProductId = (productId) =>
+  mainApi.get(`/auctions/product/${productId}`);
 export const apiUpdateAuction = (auctionId) =>
   mainApi.patch(`/auctions/${auctionId}`);
 export const apiDeleteAuction = (auctionId) =>
