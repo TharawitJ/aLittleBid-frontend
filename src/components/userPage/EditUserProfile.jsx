@@ -1,133 +1,110 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import useUserStore from "../stores/user.store";
+import useUserStore from "../../stores/user.store.js";
 
-function EditUserAddress({ defaultAddress }) {
-  console.log("addressesmodal", defaultAddress);
+function EditUserProfile() {
   const [isLoading, setIsLoading] = useState(false);
+  const user = useUserStore((state) => state.user);
+  const editUserProfile = useUserStore((state) => state.editUserProfile);
+  const getUserById = useUserStore((state) => state.getUserById);
   const { register, handleSubmit, reset, watch, setValue, formState } = useForm(
     {
       // resolver: zodResolver(editProfileSchema),
       mode: "onSubmit",
-      defaultValues: defaultAddress, // initialize with prop
     },
   );
 
   useEffect(() => {
-    if (defaultAddress) {
-      reset(defaultAddress);
-  console.log("useEffect", defaultAddress);
+    getUserById();
+  }, []);
 
-    }
-  }, [defaultAddress, reset]);
-
-  const user = useUserStore((state) => state.user);
-  // console.log('useredit', user)
-  const userAddresses = useUserStore((state) => state.userAddress);
-  // console.log('useraddressesedit', userAddresses)
-  const editUserAddress = useUserStore((state) => state.editUserAddress);
-
-  const onSubmit = async (body) => {
-    console.log("Data", body);
+  const onSubmit = async (data) => {
+    // console.log("dataaa", data);
     setIsLoading(true);
     try {
-      const resp = await editUserAddress(user.id, defaultAddress.id, body);
-      // console.log('resp', resp)
-      setIsLoading(false);
-      Swal.fire({ title: "Address Updated" });
-      document.getElementById("openeditaddress-modal").close();
+      const resp = await editUserProfile(user.id, data);
+      Swal.fire({
+        title: "Profile Updated",
+      });
+      document.getElementById("openeditprofile-modal").close();
     } catch (error) {
       Swal.fire({
-        title: "Error",
+        title: "Profile Update failed",
       });
     }
   };
 
   const hdlCloseModal = () => {
-    if (defaultAddress) {
-      reset(defaultAddress);
-    }
-    document.getElementById("openeditaddress-modal").close();
+    reset({
+      firstname: user.firstname,
+      lastname: user.lastname,
+      username: user.username,
+      email: user.email,
+      phone: user.phone,
+    });
+    document.getElementById("openeditprofile-modal").close();
   };
-
   return (
     <div>
       <div className="text-center mb-10 font-headline uppercase text-dark-red tracking-wider text-2xl">
-        Edit Address
+        Edit Profile
       </div>
-
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-x-8 gap-y-10">
           <div className="space-y-1">
             <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
-              Label
+              First Name
             </label>
             <input
               className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
               type="text"
-            //   defaultValue={defaultAddress?.label}
-              {...register("label")}
+              defaultValue={user.firstname}
+              {...register("firstname")}
             />
           </div>
-
           <div className="space-y-1">
             <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
-              Street
+              Last Name
             </label>
             <input
               className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
               type="text"
-            //   defaultValue={defaultAddress?.street}
-              {...register("street")}
+              defaultValue={user.lastname}
+              {...register("lastname")}
             />
           </div>
-
-          <div className="space-y-1">
+          <div className="col-span-2 space-y-1">
             <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
-              City
+              Username
             </label>
             <input
               className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
               type="text"
-            //   defaultValue={defaultAddress?.city}
-              {...register("city")}
+              defaultValue={user.username}
+              {...register("username")}
             />
           </div>
-
-          <div className="space-y-1">
+          <div className="col-span-2 space-y-1">
             <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
-              State
+              Email Address
             </label>
             <input
               className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-              type="text"
-            //   defaultValue={defaultAddress?.state}
-              {...register("state")}
+              type="email"
+              defaultValue={user.email}
+              {...register("email")}
             />
           </div>
-
-          <div className="space-y-1">
+          <div className="col-span-2 space-y-1">
             <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
-              Postal Code
+              Phone Number
             </label>
             <input
               className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-              type="text"
-            //   defaultValue={defaultAddress?.postalCode}
-              {...register("postalCode")}
-            />
-          </div>
-
-          <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
-              Country
-            </label>
-            <input
-              className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
-              type="text"
-            //   defaultValue={defaultAddress?.country}
-              {...register("country")}
+              type="tel"
+              defaultValue={user.phone}
+              {...register("phone")}
             />
           </div>
         </div>
@@ -148,4 +125,4 @@ function EditUserAddress({ defaultAddress }) {
   );
 }
 
-export default EditUserAddress;
+export default EditUserProfile;

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GoogleLogin } from "@react-oauth/google"; // เปลี่ยนจาก useGoogleLogin เป็น GoogleLogin
+import { GoogleLogin } from "@react-oauth/google"; 
 import { useNavigate } from "react-router-dom";
 import { apiLogin } from "../api/apiMain.js";
 import { mainApi as api } from "../api/apiMain.js";
@@ -14,6 +14,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
+  const login = useUserStore(state => state.login)
   const navigate = useNavigate();
   const token = useUserStore((state) => state.token);
   const loginAction = useUserStore((state) => state.login);

@@ -1,40 +1,46 @@
-import React from "react";
+import React, { Suspense } from "react";
 import MainLayout from "../layouts/mainLayout.jsx";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router";
 import UserProfilePage from "../pages/UserProfilePage.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import AuctionPage from "../pages/AuctionPage.jsx";
 import SellerUserListProduct from "../pages/SellerListProduct.jsx";
-import ProductPageForSeller from "../pages/ProductPageForSeller";
-import ProductDetailBid from "../pages/ProductDetailBid";
-import ProductPage from "../pages/ProductPage";
+import ProductPageForSeller from "../pages/ProductPageForSeller.jsx";
+import AuctionBid from "../pages/AuctionBid.jsx";
+import ProductPage from "../pages/ProductPage.jsx";
 import AddProduct from "../pages/AddProduct.jsx";
 import OrderList from "../pages/OrderList.jsx";
 import Payment from "../pages/Payment.jsx";
 // import ActiveBid from "../pages/ActiveBid.jsx";
 import Favorite from "../pages/Favorite.jsx";
 import ActiveBid from "../pages/ActiveBid.jsx";
+
 import LoginPage from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";
 import RequestOTP from "../pages/RequestOTP.jsx";
 import VerifyOTP from "../pages/VerifyOTP.jsx";
 import ResetPassword from "../pages/Resetpassword.jsx";
+import useUserStore from "../stores/user.store.js";
 
-const Router = createBrowserRouter([
+const guestRouter = createBrowserRouter([
+  { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <Register /> },
+  { path: "*", element: <HomePage /> },
+]);
+const userRouter = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
     children: [
       { index: true, element: <HomePage /> },
       { path: "user_profile", element: <UserProfilePage /> },
-      { path: "auction", element: <AuctionPage /> },
-      { path: "seller_list_product", element: <SellerUserListProduct /> },
-      { path: "seller_product", element: <ProductPageForSeller /> },
-      { path: "product_detail_bid", element: <ProductDetailBid /> },
+      { path: "ongoing_auctions", element: <AuctionPage /> },
+      { path: "seller_products", element: <SellerUserListProduct /> },
+      { path: "auction_bid/:auctionId", element: <AuctionBid /> },
       { path: "products", element: <ProductPage /> },
-      { path: "activebid", element: <ActiveBid /> },
+      { path: "my_active_bids", element: <ActiveBid /> },
       { path: "add_product", element: <AddProduct /> },
-      { path: "my_order_list", element: <OrderList /> },
+      { path: "my_orders", element: <OrderList /> },
       { path: "favorite", element: <Favorite /> },
       { path: "payment", element: <Payment /> },
       { path: "login", element: <LoginPage /> },
@@ -46,4 +52,15 @@ const Router = createBrowserRouter([
   },
 ]);
 
-export default Router;
+function AppRouter() {
+  const user = useUserStore((state) => state.user);
+  // console.log('user', user)
+  const finalRouter = user ? userRouter : guestRouter;
+  return (
+    <Suspense>
+      {<RouterProvider router={finalRouter}></RouterProvider>}
+    </Suspense>
+  );
+}
+
+export default AppRouter;

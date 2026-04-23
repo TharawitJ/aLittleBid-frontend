@@ -1,19 +1,41 @@
-import React from "react";
-import useProductStore from "../stores/product.store.js"
+import React, { useEffect } from "react";
+import useAuctionStore from "../../stores/auction.store.js"
+import useBidStore from "../../stores/bid.store.js"
 import { useNavigate } from "react-router";
 
-function DisplayProducts({displayProducts,allCategories}) {
-    const navigate = useNavigate();
-    const getProductsById = useProductStore((state)=>state.getProductsById)
-    const hdlJoinClick=(id)=>{
-        getProductsById(id)
-        navigate(`/product_detail_bid`)
+function DisplayProducts({ displayProducts, allCategories }) {
+  const navigate = useNavigate();
+  const auctionById = useAuctionStore(state => state.auctionById)
+  const getAuctionById = useAuctionStore((state) => state.getAuctionById)
+  const allAuction = useAuctionStore((state) => state.allAuction)
+  const getAllAuction = useAuctionStore((state) => state.getAllAuction)
+  const { bidData, getAllBid, getBidById } = useBidStore()
+  console.log('auctionById', auctionById)
+
+  const hdlJoinClick =  (id) => {
+    try {
+      // console.log('id', id)
+     getAuctionById(id)
+      navigate(`/auction_bid/${id}`)
+    } catch (error) {
+      console.log(error.message)
     }
+
+  }
+
+  useEffect(() => {
+    getAllBid()
+    getAllAuction()
+    // getBidById()
+    console.log('bidData', bidData)
+  }, [])
 
   return (
     <>
       {displayProducts.map((i) => {
         const category = allCategories.find((cat) => cat.id === i.categoryId);
+        const auction = allAuction?.find((a) => a.productId === i.id);
+        const auctionId = auction?.id || i.id; // Fallback to i.id if auction is not found
         // console.log(category.name)
         return (
           <div key={i.id} className="group cursor-pointer w-full">
@@ -42,7 +64,7 @@ function DisplayProducts({displayProducts,allCategories}) {
                     <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-600 mb-1 block">
                       {category.name}
                     </span>
-                    <h3 className="font-['Noto_Serif'] text-xl">{i.name}</h3>
+                    <h3 className="font-['Noto_Serif'] text-xl h-12">{i.name}</h3>
                   </div>
                   <div className="text-center min-w-[67px]">
                     <span className="font-headline uppercase text-[10px] text-stone-600">
@@ -59,7 +81,7 @@ function DisplayProducts({displayProducts,allCategories}) {
                       {/* <TimeCountdown product={i}/> */}
                     </span>
                   </div>
-                  <button onClick={(()=>hdlJoinClick(i.id))} className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
+                  <button onClick={(() => hdlJoinClick(auctionId))} className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
                     Join
                   </button>
                 </div>

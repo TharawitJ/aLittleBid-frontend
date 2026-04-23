@@ -1,10 +1,10 @@
 import { NavLink, useNavigate } from "react-router";
-import { useForm } from "react-hook-form";
 import { LogoutIcon } from "../icons";
-import EditUserProfile from "../components/EditUserProfile";
-import EditUserAddress from "../components/EditUserAddress";
+import EditUserProfile from "../components/userPage/EditUserProfile";
+import EditUserAddress from "../components/userPage/EditUserAddress";
 import useUserStore from "../stores/user.store.js";
-import { useEffect, useState, useMemo } from "react";
+import { useMemo } from "react";
+import Swal from "sweetalert2";
 
 const UserProfilePage = () => {
   const { logout, getUserById } = useUserStore();
@@ -13,21 +13,25 @@ const UserProfilePage = () => {
   // console.log("userAddress", userAddresses);
   const navigate = useNavigate();
 
-   const defaultAddress = useMemo(() => {
-     return userAddresses?.find((item) => item.isDefault === true);
-   }, [userAddresses]); 
-  
+  const defaultAddress = useMemo(() => {
+    return userAddresses?.find((item) => item.isDefault === true);
+  }, [userAddresses]);
+
   if (!user) return <div>Loading...</div>;
 
   const { id, username, email, firstname, lastname, phone, role } = user;
 
   // console.log('defaultAddress', defaultAddress)
 
+  const isSeller = user?.role === "SELLER";
+
   const hdlOpenEditProfileModal = () => {
     try {
       document.getElementById("openeditprofile-modal").showModal();
     } catch (error) {
-      toast.error("cannot open modal");
+      Swal.fire({
+        title: "Cannot Open Modal",
+      });
     }
   };
 
@@ -35,7 +39,9 @@ const UserProfilePage = () => {
     try {
       document.getElementById("openeditaddress-modal").showModal();
     } catch (error) {
-      toast.error("cannot open modal");
+      Swal.fire({
+        title: "Cannot Open Modal",
+      });
     }
   };
 
@@ -68,15 +74,17 @@ const UserProfilePage = () => {
                   Watchlist
                 </span>
               </NavLink>
-              <NavLink
-                to="/seller_list_product"
-                className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300"
-                href="#"
-              >
-                <span className="text-sm tracking-wide uppercase font-medium">
-                  Consignments
-                </span>
-              </NavLink>
+              {isSeller && (
+                <NavLink
+                  to="/seller_list_product"
+                  className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300"
+                  href="#"
+                >
+                  <span className="text-sm tracking-wide uppercase font-medium">
+                    Consignments
+                  </span>
+                </NavLink>
+              )}
 
               <div className="pt-8 mt-8 border-t border-outline-variant/30 flex">
                 <button
@@ -351,48 +359,12 @@ const UserProfilePage = () => {
           id="openeditaddress-modal"
           onClose={() => navigate("/user_profile")}
         >
-            <div className="modal-box">
-              <EditUserAddress defaultAddress={defaultAddress} />
-            </div>
+          <div className="modal-box">
+            <EditUserAddress defaultAddress={defaultAddress} />
+          </div>
         </dialog>
       </main>
       {/* Footer */}
-      <footer className="bg-[#efeeeb] w-full py-12 px-8 border-t border-outline-variant/10">
-        <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center w-full">
-          <div className="text-lg font-serif italic text-stone-900 font-headline mb-6 md:mb-0">
-            The Digital Curator
-          </div>
-          <div className="flex gap-8 mb-6 md:mb-0">
-            <a
-              className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors"
-              href="#"
-            >
-              Privacy Policy
-            </a>
-            <a
-              className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors"
-              href="#"
-            >
-              Terms of Service
-            </a>
-            <a
-              className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors"
-              href="#"
-            >
-              Shipping & Returns
-            </a>
-            <a
-              className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors"
-              href="#"
-            >
-              Contact Us
-            </a>
-          </div>
-          <p className="font-body uppercase tracking-widest text-[10px] text-stone-500">
-            © 2024 The Digital Curator. All rights reserved.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 };

@@ -13,8 +13,9 @@ const useProductStore = create()(
   persist((set, get) => ({
     allProducts: [],
     allCategories: [],
-    productById:[],
+    productById: [],
     productPage: 1,
+    // productIdForAuction: null,
     setProductPage: (page) => set({ productPage: page }),
 
     getAllProducts: async () => {
@@ -27,12 +28,20 @@ const useProductStore = create()(
       // console.log("getCategories", resp.data.responses);
       set({ allCategories: resp.data.responses });
     },
-    getProductsById: async(id)=>{
-      const resp = await apiGetProductsById(id)
-      set({productById:resp.data.responses})
-      console.log("getProductsById",resp.data.responses )
-    }
-    // apiCreateProduct
+    getProductsById: async (id) => {
+      const resp = await apiGetProductsById(id);
+      set({ productById: resp.data.responses });
+      console.log("getProductsById", resp.data.responses);
+    },
+    createProduct: async (body) => {
+      const resp = await apiCreateProduct(body);
+      set((state) => ({
+        allProducts: [...state.allProducts, resp.data.responses], // Keep it an array
+        // productIdForAuction: resp.data.responses.id,
+      }));
+      console.log("allProductsAfterCreate", resp.data.responses.id);
+      return resp.data.responses
+    },
     // apiUpdateProduct
     // apiDeleteProduct
   })),
