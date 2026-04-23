@@ -15,6 +15,7 @@ const useUserStore = create()(
     persist(
         (set, get) => ({
             user: null,
+            users:null,
             token: "",
             userAddresses: [],
 
@@ -22,17 +23,17 @@ const useUserStore = create()(
             login: async (body) => {
                 console.log("login")
                 const resp = await apiLogin(body);
-                console.log('resp.data', resp.data)
-                set({ token: resp.data.token, user: resp.data.user });
-                return resp;
+                set({ token: resp.data.token,user: resp.data.user});
+                return resp.data.user;
             },
             register:async(body)=>{
                 const resp = await apiRegister(body)
             },
             getAllUser: async () => {
+                console.log("getalluser")
                 const resp = await apiGetAllUser()
                 console.log('resp_getAllUser', resp)
-                set({user: resp.data.responses})
+                set({users: resp.data.responses})
                 return resp.data.responses
             },
             getUserById: async (id) => {
@@ -41,16 +42,13 @@ const useUserStore = create()(
                     user: resp.data.responses,
                     userAddresses: resp.data.responses.addresses
                 })
-                console.log('getuser', resp.data.responses)
                 return resp.data.responses
             },
-
             // Action to log out
             logout: () => {
                 useSocketStore.getState().disconnect();
                 set({ user: null, token: "" })
             },
-
             deleteUser: async (userId) => {
                 try {
                     await apiDeleteUserById(userId);
@@ -59,12 +57,9 @@ const useUserStore = create()(
                     throw err;
                 }
             },
-
             editUserProfile: async (userId, data) => {
-                console.log('editaddress', data)
                 try {
                     const resp = await apiEditUserProfileById(userId, data)
-                    // console.log('resp_editprofile', resp.data.responses)
                     set({ user: resp.data.responses, })
                     return resp.data.responses
                 } catch (error) {
@@ -74,10 +69,8 @@ const useUserStore = create()(
             },
 
             editUserAddress: async (userId, addressId, data) => {
-                console.log('editaddress', data)
                 try {
                     const resp = await apiEditUserAddressById(userId, addressId, data)
-                    // console.log('resp_editAddress', resp.data.responses)
                     set((state) => ({
                         userAddresses: state.userAddresses.map((e) => e.id === addressId ? resp.data.responses : e)
                     }))

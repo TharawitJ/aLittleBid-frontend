@@ -11,13 +11,14 @@ const useBidStore = create()(
                 newBid: typeof newPrice === 'function' ? newPrice(state.newBid) : newPrice
             }))
         },
-        getAllBid: async (auctionId) => {
-            const resp = await apiGetAllBid(auctionId);
+        getAllBid: async () => {
+            const resp = await apiGetAllBid();
             //   console.log("resp", resp.data.responses);
             set({ bidData: resp.data.responses });
+            console.log('getAllBid', resp.data.responses)
         },
-        getBidById: async () => {
-            const resp = await apiGetBidById();
+        getBidById: async (bidId) => {
+            const resp = await apiGetBidById(bidId);
             console.log('apiGetBidById', resp)
         },
     })),
