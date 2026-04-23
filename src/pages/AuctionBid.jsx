@@ -175,11 +175,12 @@ const AuctionBid = () => {
                       {newBid.length > 0 ? newBid[0].amount : auctionById?.startingPrice || 0}
                     </p>
                     <p className="text-[14px] text-primary mt-3 text-headline">
-                      Highest Bidder: {
+                      Highest Bidder: 
+                      {/* {
                         newBid.length > 0
                           ? (user.find(u => u.id === newBid[0].bidderId)?.username || "Loading name...")
                           : 'No bids yet'
-                      }
+                      } */}
                     </p>
                   </div>
                   <div className="text-right">
@@ -224,10 +225,10 @@ const AuctionBid = () => {
                           </div>
                           <div className="text-left">
                             <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
-                              {
+                              {/* {
                                 user.find(i => e.bidderId === i.id).username
                               }
-                              {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`} */}
+                              {e.bidderId == user.id ? user.username : `User ${e.bidderId}`} */}
                             </p>
                             <p className="text-[14px] text-stone-500 uppercase tracking-widest">{e.amount}</p>
                           </div>
