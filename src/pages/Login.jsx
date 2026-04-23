@@ -22,9 +22,10 @@ export default function LoginPage() {
 
     try {
       const response = login({ email, password });
-      const data = response.data;
+      // const data = response;
 
-      console.log("Login Success:", data);
+      console.log("Login Success:", response);
+      // getUserById(data.id)
       alert("Login Successful!");
       navigate("/");
     } catch (error) {

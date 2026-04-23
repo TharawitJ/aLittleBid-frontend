@@ -27,13 +27,10 @@ function EditUserAddress({ defaultAddress }) {
   const userAddresses = useUserStore((state) => state.userAddress);
   // console.log('useraddressesedit', userAddresses)
   const editUserAddress = useUserStore((state) => state.editUserAddress);
-
   const onSubmit = async (body) => {
-    // console.log("Data", body);
     setIsLoading(true);
     try {
       const resp = await editUserAddress(user.id, defaultAddress.id, body);
-      // console.log('resp', resp)
       setIsLoading(false);
       Swal.fire({ title: "Address Updated" });
       document.getElementById("openeditaddress-modal").close();
