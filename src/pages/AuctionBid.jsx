@@ -187,7 +187,7 @@ const AuctionBid = () => {
                   </div>
                   <div className="text-right">
                     <p className="font-['Manrope'] text-[10px] text-stone-500 mb-2 uppercase tracking-widest">Time Left</p>
-                    <p className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]"><TimeCountdown product={auctionById.product}/></p>
+                    <p className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]"><TimeCountdown product={auctionById?.product}/></p>
                   </div>
                 </div>
 
