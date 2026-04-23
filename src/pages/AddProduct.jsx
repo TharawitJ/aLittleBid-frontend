@@ -59,7 +59,7 @@ const AddProduct = () => {
         reservePrice: Number(reservePrice),
         minIncrement: Number(minIncrement),
         productId: newProduct.id,
-        status:"WAITING"
+        status: "WAITING"
       };
       const auctionAfterCreated = await createAuction(auctionTableData);
       console.log('auctionAfterCreated', auctionAfterCreated)

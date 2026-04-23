@@ -3,6 +3,12 @@ import { persist } from "zustand/middleware";
 import { io } from 'socket.io-client'
 import useUserStore from "./user.store.js";
 
+// const socketInstance = io("http://localhost:3000", {
+//   autoConnect: false, // คุมการเชื่อมต่อเอง
+//   reconnection: true,
+//   reconnectionAttempts: 5,
+// });
+
 const useSocketStore = create()(persist((set, get) => ({
     socket: null,
     connect: () => {

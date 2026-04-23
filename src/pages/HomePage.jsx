@@ -5,20 +5,32 @@
 import { NavLink } from 'react-router';
 import WelcomeGuest from '../components/homePage/WelcomeGuest';
 import WelcomeUser from '../components/homePage/WelcomeUser';
-// import {useEffect} from "react"
+import { useEffect } from "react"
 import useUserStore from "../stores/user.store.js";
+import useSocketStore from '../stores/socket.store.js';
 
 
 const HomePage = () => {
-  const { user } = useUserStore();
+  const { user, getUserById } = useUserStore();
+  const { connect } = useSocketStore()
 
-    const userCheck =() =>{
-      // console.log("userCheck",user)
-      if(!user){
-        return <WelcomeGuest/>
-      }
-      return <WelcomeUser/>
+  useEffect(() => {
+    getUserById();
+  }, [user])
+
+  const userCheck = () => {
+    // console.log("userCheck",user)
+    if (!user) {
+      return <WelcomeGuest />
     }
+    return <WelcomeUser />
+  }
+
+  useEffect(() => {
+
+    connect()
+
+  }, [])
 
 
   return (
@@ -92,9 +104,9 @@ const HomePage = () => {
                     <div>
                       <h4 className="font-headline text-lg">Royal Emerald Suite</h4>
                       <p className="text-red text-sm font-semibold">$9,400</p>
-                     <span className='font-label text-primary text-sm'>Time over: 59:18</span>
+                      <span className='font-label text-primary text-sm'>Time over: 59:18</span>
                     </div>
-                     <button className="btn material-symbols-outlined text-primary hover:bg-gradient-to-r from-dark-red to-red hover:text-on-primary">JOIN</button>
+                    <button className="btn material-symbols-outlined text-primary hover:bg-gradient-to-r from-dark-red to-red hover:text-on-primary">JOIN</button>
                   </div>
                 </div>
               </div>

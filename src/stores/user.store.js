@@ -20,12 +20,19 @@ const useUserStore = create()(
 
             // Action to log in by Jammy
             login: async (body) => {
+                console.log("login")
                 const resp = await apiLogin(body);
                 set({ token: resp.data.token,user: resp.data.user});
                 return resp.data.user;
             },
             register:async(body)=>{
                 const resp = await apiRegister(body)
+            },
+            getAllUser: async () => {
+                const resp = await apiGetAllUser()
+                console.log('resp_getAllUser', resp)
+                set({user: resp.data.responses})
+                return resp.data.responses
             },
             getUserById: async (id) => {
                 const resp = await apiGetUserById(id);

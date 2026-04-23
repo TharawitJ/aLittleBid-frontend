@@ -19,26 +19,16 @@ const AuctionPage = () => {
 
   const { auctionId } = useParams()
   const [timeLeft, setTimeLeft] = useState(0)
-  const socket = useSocketStore(state => state.socket)
-  const connect = useSocketStore(state => state.connect)
+  // const socket = useSocketStore(state => state.socket)
+  // const connect = useSocketStore(state => state.connect)
   // const {socket, connect} = useSocketStore()
 
-  useEffect(() => {
-
-    connect()
-    console.log('socket', socket)
-    // socket.emit('join', { auctionId: auctionId })
-    // return () => {
-    //   socket.emit('leave_auction', auctionId)
-    // }
-  }, [])
-
-  useEffect(() => {
-    if(socket) {
-      console.log('socket after connectec', socket)
-      console.log('socket id', socket.id)
-    }
-  }, [socket])
+  // useEffect(() => {
+  //   if(socket) {
+  //     console.log('socket after connectec', socket)
+  //     console.log('socket id', socket.id)
+  //   }
+  // }, [socket])
 
 
   // useEffect(() => {
