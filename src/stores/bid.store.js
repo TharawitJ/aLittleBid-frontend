@@ -15,11 +15,11 @@ const useBidStore = create()(
             const resp = await apiGetAllBid();
             //   console.log("resp", resp.data.responses);
             set({ bidData: resp.data.responses });
-            console.log('getAllBid', resp.data.responses)
+            // console.log('getAllBid', resp.data.responses)
         },
         getBidById: async (bidId) => {
             const resp = await apiGetBidById(bidId);
-            console.log('apiGetBidById', resp)
+            // console.log('apiGetBidById', resp)
         },
     })),
 
