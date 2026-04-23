@@ -25,7 +25,6 @@ function DisplayProducts({ displayProducts, allCategories }) {
     } catch (error) {
       console.log(error.message)
     }
-
   }
 
   useEffect(() => {

@@ -17,7 +17,7 @@ const HomePage = () => {
   const { connect } = useSocketStore();
 
   useEffect(() => {
-    getUserById(user.id);
+    getUserById(user?.id);
     getAllAuction();
     getAllProducts();
     getCategories();

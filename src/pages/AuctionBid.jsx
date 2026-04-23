@@ -17,16 +17,17 @@ const AuctionBid = () => {
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore()
   console.log('socket', socket)
   const { bidData, getAllBid, newBid, setNewBid } = useBidStore()
+  console.log('newBid', newBid)
   // console.log('bidData', bidData)
   const { users, getAllUser } = useUserStore()
   console.log('user', users)
   const { id, categoryId, name, description, sellerId, updatedAt, images } = productById
   const { auctionId } = useParams()
-  // const [timeLeft, setTimeLeft] = useState(0)
-  // const [newBid, setNewBid] = useState([])
-  console.log('newBid', newBid)
   // console.log('bidData', bidData)
   const { register, handleSubmit, reset } = useForm()
+
+  const filteredNewBid = newBid.filter((i) => i.auctionId === auctionById.id)
+  console.log('filteredNewBid', filteredNewBid)
 
   const hdlOnSubmit = ({ amount }) => {
     console.log('amount', amount)
@@ -42,7 +43,7 @@ const AuctionBid = () => {
     if (socket) {
       socket.emit("send_bid", { auctionId, amount });
       updateBidText()
-      alert('bid successful')
+      // alert('bid successful')
     } else {
       return
     }
@@ -154,8 +155,8 @@ const AuctionBid = () => {
             <div className="space-y-12">
               <div className="space-y-4">
                 <span className="font-['Manrope'] uppercase tracking-widest text-lg text-[#570000] font-bold">{filterCategoryName[0]?.name}</span>
-                <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">{name}</h1>
-                <p className="text-xl font-['Noto_Serif'] italic text-[#5e5e5e]">Attributed to Francesco Guardi (1712–1793)</p>
+                <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">{auctionById.product.name}</h1>
+                <p className="text-xl font-['Noto_Serif'] italic text-[#5e5e5e]">{auctionById.product.description}</p>
               </div>
 
               <div className="max-w-none text-lg text-[#5a413d] leading-relaxed font-light space-y-4">
@@ -172,7 +173,7 @@ const AuctionBid = () => {
                   <div>
                     <p className="font-['Manrope'] text-[12px] text-black mb-2 uppercase tracking-widest">Current Bid</p>
                     <p className="text-4xl font-['Noto_Serif'] text-dark-red font-bold tracking-wider">
-                      {newBid.length > 0 ? newBid[0].amount : auctionById?.startingPrice || 0}
+                      {filteredNewBid.length > 0 ? filteredNewBid[0].amount : auctionById?.startingPrice || 0}
                     </p>
                     <span className="text-[14px] text-primary mt-5 text-headline uppercase">
                       Highest Bidder:
@@ -180,7 +181,7 @@ const AuctionBid = () => {
                     <span className="text-[14px] text-secondary mt-3 text-headline uppercase font-bold mx-2">
                       {
                         newBid.length > 0
-                          ? (users?.find(u => u.id === newBid[0].bidderId)?.username || "Loading name...")
+                          ? (users?.find(u => u.id === filteredNewBid[0].bidderId)?.username || "Loading name...")
                           : 'No bids yet'
                       }
                     </span>
@@ -219,8 +220,8 @@ const AuctionBid = () => {
                     "This specific canvas represents the pinnacle of 18th-century veduta painting. The 'ghostly' architecture is a signature mark of Guardi's later style."
                   </p> */}
                   <div className='flex flex-col gap-3 overflow-y-auto max-h-[200px]'>
-                    {newBid.map((e, i) => (
-                      <div className='flex justify-between items-center'>
+                    {filteredNewBid.map((e, i) => (
+                      <div key={i} className='flex justify-between items-center'>
                         <div className="flex items-center gap-4 pt-4">
                           <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
                             <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe" alt="Curator" className="w-full h-full object-cover" />
