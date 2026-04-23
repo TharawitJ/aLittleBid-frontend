@@ -22,30 +22,24 @@ const useUserStore = create()(
             login: async (body) => {
                 const resp = await apiLogin(body);
                 set({ token: resp.data.token,user: resp.data.user});
-                console.log('resp.data', resp.data)
                 return resp.data.user;
             },
             register:async(body)=>{
                 const resp = await apiRegister(body)
             },
             getUserById: async (id) => {
-                console.log('id', id)
                 const resp = await apiGetUserById(id);
                 set({
                     user: resp.data.responses,
                     userAddresses: resp.data.responses.addresses
                 })
-                console.log('getuser', resp.data.responses)
                 return resp.data.responses
             },
-
-
             // Action to log out
             logout: () => {
                 useSocketStore.getState().disconnect();
                 set({ user: null, token: "" })
             },
-
             deleteUser: async (userId) => {
                 try {
                     await apiDeleteUserById(userId);
@@ -54,12 +48,9 @@ const useUserStore = create()(
                     throw err;
                 }
             },
-
             editUserProfile: async (userId, data) => {
-                console.log('editaddress', data)
                 try {
                     const resp = await apiEditUserProfileById(userId, data)
-                    // console.log('resp_editprofile', resp.data.responses)
                     set({ user: resp.data.responses, })
                     return resp.data.responses
                 } catch (error) {
@@ -69,10 +60,8 @@ const useUserStore = create()(
             },
 
             editUserAddress: async (userId, addressId, data) => {
-                console.log('editaddress', data)
                 try {
                     const resp = await apiEditUserAddressById(userId, addressId, data)
-                    // console.log('resp_editAddress', resp.data.responses)
                     set((state) => ({
                         userAddresses: state.userAddresses.map((e) => e.id === addressId ? resp.data.responses : e)
                     }))

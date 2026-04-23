@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate} from "react-router";
 import { useForm } from "react-hook-form";
 import { CrossIcon, PhotoIcon } from "../icons";
 import useProductStore from "../stores/product.store.js";
@@ -7,9 +8,9 @@ import useUserStore from "../stores/user.store.js";
 import Swal from "sweetalert2";
 
 const AddProduct = () => {
-  const { createProduct, allCategories } =
+  const { createProduct, allCategories, updateProduct } =
     useProductStore();
-  const { createAuction } = useAuctionStore();
+  const { allAuction,getAllAuction,createAuction,getAuctionByProductId } = useAuctionStore();
   const { user } = useUserStore();
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, reset, watch, setValue, formState } = useForm(
@@ -18,13 +19,14 @@ const AddProduct = () => {
       mode: "onSubmit",
     },
   );
+  const navigate = useNavigate()
 
   const onSubmit = async (data) => {
     const {
       description,
       name,
       startTime,
-      endTime,
+      durationEndTime,
       startingPrice,
       reservePrice,
       minIncrement,
@@ -34,11 +36,11 @@ const AddProduct = () => {
 
     setIsLoading(true);
     // console.log("user", user);
-    const start = new Date(data.startTime);
+    const start = new Date(startTime);
     console.log('start', start)
 
     // 2. Calculate End Date: Start (in ms) + (Hours * ms in an hour)
-    const durationInMs = Number(data.durationHours) * 60 * 60 * 1000;
+    const durationInMs = Number(durationEndTime) * 60 * 60 * 1000;
     const end = new Date(start.getTime() + durationInMs);
     console.log('end', end)
     try {
@@ -53,18 +55,22 @@ const AddProduct = () => {
         // Converts to 2026-04-22T12:31:00.000Z
         startTime: start.toISOString(),
         endTime: end.toISOString(),
-        startingPrice: Number(data.startingPrice),
-        reservePrice: Number(data.reservePrice),
-        minIncrement: Number(data.minIncrement),
+        startingPrice: Number(startingPrice),
+        reservePrice: Number(reservePrice),
+        minIncrement: Number(minIncrement),
         productId: newProduct.id,
         status:"WAITING"
       };
-      console.log("productTableData", productTableData);
-      console.log("auctionTableData", auctionTableData);
-      await createAuction(auctionTableData);
+      const auctionAfterCreated = await createAuction(auctionTableData);
+      console.log('auctionAfterCreated', auctionAfterCreated)
+      console.log('newProduct.id', newProduct.id)
+      const filterAuctionByProductId =  auctionAfterCreated.filter((item)=> item.productId === newProduct.id)
+      console.log('filterAuctionByProductId', filterAuctionByProductId)
+
       Swal.fire({
         title: "Product created!",
       });
+      navigate("/seller_products")
     } catch (error) {
       console.log(error);
       Swal.fire({
@@ -161,9 +167,9 @@ const AddProduct = () => {
                       End Time
                     </label>
                     <select
-                      name="endTime"
+                      name="durationEndTime"
                       className="min-h-[37px] border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
-                      {...register("durationHours")}
+                      {...register("durationEndTime")}
                     >
                       <option value="24">1 day</option>
                       <option value="72">3 day</option>

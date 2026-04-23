@@ -1,35 +1,30 @@
-import React, { useEffect, useCallback } from "react";
-import useAuctionStore from "../../stores/auction.store.js";
-import useBidStore from "../../stores/bid.store.js";
+import React,{useEffect} from "react";
+import useAuctionStore from "../../stores/auction.store.js"
+import useBidStore from "../../stores/bid.store.js"
 import { useNavigate } from "react-router";
 
-function DisplayProducts({ displayProducts, allCategories }) {
-  const navigate = useNavigate();
-  const {allAuction,getAllAuction,getAuctionById} = useAuctionStore((state) => state.getAuctionById);
-  const { bidData, getAllBid, getBidById } = useBidStore();
-
-  const hdlJoinClick = useCallback(
-    (id) => {
-      // getAuctionById(auctionId);
-      const filteredAuction = allAuction.filter((item)=>item.productId===id)
-      console.log('filteredAuction', filteredAuction)
-      navigate(`/auction_bid/${filteredAuction.id}`);
-    },
-    [navigate,allAuction],
-  );
-
-  useEffect(() => {
-    getAllBid();
-    // getAllAuction()
-    // getBidById()
-    console.log("bidData", bidData);
-  }, []);
-  console.log('displayProducts', displayProducts)
-
+function DisplayProducts({displayProducts,allCategories}) {
+    const navigate = useNavigate();
+    const getAuctionById = useAuctionStore((state)=>state.getAuctionById)
+    const {bidData,getAllBid,getBidById}=useBidStore()
+    const hdlJoinClick=(id)=>{
+      getAuctionById(id)
+      navigate(`/auction_bid/${id}`)
+    }
+    // getAllBid Filter bidderId === userId
+    // getAuctionByBidId then getProductByAuctionId
+    useEffect(()=>{
+      getAllBid()
+      // getBidById()
+      console.log('bidData', bidData)
+    },[])
+    // displayProducts.filter()
+    
   return (
     <>
       {displayProducts.map((i) => {
         const category = allCategories.find((cat) => cat.id === i.categoryId);
+        // console.log(category.name)
         return (
           <div key={i.id} className="group cursor-pointer w-full">
             <div className="relative overflow-hidden rounded-3xl">
@@ -57,9 +52,7 @@ function DisplayProducts({ displayProducts, allCategories }) {
                     <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-600 mb-1 block">
                       {category.name}
                     </span>
-                    <h3 className="font-['Noto_Serif'] text-xl h-12">
-                      {i.name}
-                    </h3>
+                    <h3 className="font-['Noto_Serif'] text-xl h-12">{i.name}</h3>
                   </div>
                   <div className="text-center min-w-[67px]">
                     <span className="font-headline uppercase text-[10px] text-stone-600">
@@ -76,10 +69,7 @@ function DisplayProducts({ displayProducts, allCategories }) {
                       {/* <TimeCountdown product={i}/> */}
                     </span>
                   </div>
-                  <button
-                    onClick={() => hdlJoinClick(i.id)}
-                    className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20"
-                  >
+                  <button onClick={(()=>hdlJoinClick(i.auctionId))} className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
                     Join
                   </button>
                 </div>

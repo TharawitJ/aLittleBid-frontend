@@ -40,24 +40,23 @@ const useAuctionStore = create()(
       console.log("apiCreateAuction",apiCreateAuction)
       const resp = await apiGetAllAuction();
       set({allAuction:resp.data.responses})
+      return resp.data.responses
     },
     getAuctionById: async (auctionId) => {
       const resp = await apiGetAuctionById(auctionId);
       console.log("apiGetAuctionById",apiGetAuctionById)
       set({auctionById:resp.data.responses})
-
+      return resp.data.responses
     },
     updateAuction: async (auctionId) => {
       const resp = await apiUpdateAuction(auctionId);
       console.log("apiUpdateAuction",apiUpdateAuction)
       set({allAuction:resp.data.responses})
-
     },
     deleteAuction: async (auctionId) => {
       const resp = await apiDeleteAuction(auctionId);
       console.log("apiDeleteAuction",apiDeleteAuction)
       set({allAuction:resp.data.responses})
-
     },
   })),
 );

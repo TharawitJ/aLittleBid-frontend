@@ -13,7 +13,7 @@ const UserProfilePage = () => {
   const userAddresses = useUserStore((state) => state.userAddresses);
   const navigate = useNavigate();
   const { id, username, email, firstname, lastname, phone, role } = user;
-  
+  console.log('id', id)
   // useEffect(() => {
   //   if(id){
   //   getUserById(id);

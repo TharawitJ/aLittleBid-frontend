@@ -10,8 +10,8 @@ const useBidStore = create()(
     //   console.log("resp", resp.data.responses);
       set({bidData:resp.data.responses});
     },
-    getBidById: async () => {
-      const resp = await apiGetBidById();
+    getBidById: async (bidId) => {
+      const resp = await apiGetBidById(bidId);
       console.log('apiGetBidById', resp)
     },
   })),
