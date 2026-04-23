@@ -1,27 +1,41 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import useAuctionStore from "../../stores/auction.store.js"
 import useBidStore from "../../stores/bid.store.js"
 import { useNavigate } from "react-router";
 
-function DisplayProducts({displayProducts,allCategories}) {
-    const navigate = useNavigate();
-    const getAuctionById = useAuctionStore((state)=>state.getAuctionById)
-    const {bidData,getAllBid,getBidById}=useBidStore()
-    const hdlJoinClick=(id)=>{
+function DisplayProducts({ displayProducts, allCategories }) {
+  const navigate = useNavigate();
+  const auctionById = useAuctionStore(state => state.auctionById)
+  const getAuctionById = useAuctionStore((state) => state.getAuctionById)
+  const allAuction = useAuctionStore((state) => state.allAuction)
+  const getAllAuction = useAuctionStore((state) => state.getAllAuction)
+  const { bidData, getAllBid, getBidById } = useBidStore()
+  console.log('auctionById', auctionById)
+
+  const hdlJoinClick =  (id) => {
+    try {
       // console.log('id', id)
-      getAuctionById(id)
+     getAuctionById(id)
       navigate(`/auction_bid/${id}`)
+    } catch (error) {
+      console.log(error.message)
     }
-    useEffect(()=>{
-      getAllBid()
-      // getBidById()
-      console.log('bidData', bidData)
-    },[])
-    
+
+  }
+
+  useEffect(() => {
+    getAllBid()
+    getAllAuction()
+    // getBidById()
+    console.log('bidData', bidData)
+  }, [])
+
   return (
     <>
       {displayProducts.map((i) => {
         const category = allCategories.find((cat) => cat.id === i.categoryId);
+        const auction = allAuction?.find((a) => a.productId === i.id);
+        const auctionId = auction?.id || i.id; // Fallback to i.id if auction is not found
         // console.log(category.name)
         return (
           <div key={i.id} className="group cursor-pointer w-full">
@@ -67,7 +81,7 @@ function DisplayProducts({displayProducts,allCategories}) {
                       {/* <TimeCountdown product={i}/> */}
                     </span>
                   </div>
-                  <button onClick={(()=>hdlJoinClick(i.id))} className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
+                  <button onClick={(() => hdlJoinClick(auctionId))} className="btn material-symbols-outlined bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
                     Join
                   </button>
                 </div>

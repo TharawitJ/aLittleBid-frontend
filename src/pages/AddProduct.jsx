@@ -57,6 +57,7 @@ const AddProduct = () => {
         reservePrice: Number(data.reservePrice),
         minIncrement: Number(data.minIncrement),
         productId: newProduct.id,
+        status: "WAITING"
       };
       console.log("productTableData", productTableData);
       console.log("auctionTableData", auctionTableData);

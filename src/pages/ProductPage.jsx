@@ -54,8 +54,8 @@ const ProductPage = () => {
   // console.log("currentProducts", currentProducts);
   const displayProducts = currentProducts.slice(startIndex, endIndex);
 
-  console.log("currentProducts", currentProducts);
-  console.log("allProducts", allProducts);
+  // console.log("currentProducts", currentProducts);
+  // console.log("allProducts", allProducts);
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
