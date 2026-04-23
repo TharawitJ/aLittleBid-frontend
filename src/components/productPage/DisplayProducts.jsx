@@ -8,12 +8,16 @@ function DisplayProducts({ displayProducts, allCategories }) {
   const auctionById = useAuctionStore(state => state.auctionById)
   const getAuctionById = useAuctionStore((state) => state.getAuctionById)
   const allAuction = useAuctionStore((state) => state.allAuction)
+  console.log('allAuction', allAuction)
   const getAllAuction = useAuctionStore((state) => state.getAllAuction)
   const { bidData, getAllBid, getBidById } = useBidStore()
   console.log('auctionById', auctionById)
 
   const hdlJoinClick =  (id) => {
     try {
+      if(!id) {
+        return alert("no auction")
+      }
       // console.log('id', id)
      getAuctionById(id)
       navigate(`/auction_bid/${id}`)
@@ -35,7 +39,8 @@ function DisplayProducts({ displayProducts, allCategories }) {
       {displayProducts.map((i) => {
         const category = allCategories.find((cat) => cat.id === i.categoryId);
         const auction = allAuction?.find((a) => a.productId === i.id);
-        const auctionId = auction?.id || i.id; // Fallback to i.id if auction is not found
+        console.log('auction', auction)
+        const auctionId = auction?.id; // Fallback to i.id if auction is not found
         // console.log(category.name)
         return (
           <div key={i.id} className="group cursor-pointer w-full">

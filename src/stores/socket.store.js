@@ -9,15 +9,16 @@ import useUserStore from "./user.store.js";
 //   reconnectionAttempts: 5,
 // });
 
-const useSocketStore = create()(persist((set, get) => ({
+const useSocketStore = create(persist((set, get) => ({
     socket: null,
-    connect: () => {
+    connect:  () => {
         if (get().socket?.connected) return;
-        // console.log('sockettes')
-        const newSocket = io('http://localhost:3000', {
-            auth: { token: useUserStore.getState().token }
+        console.log('sockettes')
+        const newSocket =  io('http://localhost:3000', {
+            auth: { token: useUserStore.getState().token },
+            reconnection: true
         });
-        // console.log('newSocket', newSocket)
+        console.log('newSocket', newSocket)
         newSocket.on('connect', () => {
             console.log('Connected');
             console.log('newSocket', newSocket)
@@ -65,10 +66,10 @@ const useSocketStore = create()(persist((set, get) => ({
     {
         name: 'socket-storage',
         // 🔥 เพิ่มส่วนนี้เพื่อกรองเอา socket ออกจากการเซฟลง LocalStorage
-        partialize: (state) =>
-            Object.fromEntries(
-                Object.entries(state).filter(([key]) => !['socket'].includes(key))
-            ),
+        // partialize: (state) =>
+        //     Object.fromEntries(
+        //         Object.entries(state).filter(([key]) => !['socket'].includes(key))
+        //     ),
     }
 ))
 

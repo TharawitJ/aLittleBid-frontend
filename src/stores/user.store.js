@@ -15,6 +15,7 @@ const useUserStore = create()(
     persist(
         (set, get) => ({
             user: null,
+            users:null,
             token: "",
             userAddresses: [],
 
@@ -30,9 +31,10 @@ const useUserStore = create()(
                 const resp = await apiRegister(body)
             },
             getAllUser: async () => {
+                console.log("getalluser")
                 const resp = await apiGetAllUser()
                 console.log('resp_getAllUser', resp)
-                set({user: resp.data.responses})
+                set({users: resp.data.responses})
                 return resp.data.responses
             },
             getUserById: async (id) => {
