@@ -43,15 +43,9 @@ const AuctionBid = () => {
     (cate) => categoryId === cate.id,
   );
 
-<<<<<<< HEAD
-  const { currentHighestBid, bids, setBidHistory } = useAuction2Store();
-  console.log('bids', bids)
-
-=======
->>>>>>> dev
   const hdlOnSubmit = ({ amount }) => {
     const minRequiredPrice = currentHighestBid
-      ? Number(currentHighestBid.amount) + Number(auctionById?.minIncrement)
+      ? Number(currentHighestBid?.amount) + Number(auctionById?.minIncrement)
       : Number(auctionById?.startingPrice) + Number(auctionById?.minIncrement);
 
     if (!amount || Number(amount) <= 0 || Number(amount) < minRequiredPrice) {
@@ -266,6 +260,8 @@ const AuctionBid = () => {
               borderRadius: "8px",
             }}
           >
+            <div className="bg-red-300 w-50 border-2 shadow-2xl">
+
             <p>Auction Ended! Winner is...</p>
             <p>
               <strong>Winner ID:</strong> {winner.winnerId}
@@ -273,6 +269,7 @@ const AuctionBid = () => {
             <p>
               <strong>Amount:</strong> {winner.amount}
             </p>
+            </div>
           </dialog>
         )}
       </main>
