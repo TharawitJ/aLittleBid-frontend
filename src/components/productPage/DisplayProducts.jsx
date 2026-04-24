@@ -14,13 +14,15 @@ function DisplayProducts({ displayProducts, allCategories }) {
   const { bidData, getAllBid, getBidById } = useBidStore()
   console.log('auctionById', auctionById)
 
-  const hdlJoinClick =  (id) => {
+  const hdlJoinClick =  async (id) => {
     try {
       if(!id) {
         return alert("no auction")
       }
       // console.log('id', id)
-     getAuctionById(id)
+     const result = await getAuctionById(id)
+     console.log('id', id)
+     console.log('getAuctionById', result)
       navigate(`/auction_bid/${id}`)
     } catch (error) {
       console.log(error.message)
@@ -31,7 +33,6 @@ function DisplayProducts({ displayProducts, allCategories }) {
     getAllBid()
     getAllAuction()
     // getBidById()
-    console.log('bidData', bidData)
   }, [])
 
   return (

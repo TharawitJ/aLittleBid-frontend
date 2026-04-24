@@ -14,11 +14,11 @@ const UserProfilePage = () => {
   const navigate = useNavigate();
   const { id, username, email, firstname, lastname, phone, role } = user;
   console.log('id', id)
-  // useEffect(() => {
-  //   if(id){
-  //   getUserById(id);
-  //   }
-  // }, [id,getUserById]);
+  useEffect(() => {
+    if(id){
+    getUserById(id);
+    }
+  }, [id,getUserById]);
   
   const defaultAddress = useMemo(() => {
     return userAddresses?.find((item) => item.isDefault === true);

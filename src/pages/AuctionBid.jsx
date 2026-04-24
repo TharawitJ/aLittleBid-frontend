@@ -23,25 +23,20 @@ const AuctionBid = () => {
   const { auctionId } = useParams();
   const { register, handleSubmit, reset } = useForm();
 
-  const filteredNewBid = newBid.filter((i) => i.auctionId === auctionById.id);
+  const filteredNewBid = newBid.filter((i) => i.auctionId === auctionById?.id);
 
-  
   const hdlOnSubmit = ({ amount }) => {
     const minRequiredPrice =
-    Number(currentPrice) + Number(auctionById.minIncrement);
-    
+      Number(currentPrice) + Number(auctionById?.minIncrement);
+
     if (!amount || amount <= 0 || amount < minRequiredPrice) {
       return alert(
-        `Please enter a valid price: (Minimum Increment: ${auctionById.minIncrement})`,
+        `Please enter a valid price: (Minimum Increment: ${auctionById?.minIncrement})`,
       );
     }
-
     if (socket) {
       socket.emit("send_bid", { auctionId, amount });
-      updateBidText();
-      // alert('bid successful')
-    } else {
-      return;
+      console.log("bid successful");
     }
     reset();
   };
@@ -54,8 +49,8 @@ const AuctionBid = () => {
       // console.log('endedData', (hi))
     }
     if (auctionId) {
-      getAuctionById(auctionId);
       getAllUser();
+      getAuctionById(auctionId);
     }
   }, [auctionId]);
 
@@ -64,51 +59,69 @@ const AuctionBid = () => {
   );
 
   useEffect(() => {
-    if (!socket || !auctionId) return;
+    if (!socket || !auctionId || !auctionById) return;
+    if (String(auctionById.id) !== String(auctionId)) return;
+    joinAuction(auctionId);
 
     // ตรวจสอบว่า auctionById ที่โหลดมาตรงกับ auctionId จาก URL
-    if (!auctionById || String(auctionById.id) !== String(auctionId)) {
-      console.warn(
-        `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
-      );
-      return;
-    }
+    // if (!auctionById || String(auctionById.id) !== String(auctionId)) {
+    //   console.warn(
+    //     `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
+    //   );
+    //   return;
+    // }
 
-    if (!filteredNewBid[0]) {
-      setCurrentPrice(Number(auctionById.startingPrice));
-      console.log("!auctionById.startingPrice", auctionById.startingPrice);
-    } else {
-      setCurrentPrice(Number(filteredNewBid?.[0]?.amount));
-      console.log("filteredNewBid?.[0]?.amount", filteredNewBid?.[0]?.amount);
-    }
+    // if (!filteredNewBid[0]) {
+    //   setCurrentPrice(Number(auctionById.startingPrice));
+    // } else {
+          if (auctionById.bids && auctionById.bids.length > 0) {
+      setNewBid((prev) => {
+        const existingIds = new Set(prev.map((b) => b.id));
+        const uniqueHistory = auctionById.bids.filter((b) => !existingIds.has(b.id));
 
-    return () => {
-      leaveAuction(auctionId);
-    };
-  }, [socket, auctionById]);
+        if (uniqueHistory.length === 0) return prev;
 
-  const updateBidText = () => {
-    if (socket) {
-      socket.on("newest_bid", (updatedBid) => {
-        console.log("updatedBid", updatedBid);
-
-        if (updatedBid) {
-          setNewBid((prevData) => [updatedBid, ...prevData]);
-        }
-        if (updatedBid.amount) {
-          setCurrentPrice(updatedBid.amount);
-        }
+        return [...prev, ...uniqueHistory].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+        );
       });
     }
-    return () => socket?.off("newest_bid");
-  };
+
+    // 2. Initial Price Setup
+    const currentBids = newBid.filter((b) => b.auctionId === auctionById.id);
+    const latestBid = currentBids[0] || auctionById.bids?.[0];
+
+    if (latestBid) {
+      setCurrentPrice(Number(latestBid.amount));
+    } else {
+      setCurrentPrice(Number(auctionById.startingPrice));
+    }
+    const hdlNewBid = (saveBid) => {
+      console.log("New broadcast received:", saveBid);
+      if (saveBid && String(saveBid.auctionId) === String(auctionId)) {
+        setNewBid((prevData) => [saveBid, ...prevData]);
+        setCurrentPrice(saveBid.amount);
+      }
+    };
+    socket.on("newest_bid", hdlNewBid);
+    // if (auctionById && String(auctionById.id) === String(auctionId)) {
+    //     if (filteredNewBid.length === 0) {
+    //       setCurrentPrice(Number(auctionById.startingPrice));
+    //     } else {
+    //       setCurrentPrice(Number(filteredNewBid[0].amount));
+    //     }
+    //   }
+
+    return () => {
+      socket.off("newest_bid", hdlNewBid);
+      leaveAuction(auctionId);
+    };
+  }, [socket, auctionById, auctionId]);
 
   // useEffect(() => {
-
   //   if (socket) {
   //     socket.on("newest_bid", (updatedBid) => {
   //       console.log('updatedBid', updatedBid)
-
   //       if (updatedBid) {
   //         setNewBid((prevData) => [updatedBid, ...prevData]);
   //       }
@@ -117,7 +130,6 @@ const AuctionBid = () => {
   //       }
   //     })
   //   }
-
   //   return () => socket?.off("newest_bid");
   // }, [])
 
