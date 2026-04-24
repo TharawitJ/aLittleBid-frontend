@@ -30,9 +30,7 @@ const AuctionBid = () => {
 
   const hdlOnSubmit = ({ amount }) => {
     console.log('amount', amount)
-  
-    // const bid = Number(amount);
-    // console.log('bid', bid)
+
     const minRequiredPrice = Number(currentPrice) + Number(auctionById.minIncrement);
     
     if (!amount || amount <= 0 || amount < minRequiredPrice) {
@@ -52,14 +50,8 @@ const AuctionBid = () => {
     if (!socket) {
       connect() 
       // listen winner
-    socket?.on("auction_ended", {
-          winnerId,
-          amount
-        })
-    console.log('endedData', {
-          winnerId,
-          amount
-        })
+    // socket?.on("auction_ended", (hi))
+    // console.log('endedData', (hi))
     }
     if (auctionId) {
       getAuctionById(auctionId)
