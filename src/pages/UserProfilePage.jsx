@@ -3,7 +3,7 @@ import { LogoutIcon } from "../icons";
 import EditUserProfile from "../components/userPage/EditUserProfile";
 import EditUserAddress from "../components/userPage/EditUserAddress";
 import useUserStore from "../stores/user.store.js";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import Swal from "sweetalert2";
 
 const UserProfilePage = () => {
@@ -12,7 +12,6 @@ const UserProfilePage = () => {
   console.log("userprofile", user);
 
   const userAddresses = useUserStore((state) => state.userAddresses);
-  // console.log("userAddress", userAddresses);
   const navigate = useNavigate();
 
   const defaultAddress = useMemo(() => {
@@ -32,6 +31,10 @@ const UserProfilePage = () => {
     phone,
     role,
   } = user;
+  console.log("role", role);
+  console.log("User:", user);
+  console.log("id:", id);
+  // getUserById(id);
 
   const showName = firstname || name?.split(" ")[0] || "n/a";
   const showLastname = lastname || name?.split(" ")[1] || "n/a";
@@ -141,10 +144,14 @@ const UserProfilePage = () => {
                     <h1 className="text-4xl font-serif italic text-red font-headline">
                       {showName} {showLastname}
                     </h1>
+
+                    {/* Status Buyer */}
+
                     <span className="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] uppercase tracking-[0.2em] font-bold rounded-sm">
                       {role}
                     </span>
                   </div>
+
                   <p className="text-stone-500 font-light tracking-wide italic">
                     Member since November 2019 • London, UK
                   </p>

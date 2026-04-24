@@ -6,38 +6,52 @@ import {
   apiDeleteUserById,
   apiEditUserAddressById,
   apiEditUserProfileById,
+  apiGetAllUser,
+  apiRegister,
 } from "../api/apiMain.js";
+import useSocketStore from "./socket.store.js";
 
 const useUserStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
+      users: null,
       token: "",
       userAddresses: [],
 
+      // Action to log in by Jammy
       login: async (body) => {
         const resp = await apiLogin(body);
         set({ token: resp.data.token, user: resp.data.user });
         return resp;
       },
-
-      getUserById: async () => {
-        try {
-          const resp = await apiGetUserById();
-          set({
-            user: resp.data.responses,
-            userAddresses: resp.data.responses.addresses,
-          });
-          return resp.data.responses;
-        } catch (error) {
-          if (error.response?.status === 401) {
-            set({ user: null, token: "", userAddresses: [] });
-          }
-          throw error;
-        }
+      register: async (body) => {
+        const resp = await apiRegister(body);
       },
 
-      logout: () => set({ user: null, token: "", userAddresses: [] }),
+      getAllUser: async () => {
+        console.log("getalluser");
+        const resp = await apiGetAllUser();
+        console.log("resp_getAllUser", resp);
+        set({ users: resp.data.responses });
+        return resp.data.responses;
+      },
+
+      getUserById: async (id) => {
+        const resp = await apiGetUserById(id);
+        set({
+          user: resp.data.responses,
+          userAddresses: resp.data.responses.addresses,
+        });
+        console.log("getUserById", resp.data.responses);
+        return resp.data.responses;
+      },
+
+      // Action to log out
+      logout: () => {
+        useSocketStore.getState().disconnect();
+        set({ user: null, token: "" });
+      },
 
       deleteUser: async (userId) => {
         try {

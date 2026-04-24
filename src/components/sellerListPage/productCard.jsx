@@ -9,6 +9,9 @@ function ProductSellerCard() {
   const filterUserProduct = allProducts.filter(
     (item) => item.sellerId === user.id,
   );
+  console.log('user', user)
+  console.log('allProducts', allProducts)
+  console.log('filterUserProduct', filterUserProduct)
 
   return (
     <>
