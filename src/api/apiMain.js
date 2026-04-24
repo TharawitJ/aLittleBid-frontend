@@ -22,7 +22,7 @@ mainApi.interceptors.request.use((config) => {
 export const apiLogin = (body) => mainApi.post("/auth/login", body);
 export const apiRegister = (body) => mainApi.post("/auth/register", body);
 export const apiGetAllUser = () => mainApi.get("/users");
-export const apiGetUserById = () => mainApi.get(`/users/me`);
+export const apiGetUserById = (userid) => mainApi.get(`/users/${userid}`);
 export const apiDeleteUserById = (userid) => mainApi.delete(`/users/${userid}`);
 export const apiEditUserAddressById = (userId, addressId, data) =>
   mainApi.patch(`/users/${userId}/addresses/${addressId}`, data);
@@ -35,15 +35,15 @@ export const apiGetCategories = () => mainApi.get(`/products/categories`);
 export const apiGetAllProducts = () => mainApi.get(`/products`);
 export const apiGetProductsById = (productId) =>
   mainApi.get(`/products/${productId}`);
-export const apiCreateProduct = (body) => mainApi.post(`/products`,body);
-export const apiUpdateProduct = (productId,body) =>
-  mainApi.patch(`/products/${productId}`,body);
+export const apiCreateProduct = (body) => mainApi.post(`/products`, body);
+export const apiUpdateProduct = (productId, body) =>
+  mainApi.patch(`/products/${productId}`, body);
 export const apiDeleteProduct = (productId) =>
   mainApi.delete(`/products/${productId}`);
 
 // AUCTION
 export const apiGetAllAuction = () => mainApi.get(`/auctions`);
-export const apiCreateAuction = (body) => mainApi.post(`/auctions`,body);
+export const apiCreateAuction = (body) => mainApi.post(`/auctions`, body);
 export const apiGetAuctionById = (auctionId) =>
   mainApi.get(`/auctions/${auctionId}`);
 export const apiGetAcutionByProductId = (productId) =>
@@ -54,5 +54,5 @@ export const apiDeleteAuction = (auctionId) =>
   mainApi.delete(`/auctions/${auctionId}`);
 
 //BID
-export const apiGetAllBid = () => mainApi.get(`/bids`)
-export const apiGetBidById = (bidId) => mainApi.get(`/bids/${bidId}`)
+export const apiGetAllBid = () => mainApi.get(`/bids`);
+export const apiGetBidById = (bidId) => mainApi.get(`/bids/${bidId}`);

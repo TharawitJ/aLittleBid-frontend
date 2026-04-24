@@ -33,7 +33,9 @@ export default function LoginPage() {
       navigate("/");
     } catch (error) {
       const message =
-        error.response?.data?.message || error.message || "Login failed";
+        error.response?.data?.message ||
+        error.message ||
+        "Login failedInvalid credentials";
       console.error("Login Error:", message);
       alert(message);
     } finally {

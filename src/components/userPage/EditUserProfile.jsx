@@ -16,7 +16,7 @@ function EditUserProfile() {
   );
 
   useEffect(() => {
-    getUserById();
+    getUserById(user.id);
   }, []);
 
   const onSubmit = async (data) => {
