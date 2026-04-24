@@ -36,6 +36,7 @@ const AuctionBid = () => {
   );
 
   const { currentHighestBid, bids, setBidHistory } = useAuction2Store();
+  console.log('bids', bids)
 
   const hdlOnSubmit = ({ amount }) => {
     const minRequiredPrice =
