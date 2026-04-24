@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import useAuctionStore from "../stores/auction.store.js";
 
 function TimeCountdown({ product }) {
+  if (!product) return <span>Loading...</span>;
+
   // Use a single state to track the "now" timestamp
   //   const {allProducts}=props
-  const { allAuction } = useAuctionStore();
+  const { allAuction, getAllAuction } = useAuctionStore();
   const [now, setNow] = useState(() => Date.now());
   const filteredProduct = allAuction.filter(
     (item) => item.productId === product.id,
@@ -50,6 +52,7 @@ const formatTime = (ms) => {
 };
 
   useEffect(() => {
+    getAllAuction();
     const interval = setInterval(() => {
       setNow(Date.now()); // Tick once per second for EVERYONE
     }, 1000);
