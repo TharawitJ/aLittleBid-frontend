@@ -33,39 +33,39 @@ const useAuctionStore = create()(
 
       getAllAuction: async () => {
         const resp = await apiGetAllAuction();
-        console.log("getAllAuction", resp.data.responses);
+        // console.log("getAllAuction", resp.data.responses);
         // console.log("apiGetAllAuction",apiGetAllAuction)
         set({ allAuction: resp.data.responses });
         return resp.data.responses;
       },
       createAuction: async (body) => {
         await apiCreateAuction(body);
-        console.log("apiCreateAuction", apiCreateAuction);
+        // console.log("apiCreateAuction", apiCreateAuction);
         const resp = await apiGetAllAuction();
         set({ allAuction: resp.data.responses });
         return resp.data.responses;
       },
       getAuctionById: async (auctionId) => {
-        console.log("auctionidddd", auctionId);
+        // console.log("auctionidddd", auctionId);
         const resp = await apiGetAuctionById(auctionId);
-        console.log("respauctionbyid", resp.data.responses);
+        // console.log("respauctionbyid", resp.data.responses);
         set({ auctionById: resp.data.responses });
         return resp.data.responses;
       },
       getAuctionByProductId: async (productId) => {
         const resp = await apiGetAcutionByProductId(productId);
-        console.log("getAuctionByProductId", resp.data.responses);
+        // console.log("getAuctionByProductId", resp.data.responses);
       },
 
       updateAuction: async (auctionId) => {
         const resp = await apiUpdateAuction(auctionId);
-        console.log("apiUpdateAuction", apiUpdateAuction);
+        // console.log("apiUpdateAuction", apiUpdateAuction);
         set({ allAuction: resp.data.responses });
         return resp.data.responses;
       },
       deleteAuction: async (auctionId) => {
         const resp = await apiDeleteAuction(auctionId);
-        console.log("apiDeleteAuction", apiDeleteAuction);
+        // console.log("apiDeleteAuction", apiDeleteAuction);
         set({ allAuction: resp.data.responses });
         return resp.data.responses;
       },

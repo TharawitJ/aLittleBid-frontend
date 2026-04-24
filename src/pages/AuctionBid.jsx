@@ -11,25 +11,31 @@ import TimeCountdown from '../components/TimeCountdown.jsx';
 
 const AuctionBid = () => {
   const { productById, allCategories, getProductById } = useProductStore()
-  console.log('productById', productById)
   const { auctionById, getAuctionById, setCurrentPrice, currentPrice } = useAuctionStore()
-  console.log('auctionById', auctionById)
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore()
   console.log('socket', socket)
   const { newBid, setNewBid } = useBidStore()
   // console.log('bidData', bidData)
   const { users, getAllUser } = useUserStore()
-  console.log('user', users)
   const { id, categoryId, name, description, sellerId, updatedAt, images } = productById
   const { auctionId } = useParams()
-  // console.log('bidData', bidData)
   const { register, handleSubmit, reset } = useForm()
 
   const filteredNewBid = newBid.filter((i) => i.auctionId === auctionById.id)
-  console.log('filteredNewBid', filteredNewBid)
+
+  useEffect(() => {
+
+    if (!socket) {
+      connect()
+    }
+    if (auctionId) {
+      getAuctionById(auctionId)
+      getAllBid(auctionId)
+      getAllUser()
+    }
+  }, [auctionId])
 
   const hdlOnSubmit = ({ amount }) => {
-    console.log('amount', amount)
 
     const minRequiredPrice = Number(currentPrice) + Number(auctionById.minIncrement);
     
@@ -44,6 +50,7 @@ const AuctionBid = () => {
     } else {
       return
     }
+    reset()
   }
 
   useEffect(() => {
@@ -61,8 +68,8 @@ const AuctionBid = () => {
   }, [auctionId])
 
   const filterCategoryName = allCategories.filter((cate) => categoryId === cate.id)
-  // console.log("filterCategoryName",filterCategoryName)
-
+console.log('currentPrice', currentPrice)
+console.log('auctionById', auctionById.minIncrement)
 
   useEffect(() => {
     if (!socket || !auctionId) return;
@@ -164,14 +171,14 @@ const AuctionBid = () => {
                     <span className="text-[14px] text-secondary mt-3 text-headline uppercase font-bold mx-2">
                       {
                         newBid.length > 0
-                          ? (users?.find(u => u.id === filteredNewBid[0].bidderId)?.username || "Loading name...")
-                          : 'No bids yet'
+                          ? (users?.find(u => u.id === filteredNewBid?.[0]?.bidderId)?.username || "No Bid Yet")
+                          : 'No Bid Yet'
                       }
                     </span>
                   </div>
                   <div className="text-right">
                     <p className="font-['Manrope'] text-[10px] text-stone-500 mb-2 uppercase tracking-widest">Time Left</p>
-                    <p className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]"><TimeCountdown product={auctionById.product}/></p>
+                    <p className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]"><TimeCountdown product={auctionById?.product}/></p>
                   </div>
                 </div>
 
@@ -183,7 +190,7 @@ const AuctionBid = () => {
                         <span className="absolute left-4 text-stone-400">B</span>
                         <input
                           type="number"
-                          placeholder=""
+                          placeholder={Number(currentPrice) + Number(auctionById.minIncrement)}
                           {...register('amount')}
                           className="w-full bg-[#ebe7e7] border-none rounded-sm py-4 pl-8 pr-4 focus:ring-1 focus:ring-[#570000] focus:bg-white transition-all outline-none" />
                       </div>
@@ -214,7 +221,7 @@ const AuctionBid = () => {
                               {
                                 users?.find(i => e.bidderId === i.id).username
                               }
-                              {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`} */}
+                              {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
                             </p>
                             <p className="text-[14px] text-stone-500 uppercase tracking-widest">{e.amount}</p>
                           </div>
