@@ -11,7 +11,7 @@ import useUserStore from "./user.store.js";
 
 const useSocketStore = create(persist((set, get) => ({
     socket: null,
-    connect:  () => {
+    connect:  (token) => {
         if (get().socket?.connected) return;
         console.log('sockettes')
         const newSocket =  io('http://localhost:3000', {
