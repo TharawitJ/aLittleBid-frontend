@@ -59,17 +59,17 @@ const useSocketStore = create(persist((set, get) => ({
             }
             alert("leave auction")
         } catch (error) {
-            alert("leave auction failed")
+            console.log("error",error.message)
         }
     }
 }),
     {
         name: 'socket-storage',
-        // 🔥 เพิ่มส่วนนี้เพื่อกรองเอา socket ออกจากการเซฟลง LocalStorage
-        // partialize: (state) =>
-        //     Object.fromEntries(
-        //         Object.entries(state).filter(([key]) => !['socket'].includes(key))
-        //     ),
+        //🔥 เพิ่มส่วนนี้เพื่อกรองเอา socket ออกจากการเซฟลง LocalStorage
+        partialize: (state) =>
+            Object.fromEntries(
+                Object.entries(state).filter(([key]) => !['socket'].includes(key))
+            ),
     }
 ))
 

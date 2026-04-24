@@ -16,8 +16,7 @@ const AuctionBid = () => {
   console.log('auctionById', auctionById)
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore()
   console.log('socket', socket)
-  const { bidData, getAllBid, newBid, setNewBid } = useBidStore()
-  console.log('newBid', newBid)
+  const { newBid, setNewBid } = useBidStore()
   // console.log('bidData', bidData)
   const { users, getAllUser } = useUserStore()
   console.log('user', users)
@@ -51,11 +50,19 @@ const AuctionBid = () => {
 
   useEffect(() => {
     if (!socket) {
-      connect()
+      connect() 
+      // listen winner
+    socket?.on("auction_ended", {
+          winnerId,
+          amount
+        })
+    console.log('endedData', {
+          winnerId,
+          amount
+        })
     }
     if (auctionId) {
       getAuctionById(auctionId)
-      getAllBid(auctionId)
       getAllUser()
     }
     
@@ -81,16 +88,6 @@ const AuctionBid = () => {
       leaveAuction(auctionId);
     };
   }, [socket, auctionById])
-
-  useEffect(() => {
-    if (bidData && bidData.length > 0) {
-      const sortedBids = [...bidData].sort((a, b) =>
-        new Date(b.createdAt) - new Date(a.createdAt)
-      );
-      setNewBid(sortedBids);
-    }
-  }, [bidData]);
-
 
   const updateBidText = () => {
     if (socket) {
@@ -126,12 +123,6 @@ const AuctionBid = () => {
 
   //   return () => socket?.off("newest_bid");
   // }, [])
-
-  // คำนวณผลรวมของ Increment ทั้งหมดใน Array
-  // const totalIncrements = newBid.reduce((sum, bid) => sum + Number(bid.amount || 0), 0);
-
-  // ราคารวมปัจจุบัน = ราคาเริ่มต้น + ผลรวม Increment
-  // const currentTotalPrice = Number(auctionById.startingPrice || 0) + totalIncrements;
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
