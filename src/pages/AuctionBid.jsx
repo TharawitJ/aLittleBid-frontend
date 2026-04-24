@@ -13,7 +13,9 @@ const AuctionBid = () => {
   const { productById, allCategories, getProductById } = useProductStore()
   const { auctionById, getAuctionById, setCurrentPrice, currentPrice } = useAuctionStore()
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore()
-  const { bidData, getAllBid, newBid, setNewBid } = useBidStore()
+  console.log('socket', socket)
+  const { newBid, setNewBid } = useBidStore()
+  // console.log('bidData', bidData)
   const { users, getAllUser } = useUserStore()
   const { id, categoryId, name, description, sellerId, updatedAt, images } = productById
   const { auctionId } = useParams()
@@ -50,6 +52,21 @@ const AuctionBid = () => {
     }
     reset()
   }
+
+  useEffect(() => {
+    if (!socket) {
+      connect() 
+      // listen winner
+    // socket?.on("auction_ended", (hi))
+    // console.log('endedData', (hi))
+    }
+    if (auctionId) {
+      getAuctionById(auctionId)
+      getAllUser()
+    }
+    
+  }, [auctionId])
+
   const filterCategoryName = allCategories.filter((cate) => categoryId === cate.id)
 console.log('currentPrice', currentPrice)
 console.log('auctionById', auctionById.minIncrement)
@@ -70,7 +87,6 @@ console.log('auctionById', auctionById.minIncrement)
       leaveAuction(auctionId);
     };
   }, [socket, auctionById])
-
 
   const updateBidText = () => {
     if (socket) {
@@ -106,12 +122,6 @@ console.log('auctionById', auctionById.minIncrement)
 
   //   return () => socket?.off("newest_bid");
   // }, [])
-
-  // คำนวณผลรวมของ Increment ทั้งหมดใน Array
-  // const totalIncrements = newBid.reduce((sum, bid) => sum + Number(bid.amount || 0), 0);
-
-  // ราคารวมปัจจุบัน = ราคาเริ่มต้น + ผลรวม Increment
-  // const currentTotalPrice = Number(auctionById.startingPrice || 0) + totalIncrements;
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
