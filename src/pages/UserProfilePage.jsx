@@ -10,24 +10,22 @@ import Swal from 'sweetalert2'
 const UserProfilePage = () => {
   const { logout, getUserById } = useUserStore();
   const user = useUserStore((state) => state.user);
-  // console.log('user', user)
   const userAddresses = useUserStore((state) => state.userAddresses);
-  // console.log("userAddress", userAddresses);
   const navigate = useNavigate();
-
+  const { id, username, email, firstname, lastname, phone, role } = user;
+  console.log('id', id)
   // useEffect(() => {
+  //   if(id){
   //   getUserById(id);
-  // }, [user]);
-
-   const defaultAddress = useMemo(() => {
-     return userAddresses?.find((item) => item.isDefault === true);
-   }, [userAddresses]); 
+  //   }
+  // }, [id,getUserById]);
+  
+  const defaultAddress = useMemo(() => {
+    return userAddresses?.find((item) => item.isDefault === true);
+  }, [userAddresses]); 
   
   if (!user) return <div>Loading...</div>;
-
-  const { id, username, email, firstname, lastname, phone, role } = user;
-
-  // console.log('defaultAddress', defaultAddress)
+  
 
   const isSeller = user?.role === "SELLER";
 
@@ -373,42 +371,6 @@ const UserProfilePage = () => {
         </dialog>
       </main>
       {/* Footer */}
-      <footer className="bg-[#efeeeb] w-full py-12 px-8 border-t border-outline-variant/10">
-        <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center w-full">
-          <div className="text-lg font-serif italic text-stone-900 font-headline mb-6 md:mb-0">
-            The Digital Curator
-          </div>
-          <div className="flex gap-8 mb-6 md:mb-0">
-            <a
-              className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors"
-              href="#"
-            >
-              Privacy Policy
-            </a>
-            <a
-              className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors"
-              href="#"
-            >
-              Terms of Service
-            </a>
-            <a
-              className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors"
-              href="#"
-            >
-              Shipping & Returns
-            </a>
-            <a
-              className="font-body uppercase tracking-widest text-[10px] text-stone-500 hover:text-stone-900 transition-colors"
-              href="#"
-            >
-              Contact Us
-            </a>
-          </div>
-          <p className="font-body uppercase tracking-widest text-[10px] text-stone-500">
-            © 2024 The Digital Curator. All rights reserved.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 };

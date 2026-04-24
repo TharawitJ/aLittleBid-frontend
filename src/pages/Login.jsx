@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google"; // เปลี่ยนจาก useGoogleLogin เป็น GoogleLogin
 import { useNavigate } from "react-router-dom";
-import { apiLogin } from "../api/apiMain.js";
 import useUserStore from "../stores/user.store.js";
 function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -23,9 +22,10 @@ export default function LoginPage() {
 
     try {
       const response = login({ email, password });
-      const data = response.data;
+      // const data = response;
 
-      console.log("Login Success:", data);
+      console.log("Login Success:", response);
+      // getUserById(data.id)
       alert("Login Successful!");
       navigate("/");
     } catch (error) {

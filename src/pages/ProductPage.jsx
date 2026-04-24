@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useProductStore from "../stores/product.store.js";
 import TimeCountdown from "../components/TimeCountdown.jsx";
 import { ProductListByPages } from "../components/productPage/PageProducts.jsx";
-import DisplayProducts from "../components/productPage/DisplayProducts.jsx"
+import DisplayProducts from "../components/productPage/DisplayProducts.jsx";
 const ProductPage = () => {
   const {
     productPage,
@@ -16,6 +16,16 @@ const ProductPage = () => {
   const [selectCategoryName, setSelectCategoryName] = useState("All");
   // const [productByCategory, setProductByCategory] = useState("");
   const [currentProducts, setCurrentProducts] = useState(allProducts);
+  useEffect(() => {
+    getAllProducts();
+    getCategories();
+  }, []);
+  
+  useEffect(() => {
+    if (Array.isArray(allProducts)) {
+      setCurrentProducts(allProducts);
+    }
+  }, [allProducts]);
 
   const hdlCategorySelect = (id, name) => {
     setSelectCategoryId(id);
@@ -36,20 +46,16 @@ const ProductPage = () => {
       document.activeElement.blur();
     }
   };
-
-  useEffect(() => {
-    getAllProducts();
-    getCategories();
-  }, []);
-  // console.log("currentProducts", currentProducts);
-
-
   const limit = 20;
   // 1. Calculate the slice indexes
   const startIndex = (productPage - 1) * limit;
   const endIndex = startIndex + limit;
   // 2. Slice the data for display
+  // console.log("currentProducts", currentProducts);
   const displayProducts = currentProducts.slice(startIndex, endIndex);
+
+  // console.log("currentProducts", currentProducts);
+  // console.log("allProducts", allProducts);
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
@@ -119,7 +125,10 @@ const ProductPage = () => {
         {/* Ongoing Auction Grid */}
         <section className="mt-10">
           <div className="md:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <DisplayProducts displayProducts={displayProducts} allCategories={allCategories}/>
+            <DisplayProducts
+              displayProducts={displayProducts}
+              allCategories={allCategories}
+            />
           </div>
         </section>
       </main>

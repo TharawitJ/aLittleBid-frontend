@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router";
+import {NavLink, useNavigate } from "react-router";
 import ProductSellerCard from "../components/sellerListPage/productCard.jsx";
 import useProductStore from "../stores/product.store.js";
 import useUserStore from "../stores/user.store.js";
@@ -11,6 +11,12 @@ const SellerUserListProduct = () => {
   const hdlAddProduct = () => {
     navigate(`/add_product`);
   };
+    const navLinkClass = ({ isActive }) =>
+    `flex items-center gap-3 p-3 rounded-sm transition-all ${
+                  isActive
+                    ? "bg-white font-bold shadow-sm"
+                    : "text-[#59413e] hover:bg-[#efeeeb]"
+                }`;
 
   return (
     <div className="min-h-screen bg-[#fbf9f6] text-[#1b1c1a] font-['Manrope']">
@@ -35,14 +41,10 @@ const SellerUserListProduct = () => {
               <a
                 key={nav.label}
                 href="#"
-                className={`flex items-center gap-3 p-3 rounded-sm transition-all ${
-                  nav.active
-                    ? "bg-white font-bold shadow-sm"
-                    : "text-[#59413e] hover:bg-[#efeeeb]"
-                }`}
+                className={`${navLinkClass}`}
               >
                 <span
-                  className={`material-symbols-outlined ${nav.active ? "fill-1" : ""}`}
+                  className={`material-symbols-outlined`}
                 >
                   {nav.icon}
                 </span>

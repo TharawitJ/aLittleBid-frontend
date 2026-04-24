@@ -67,13 +67,13 @@ const NavBar = () => {
         <NavLink to="/" className={navLinkClass}>
           Home
         </NavLink>
-        <NavLink to="/auction" className={navLinkClass}>
+        <NavLink to="/ongoing_auctions" className={navLinkClass}>
           Auctions
         </NavLink>
         <NavLink to="/products" className={navLinkClass}>
           Products
         </NavLink>
-        <NavLink to="/activebid" className={navLinkClass}>
+        <NavLink to="/my_active_bids" className={navLinkClass}>
           Active Bid
         </NavLink>
       </div>
@@ -85,7 +85,7 @@ const NavBar = () => {
           <BlackHeartIcon />
         </NavLink>
         <NavLink
-          to="/my_order_list"
+          to="/my_orders"
           className="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors w-6"
         >
           <BlackCartIcon />
@@ -119,7 +119,7 @@ const NavBar = () => {
             {isSeller && (
               <li>
                 <NavLink
-                  to="/seller_list_product"
+                  to="/seller_products"
                   className="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-colors rounded-lg"
                 >
                   <BagIcon />
