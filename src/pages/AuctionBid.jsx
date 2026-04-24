@@ -8,6 +8,13 @@ import useSocketStore from "../stores/socket.store.js";
 import useBidStore from "../stores/bid.store.js";
 import useUserStore from "../stores/user.store.js";
 import TimeCountdown from "../components/TimeCountdown.jsx";
+import { useAuction2Store } from "../stores/auctionStore.js";
+import {
+  connectSocket,
+  joinAuctionRoom,
+  leaveAuctionRoom,
+  placeBid,
+} from "../socket/socketService.js";
 
 const AuctionBid = () => {
   const { productById, allCategories, getProductById } = useProductStore();
@@ -15,7 +22,7 @@ const AuctionBid = () => {
     useAuctionStore();
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
   console.log("socket", socket);
-  const { newBid, setNewBid } = useBidStore();
+  const { newBid, bidData, setNewBid, getAllBid } = useBidStore();
   // console.log('bidData', bidData)
   const { users, getAllUser } = useUserStore();
   const { id, categoryId, name, description, sellerId, updatedAt, images } =
@@ -23,115 +30,61 @@ const AuctionBid = () => {
   const { auctionId } = useParams();
   const { register, handleSubmit, reset } = useForm();
 
-  const filteredNewBid = newBid.filter((i) => i.auctionId === auctionById?.id);
-
-  const hdlOnSubmit = ({ amount }) => {
-    const minRequiredPrice =
-      Number(currentPrice) + Number(auctionById?.minIncrement);
-
-    if (!amount || amount <= 0 || amount < minRequiredPrice) {
-      return alert(
-        `Please enter a valid price: (Minimum Increment: ${auctionById?.minIncrement})`,
-      );
-    }
-    if (socket) {
-      socket.emit("send_bid", { auctionId, amount });
-      console.log("bid successful");
-    }
-    reset();
-  };
-
-  useEffect(() => {
-    if (!socket) {
-      connect();
-      // listen winner
-      // socket?.on("auction_ended", (hi))
-      // console.log('endedData', (hi))
-    }
-    if (auctionId) {
-      getAllUser();
-      getAuctionById(auctionId);
-    }
-  }, [auctionId]);
-
+  const filteredNewBid = newBid.filter((i) => i.auctionId === auctionById.id);
   const filterCategoryName = allCategories.filter(
     (cate) => categoryId === cate.id,
   );
 
-  useEffect(() => {
-    if (!socket || !auctionId || !auctionById) return;
-    if (String(auctionById.id) !== String(auctionId)) return;
-    joinAuction(auctionId);
+  const { currentHighestBid, bids, setBidHistory } = useAuction2Store();
 
-    // ตรวจสอบว่า auctionById ที่โหลดมาตรงกับ auctionId จาก URL
-    // if (!auctionById || String(auctionById.id) !== String(auctionId)) {
-    //   console.warn(
-    //     `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
-    //   );
-    //   return;
+  const hdlOnSubmit = ({ amount }) => {
+    const minRequiredPrice =
+      Number(currentPrice) + Number(auctionById?.minIncrement);
+    console.log("amount came", amount);
+
+    // if (!amount || Number(amount) <= 0 || Number(amount) < minRequiredPrice) {
+    //   return alert(`Please enter a valid price: (Minimum Increment: ${auctionById.minIncrement})`);
     // }
 
-    // if (!filteredNewBid[0]) {
-    //   setCurrentPrice(Number(auctionById.startingPrice));
-    // } else {
-          if (auctionById.bids && auctionById.bids.length > 0) {
-      setNewBid((prev) => {
-        const existingIds = new Set(prev.map((b) => b.id));
-        const uniqueHistory = auctionById.bids.filter((b) => !existingIds.has(b.id));
+    console.log("we are before placing bid");
 
-        if (uniqueHistory.length === 0) return prev;
+    placeBid(amount, auctionId);
 
-        return [...prev, ...uniqueHistory].sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
-        );
-      });
+    console.log("bid done");
+
+    reset();
+  };
+
+  useEffect(() => {
+    connectSocket();
+    joinAuctionRoom(auctionId);
+
+    getAuctionById(auctionId);
+
+    if (!auctionById || String(auctionById.id) !== String(auctionId)) {
+      console.warn(
+        `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
+      );
+      return;
     }
-
-    // 2. Initial Price Setup
-    const currentBids = newBid.filter((b) => b.auctionId === auctionById.id);
-    const latestBid = currentBids[0] || auctionById.bids?.[0];
-
-    if (latestBid) {
-      setCurrentPrice(Number(latestBid.amount));
-    } else {
-      setCurrentPrice(Number(auctionById.startingPrice));
-    }
-    const hdlNewBid = (saveBid) => {
-      console.log("New broadcast received:", saveBid);
-      if (saveBid && String(saveBid.auctionId) === String(auctionId)) {
-        setNewBid((prevData) => [saveBid, ...prevData]);
-        setCurrentPrice(saveBid.amount);
-      }
-    };
-    socket.on("newest_bid", hdlNewBid);
-    // if (auctionById && String(auctionById.id) === String(auctionId)) {
-    //     if (filteredNewBid.length === 0) {
-    //       setCurrentPrice(Number(auctionById.startingPrice));
-    //     } else {
-    //       setCurrentPrice(Number(filteredNewBid[0].amount));
-    //     }
-    //   }
+    console.log(bids);
+    getAllUser();
 
     return () => {
-      socket.off("newest_bid", hdlNewBid);
-      leaveAuction(auctionId);
+      leaveAuctionRoom();
     };
-  }, [socket, auctionById, auctionId]);
+  }, [auctionId]);
 
-  // useEffect(() => {
-  //   if (socket) {
-  //     socket.on("newest_bid", (updatedBid) => {
-  //       console.log('updatedBid', updatedBid)
-  //       if (updatedBid) {
-  //         setNewBid((prevData) => [updatedBid, ...prevData]);
-  //       }
-  //       if (updatedBid.amount) {
-  //         setCurrentPrice(updatedBid.amount)
-  //       }
-  //     })
-  //   }
-  //   return () => socket?.off("newest_bid");
-  // }, [])
+  useEffect(() => {
+    if (!auctionById?.bids) return; // ← guard: wait until data is real
+
+    setBidHistory(auctionById.bids);
+
+    const highestBidder = currentHighestBid?.[0];
+    const bidderUser = users.find((u) => u.id === highestBidder?.bidderId);
+    const displayUsername = bidderUser?.username || "No Bidder Yet";
+
+  }, [auctionById]);
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
@@ -158,10 +111,10 @@ const AuctionBid = () => {
                   {filterCategoryName[0]?.name}
                 </span>
                 <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">
-                  {auctionById.product.name}
+                  {auctionById?.product.name}
                 </h1>
                 <p className="text-xl font-['Noto_Serif'] italic text-[#5e5e5e]">
-                  {auctionById.product.description}
+                  {auctionById?.product.description}
                 </p>
               </div>
 
@@ -181,19 +134,19 @@ const AuctionBid = () => {
                       Current Bid
                     </p>
                     <p className="text-4xl font-['Noto_Serif'] text-dark-red font-bold tracking-wider">
-                      {filteredNewBid.length > 0
-                        ? filteredNewBid[0].amount
-                        : auctionById?.startingPrice || 0}
+                      {/* {filteredNewBid.length > 0 ? filteredNewBid[0].amount : auctionById?.startingPrice || 0} */}
+                      {currentHighestBid ? bids[0].amount : auctionById?.startingPrice}
                     </p>
                     <span className="text-[14px] text-primary mt-5 text-headline uppercase">
                       Highest Bidder:
                     </span>
                     <span className="text-[14px] text-secondary mt-3 text-headline uppercase font-bold mx-2">
-                      {newBid.length > 0
-                        ? users?.find(
-                            (u) => u.id === filteredNewBid?.[0]?.bidderId,
-                          )?.username || "No Bid Yet"
-                        : "No Bid Yet"}
+                      { currentHighestBid
+
+                    ? users.find((u) => u.id === bids[0].bidderId)?.username
+
+: "No Bidder Yet"}
+
                     </span>
                   </div>
                   <div className="text-right">
@@ -201,7 +154,11 @@ const AuctionBid = () => {
                       Time Left
                     </p>
                     <p className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]">
-                      <TimeCountdown product={auctionById?.product} />
+                      {auctionById.product ? (
+                        <TimeCountdown product={auctionById.product} />
+                      ) : (
+                        "Loading timer..."
+                      )}
                     </p>
                   </div>
                 </div>
@@ -214,13 +171,13 @@ const AuctionBid = () => {
                       </label>
                       <div className="relative flex items-center">
                         <span className="absolute left-4 text-stone-400">
-                          $
+                          B
                         </span>
                         <input
                           type="number"
                           placeholder={
                             Number(currentPrice) +
-                            Number(auctionById.minIncrement)
+                            Number(auctionById?.minIncrement)
                           }
                           {...register("amount")}
                           className="w-full bg-[#ebe7e7] border-none rounded-sm py-4 pl-8 pr-4 focus:ring-1 focus:ring-[#570000] focus:bg-white transition-all outline-none"
@@ -243,34 +200,39 @@ const AuctionBid = () => {
                     "This specific canvas represents the pinnacle of 18th-century veduta painting. The 'ghostly' architecture is a signature mark of Guardi's later style."
                   </p> */}
                   <div className="flex flex-col gap-3 overflow-y-auto max-h-[200px]">
-                    {filteredNewBid.map((e, i) => (
-                      <div
-                        key={i}
-                        className="flex justify-between items-center"
-                      >
-                        <div className="flex items-center gap-4 pt-4">
-                          <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
-                            <img
-                              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe"
-                              alt="Curator"
-                              className="w-full h-full object-cover"
-                            />
+                    {bids
+                      ? bids.map((e, i) => (
+                          <div
+                            key={i}
+                            className="flex justify-between items-center"
+                          >
+                            <div className="flex items-center gap-4 pt-4">
+                              <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
+                                <img
+                                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe"
+                                  alt="Curator"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div className="text-left">
+                                <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
+                                  {
+                                    users?.find((i) => e.bidderId === i.id)
+                                      .username
+                                  }
+                                  {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
+                                </p>
+                                <p className="text-[14px] text-stone-500 uppercase tracking-widest">
+                                  {e.amount}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="text-[12px] text-stone-500 tracking-widest">
+                              {new Date(e?.createdAt).toLocaleTimeString()}
+                            </div>
                           </div>
-                          <div className="text-left">
-                            <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
-                              {users?.find((i) => e.bidderId === i.id).username}
-                              {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
-                            </p>
-                            <p className="text-[14px] text-stone-500 uppercase tracking-widest">
-                              {e.amount}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-[12px] text-stone-500 tracking-widest">
-                          {new Date(e?.createdAt).toLocaleTimeString()}
-                        </div>
-                      </div>
-                    ))}
+                        ))
+                      : "Loading bid data..."}
                   </div>
                 </div>
               </div>
