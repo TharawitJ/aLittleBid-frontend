@@ -74,10 +74,6 @@ const AuctionBid = () => {
       );
       return;
     }
-    console.log(bids);
-
-     getAllUser();
-    console.log('users', users);
 
     return () => {
       leaveAuctionRoom();
@@ -89,6 +85,10 @@ const AuctionBid = () => {
 
     setBidHistory(auctionById.bids);
   }, [auctionById]);
+
+  useEffect(() => {
+  getAllUser();
+}, [getAllUser]);
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
@@ -156,7 +156,7 @@ const AuctionBid = () => {
                   </div>
                   <div className="text-right">
                     <p className="font-['Manrope'] text-[10px] text-stone-500 mb-2 uppercase tracking-widest">
-                      Time Left
+                      Countdown
                     </p>
                     <p className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]">
                       {auctionById.product ? (
