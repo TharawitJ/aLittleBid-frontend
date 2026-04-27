@@ -27,7 +27,7 @@ function DisplayProducts({ displayProducts, allCategories }) {
   useEffect(() => {
     getAllBid()
     getAllAuction()
-    console.log('bidData', bidData)
+    // console.log('bidData', bidData)
   }, [])
 
   return (
@@ -44,9 +44,11 @@ function DisplayProducts({ displayProducts, allCategories }) {
             img={i.images?.[0]?.imageUrl}
             title={i.name}
             cat={category?.name}
+            description={i.description}
             badge="Live"
             price={`$${(1000 * i.id).toLocaleString()}`}
             timeLeft={<TimeCountdown product={i} />}
+            auctionDetail={auction}
             onJoin={() => hdlJoinClick(auctionId)}
           />
         );

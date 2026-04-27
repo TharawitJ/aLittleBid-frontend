@@ -22,7 +22,7 @@ const useProductStore = create()(
 
       getAllProducts: async () => {
         const resp = await apiGetAllProducts();
-        // console.log("getAllProducts", resp.data.responses);
+        console.log("getAllProducts", resp.data.responses);
         set({ allProducts: resp.data.responses });
       },
       getCategories: async () => {
@@ -31,9 +31,10 @@ const useProductStore = create()(
         set({ allCategories: resp.data.responses });
       },
       getProductsById: async (id) => {
+        console.log('id-productbyid', id)
         const resp = await apiGetProductsById(id);
+        console.log("getProductsById", resp.data.responses);
         set({ productById: resp.data.responses });
-        // console.log("getProductsById", resp.data.responses);
       },
       createProduct: async (body) => {
         const resp = await apiCreateProduct(body);

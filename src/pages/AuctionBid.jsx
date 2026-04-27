@@ -14,11 +14,14 @@ import {
   leaveAuctionRoom,
   placeBid,
 } from "../socket/socketService.js";
+import { apiGetProductsById } from "../api/apiMain.js";
+import ProductImageSlide from "../components/productPage/ProductImageSlide.jsx";
 
 const AuctionBid = () => {
-  const { productById, allCategories, getProductById } = useProductStore();
-  const { auctionById, getAuctionById, setCurrentPrice, currentPrice } =
-    useAuctionStore();
+  const { productById, allCategories, getProductsById, getAllProducts, allProducts } = useProductStore();
+  console.log('productById', productById)
+  const { auctionById, getAuctionById, setCurrentPrice, currentPrice } = useAuctionStore();
+  console.log('auctionById', auctionById)
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
   console.log("socket", socket);
   const {
@@ -33,8 +36,7 @@ const AuctionBid = () => {
   } = useBidStore();
   // console.log('bidData', bidData)
   const { users, getAllUser } = useUserStore();
-  const { id, categoryId, name, description, sellerId, updatedAt, images } =
-    productById;
+  const { id, categoryId, name, description, sellerId, updatedAt, images } = productById;
   const { auctionId } = useParams();
   const { register, handleSubmit, reset } = useForm();
 
@@ -66,7 +68,8 @@ const AuctionBid = () => {
   useEffect(() => {
     connectSocket();
     joinAuctionRoom(auctionId);
-
+    console.log('auctionById.productId', auctionById.productId)
+    getProductsById(auctionById.productId)
     getAuctionById(auctionId);
 
     if (!auctionById || String(auctionById.id) !== String(auctionId)) {
@@ -75,7 +78,7 @@ const AuctionBid = () => {
       );
       return;
     }
-    console.log(bids);
+    // console.log(bids);
     getAllUser();
 
     return () => {
@@ -96,12 +99,14 @@ const AuctionBid = () => {
           {/* Left Column: Image & Details */}
           <div className="lg:col-span-7 space-y-16">
             <div className="relative group">
-              <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-lg bg-[#f6f3f2]">
-                <img
-                  src={images?.[0].imageUrl}
-                  alt="Artwork"
-                  className="w-full h-full object-cover"
-                />
+              <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-lg w-full h-full object-center">
+                {productById.images && productById.images.length > 0 && (
+                <ProductImageSlide key={auctionId} images={productById.images} />
+              //    <img
+              //   src={item.images[0].imageUrl}
+              //   className="w-full h-full object-cover"
+              // />
+              )}
               </div>
               <button className="absolute bottom-6 right-6 bg-white/70 backdrop-blur-md p-3 rounded-full hover:bg-white transition-colors">
                 <span className="material-symbols-outlined">fullscreen</span>
@@ -119,10 +124,6 @@ const AuctionBid = () => {
                 <p className="text-xl font-['Noto_Serif'] italic text-[#5e5e5e]">
                   {auctionById?.product.description}
                 </p>
-              </div>
-
-              <div className="max-w-none text-lg text-[#5a413d] leading-relaxed font-light space-y-4">
-                <p>{description}</p>
               </div>
             </div>
           </div>
@@ -147,7 +148,7 @@ const AuctionBid = () => {
                     </span>
                     <span className="text-[14px] text-secondary mt-3 text-headline uppercase font-bold mx-2">
                       {currentHighestBid
-                        ? users.find((u) => u.id === currentHighestBid.bidderId)
+                        ? users?.find((u) => u.id === currentHighestBid.bidderId)
                             ?.username
                         : "No Bidder Yet"}
                     </span>
