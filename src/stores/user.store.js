@@ -35,7 +35,7 @@ const useUserStore = create()(
             getAllUser: async () => {
                 // console.log("getalluser")
                 const resp = await apiGetAllUser()
-                // console.log('resp_getAllUser', resp)
+                console.log('resp_getAllUser', resp.data.responses);
                 set({users: resp.data.responses})
                 return resp.data.responses
             },

@@ -20,7 +20,6 @@ const AuctionBid = () => {
   const { auctionById, getAuctionById, setCurrentPrice, currentPrice } =
     useAuctionStore();
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
-  console.log("socket", socket);
   const {
     newBid,
     bidData,
@@ -76,7 +75,9 @@ const AuctionBid = () => {
       return;
     }
     console.log(bids);
-    getAllUser();
+
+     getAllUser();
+    console.log('users', users);
 
     return () => {
       leaveAuctionRoom();
@@ -146,8 +147,9 @@ const AuctionBid = () => {
                       Highest Bidder:
                     </span>
                     <span className="text-[14px] text-secondary mt-3 text-headline uppercase font-bold mx-2">
-                      {currentHighestBid
-                        ? users.find((u) => u.id === currentHighestBid.bidderId)
+                      { 
+                      currentHighestBid
+                        ? users?.find((u) => u.id === currentHighestBid.bidderId)
                             ?.username
                         : "No Bidder Yet"}
                     </span>
@@ -225,7 +227,7 @@ const AuctionBid = () => {
                           </div>
                           <div className="text-left">
                             <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
-                              {
+                              { 
                                     users?.find((i) => e.bidderId === i.id)
                                       .username
                               }
@@ -248,28 +250,30 @@ const AuctionBid = () => {
             </div>
           </div>
         </div>
-        {winner && (
-          <dialog
-            open
-            className="modal"
-            style={{
-              border: "1px solid #ccc",
-              padding: "20px",
-              borderRadius: "8px",
-            }}
-          >
-            <div className="bg-red-300 w-50 border-2 shadow-2xl">
+        {winner && console.log(`Winner is ${winner.winnerId} and amount is ${winner.amount}`)
+        // (
+        //   <dialog
+        //     open
+        //     className="modal"
+        //     style={{
+        //       border: "1px solid #ccc",
+        //       padding: "20px",
+        //       borderRadius: "8px",
+        //     }}
+        //   >
+        //     <div className="bg-red-300 w-50 border-2 shadow-2xl">
 
-            <p>Auction Ended! Winner is...</p>
-            <p>
-              <strong>Winner ID:</strong> {winner.winnerId}
-            </p>
-            <p>
-              <strong>Amount:</strong> {winner.amount}
-            </p>
-            </div>
-          </dialog>
-        )}
+        //     <p>Auction Ended! Winner is...</p>
+        //     <p>
+        //       <strong>Winner ID:</strong> {winner.winnerId}
+        //     </p>
+        //     <p>
+        //       <strong>Amount:</strong> {winner.amount}
+        //     </p>
+        //     </div>
+        //   </dialog>
+        // )
+        }
       </main>
     </div>
   );
