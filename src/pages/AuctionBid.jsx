@@ -117,10 +117,10 @@ const AuctionBid = () => {
                   {filterCategoryName[0]?.name}
                 </span>
                 <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">
-                  {auctionById?.product.name}
+                  {auctionById?.product?.name}
                 </h1>
                 <p className="text-xl font-['Noto_Serif'] italic text-[#5e5e5e]">
-                  {auctionById?.product.description}
+                  {auctionById?.product?.description}
                 </p>
               </div>
 
