@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import MainLayout from "../layouts/mainLayout.jsx";
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router";
 import UserProfilePage from "../pages/UserProfilePage.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import AuctionPage from "../pages/AuctionPage.jsx";
@@ -11,10 +11,8 @@ import ProductPage from "../pages/ProductPage.jsx";
 import AddProduct from "../pages/AddProduct.jsx";
 import OrderList from "../pages/OrderList.jsx";
 import Payment from "../pages/Payment.jsx";
-// import ActiveBid from "../pages/ActiveBid.jsx";
 import Favorite from "../pages/Favorite.jsx";
 import ActiveBid from "../pages/ActiveBid.jsx";
-
 import LoginPage from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";
 import RequestOTP from "../pages/RequestOTP.jsx";
@@ -23,8 +21,8 @@ import ResetPassword from "../pages/Resetpassword.jsx";
 import useUserStore from "../stores/user.store.js";
 
 const guestRouter = createBrowserRouter([
-  { path: "/login", element: <LoginPage /> },
-  { path: "/register", element: <Register /> },
+  { path: "login", element: <LoginPage /> },
+  { path: "register", element: <Register /> },
   { path: "request-otp", element: <RequestOTP /> },
   { path: "verify-otp", element: <VerifyOTP /> },
   { path: "reset-password", element: <ResetPassword /> },
@@ -48,6 +46,12 @@ const userRouter = createBrowserRouter([
       { path: "payment", element: <Payment /> },
     ],
   },
+  // prevent white screens on invalid URLs
+  { path: "login", element: <Navigate to="/" replace /> },
+  { path: "register", element: <Navigate to="/" replace /> },
+  { path: "request-otp", element: <Navigate to="/" replace /> },
+  { path: "verify-otp", element: <Navigate to="/" replace /> },
+  { path: "*", element: <Navigate to="/" replace /> },
 ]);
 
 function AppRouter() {

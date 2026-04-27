@@ -4,6 +4,7 @@ import EditUserProfile from "../components/userPage/EditUserProfile";
 import EditUserAddress from "../components/userPage/EditUserAddress";
 import useUserStore from "../stores/user.store.js";
 import { useEffect, useMemo } from "react";
+import Avatar from "../components/Avatar"
 import Swal from "sweetalert2";
 
 const UserProfilePage = () => {
@@ -13,13 +14,6 @@ const UserProfilePage = () => {
 
   const userAddresses = useUserStore((state) => state.userAddresses);
   const navigate = useNavigate();
-
-  const defaultAddress = useMemo(() => {
-    return userAddresses?.find((item) => item.isDefault === true);
-  }, [userAddresses]);
-
-  if (!user) return <div>Loading...</div>;
-
   const {
     id,
     username,
@@ -31,10 +25,17 @@ const UserProfilePage = () => {
     phone,
     role,
   } = user;
-  console.log("role", role);
-  console.log("User:", user);
-  console.log("id:", id);
-  // getUserById(id);
+  useEffect(() => {
+    if (id) {
+      getUserById(id);
+    }
+  }, [id, getUserById]);
+
+  const defaultAddress = useMemo(() => {
+    return userAddresses?.find((item) => item.isDefault === true);
+  }, [userAddresses]);
+
+  if (!user) return <div>Loading...</div>;
 
   const showName = firstname || name?.split(" ")[0] || "n/a";
   const showLastname = lastname || name?.split(" ")[1] || "n/a";
@@ -126,11 +127,7 @@ const UserProfilePage = () => {
             <div className="flex items-center gap-8">
               <div className="relative group">
                 <div className="w-32 h-32 overflow-hidden bg-surface-variant shadow-sm">
-                  <img
-                    className="w-full h-full object-cover"
-                    alt="Alexander Sterling"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQWXNGSz_a-rD6yGldzplUAef-8pXOgNJs6kgapTPhYWZmUF64rqW8K6B07KNWplQMPbaoHJtptuBXTSQWBf_A5TmWaRmDtDogWY94saf-YtlXpKr0dCU-zX546SF86zjsCEhU59whIQtlYFclb6TnCz4hR1gRTxiyMQFsUKwpx0MqEyMu-UfrqKAGF6V0WKg5X38Y2ua_qCK6lrLQxhaDD42AZYQi4ETBML_RzILckNG9KFfKizTA6RtEpSXGUpyQb4WLQKaP94ty"
-                  />
+                  <Avatar user={user} />
                 </div>
                 <button className="bg-gray-300  text-grey/60 shadow-lg hover:bg-white transition-transform w-full">
                   <span className="material-symbols-outlined text-sm">
