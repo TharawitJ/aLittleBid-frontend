@@ -14,7 +14,7 @@ const useAuctionStore = create()(
   persist(
     (set, get) => ({
       allAuction: null,
-      auctionById: null,
+      auctionById: [],
       currentPrice: 0,
       endTime: 0,
       serverOffset: 0,
@@ -48,7 +48,7 @@ const useAuctionStore = create()(
       getAuctionById: async (auctionId) => {
         // console.log("auctionidddd", auctionId);
         const resp = await apiGetAuctionById(auctionId);
-        console.log("getAuctionById", resp.data.responses);
+        // console.log("getAuctionById", resp.data.responses);
         set({ auctionById: resp.data.responses });
         return resp.data.responses;
       },
@@ -71,7 +71,7 @@ const useAuctionStore = create()(
       },
       clearAuctionById: () => {
         console.log('clear')
-        set({auctionById:null})
+        set({auctionById:[]})
       }
     }),
     {

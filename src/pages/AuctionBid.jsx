@@ -14,11 +14,11 @@ import {
   leaveAuctionRoom,
   placeBid,
 } from "../socket/socketService.js";
+import ProductImageSlide from "../components/productPage/ProductImageSlide"
 
 const AuctionBid = () => {
   const { productById, allCategories, getProductsById } = useProductStore();
-  const { auctionById, getAuctionById, setCurrentPrice, currentPrice } =
-    useAuctionStore();
+  const auctionById = useAuctionStore((state) => state.auctionById);
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
   // console.log("socket", socket);
   const {
@@ -33,9 +33,8 @@ const AuctionBid = () => {
   } = useBidStore();
   // console.log('bidData', bidData)
   const { users, getAllUser } = useUserStore();
-  const [isLoading, setIsLoading]= useState(true);
-  const { id, categoryId, name, description, sellerId, updatedAt, images } =
-    productById;
+  const [isLoading, setIsLoading] = useState(true);
+  const { categoryId, description } = productById;
   const { auctionId } = useParams();
   const { register, handleSubmit, reset } = useForm();
 
@@ -59,33 +58,27 @@ const AuctionBid = () => {
     reset();
   };
 
+
   useEffect(() => {
+    if (!auctionById) {
+      return;
+    }
     connectSocket();
     joinAuctionRoom(auctionId);
-    getAuctionById(auctionId);
-    // getProductsById(auctionById?.productId);
-
-    setIsLoading(false);
-    
-    console.log('auctionById', auctionById)
-    console.log('auctionId', auctionId)
     if (!auctionById || String(auctionById?.id) !== String(auctionId)) {
       console.warn(
         `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
       );
       return;
     }
+    setIsLoading(false);
+    setBidHistory(auctionById.bids)
     getAllUser();
     return () => {
       leaveAuctionRoom();
     };
-  }, []);
-
-  useEffect(() => {
-    if (!auctionById?.bids) return; // ← guard: wait until data is real
-
-    setBidHistory(auctionById.bids);
   }, [auctionById]);
+
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
@@ -98,11 +91,12 @@ const AuctionBid = () => {
             <div className="lg:col-span-7 space-y-16">
               <div className="relative group">
                 <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-lg bg-[#f6f3f2]">
-                  <img
-                    src={auctionById.product.images}
+                  {/* <img
+                    src={auctionById?.product?.images[0]?.imageUrl}
                     alt="Artwork"
                     className="w-full h-full object-cover"
-                  />
+                  /> */}
+                  <ProductImageSlide images ={auctionById?.product?.images}/>
                 </div>
                 <button className="absolute bottom-6 right-6 bg-white/70 backdrop-blur-md p-3 rounded-full hover:bg-white transition-colors">
                   <span className="material-symbols-outlined">fullscreen</span>
@@ -115,10 +109,10 @@ const AuctionBid = () => {
                     {filterCategoryName[0]?.name}
                   </span>
                   <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">
-                    {auctionById?.product.name}
+                    {auctionById?.product?.name}
                   </h1>
                   <p className="text-xl font-['Noto_Serif'] italic text-[#5e5e5e]">
-                    {auctionById?.product.description}
+                    {auctionById?.product?.description}
                   </p>
                 </div>
 
@@ -180,13 +174,13 @@ const AuctionBid = () => {
                           </span>
                           <input
                             type="number"
-                            placeholder={
+                            placeholder={`Minimum ${
                               currentHighestBid
                                 ? Number(currentHighestBid?.amount) +
                                   Number(auctionById?.minIncrement)
                                 : Number(auctionById?.startingPrice) +
                                   Number(auctionById?.minIncrement)
-                            }
+                            }`}
                             {...register("amount")}
                             className="w-full bg-[#ebe7e7] border-none rounded-sm py-4 pl-8 pr-4 focus:ring-1 focus:ring-[#570000] focus:bg-white transition-all outline-none"
                           />
