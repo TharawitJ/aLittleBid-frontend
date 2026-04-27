@@ -169,9 +169,7 @@ const AuctionBid = () => {
                 <form onSubmit={handleSubmit(hdlOnSubmit)}>
                   <div className="space-y-6">
                     <div className="space-y-2">
-                      <label className="font-['Manrope'] uppercase tracking-widest text-[10px] text-stone-500">
-                        Your Bid
-                      </label>
+                      <label className="font-['Manrope'] uppercase tracking-widest text-[10px] text-stone-500">Your Bid</label>
                       <div className="relative flex items-center">
                         <span className="absolute left-4 text-stone-400">
                           B
@@ -217,22 +215,22 @@ const AuctionBid = () => {
                             key={i}
                             className="flex justify-between items-center"
                           >
-                            <div className="flex items-center gap-4 pt-4">
-                              <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
+                        <div className="flex items-center gap-4 pt-4">
+                          <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
                                 <img
                                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe"
                                   alt="Curator"
                                   className="w-full h-full object-cover"
                                 />
-                              </div>
-                              <div className="text-left">
-                                <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
-                                  {
+                          </div>
+                          <div className="text-left">
+                            <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
+                              {
                                     users?.find((i) => e.bidderId === i.id)
                                       .username
-                                  }
-                                  {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
-                                </p>
+                              }
+                              {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
+                            </p>
                                 <p className="text-[14px] text-stone-500 uppercase tracking-widest">
                                   {e.amount}
                                 </p>

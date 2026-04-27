@@ -86,6 +86,10 @@ const useUserStore = create()(
         }),
         {
             name: "userProfile-storage",
+             partialize: (state) => ({ 
+                user: state.user, 
+                token: state.token 
+            }),
         },
     ),
 );

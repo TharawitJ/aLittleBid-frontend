@@ -6,10 +6,11 @@ import useProductStore from "../stores/product.store.js";
 import useAuctionStore from "../stores/auction.store.js";
 import useUserStore from "../stores/user.store.js";
 import Swal from "sweetalert2";
-import {uploadMultipleToCloudinary} from '../utils/uploadCloud.js'
+import { uploadMultipleToCloudinary } from '../utils/uploadCloud.js'
+import { apiCreateImages } from "../api/apiMain.js";
 
 const AddProduct = () => {
-  const { createProduct, allCategories, updateProduct } =
+  const { createProduct, allCategories, updateProduct, createImages } =
     useProductStore();
   const { allAuction, getAllAuction, createAuction, getAuctionByProductId } = useAuctionStore();
   const { user } = useUserStore();
@@ -56,11 +57,11 @@ const AddProduct = () => {
     const end = new Date(start.getTime() + durationInMs);
     console.log('end', end)
     try {
-              
+
       const imageUrls = await uploadMultipleToCloudinary(images);
       console.log('imageUrls', imageUrls)
 
-      
+
       const productTableData = {
         description,
         name,
@@ -68,12 +69,21 @@ const AddProduct = () => {
         // sellerId: user.id,
       };
       const newProduct = await createProduct(productTableData);
-      
+
       // 3. ส่ง URL พร้อม productId ไปบันทึก (Table Images)
       const imagePayload = imageUrls.map(url => ({
-        url: url,
+        imageUrl: url,
         productId: newProduct.id
       }));
+      console.log('imagePayload', imagePayload)
+
+      for (const item of imagePayload) {
+        createImages(item);
+      }
+
+      //api add images to db
+      // const resp = createImages(imagePayload)
+      // console.log('imagesssss')
 
       const auctionTableData = {
         // Converts to 2026-04-22T12:31:00.000Z
@@ -115,20 +125,17 @@ const AddProduct = () => {
       Swal.fire({
         text: "สามารถอัปโหลดรูปภาพได้สูงสุด 5 รูป"
       })
-    // alert("สามารถอัปโหลดรูปภาพได้สูงสุด 5 รูป");
-    e.target.value = null; // ล้างค่า input เพื่อให้เลือกใหม่ได้
-    return; // หยุดการทำงานทันที
-  }
+
+      e.target.value = null; // ล้างค่า input เพื่อให้เลือกใหม่ได้
+      return;
+    }
 
     // 2. รวมรูปเก่า + รูปใหม่
     const updatedFiles = [...currentFiles, ...files];
-    console.log('updatedFiles', updatedFiles)
+    // console.log('updatedFiles', updatedFiles)
 
     // 3. อัปเดตกลับเข้าไปใน useForm
     setValue("images", updatedFiles);
-
-    // // 1. เพิ่มไฟล์เข้าไปใน State เดิม (ใช้วิธี ...กระจายค่า)
-    // setImages((prevImages) => [...prevImages, ...selectedFiles]);
 
     // 4. ทำ Preview (ใช้ State แยกสำหรับเก็บ URL blob จะจัดการง่ายกว่า)
     const newPreviews = newFiles?.map(file => URL.createObjectURL(file));
@@ -136,14 +143,6 @@ const AddProduct = () => {
 
     e.target.value = null; // ล้างค่า input เพื่อให้เลือกซ้ำได้
   };
-
-  // const handleUpload = async (images) => {
-  //   console.log('Addimages', images)
-  //   if (images.length === 0) return;
-  //   const uploadedUrls = await uploadMultipleToCloudinary(images);
-  //   console.log("All Image URLs:", uploadedUrls);
-  //   // นำ URL ไปบันทึกลง Database ต่อไป
-  // };
 
   const removePic = e => {
     if (e) e.stopPropagation();
@@ -157,9 +156,9 @@ const AddProduct = () => {
 
   const removeSpecific = (index) => {
     const currentFiles = getValues("images") || [];
-    console.log('currentFiles', currentFiles)
+    // console.log('currentFiles', currentFiles)
     const filteredFiles = currentFiles.filter((_, i) => i !== index);
-    console.log('filteredFiles', filteredFiles)
+    // console.log('filteredFiles', filteredFiles)
     setValue("images", filteredFiles, { shouldValidate: true });
 
     // ลบใน Preview State
@@ -238,63 +237,63 @@ const AddProduct = () => {
                   </h2>
                 </div>
                 {/* <form action=""> */}
-                  <div className="space-y-8 grid grid-cols-2 gap-5">
-                    <div className="flex flex-col">
-                      <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
-                        Start Time
-                      </label>
-                      <input
-                        type="datetime-local"
-                        placeholder=""
-                        className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
-                        {...register("startTime")}
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
-                        End Time
-                      </label>
-                      <select
-                        name="durationEndTime"
-                        className="min-h-[37px] border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
-                        {...register("durationEndTime")}
-                      >
-                        <option value="24">1 day</option>
-                        <option value="72">3 day</option>
-                        <option value="120">5 day</option>
-                      </select>
-                    </div>
-                    <div className="flex flex-col">
-                      <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
-                        Starting Price (Bath)
-                      </label>
-                      <input
-                        type="text"
-                        className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
-                        {...register("startingPrice")}
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
-                        Reserve Price (Bath)
-                      </label>
-                      <input
-                        type="text"
-                        className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
-                        {...register("reservePrice")}
-                      />
-                    </div>
-                    <div className="flex flex-col">
-                      <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
-                        Minimum Increment (Bath)
-                      </label>
-                      <input
-                        type="text"
-                        className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
-                        {...register("minIncrement")}
-                      />
-                    </div>
+                <div className="space-y-8 grid grid-cols-2 gap-5">
+                  <div className="flex flex-col">
+                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
+                      Start Time
+                    </label>
+                    <input
+                      type="datetime-local"
+                      placeholder=""
+                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
+                      {...register("startTime")}
+                    />
                   </div>
+                  <div className="flex flex-col">
+                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
+                      End Time
+                    </label>
+                    <select
+                      name="durationEndTime"
+                      className="min-h-[37px] border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
+                      {...register("durationEndTime")}
+                    >
+                      <option value="24">1 day</option>
+                      <option value="72">3 day</option>
+                      <option value="120">5 day</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
+                      Starting Price (Bath)
+                    </label>
+                    <input
+                      type="text"
+                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
+                      {...register("startingPrice")}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
+                      Reserve Price (Bath)
+                    </label>
+                    <input
+                      type="text"
+                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
+                      {...register("reservePrice")}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
+                      Minimum Increment (Bath)
+                    </label>
+                    <input
+                      type="text"
+                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
+                      {...register("minIncrement")}
+                    />
+                  </div>
+                </div>
                 {/* </form> */}
               </section>
             </div>
