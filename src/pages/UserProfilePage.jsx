@@ -1,31 +1,46 @@
 import { NavLink, useNavigate } from "react-router";
-import { useForm } from "react-hook-form";
 import { LogoutIcon } from "../icons";
 import EditUserProfile from "../components/userPage/EditUserProfile";
 import EditUserAddress from "../components/userPage/EditUserAddress";
 import useUserStore from "../stores/user.store.js";
-import { useEffect, useMemo, useState } from "react";
-import Swal from 'sweetalert2'
+import { useEffect, useMemo } from "react";
+import Swal from "sweetalert2";
 
 const UserProfilePage = () => {
   const { logout, getUserById } = useUserStore();
   const user = useUserStore((state) => state.user);
+  console.log("userprofile", user);
+
   const userAddresses = useUserStore((state) => state.userAddresses);
   const navigate = useNavigate();
-  const { id, username, email, firstname, lastname, phone, role } = user;
-  console.log('id', id)
-  // useEffect(() => {
-  //   if(id){
-  //   getUserById(id);
-  //   }
-  // }, [id,getUserById]);
-  
+
   const defaultAddress = useMemo(() => {
     return userAddresses?.find((item) => item.isDefault === true);
-  }, [userAddresses]); 
-  
+  }, [userAddresses]);
+
   if (!user) return <div>Loading...</div>;
-  
+
+  const {
+    id,
+    username,
+    email,
+    firstname,
+    lastname,
+    name,
+    avatarUrl,
+    phone,
+    role,
+  } = user;
+  console.log("role", role);
+  console.log("User:", user);
+  console.log("id:", id);
+  // getUserById(id);
+
+  const showName = firstname || name?.split(" ")[0] || "n/a";
+  const showLastname = lastname || name?.split(" ")[1] || "n/a";
+  const showUsername = username || name?.split(" ")[1] || "n/a";
+
+  // console.log('defaultAddress', defaultAddress)
 
   const isSeller = user?.role === "SELLER";
 
@@ -34,8 +49,8 @@ const UserProfilePage = () => {
       document.getElementById("openeditprofile-modal").showModal();
     } catch (error) {
       Swal.fire({
-        title: "Cannot Open Modal"
-      })
+        title: "Cannot Open Modal",
+      });
     }
   };
 
@@ -43,9 +58,9 @@ const UserProfilePage = () => {
     try {
       document.getElementById("openeditaddress-modal").showModal();
     } catch (error) {
-       Swal.fire({
-        title: "Cannot Open Modal"
-      })
+      Swal.fire({
+        title: "Cannot Open Modal",
+      });
     }
   };
 
@@ -88,9 +103,7 @@ const UserProfilePage = () => {
                     Consignments
                   </span>
                 </NavLink>
-              )
-              }
-
+              )}
 
               <div className="pt-8 mt-8 border-t border-outline-variant/30 flex">
                 <button
@@ -129,12 +142,16 @@ const UserProfilePage = () => {
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
                     <h1 className="text-4xl font-serif italic text-red font-headline">
-                      {firstname} {lastname}
+                      {showName} {showLastname}
                     </h1>
+
+                    {/* Status Buyer */}
+
                     <span className="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] uppercase tracking-[0.2em] font-bold rounded-sm">
                       {role}
                     </span>
                   </div>
+
                   <p className="text-stone-500 font-light tracking-wide italic">
                     Member since November 2019 • London, UK
                   </p>
@@ -187,7 +204,7 @@ const UserProfilePage = () => {
                     className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
                     defaultValue=""
                   >
-                    {firstname}
+                    {showName}
                   </p>
                 </div>
                 <div className="space-y-1">
@@ -195,7 +212,7 @@ const UserProfilePage = () => {
                     Last Name
                   </label>
                   <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                    {lastname}
+                    {showLastname}
                   </p>
                 </div>
                 <div className="col-span-2 space-y-1">
@@ -203,7 +220,7 @@ const UserProfilePage = () => {
                     Username
                   </label>
                   <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
-                    {username}
+                    {showUsername}
                   </p>
                 </div>
                 <div className="col-span-2 space-y-1">
