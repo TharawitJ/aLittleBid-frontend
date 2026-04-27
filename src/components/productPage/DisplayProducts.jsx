@@ -56,9 +56,11 @@ function DisplayProducts({ displayProducts, allCategories }) {
             img={i.images?.[0]?.imageUrl}
             title={i.name}
             cat={category?.name}
+            description={i.description}
             badge="Live"
             price={hldPriceLoading(lastBid, auction)}
             timeLeft={<TimeCountdown product={i} />}
+            auctionDetail={auction}
             onJoin={() => hdlJoinClick(auctionId)}
           />
         );

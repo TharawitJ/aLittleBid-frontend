@@ -69,6 +69,7 @@ const ProductPage = () => {
   console.log("currentProducts", currentProducts);
   // const filteredActiveProduct = currentProducts.filter((item)=>item.)
   const displayProducts = currentProducts.slice(startIndex, endIndex);
+  console.log('displayProducts', displayProducts)
 
   // console.log("currentProducts", currentProducts);
   // console.log("allProducts", allProducts);

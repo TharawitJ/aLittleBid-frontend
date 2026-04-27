@@ -1,31 +1,71 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const ProductImageSlide = ({ images }) => {
-    console.log('imagesslide', images)
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(1);
+    const [isTransitioning, setIsTransitioning] = useState(true);
+    const [isPaused, setIsPaused] = useState(false); // เพิ่ม State สำหรับเช็คการหยุด
+    const intervalRef = useRef(null);
+
+    const extendedImages = images && images.length > 0 
+        ? [images[images.length - 1], ...images, images[0]] 
+        : [];
+
+    // ฟังก์ชันสำหรับเริ่มเลื่อน
+    const startSlider = () => {
+        if (!images || images.length <= 1) return;
+        intervalRef.current = setInterval(() => {
+            setCurrentIndex((prev) => prev + 1);
+            setIsTransitioning(true);
+        }, 8000);
+    };
+
+    // ฟังก์ชันสำหรับหยุดเลื่อน
+    const stopSlider = () => {
+        if (intervalRef.current) clearInterval(intervalRef.current);
+    };
 
     useEffect(() => {
-        // ถ้าไม่มีรูป หรือมีรูปเดียว ไม่ต้องรัน Timer
-        if (!images || images.length <= 1) return;
+        if (!isPaused) {
+            startSlider();
+        } else {
+            stopSlider();
+        }
+        return () => stopSlider();
+    }, [isPaused, images]);
 
-        const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) =>
-                prevIndex === images.length - 1 ? 0 : prevIndex + 1
-            );
-        }, 5000); // เปลี่ยนรูปทุก 3 วินาที
-
-        return () => clearInterval(interval); // ล้าง Timer เมื่อ Component ปิด
-    }, [images]);
+    useEffect(() => {
+        if (currentIndex === extendedImages.length - 1) {
+            setTimeout(() => {
+                setIsTransitioning(false);
+                setCurrentIndex(1);
+            }, 700); 
+        }
+    }, [currentIndex, extendedImages.length]);
 
     if (!images || images.length === 0) return null;
 
     return (
-        <img
-            src={images[currentIndex].imageUrl}
-            alt="Product"
-            className="w-full aspect-[4/5] object-cover transition-opacity duration-700 group-hover:scale-105"
-        />
+        <div 
+            className="relative w-full h-full overflow-hidden"
+            onMouseEnter={() => setIsPaused(true)}  // หยุดเมื่อ Hover
+            onMouseLeave={() => setIsPaused(false)} // เล่นต่อเมื่อเอาเมาส์ออก
+        >
+            <div 
+                className={`flex w-full h-full ${isTransitioning ? 'transition-transform duration-700 ease-in-out' : ''}`}
+                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            >
+                {extendedImages.map((image, index) => (
+                    <div key={index} className="w-full h-full flex-shrink-0">
+                        <img
+                            src={image.imageUrl}
+                            alt="Product"
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                ))}
+            </div>
+        </div>
     );
 };
 
-export default ProductImageSlide
+export default ProductImageSlide;

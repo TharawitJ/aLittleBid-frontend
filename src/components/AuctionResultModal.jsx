@@ -48,7 +48,7 @@ export default function AuctionResultModal({ currentUserId }) {
       }}
     >
       <div
-        className="relative w-full max-w-md rounded-2xl overflow-hidden bg-white"
+        className="relative w-full max-w-md rounded-2xl overflow-hidden bg-base-300"
       >
         {isWinner ? (
           <WinnerContent
@@ -147,20 +147,19 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
       </div>
 
       <p
-        className="text-xs font-semibold tracking-widest uppercase mb-2"
-        style={{ color: "rgba(255,255,255,0.3)" }}
+        className="text-xs font-semibold tracking-widest uppercase mb-2 text-black"
       >
         Auction ended
       </p>
 
       <h2
-        className="text-3xl font-bold text-white mb-2"
+        className="text-3xl font-bold text-black mb-2"
         style={{ fontFamily: "Georgia, serif" }}
       >
         Better luck next time
       </h2>
 
-      <p className="text-sm mb-6" style={{ color: "rgba(255,255,255,0.4)" }}>
+      <p className="text-sm mb-6 text-black">
         This auction has closed. You didn't place the winning bid.
       </p>
 
@@ -168,13 +167,12 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
       <div
         className="rounded-xl px-5 py-4 mb-8"
         style={{
-          background: "rgba(255,255,255,0.04)",
+          background: "#111111",
           border: "1px solid rgba(255,255,255,0.08)",
         }}
       >
         <p
-          className="text-xs uppercase tracking-widest mb-1"
-          style={{ color: "rgba(255,255,255,0.25)" }}
+          className="text-xs uppercase tracking-widest mb-1 text-white"
         >
           Won by
         </p>
@@ -201,7 +199,7 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
         )}
       </div>
 
-      <p className="text-xs mb-8" style={{ color: "rgba(255,255,255,0.25)" }}>
+      <p className="text-xs mb-8 text-black">
         Any bids you placed have been released and no charge will be made to
         your account.
       </p>
@@ -210,9 +208,9 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
         onClick={onClose}
         className="w-full py-3 rounded-xl font-semibold text-sm transition-all duration-150 active:scale-95"
         style={{
-          background: "rgba(255,255,255,0.08)",
-          color: "rgba(255,255,255,0.65)",
-          border: "1px solid rgba(255,255,255,0.12)",
+          background: "rgba(122,0,0,0.8)",
+          color: "rgba(255,255,255, 1)",
+          border: "1px solid rgba(122,0,0,0.12)",
           cursor: "pointer",
         }}
       >
