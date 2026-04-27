@@ -48,15 +48,7 @@ export default function AuctionResultModal({ currentUserId }) {
       }}
     >
       <div
-        className="relative w-full max-w-md rounded-2xl overflow-hidden"
-        style={{
-          background: isWinner
-            ? "linear-gradient(135deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%)"
-            : "linear-gradient(135deg, #0f172a 0%, #1c1917 100%)",
-          border: isWinner
-            ? "1px solid rgba(167,139,250,0.35)"
-            : "1px solid rgba(255,255,255,0.08)",
-        }}
+        className="relative w-full max-w-md rounded-2xl overflow-hidden bg-white"
       >
         {isWinner ? (
           <WinnerContent
@@ -79,55 +71,46 @@ export default function AuctionResultModal({ currentUserId }) {
 function WinnerContent({ amount, bidId, onClose }) {
   return (
     <div className="px-8 pt-10 pb-8 text-center">
-      <div className="flex justify-center mb-5">
-        <div
-          className="w-20 h-20 rounded-full flex items-center justify-center text-4xl"
-          style={{
-            background: "rgba(167,139,250,0.15)",
-            border: "1px solid rgba(167,139,250,0.3)",
-          }}
-        >
-          🏆
-        </div>
-      </div>
-
       <p
         className="text-xs font-semibold tracking-widest uppercase mb-2"
-        style={{ color: "#a78bfa" }}
+        style={{ color: "#000000" }}
       >
         Congratulations
       </p>
 
       <h2
-        className="text-3xl font-bold text-white mb-2"
+        className="text-3xl font-bold text-black mb-2"
         style={{ fontFamily: "Georgia, serif" }}
       >
         You won!
       </h2>
 
-      <p className="text-sm mb-8" style={{ color: "rgba(255,255,255,0.45)" }}>
+       <div className="flex justify-center mb-5">
+        <div
+          className="w-20 h-20 rounded-full flex items-center justify-center text-4xl"
+        >
+          🏆
+        </div>
+      </div>
+
+      <p className="text-sm mb-8 text-black">
         Your bid was the highest and met the reserve price.
       </p>
 
       <div
-        className="rounded-xl px-6 py-5 mb-3"
-        style={{
-          background: "rgba(167,139,250,0.1)",
-          border: "1px solid rgba(167,139,250,0.2)",
-        }}
+        className="rounded-xl px-6 py-5 mb-3 bg-[#5a0000]/15"
       >
         <p
-          className="text-xs uppercase tracking-widest mb-1"
-          style={{ color: "rgba(255,255,255,0.35)" }}
+          className="text-xs uppercase tracking-widest mb-1 text-black"
         >
           Winning bid
         </p>
-        <p className="text-4xl font-bold" style={{ color: "#a78bfa" }}>
+        <p className="text-4xl font-bold" style={{ color: "#000000" }}>
           {amount.toLocaleString()} <span className="text-xl">฿</span>
         </p>
       </div>
 
-      <p className="text-xs mb-8" style={{ color: "rgba(255,255,255,0.2)" }}>
+      <p className="text-xs mb-8 text-black">
         Bid ref: {bidId}
       </p>
 
@@ -135,7 +118,8 @@ function WinnerContent({ amount, bidId, onClose }) {
         onClick={onClose}
         className="w-full py-3 rounded-xl font-semibold text-sm transition-all duration-150 active:scale-95"
         style={{
-          background: "linear-gradient(135deg, #7c3aed, #a78bfa)",
+          background:
+            "linear-gradient(135deg, rgb(122, 0, 0) 0%, #450a0a 100%)",
           color: "#fff",
           border: "none",
           cursor: "pointer",
@@ -203,7 +187,10 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
                 borderTopColor: "rgba(255,255,255,0.4)",
               }}
             />
-            <span className="text-sm" style={{ color: "rgba(255,255,255,0.3)" }}>
+            <span
+              className="text-sm"
+              style={{ color: "rgba(255,255,255,0.3)" }}
+            >
               Loading...
             </span>
           </div>
@@ -215,7 +202,8 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
       </div>
 
       <p className="text-xs mb-8" style={{ color: "rgba(255,255,255,0.25)" }}>
-        Any bids you placed have been released and no charge will be made to your account.
+        Any bids you placed have been released and no charge will be made to
+        your account.
       </p>
 
       <button

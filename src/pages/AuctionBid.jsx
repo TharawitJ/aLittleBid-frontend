@@ -22,10 +22,6 @@ const AuctionBid = () => {
   const { auctionById, getAuctionById, setCurrentPrice, currentPrice } =
     useAuctionStore();
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
-<<<<<<< HEAD
-=======
-  // console.log("socket", socket);
->>>>>>> dev
   const {
     newBid,
     bidData,
@@ -37,12 +33,8 @@ const AuctionBid = () => {
     winner,
   } = useBidStore();
   // console.log('bidData', bidData)
-<<<<<<< HEAD
   const { user, users, getAllUser } = useUserStore();
-=======
-  const { users, getAllUser } = useUserStore();
   const [isLoading, setIsLoading]= useState(true);
->>>>>>> dev
   const { id, categoryId, name, description, sellerId, updatedAt, images } =
     productById;
   const { auctionId } = useParams();
@@ -84,11 +76,6 @@ const AuctionBid = () => {
       );
       return;
     }
-<<<<<<< HEAD
-
-=======
-    getAllUser();
->>>>>>> dev
     return () => {
       leaveAuctionRoom();
     };
@@ -229,34 +216,6 @@ const AuctionBid = () => {
                     {/* <p className="text-xs text-stone-400 font-light leading-relaxed italic text-left">
                     "This specific canvas represents the pinnacle of 18th-century veduta painting. The 'ghostly' architecture is a signature mark of Guardi's later style."
                   </p> */}
-<<<<<<< HEAD
-                  <div className="flex flex-col gap-3 overflow-y-auto max-h-[200px]">
-                    {bids
-                      ? bids.map((e, i) => (
-                          <div
-                            key={i}
-                            className="flex justify-between items-center"
-                          >
-                        <div className="flex items-center gap-4 pt-4">
-                          <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
-                                <img
-                                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe"
-                                  alt="Curator"
-                                  className="w-full h-full object-cover"
-                                />
-                          </div>
-                          <div className="text-left">
-                            <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
-                              { 
-                                    users?.find((i) => e.bidderId === i.id)
-                                      .username
-                              }
-                              {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
-                            </p>
-                                <p className="text-[14px] text-stone-500 uppercase tracking-widest">
-                                  {e.amount}
-                                </p>
-=======
                     <div className="flex flex-col gap-3 overflow-y-auto max-h-[200px]">
                       {bids
                         ? bids.map((e, i) => (
@@ -287,7 +246,6 @@ const AuctionBid = () => {
                               </div>
                               <div className="text-[12px] text-stone-500 tracking-widest">
                                 {new Date(e?.createdAt).toLocaleTimeString()}
->>>>>>> dev
                               </div>
                             </div>
                           ))
@@ -298,37 +256,9 @@ const AuctionBid = () => {
               </div>
             </div>
           </div>
-<<<<<<< HEAD
-        </div>
-     
-      <AuctionResultModal currentUserId={user.id} />
-        
+              <AuctionResultModal currentUserId={user.id} />
       </main>
-=======
-          {winner && (
-            <dialog
-              open
-              className="modal"
-              style={{
-                border: "1px solid #ccc",
-                padding: "20px",
-                borderRadius: "8px",
-              }}
-            >
-              <div className="bg-red-300 w-50 border-2 shadow-2xl">
-                <p>Auction Ended! Winner is...</p>
-                <p>
-                  <strong>Winner ID:</strong> {winner.winnerId}
-                </p>
-                <p>
-                  <strong>Amount:</strong> {winner.amount}
-                </p>
-              </div>
-            </dialog>
-          )}
-        </main>
-      )}
->>>>>>> dev
+       )}
     </div>
   );
 };
