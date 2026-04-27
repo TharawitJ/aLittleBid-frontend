@@ -7,9 +7,10 @@ import { useNavigate } from "react-router";
 
 function DisplayProducts({ displayProducts, allCategories }) {
   const navigate = useNavigate();
-  const auctionById = useAuctionStore(state => state.auctionById)
   const getAuctionById = useAuctionStore((state) => state.getAuctionById)
+  const getProductsById = useAuctionStore((state) => state.getProductsById)
   const allAuction = useAuctionStore((state) => state.allAuction)
+  const auctionById = useAuctionStore((state) => state.auctionById)
   console.log('allAuction', allAuction)
   const getAllAuction = useAuctionStore((state) => state.getAllAuction)
   const { bidData, getAllBid } = useBidStore()
@@ -19,10 +20,19 @@ function DisplayProducts({ displayProducts, allCategories }) {
       if (!id) return alert("no auction")
       getAuctionById(id)
       navigate(`/auction_bid/${id}`)
+      getProductsById(auctionById.productId)
     } catch (error) {
       console.log(error.message)
     }
   }
+  const hldPriceLoading=(lastBid,auction)=>{
+   if (!allAuction || !bidData) {
+     return <div>Loading auctions...</div>;
+   }else {
+    return lastBid ? `$${lastBid?.amount}` : `$${auction?.startingPrice}`
+   }
+  }
+
 
   useEffect(() => {
     getAllBid()
@@ -35,7 +45,9 @@ function DisplayProducts({ displayProducts, allCategories }) {
       {displayProducts.map((i, idx) => {
         const category = allCategories.find((cat) => cat.id === i.categoryId);
         const auction = allAuction?.find((a) => a.productId === i.id);
-        console.log('auction', auction)
+        console.log('startPrice', i.name,auction)
+        const lastBid = bidData?.findLast((b)=> b.auctionId === auction?.id)
+        console.log('lastBid', i.name,lastBid)
         const auctionId = auction?.id;
         return (
           <AuctionCard
@@ -46,7 +58,7 @@ function DisplayProducts({ displayProducts, allCategories }) {
             cat={category?.name}
             description={i.description}
             badge="Live"
-            price={`$${(1000 * i.id).toLocaleString()}`}
+            price={hldPriceLoading(lastBid,auction)}
             timeLeft={<TimeCountdown product={i} />}
             auctionDetail={auction}
             onJoin={() => hdlJoinClick(auctionId)}

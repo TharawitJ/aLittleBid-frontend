@@ -55,10 +55,13 @@ const useProductStore = create()(
         const resp = await apiCreateImages(imagesUrl)
         console.log('resp-createimages', resp.data.responses)
         return resp.data.responses
+      },
+      clearProductById: () => {
+        set({productById:[]})
       }
     }),
     {
-      name: "auction-storage",
+      name: "product-page-storage",
     },
   ),
 );

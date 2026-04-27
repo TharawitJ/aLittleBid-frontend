@@ -18,12 +18,11 @@ import { apiGetProductsById } from "../api/apiMain.js";
 import ProductImageSlide from "../components/productPage/ProductImageSlide.jsx";
 
 const AuctionBid = () => {
-  const { productById, allCategories, getProductsById, getAllProducts, allProducts } = useProductStore();
-  console.log('productById', productById)
-  const { auctionById, getAuctionById, setCurrentPrice, currentPrice } = useAuctionStore();
-  console.log('auctionById', auctionById)
+  const { productById, allCategories, getProductsById } = useProductStore();
+  const { auctionById, getAuctionById, setCurrentPrice, currentPrice } =
+    useAuctionStore();
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
-  console.log("socket", socket);
+  // console.log("socket", socket);
   const {
     newBid,
     bidData,
@@ -40,7 +39,7 @@ const AuctionBid = () => {
   const { auctionId } = useParams();
   const { register, handleSubmit, reset } = useForm();
 
-  const filteredNewBid = newBid.filter((i) => i.auctionId === auctionById.id);
+  const filteredNewBid = newBid.filter((i) => i.auctionId === auctionById?.id);
   const filterCategoryName = allCategories.filter(
     (cate) => categoryId === cate.id,
   );
@@ -52,15 +51,15 @@ const AuctionBid = () => {
 
     if (!amount || Number(amount) <= 0 || Number(amount) < minRequiredPrice) {
       return alert(
-        `Please enter a valid price: (Minimum Increment: ${auctionById.minIncrement})`,
+        `Please enter a valid price: (Minimum Increment: ${auctionById?.minIncrement})`,
       );
     }
 
-    console.log("we are before placing bid");
+    // console.log("we are before placing bid");
 
     placeBid(amount, auctionId);
 
-    console.log("bid done");
+    // console.log("bid done");
 
     reset();
   };
@@ -68,11 +67,10 @@ const AuctionBid = () => {
   useEffect(() => {
     connectSocket();
     joinAuctionRoom(auctionId);
-    console.log('auctionById.productId', auctionById.productId)
-    getProductsById(auctionById.productId)
     getAuctionById(auctionId);
+    getProductsById(auctionById?.productId)
 
-    if (!auctionById || String(auctionById.id) !== String(auctionId)) {
+    if (!auctionById || String(auctionById?.id) !== String(auctionId)) {
       console.warn(
         `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
       );
@@ -84,7 +82,7 @@ const AuctionBid = () => {
     return () => {
       leaveAuctionRoom();
     };
-  }, [auctionId]);
+  }, []);
 
   useEffect(() => {
     if (!auctionById?.bids) return; // ← guard: wait until data is real
@@ -158,8 +156,8 @@ const AuctionBid = () => {
                       Time Left
                     </p>
                     <p className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]">
-                      {auctionById.product ? (
-                        <TimeCountdown product={auctionById.product} />
+                      {auctionById?.product ? (
+                        <TimeCountdown product={auctionById?.product} />
                       ) : (
                         "Loading timer..."
                       )}
@@ -179,7 +177,7 @@ const AuctionBid = () => {
                           type="number"
                           placeholder={
                             currentHighestBid
-                              ? Number(currentHighestBid.amount) +
+                              ? Number(currentHighestBid?.amount) +
                                 Number(auctionById?.minIncrement)
                               : Number(auctionById?.startingPrice) +
                                 Number(auctionById?.minIncrement)

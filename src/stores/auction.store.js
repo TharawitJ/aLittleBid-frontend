@@ -69,6 +69,10 @@ const useAuctionStore = create()(
         set({ allAuction: resp.data.responses });
         return resp.data.responses;
       },
+      clearAuctionById: () => {
+        console.log('clear')
+        set({auctionById:null})
+      }
     }),
     {
       name: "auction-storage",
