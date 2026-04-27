@@ -33,6 +33,7 @@ export const joinAuctionRoom = (auctionId) => {
   })
 
   socket.on('auction_ended', (winner) => {
+    console.log('winnerrrrrrrrrr', winner)
     useBidStore.getState().setWinner(winner)
     // modal tell user that winner
   })

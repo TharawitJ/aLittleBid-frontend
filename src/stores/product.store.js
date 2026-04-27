@@ -7,6 +7,7 @@ import {
   apiCreateProduct,
   apiUpdateProduct,
   apiDeleteProduct,
+  apiCreateImages,
 } from "../api/apiMain.js";
 
 const useProductStore = create()(
@@ -49,6 +50,11 @@ const useProductStore = create()(
         return resp.data.responses;
       },
       // apiDeleteProduct
+      createImages: async (imagesUrl) => {
+        const resp = await apiCreateImages(imagesUrl)
+        console.log('resp-createimages', resp.data.responses)
+        return resp.data.responses
+      }
     }),
     {
       name: "auction-storage",

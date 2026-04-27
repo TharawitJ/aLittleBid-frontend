@@ -40,6 +40,7 @@ export const apiUpdateProduct = (productId, body) =>
   mainApi.patch(`/products/${productId}`, body);
 export const apiDeleteProduct = (productId) =>
   mainApi.delete(`/products/${productId}`);
+export const apiCreateImages = (imagesUrl) => mainApi.post(`/products/images`, imagesUrl)
 
 // AUCTION
 export const apiGetAllAuction = () => mainApi.get(`/auctions`);
