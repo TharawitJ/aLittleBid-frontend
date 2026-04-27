@@ -48,7 +48,7 @@ const useAuctionStore = create()(
       getAuctionById: async (auctionId) => {
         // console.log("auctionidddd", auctionId);
         const resp = await apiGetAuctionById(auctionId);
-        // console.log("respauctionbyid", resp.data.responses);
+        console.log("getAuctionById", resp.data.responses);
         set({ auctionById: resp.data.responses });
         return resp.data.responses;
       },
