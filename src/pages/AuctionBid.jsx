@@ -20,8 +20,8 @@ import ProductImageSlide from "../components/productPage/ProductImageSlide.jsx";
 const AuctionBid = () => {
   // const [isLoading, setIsLoading] = useState(true)
   const { productById, allCategories, getProductsById } = useProductStore();
-  const { auctionById, getAuctionById, setCurrentPrice, currentPrice } =
-    useAuctionStore();
+  const { auctionById, getAuctionById, setCurrentPrice, currentPrice } = useAuctionStore();
+  console.log('auctionById.product.images', auctionById.product.images)
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
   // console.log("socket", socket);
   const {
@@ -63,6 +63,9 @@ const AuctionBid = () => {
   };
 
   useEffect(() => {
+    if(!auctionById) {
+      return
+    }
     connectSocket();
     joinAuctionRoom(auctionId);
     getAuctionById(auctionId);
@@ -101,11 +104,9 @@ const AuctionBid = () => {
             <div className="lg:col-span-7 space-y-16">
               <div className="relative group">
                 <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-lg bg-[#f6f3f2]">
-                  <img
-                    src={auctionById.product.images}
-                    alt="Artwork"
-                    className="w-full h-full object-cover"
-                  />
+                {/* {auctionById.product.images && auctionById.product.images> 0 && */}
+                <ProductImageSlide images={auctionById?.product.images}/>
+                {/* } */}
                 </div>
                 <button className="absolute bottom-6 right-6 bg-white/70 backdrop-blur-md p-3 rounded-full hover:bg-white transition-colors">
                   <span className="material-symbols-outlined">fullscreen</span>

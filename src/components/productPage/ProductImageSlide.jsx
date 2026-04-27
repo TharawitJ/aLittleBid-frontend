@@ -1,14 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 
 const ProductImageSlide = ({ images }) => {
-    console.log('imagesauctionbid', images)
     const [currentIndex, setCurrentIndex] = useState(1);
     const [isTransitioning, setIsTransitioning] = useState(true);
     const [isPaused, setIsPaused] = useState(false); // เพิ่ม State สำหรับเช็คการหยุด
     const intervalRef = useRef(null);
 
-    const extendedImages = images && images.length > 0
-        ? [images[images.length - 1], ...images, images[0]]
+    const extendedImages = images && images.length > 0 
+        ? [images[images.length - 1], ...images, images[0]] 
         : [];
 
     // ฟังก์ชันสำหรับเริ่มเลื่อน
@@ -26,35 +25,32 @@ const ProductImageSlide = ({ images }) => {
     };
 
     useEffect(() => {
-        // เมื่อ images เปลี่ยน ให้ Reset ทุกอย่างทันที
-        setCurrentIndex(1);
-        setIsTransitioning(false);
-        stopSlider(); // หยุดอันเก่าก่อน
-
-        if (!isPaused && images && images.length > 1) {
+        if (!isPaused) {
             startSlider();
+        } else {
+            stopSlider();
         }
         return () => stopSlider();
-    }, [images]); // สั่งทำงานทุกครั้งที่ List ของรูปเปลี่ยน
+    }, [isPaused, images]);
 
     useEffect(() => {
         if (currentIndex === extendedImages.length - 1) {
             setTimeout(() => {
                 setIsTransitioning(false);
                 setCurrentIndex(1);
-            }, 700);
+            }, 700); 
         }
     }, [currentIndex, extendedImages.length]);
 
     if (!images || images.length === 0) return null;
 
     return (
-        <div
+        <div 
             className="relative w-full h-full overflow-hidden"
             onMouseEnter={() => setIsPaused(true)}  // หยุดเมื่อ Hover
             onMouseLeave={() => setIsPaused(false)} // เล่นต่อเมื่อเอาเมาส์ออก
         >
-            <div
+            <div 
                 className={`flex w-full h-full ${isTransitioning ? 'transition-transform duration-700 ease-in-out' : ''}`}
                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >

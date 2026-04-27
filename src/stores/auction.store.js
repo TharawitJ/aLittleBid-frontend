@@ -46,10 +46,10 @@ const useAuctionStore = create()(
         return resp.data.responses;
       },
       getAuctionById: async (auctionId) => {
-        // console.log("auctionidddd", auctionId);
+        console.log("auctionidddd", typeof auctionId);
         const resp = await apiGetAuctionById(auctionId);
         console.log("getAuctionById", resp.data.responses);
-        set({ auctionById: resp.data.responses });
+        set({ auctionById: resp.data?.responses });
         return resp.data.responses;
       },
       getAuctionByProductId: async (productId) => {
