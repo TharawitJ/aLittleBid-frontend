@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client'
-import { useAuction2Store } from '../stores/auctionStore.js'
 import useUserStore from '../stores/user.store.js'
+import useBidStore from '../stores/bid.store.js'
 
 let socket = null
 
@@ -13,12 +13,12 @@ export const connectSocket = () => {
   })
 
   socket.on('connect', () => {
-    useAuction2Store.getState().setConnected(true);
+    useBidStore.getState().setConnected(true);
     console.log('socket', 'socket is connected')
   })
 
   socket.on('disconnect', () => {
-    useAuction2Store.getState().setConnected(false);
+    useBidStore.getState().setConnected(false);
   })
 }
 
@@ -26,18 +26,16 @@ export const joinAuctionRoom = (auctionId) => {
   if (!socket) return
   socket.emit('join_auction', auctionId)
 
-  socket.on('join_auction', (data) => {
-    useAuction2Store.getState().setAuctionData(data)
-  })
-
   socket.on('newest_bid', (bid) => {
       console.log('newest bid socket socket', socket)
-    useAuction2Store.getState().addBid(bid);
+    useBidStore.getState().addBid(bid);
     console.log('bid from backend received', bid)
   })
 
   socket.on('auction_ended', (winner) => {
-    useAuction2Store.getState().setWinner(winner)
+    console.log('winnerrrrrrrrrr', winner)
+    useBidStore.getState().setWinner(winner)
+    // modal tell user that winner
   })
 }
 
@@ -48,7 +46,7 @@ export const leaveAuctionRoom = (auctionId) => {
   socket.off('newest_bid')
   socket.off('auction_ended')
 
-  useAuction2Store.getState().reset()
+  useBidStore.getState().reset()
 }
 
 export const placeBid = (amount, auctionId) => {

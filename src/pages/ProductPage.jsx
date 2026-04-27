@@ -12,6 +12,8 @@ const ProductPage = () => {
     getAllProducts,
     getCategories,
   } = useProductStore();
+  // filter only active product
+  // const {}
   const [selectCategoryId, setSelectCategoryId] = useState("");
   const [selectCategoryName, setSelectCategoryName] = useState("All");
   // const [productByCategory, setProductByCategory] = useState("");
@@ -51,7 +53,8 @@ const ProductPage = () => {
   const startIndex = (productPage - 1) * limit;
   const endIndex = startIndex + limit;
   // 2. Slice the data for display
-  // console.log("currentProducts", currentProducts);
+  console.log("currentProducts", currentProducts);
+  // const filteredActiveProduct = currentProducts.filter((item)=>item.)
   const displayProducts = currentProducts.slice(startIndex, endIndex);
 
   // console.log("currentProducts", currentProducts);

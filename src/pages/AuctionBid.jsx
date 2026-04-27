@@ -8,7 +8,6 @@ import useSocketStore from "../stores/socket.store.js";
 import useBidStore from "../stores/bid.store.js";
 import useUserStore from "../stores/user.store.js";
 import TimeCountdown from "../components/TimeCountdown.jsx";
-import { useAuction2Store } from "../stores/auctionStore.js";
 import {
   connectSocket,
   joinAuctionRoom,
@@ -22,7 +21,16 @@ const AuctionBid = () => {
     useAuctionStore();
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
   console.log("socket", socket);
-  const { newBid, bidData, setNewBid, getAllBid } = useBidStore();
+  const {
+    newBid,
+    bidData,
+    setNewBid,
+    getAllBid,
+    currentHighestBid,
+    bids,
+    setBidHistory,
+    winner,
+  } = useBidStore();
   // console.log('bidData', bidData)
   const { users, getAllUser } = useUserStore();
   const { id, categoryId, name, description, sellerId, updatedAt, images } =
@@ -35,16 +43,16 @@ const AuctionBid = () => {
     (cate) => categoryId === cate.id,
   );
 
-  const { currentHighestBid, bids, setBidHistory } = useAuction2Store();
-
   const hdlOnSubmit = ({ amount }) => {
-    const minRequiredPrice =
-      Number(currentPrice) + Number(auctionById?.minIncrement);
-    console.log("amount came", amount);
+    const minRequiredPrice = currentHighestBid
+      ? Number(currentHighestBid?.amount) + Number(auctionById?.minIncrement)
+      : Number(auctionById?.startingPrice) + Number(auctionById?.minIncrement);
 
-    // if (!amount || Number(amount) <= 0 || Number(amount) < minRequiredPrice) {
-    //   return alert(`Please enter a valid price: (Minimum Increment: ${auctionById.minIncrement})`);
-    // }
+    if (!amount || Number(amount) <= 0 || Number(amount) < minRequiredPrice) {
+      return alert(
+        `Please enter a valid price: (Minimum Increment: ${auctionById.minIncrement})`,
+      );
+    }
 
     console.log("we are before placing bid");
 
@@ -79,11 +87,6 @@ const AuctionBid = () => {
     if (!auctionById?.bids) return; // ← guard: wait until data is real
 
     setBidHistory(auctionById.bids);
-
-    const highestBidder = currentHighestBid?.[0];
-    const bidderUser = users.find((u) => u.id === highestBidder?.bidderId);
-    const displayUsername = bidderUser?.username || "No Bidder Yet";
-
   }, [auctionById]);
 
   return (
@@ -135,18 +138,18 @@ const AuctionBid = () => {
                     </p>
                     <p className="text-4xl font-['Noto_Serif'] text-dark-red font-bold tracking-wider">
                       {/* {filteredNewBid.length > 0 ? filteredNewBid[0].amount : auctionById?.startingPrice || 0} */}
-                      {currentHighestBid ? bids[0].amount : auctionById?.startingPrice}
+                      {currentHighestBid
+                        ? currentHighestBid.amount
+                        : auctionById?.startingPrice}
                     </p>
                     <span className="text-[14px] text-primary mt-5 text-headline uppercase">
                       Highest Bidder:
                     </span>
                     <span className="text-[14px] text-secondary mt-3 text-headline uppercase font-bold mx-2">
-                      { currentHighestBid
-
-                    ? users.find((u) => u.id === bids[0].bidderId)?.username
-
-: "No Bidder Yet"}
-
+                      {currentHighestBid
+                        ? users.find((u) => u.id === currentHighestBid.bidderId)
+                            ?.username
+                        : "No Bidder Yet"}
                     </span>
                   </div>
                   <div className="text-right">
@@ -166,9 +169,7 @@ const AuctionBid = () => {
                 <form onSubmit={handleSubmit(hdlOnSubmit)}>
                   <div className="space-y-6">
                     <div className="space-y-2">
-                      <label className="font-['Manrope'] uppercase tracking-widest text-[10px] text-stone-500">
-                        Your Bid
-                      </label>
+                      <label className="font-['Manrope'] uppercase tracking-widest text-[10px] text-stone-500">Your Bid</label>
                       <div className="relative flex items-center">
                         <span className="absolute left-4 text-stone-400">
                           B
@@ -176,12 +177,20 @@ const AuctionBid = () => {
                         <input
                           type="number"
                           placeholder={
-                            Number(currentPrice) +
-                            Number(auctionById?.minIncrement)
+                            currentHighestBid
+                              ? Number(currentHighestBid.amount) +
+                                Number(auctionById?.minIncrement)
+                              : Number(auctionById?.startingPrice) +
+                                Number(auctionById?.minIncrement)
                           }
                           {...register("amount")}
                           className="w-full bg-[#ebe7e7] border-none rounded-sm py-4 pl-8 pr-4 focus:ring-1 focus:ring-[#570000] focus:bg-white transition-all outline-none"
                         />
+                      </div>
+                      <div>
+                        <button type="button">
+                          Bid Increase: +200 +400 +600
+                        </button>
                       </div>
                     </div>
                     <button className="w-full bg-gradient-to-r from-[#570000] to-[#800000] text-white font-['Manrope'] uppercase tracking-widest py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold">
@@ -206,22 +215,22 @@ const AuctionBid = () => {
                             key={i}
                             className="flex justify-between items-center"
                           >
-                            <div className="flex items-center gap-4 pt-4">
-                              <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
+                        <div className="flex items-center gap-4 pt-4">
+                          <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
                                 <img
                                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe"
                                   alt="Curator"
                                   className="w-full h-full object-cover"
                                 />
-                              </div>
-                              <div className="text-left">
-                                <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
-                                  {
+                          </div>
+                          <div className="text-left">
+                            <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
+                              {
                                     users?.find((i) => e.bidderId === i.id)
                                       .username
-                                  }
-                                  {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
-                                </p>
+                              }
+                              {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
+                            </p>
                                 <p className="text-[14px] text-stone-500 uppercase tracking-widest">
                                   {e.amount}
                                 </p>
@@ -239,6 +248,28 @@ const AuctionBid = () => {
             </div>
           </div>
         </div>
+        {winner && (
+          <dialog
+            open
+            className="modal"
+            style={{
+              border: "1px solid #ccc",
+              padding: "20px",
+              borderRadius: "8px",
+            }}
+          >
+            <div className="bg-red-300 w-50 border-2 shadow-2xl">
+
+            <p>Auction Ended! Winner is...</p>
+            <p>
+              <strong>Winner ID:</strong> {winner.winnerId}
+            </p>
+            <p>
+              <strong>Amount:</strong> {winner.amount}
+            </p>
+            </div>
+          </dialog>
+        )}
       </main>
     </div>
   );

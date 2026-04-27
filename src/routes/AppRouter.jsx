@@ -17,11 +17,17 @@ import ActiveBid from "../pages/ActiveBid.jsx";
 
 import LoginPage from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";
+import RequestOTP from "../pages/RequestOTP.jsx";
+import VerifyOTP from "../pages/VerifyOTP.jsx";
+import ResetPassword from "../pages/Resetpassword.jsx";
 import useUserStore from "../stores/user.store.js";
 
 const guestRouter = createBrowserRouter([
   { path: "/login", element: <LoginPage /> },
   { path: "/register", element: <Register /> },
+  { path: "request-otp", element: <RequestOTP /> },
+  { path: "verify-otp", element: <VerifyOTP /> },
+  { path: "reset-password", element: <ResetPassword /> },
   { path: "*", element: <HomePage /> },
 ]);
 const userRouter = createBrowserRouter([
@@ -40,8 +46,6 @@ const userRouter = createBrowserRouter([
       { path: "my_orders", element: <OrderList /> },
       { path: "favorite", element: <Favorite /> },
       { path: "payment", element: <Payment /> },
-      { path: "login", element: <LoginPage /> },
-      { path: "register", element: <Register /> },
     ],
   },
 ]);
