@@ -14,6 +14,8 @@ import {
   leaveAuctionRoom,
   placeBid,
 } from "../socket/socketService.js";
+import Swal from "sweetalert2";
+import AuctionResultModal from "../components/AuctionResultModal.jsx";
 
 const AuctionBid = () => {
   const { productById, allCategories, getProductById } = useProductStore();
@@ -31,7 +33,7 @@ const AuctionBid = () => {
     winner,
   } = useBidStore();
   // console.log('bidData', bidData)
-  const { users, getAllUser } = useUserStore();
+  const { user, users, getAllUser } = useUserStore();
   const { id, categoryId, name, description, sellerId, updatedAt, images } =
     productById;
   const { auctionId } = useParams();
@@ -159,6 +161,7 @@ const AuctionBid = () => {
                       Countdown
                     </p>
                     <p className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]">
+                      {/* below needs to be new time */}
                       {auctionById.product ? (
                         <TimeCountdown product={auctionById.product} />
                       ) : (
@@ -250,30 +253,9 @@ const AuctionBid = () => {
             </div>
           </div>
         </div>
-        {winner && console.log(`Winner is ${winner.winnerId} and amount is ${winner.amount}`)
-        // (
-        //   <dialog
-        //     open
-        //     className="modal"
-        //     style={{
-        //       border: "1px solid #ccc",
-        //       padding: "20px",
-        //       borderRadius: "8px",
-        //     }}
-        //   >
-        //     <div className="bg-red-300 w-50 border-2 shadow-2xl">
-
-        //     <p>Auction Ended! Winner is...</p>
-        //     <p>
-        //       <strong>Winner ID:</strong> {winner.winnerId}
-        //     </p>
-        //     <p>
-        //       <strong>Amount:</strong> {winner.amount}
-        //     </p>
-        //     </div>
-        //   </dialog>
-        // )
-        }
+     
+      <AuctionResultModal currentUserId={user.id} />
+        
       </main>
     </div>
   );

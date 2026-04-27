@@ -6,6 +6,7 @@ const useBidStore = create()(
   persist((set, get) => ({
     bidData: null,
     newBid: [],
+    winner: null,
     setNewBid: (newPrice) => {
       set((state) => ({
         newBid: typeof newPrice === 'function' ? newPrice(state.newBid) : newPrice
@@ -43,6 +44,7 @@ const useBidStore = create()(
           set({ winner });
           console.log('winner from zustand:', get().winner);
         },
+        clearWinner: () => set({ winner: null }),
 
           reset: () =>
             set({ bids: [], winner: null, currentHighestBid: null, status: "idle" }),
