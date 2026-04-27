@@ -101,7 +101,7 @@ const NavBar = () => {
             <div
               tabIndex={0}
               role="button"
-              className="w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-95 duration-200 cursor-pointer overflow-hidden border border-gray-200"
+              className="w-10 h-10 rounded-full flex items-center justify-center transition-all active:scale-95 duration-200 cursor-pointer overflow-hidden border border-gray-300 bg-blue-300"
             >
               <Avatar user={user} />
             </div>

@@ -16,11 +16,11 @@ import {
 } from "../socket/socketService.js";
 
 const AuctionBid = () => {
-  const { productById, allCategories, getProductById } = useProductStore();
+  const { productById, allCategories, getProductsById } = useProductStore();
   const { auctionById, getAuctionById, setCurrentPrice, currentPrice } =
     useAuctionStore();
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
-  console.log("socket", socket);
+  // console.log("socket", socket);
   const {
     newBid,
     bidData,
@@ -38,7 +38,7 @@ const AuctionBid = () => {
   const { auctionId } = useParams();
   const { register, handleSubmit, reset } = useForm();
 
-  const filteredNewBid = newBid.filter((i) => i.auctionId === auctionById.id);
+  const filteredNewBid = newBid.filter((i) => i.auctionId === auctionById?.id);
   const filterCategoryName = allCategories.filter(
     (cate) => categoryId === cate.id,
   );
@@ -50,15 +50,15 @@ const AuctionBid = () => {
 
     if (!amount || Number(amount) <= 0 || Number(amount) < minRequiredPrice) {
       return alert(
-        `Please enter a valid price: (Minimum Increment: ${auctionById.minIncrement})`,
+        `Please enter a valid price: (Minimum Increment: ${auctionById?.minIncrement})`,
       );
     }
 
-    console.log("we are before placing bid");
+    // console.log("we are before placing bid");
 
     placeBid(amount, auctionId);
 
-    console.log("bid done");
+    // console.log("bid done");
 
     reset();
   };
@@ -66,10 +66,10 @@ const AuctionBid = () => {
   useEffect(() => {
     connectSocket();
     joinAuctionRoom(auctionId);
-
     getAuctionById(auctionId);
+    getProductsById(auctionById?.productId)
 
-    if (!auctionById || String(auctionById.id) !== String(auctionId)) {
+    if (!auctionById || String(auctionById?.id) !== String(auctionId)) {
       console.warn(
         `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
       );
@@ -81,7 +81,7 @@ const AuctionBid = () => {
     return () => {
       leaveAuctionRoom();
     };
-  }, [auctionId]);
+  }, []);
 
   useEffect(() => {
     if (!auctionById?.bids) return; // ← guard: wait until data is real
@@ -98,7 +98,7 @@ const AuctionBid = () => {
             <div className="relative group">
               <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-lg bg-[#f6f3f2]">
                 <img
-                  src={images?.[0].imageUrl}
+                  src={images?.[0]?.imageUrl}
                   alt="Artwork"
                   className="w-full h-full object-cover"
                 />
@@ -147,7 +147,7 @@ const AuctionBid = () => {
                     </span>
                     <span className="text-[14px] text-secondary mt-3 text-headline uppercase font-bold mx-2">
                       {currentHighestBid
-                        ? users.find((u) => u.id === currentHighestBid.bidderId)
+                        ? users.find((u) => u.id === currentHighestBid?.bidderId)
                             ?.username
                         : "No Bidder Yet"}
                     </span>
@@ -157,8 +157,8 @@ const AuctionBid = () => {
                       Time Left
                     </p>
                     <p className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]">
-                      {auctionById.product ? (
-                        <TimeCountdown product={auctionById.product} />
+                      {auctionById?.product ? (
+                        <TimeCountdown product={auctionById?.product} />
                       ) : (
                         "Loading timer..."
                       )}
@@ -178,7 +178,7 @@ const AuctionBid = () => {
                           type="number"
                           placeholder={
                             currentHighestBid
-                              ? Number(currentHighestBid.amount) +
+                              ? Number(currentHighestBid?.amount) +
                                 Number(auctionById?.minIncrement)
                               : Number(auctionById?.startingPrice) +
                                 Number(auctionById?.minIncrement)
