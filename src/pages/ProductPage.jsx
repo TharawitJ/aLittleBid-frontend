@@ -32,8 +32,8 @@ const ProductPage = () => {
   useEffect(() => {
     getAllProducts();
     getCategories();
-    clearAuctionById()
-    clearProductById()
+    // clearAuctionById()
+    // clearProductById()
   }, []);
   
   useEffect(() => {

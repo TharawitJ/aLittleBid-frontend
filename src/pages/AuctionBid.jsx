@@ -75,7 +75,7 @@ const AuctionBid = () => {
       return;
     }
     getAllUser();
-    setIsLoading(false);
+    // setIsLoading(false);
     return () => {
       leaveAuctionRoom();
     };
@@ -89,9 +89,9 @@ const AuctionBid = () => {
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
-      {isLoading ? (
+      {/* {isLoading ? (
         <div>...Loading</div>
-      ) : (
+      ) : ( */}
         <main className="pt-12 pb-24 px-6 md:px-12 max-w-screen-2xl mx-auto text-left">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             {/* Left Column: Image & Details */}
@@ -274,7 +274,7 @@ const AuctionBid = () => {
             </dialog>
           )}
         </main>
-      )}
+      {/* )} */}
     </div>
   );
 };
