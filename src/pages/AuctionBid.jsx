@@ -66,8 +66,12 @@ const AuctionBid = () => {
     connectSocket();
     joinAuctionRoom(auctionId);
     getAuctionById(auctionId);
-    getProductsById(auctionById?.productId);
+    // getProductsById(auctionById?.productId);
 
+    setIsLoading(false);
+    
+    console.log('auctionById', auctionById)
+    console.log('auctionId', auctionId)
     if (!auctionById || String(auctionById?.id) !== String(auctionId)) {
       console.warn(
         `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
@@ -75,7 +79,6 @@ const AuctionBid = () => {
       return;
     }
     getAllUser();
-    // setIsLoading(false);
     return () => {
       leaveAuctionRoom();
     };
@@ -99,7 +102,7 @@ const AuctionBid = () => {
               <div className="relative group">
                 <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-lg bg-[#f6f3f2]">
                   <img
-                    src={images?.[0]?.imageUrl}
+                    src={auctionById.product.images}
                     alt="Artwork"
                     className="w-full h-full object-cover"
                   />

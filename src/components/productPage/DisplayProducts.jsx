@@ -21,7 +21,7 @@ function DisplayProducts({ displayProducts, allCategories }) {
       if (!id) return alert("no auction");
       getAuctionById(id);
       navigate(`/auction_bid/${id}`);
-      getProductsById(auctionById.productId);
+      // getProductsById(auctionById.productId);
     } catch (error) {
       console.log(error.message);
     }
