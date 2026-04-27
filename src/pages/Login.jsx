@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { GoogleLogin } from "@react-oauth/google"; // เปลี่ยนจาก useGoogleLogin เป็น GoogleLogin
+import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
+import { apiLogin } from "../api/apiMain.js";
+import { mainApi as api } from "../api/apiMain.js";
 import useUserStore from "../stores/user.store.js";
+
 function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -11,26 +14,28 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-  const login = useUserStore(state => state.login)
+  const login = useUserStore((state) => state.login);
   const navigate = useNavigate();
+  const token = useUserStore((state) => state.token);
+  const loginAction = useUserStore((state) => state.login);
 
   const canSubmit = validateEmail(email) && password.length >= 8;
 
-  function handleLogin() {
+  async function handleLogin() {
     if (!canSubmit) return;
     setLoading(true);
 
     try {
-      const response = login({ email, password });
-      // const data = response;
+      await loginAction({ email, password });
 
-      console.log("Login Success:", response);
-      // getUserById(data.id)
+      console.log("Login Success");
       alert("Login Successful!");
       navigate("/");
     } catch (error) {
       const message =
-        error.response?.data?.message || error.message || "Login failed";
+        error.response?.data?.message ||
+        error.message ||
+        "Login failedInvalid credentials";
       console.error("Login Error:", message);
       alert(message);
     } finally {
@@ -49,7 +54,6 @@ export default function LoginPage() {
           </h2>
           <p className="text-sm text-gray-500">Login to your account</p>
         </div>
-
         {/* email */}
         <div className="mb-4">
           <label className="text-sm font-semibold text-gray-700">Email</label>
@@ -60,7 +64,6 @@ export default function LoginPage() {
             className="w-full mt-1 px-4 py-3 border rounded-lg text-sm focus:ring-2 focus:ring-red-200 outline-none"
           />
         </div>
-
         {/* password */}
         <div className="mb-4">
           <label className="text-sm font-semibold text-gray-700">
@@ -85,7 +88,6 @@ export default function LoginPage() {
             </button>
           </div>
         </div>
-
         {/* forgot */}
         <div className="text-right mb-4">
           <button
@@ -95,7 +97,6 @@ export default function LoginPage() {
             Forgot password
           </button>
         </div>
-
         {/* login btn */}
         <button
           onClick={handleLogin}
@@ -109,7 +110,6 @@ export default function LoginPage() {
         >
           {loading ? "Logging in..." : "Login"}
         </button>
-
         {/* divider */}
         <div className="flex items-center gap-2 my-5">
           <div className="flex-1 h-px bg-gray-200" />
@@ -118,44 +118,33 @@ export default function LoginPage() {
         </div>
 
         {/* google */}
-        <div className="w-full flex justify-center">
-          <GoogleLogin
-            onSuccess={async (credentialResponse) => {
-              console.log("Google Credential Response:", credentialResponse);
+        <GoogleLogin
+          onSuccess={async (credentialResponse) => {
+            setLoading(true);
+            try {
+              const res = await api.post("/auth/google", {
+                token: credentialResponse.credential,
+              });
 
-              setLoading(true);
-              try {
-                // ส่ง idToken (credential) ไปที่ Backend
-                const res = await fetch(
-                  "http://localhost:5000/api/auth/google",
-                  {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                      token: credentialResponse.credential,
-                    }),
-                  },
-                );
-
-                const data = await res.json();
-                if (!res.ok)
-                  throw new Error(data.message || "Google Login failed");
-
-                localStorage.setItem("token", data.token);
-                alert("Login with Google Successful!");
-                navigate("/");
-              } catch (error) {
-                console.error("Google Login Error:", error.message);
-                alert(error.message);
-              } finally {
-                setLoading(false);
-              }
-            }}
-            onError={() => {
-              alert("Google Login Failed");
-            }}
-          />
-        </div>
+              const { token, user } = res.data;
+              localStorage.setItem("token", token);
+              localStorage.setItem("user", JSON.stringify(user));
+              useUserStore.setState({ token: token, user: user });
+              alert("Login with Google Successful!");
+              navigate("/");
+            } catch (error) {
+              const message =
+                error.response?.data?.message || "Google Login failed";
+              console.error("Google Login Error:", message);
+              alert(message);
+            } finally {
+              setLoading(false);
+            }
+          }}
+          onError={() => {
+            alert("Google Login Failed");
+          }}
+        />
 
         {/* register */}
         <p className="text-sm text-center mt-6 text-gray-500">
