@@ -31,9 +31,10 @@ const HomePage = () => {
     return <WelcomeUser />;
   };
 
-  useEffect(() => {
-    connect();
-  }, []);
+  // ting remove
+  // useEffect(() => {
+  //   connect();
+  // }, []);
 
   return (
     <div className="bg-surface text-on-surface font-body min-h-screen">
