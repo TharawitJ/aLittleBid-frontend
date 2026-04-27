@@ -18,10 +18,12 @@ import { motion, AnimatePresence } from "framer-motion";
 const AuctionCard = ({
   img,
   title,
+  description,
   cat,
   badge = "Live",
   price,
   timeLeft,
+  auctionDetail,
   onJoin,
   index = 0,
   aspectRatio = "aspect-[4/5]",
@@ -88,42 +90,48 @@ const AuctionCard = ({
             style={{
               backfaceVisibility: "hidden",
               transform: "rotateY(180deg)",
-              background: "linear-gradient(135deg, #1a0000 0%, #3d0000 50%, #570000 100%)",
+              backgroundColor: "#f7f7f7",
+              // background: "linear-gradient(135deg, #1a0000 0%, #3d0000 50%, #570000 100%)",
             }}
           >
             {/* Decorative pattern */}
             <div
-              className="absolute inset-0 opacity-10"
+              className="absolute inset-0 opacity-20" // ปรับความจางที่นี่ (0-100)
               style={{
-                backgroundImage:
-                  "repeating-linear-gradient(45deg, #ffffff 0px, #ffffff 1px, transparent 1px, transparent 10px)",
+                backgroundImage: `url(${img})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
               }}
             />
 
             <div className="relative z-10">
-              {cat && (
-                <p className="text-white/50 text-[10px] uppercase tracking-widest font-['Manrope'] mb-2">
+              {/* {cat && (
+                <p className="text-black text-[10px] uppercase tracking-widest font-['Manrope'] mb-2">
                   {cat}
                 </p>
               )}
-              <h3 className="font-['Noto_Serif'] text-xl text-white leading-snug mb-4">
+              <h3 className="font-['Noto_Serif'] text-2xl text-dark-red leading-snug mb-4">
                 {title}
-              </h3>
+              </h3> */}
+              <p className="text-grey text-[10px] uppercase tracking-widest font-['Manrope'] mb-1">
+                product detail
+              </p>
+              <p className="font-['Noto_Serif'] text-lg text-gray/50 leading-snug mb-4 font-extralight">{description}</p>
               <div className="h-px bg-white/20 mb-4" />
-              <p className="text-white/60 text-[10px] uppercase tracking-widest font-['Manrope'] mb-1">
+              {/* <p className="text-black text-[10px] uppercase tracking-widest font-['Manrope'] mb-1">
                 Current Bid
               </p>
-              <p className="font-['Noto_Serif'] text-3xl text-white font-bold tracking-wide">
+              <p className="font-['Noto_Serif'] text-3xl text-red font-bold tracking-wide">
                 {price}
-              </p>
+              </p> */}
             </div>
 
             <div className="relative z-10 flex flex-col gap-3">
-              {timeLeft && (
+              {/* {timeLeft && (
                 <p className="text-white/60 text-[11px] font-['Manrope'] tracking-widest">
-                  ⏱ {timeLeft}
+                  {timeLeft}
                 </p>
-              )}
+              )} */}
               <motion.button
                 whileTap={{ scale: 0.95 }}
                 whileHover={{ scale: 1.03 }}
@@ -131,7 +139,7 @@ const AuctionCard = ({
                   e.stopPropagation();
                   onJoin?.();
                 }}
-                className="w-full bg-white text-[#570000] font-['Manrope'] text-xs uppercase tracking-widest py-3 rounded-sm font-bold shadow-xl hover:bg-stone-100 transition-colors"
+                className="w-full bg-white text-[#570000] font-['Manrope'] text-xs uppercase tracking-widest py-3 rounded-sm font-bold shadow-xl hover:bg-dark-red hover:text-white transition-colors"
               >
                 Join Auction →
               </motion.button>
@@ -141,14 +149,18 @@ const AuctionCard = ({
       </div>
 
       {/* ── Info below card ────────────────────────────────────────────── */}
-      <div className="mt-4 px-1 flex justify-between items-start gap-2">
+      <div className="mt-4 px-3 flex justify-between items-start">
         <div className="flex flex-col flex-1 min-w-0">
           {cat && (
             <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 mb-1 block">
               {cat}
             </span>
           )}
-          <h3 className="font-['Noto_Serif'] text-lg leading-snug text-[#1c1b1b] truncate">
+          <h3 className="font-['Noto_Serif'] text-lg leading-snug text-[#1c1b1b] truncate mb-2 hover:text-2xl hover:text-dark-red"
+            onClick={(e) => {
+              e.stopPropagation();
+              onJoin?.();
+            }}>
             {title}
           </h3>
           {timeLeft && (
@@ -157,13 +169,13 @@ const AuctionCard = ({
             </span>
           )}
         </div>
-        {price && (
+        {auctionDetail && (
           <div className="text-right shrink-0">
             <p className="text-[9px] uppercase tracking-widest text-stone-400 mb-0.5">
               Current Bid
             </p>
-            <p className="font-['Noto_Serif'] text-lg text-[#800000] font-semibold">
-              {price}
+            <p className="font-['Noto_Serif'] text-lg text-[#800000] font-semibold tracking-wider">
+              {auctionDetail.startingPrice}
             </p>
           </div>
         )}
