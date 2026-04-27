@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
-import { apiLogin } from "../api/apiMain.js";
 import { mainApi as api } from "../api/apiMain.js";
 import useUserStore from "../stores/user.store.js";
 
@@ -17,7 +16,6 @@ export default function LoginPage() {
   const login = useUserStore((state) => state.login);
   const navigate = useNavigate();
   const token = useUserStore((state) => state.token);
-  const loginAction = useUserStore((state) => state.login);
 
   const canSubmit = validateEmail(email) && password.length >= 8;
 
@@ -26,7 +24,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      await loginAction({ email, password });
+      await login({ email, password });
 
       console.log("Login Success");
       alert("Login Successful!");

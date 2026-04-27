@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { apiOTP } from "../api/apiMain.js";
 
 const VerifyOTP = () => {
   const [otp, setOtp] = useState("");
@@ -18,13 +19,7 @@ const VerifyOTP = () => {
 
     try {
       // ยิง API ไปที่ Verify OTP endpoint
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/verify-otp",
-        {
-          email,
-          otp,
-        },
-      );
+      const response = await apiOTP({email,otp});
 
       if (response.status === 200) {
         // เก็บ OTP ไว้ใช้ในขั้นตอนสุดท้าย (Reset Password)
