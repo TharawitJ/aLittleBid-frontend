@@ -18,6 +18,7 @@ import { apiGetProductsById } from "../api/apiMain.js";
 import ProductImageSlide from "../components/productPage/ProductImageSlide.jsx";
 
 const AuctionBid = () => {
+  const [isLoading, setIsLoading] = useState(true)
   const { productById, allCategories, getProductsById } = useProductStore();
   const { auctionById, getAuctionById, setCurrentPrice, currentPrice } =
     useAuctionStore();
@@ -78,6 +79,7 @@ const AuctionBid = () => {
     }
     // console.log(bids);
     getAllUser();
+    setIsLoading(false)
 
     return () => {
       leaveAuctionRoom();
@@ -92,6 +94,9 @@ const AuctionBid = () => {
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
+      {isLoading 
+      ? <div>...Loading</div> 
+      : 
       <main className="pt-12 pb-24 px-6 md:px-12 max-w-screen-2xl mx-auto text-left">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Left Column: Image & Details */}
@@ -146,7 +151,7 @@ const AuctionBid = () => {
                     </span>
                     <span className="text-[14px] text-secondary mt-3 text-headline uppercase font-bold mx-2">
                       {currentHighestBid
-                        ? users?.find((u) => u.id === currentHighestBid.bidderId)
+                        ? users.find((u) => u.id === currentHighestBid.bidderId)
                             ?.username
                         : "No Bidder Yet"}
                     </span>
@@ -270,6 +275,8 @@ const AuctionBid = () => {
           </dialog>
         )}
       </main>
+      
+      }
     </div>
   );
 };
