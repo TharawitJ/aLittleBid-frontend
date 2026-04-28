@@ -20,7 +20,7 @@ const AuctionCard = ({
   title,
   description,
   cat,
-  badge = "Live",
+  badge,
   price,
   timeLeft,
   auctionDetail,
@@ -71,7 +71,7 @@ const AuctionCard = ({
             {/* Badge */}
             <div className="absolute top-3 left-3 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse block" />
-              <span className="font-['Manrope'] text-[9px] uppercase tracking-widest text-[#570000] font-bold">
+              <span className="font-['Manrope'] text-[20px] uppercase tracking-widest text-[#570000] font-bold">
                 {badge}
               </span>
             </div>

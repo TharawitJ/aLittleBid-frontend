@@ -27,12 +27,15 @@ const useBidStore = create()(
  // Actions
   setConnected: (status) => set({ isConnected: status }),
 
-    setBidHistory: (bids) =>
-      set({
+    setBidHistory: (bids) => {
+      console.log('setBidhistoty')
+       set({
         bids,
         currentHighestBid: bids[0] ?? null, // assume sorted desc from DB
         isBidsLoading: false,
-      }),
+      })
+    },
+     
 
       addBid: (bid) => {
         console.log("add bid", bid)
