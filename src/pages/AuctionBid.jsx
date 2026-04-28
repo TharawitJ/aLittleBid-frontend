@@ -64,15 +64,16 @@ const AuctionBid = () => {
   };
 
   useEffect(() => {
-    if(!auctionById) {
-      return
-    }
+    // if(!auctionById) {
+    //   return
+    // }
     connectSocket();
     joinAuctionRoom(auctionId);
     getAuctionById(auctionId);
-    // getProductsById(auctionById?.productId);
+    getProductsById(auctionById?.productId);
 
     setIsLoading(false);
+    console.log('use effect is running')
     
     console.log('auctionById', auctionById)
     console.log('auctionId', auctionId)
@@ -91,7 +92,7 @@ const AuctionBid = () => {
 
   useEffect(() => {
     if (!auctionById?.bids) return; // ← guard: wait until data is real
-
+    console.log('auctionById2', auctionById)
     setBidHistory(auctionById.bids);
   }, [auctionById]);
 
