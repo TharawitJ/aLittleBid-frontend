@@ -16,13 +16,13 @@ import {
 } from "../socket/socketService.js";
 import Swal from "sweetalert2";
 import AuctionResultModal from "../components/AuctionResultModal.jsx";
-import { apiGetProductsById } from "../api/apiMain.js";
 import ProductImageSlide from "../components/productPage/ProductImageSlide.jsx";
 
 const AuctionBid = () => {
   // const [isLoading, setIsLoading] = useState(true)
   const { productById, allCategories, getProductsById } = useProductStore();
-  const { auctionById, getAuctionById, setCurrentPrice, currentPrice } = useAuctionStore();
+  const { auctionById, getAuctionById, setCurrentPrice, currentPrice } =
+    useAuctionStore();
   // console.log('auctionById.product.images', auctionById.product.images)
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
   const {
@@ -35,15 +35,12 @@ const AuctionBid = () => {
     setBidHistory,
     winner,
   } = useBidStore();
-  // console.log('bidData', bidData)
   const { user, users, getAllUser } = useUserStore();
-  const [isLoading, setIsLoading]= useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const { id, categoryId, name, description, sellerId, updatedAt, images } =
-    productById;
+    auctionById?.product || {};
   const { auctionId } = useParams();
   const { register, handleSubmit, reset } = useForm();
-
-  const filteredNewBid = newBid.filter((i) => i.auctionId === auctionById?.id);
   const filterCategoryName = allCategories.filter(
     (cate) => categoryId === cate.id,
   );
@@ -58,15 +55,14 @@ const AuctionBid = () => {
         `Please enter a valid price: (Minimum Increment: ${auctionById?.minIncrement})`,
       );
     }
-
     placeBid(amount, auctionId);
     reset();
   };
 
   useEffect(() => {
-    // if(!auctionById) {
-    //   return
-    // }
+    if (!auctionById) {
+      return;
+    }
     connectSocket();
     joinAuctionRoom(auctionId);
     getAuctionById(auctionId);
@@ -77,18 +73,24 @@ const AuctionBid = () => {
     
     console.log('auctionById', auctionById)
     console.log('auctionId', auctionId)
+
+
     if (!auctionById || String(auctionById?.id) !== String(auctionId)) {
       console.warn(
         `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
       );
       return;
     }
-      getAllUser();
 
     return () => {
       leaveAuctionRoom();
     };
-  }, []);
+  }, [auctionById, auctionId]);
+
+  useEffect(()=>{
+    getAllUser();
+    getAuctionById(auctionId);
+  },[auctionId, getAllUser])
 
   useEffect(() => {
     if (!auctionById?.bids) return; // ← guard: wait until data is real
@@ -96,24 +98,20 @@ const AuctionBid = () => {
     setBidHistory(auctionById.bids);
   }, [auctionById]);
 
-//   useEffect(() => {
-//   getAllUser();
-// }, [getAllUser]);
-
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
-      {/* {isLoading ? (
+      {isLoading ? (
         <div>...Loading</div>
-      ) : ( */}
+      ) : (
         <main className="pt-12 pb-24 px-6 md:px-12 max-w-screen-2xl mx-auto text-left">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             {/* Left Column: Image & Details */}
             <div className="lg:col-span-7 space-y-16">
               <div className="relative group">
                 <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-lg bg-[#f6f3f2]">
-                {/* {auctionById.product.images && auctionById.product.images> 0 && */}
-                <ProductImageSlide images={auctionById?.product?.images}/>
-                {/* } */}
+                  {/* {auctionById.product.images && auctionById.product.images> 0 && */}
+                  <ProductImageSlide images={auctionById?.product?.images} />
+                  {/* } */}
                 </div>
                 <button className="absolute bottom-6 right-6 bg-white/70 backdrop-blur-md p-3 rounded-full hover:bg-white transition-colors">
                   <span className="material-symbols-outlined">fullscreen</span>
@@ -169,13 +167,13 @@ const AuctionBid = () => {
                       <p className="font-['Manrope'] text-[10px] text-stone-500 mb-2 uppercase tracking-widest">
                         Time Left
                       </p>
-                      <p className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]">
+                      <div className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]">
                         {auctionById?.product ? (
                           <TimeCountdown product={auctionById?.product} />
                         ) : (
                           "Loading timer..."
                         )}
-                      </p>
+                      </div>
                     </div>
                   </div>
 
@@ -263,9 +261,9 @@ const AuctionBid = () => {
               </div>
             </div>
           </div>
-              <AuctionResultModal currentUserId={user.id} auctionId={auctionId}/>
-      </main>
-       {/* )} */}
+          <AuctionResultModal currentUserId={user.id} />
+        </main>
+      )}
     </div>
   );
 };
