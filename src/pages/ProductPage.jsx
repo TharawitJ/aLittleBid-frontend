@@ -23,6 +23,8 @@ const ProductPage = () => {
   const getCategories = useProductStore((state)=>state.getCategories)
   const clearAuctionById = useAuctionStore((state)=>state.clearAuctionById)
   const clearProductById = useProductStore((state)=>state.clearProductById)
+  console.log('allProducts', allProducts)
+  console.log('status', allProducts?.[0].auctions?.[0].status)
   // filter only active product
   // const {}
   const [selectCategoryId, setSelectCategoryId] = useState("");
@@ -39,8 +41,10 @@ const ProductPage = () => {
   // Use a unified useEffect for all filtering
   useEffect(() => {
     if (!Array.isArray(allProducts)) return;
+    console.log('allProducts', allProducts)
 
-    let filtered = allProducts;
+    let filtered = allProducts.filter((p)=>p.auctions?.[0].status==="ACTIVE");
+    console.log('filtered', filtered)
 
     // 1. Filter by Category
     if (selectCategoryId) {
@@ -56,7 +60,6 @@ const ProductPage = () => {
           p.description?.toLowerCase().includes(lowerQuery)
       );
     }
-
     setCurrentProducts(filtered);
     setProductPage(1); // Reset to page 1 on new filter
   }, [allProducts, selectCategoryId, searchQuery]);

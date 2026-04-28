@@ -44,6 +44,7 @@ function DisplayProducts({ displayProducts, allCategories }) {
     <>
       {displayProducts.map((i, idx) => {
         const category = allCategories.find((cat) => cat.id === i.categoryId);
+        console.log('i.id', i.id)
         const auction = allAuction?.find((a) => a.productId === i.id);
         console.log("auction",auction);
         const lastBid = bidData?.findLast((b) => b.auctionId === auction?.id);
@@ -57,7 +58,7 @@ function DisplayProducts({ displayProducts, allCategories }) {
             title={i.name}
             cat={category?.name}
             description={i.description}
-            // badge={auction?.status}
+            badge={auction?.status}
             price={hldPriceLoading(lastBid, auction)}
             timeLeft={<TimeCountdown product={i} />}
             auctionDetail={auction}
