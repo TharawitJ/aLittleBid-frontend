@@ -59,6 +59,7 @@ const AuctionBid = () => {
     reset();
   };
 
+
   useEffect(() => {
     if (!auctionById) {
       return;
@@ -87,6 +88,7 @@ const AuctionBid = () => {
     if (!auctionById?.bids) return; // ← guard: wait until data is real
     setBidHistory(auctionById.bids);
   }, [auctionById]);
+
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
@@ -179,13 +181,13 @@ const AuctionBid = () => {
                           </span>
                           <input
                             type="number"
-                            placeholder={
+                            placeholder={`Minimum ${
                               currentHighestBid
                                 ? Number(currentHighestBid?.amount) +
                                   Number(auctionById?.minIncrement)
                                 : Number(auctionById?.startingPrice) +
                                   Number(auctionById?.minIncrement)
-                            }
+                            }`}
                             {...register("amount")}
                             className="w-full bg-[#ebe7e7] border-none rounded-sm py-4 pl-8 pr-4 focus:ring-1 focus:ring-[#570000] focus:bg-white transition-all outline-none"
                           />
