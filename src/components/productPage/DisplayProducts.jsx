@@ -57,7 +57,7 @@ function DisplayProducts({ displayProducts, allCategories }) {
             title={i.name}
             cat={category?.name}
             description={i.description}
-            // badge={auction?.status}
+            badge={auction?.status}
             price={hldPriceLoading(lastBid, auction)}
             timeLeft={<TimeCountdown product={i} />}
             auctionDetail={auction}

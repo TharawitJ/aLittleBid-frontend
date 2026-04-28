@@ -42,7 +42,7 @@ const userRouter = createBrowserRouter([
       { path: "my_active_bids", element: <ActiveBid /> },
       { path: "add_product", element: <AddProduct /> },
       { path: "my_orders", element: <OrderList /> },
-      { path: "favorite", element: <Favorite /> },
+      // { path: "favorite", element: <Favorite /> },
       { path: "payment", element: <Payment /> },
     ],
   },
