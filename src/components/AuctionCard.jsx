@@ -175,7 +175,7 @@ const AuctionCard = ({
               Current Bid
             </p>
             <p className="font-['Noto_Serif'] text-lg text-[#800000] font-semibold tracking-wider">
-              {auctionDetail.startingPrice}
+              {price}
             </p>
           </div>
         )}
