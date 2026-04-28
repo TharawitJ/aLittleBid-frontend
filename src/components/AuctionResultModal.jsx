@@ -25,7 +25,13 @@ export default function AuctionResultModal({ currentUserId }) {
     // Only fetch if there's actually a winner (not a no-bid close)
     if (winner.winnerId) {
       setLoadingUser(true);
-      getUserById(winner.winnerId);
+      try {
+        getUserById(winner.winnerId);
+      } catch (error) {
+        console.log('error at get id', error)
+      } finally {
+        setLoadingUser(false);
+      }
     }
   }, [winner]);
 
