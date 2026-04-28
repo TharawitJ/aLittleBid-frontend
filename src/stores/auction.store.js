@@ -7,6 +7,7 @@ import {
   apiUpdateAuction,
   apiDeleteAuction,
   apiGetAcutionByProductId,
+  apiGetPopularAuction
 } from "../api/apiMain.js";
 import { connect } from "socket.io-client";
 
@@ -14,6 +15,7 @@ const useAuctionStore = create()(
   persist(
     (set, get) => ({
       allAuction: null,
+      popularAuction:null,
       auctionById: [],
       currentPrice: 0,
       endTime: 0,
@@ -30,7 +32,6 @@ const useAuctionStore = create()(
       updateEndtime: (endTime) => {
         set({ endTime });
       },
-
       getAllAuction: async () => {
         const resp = await apiGetAllAuction();
         // console.log("getAllAuction", resp.data.responses);
@@ -55,6 +56,11 @@ const useAuctionStore = create()(
       getAuctionByProductId: async (productId) => {
         const resp = await apiGetAcutionByProductId(productId);
         // console.log("getAuctionByProductId", resp.data.responses);
+      },
+      getPopularAuction:async ()=>{
+        const resp = await apiGetPopularAuction();
+        set({popularAuction:resp.data.responses})
+        console.log('getPopularAuction', resp.data.responses)
       },
 
       updateAuction: async (auctionId) => {

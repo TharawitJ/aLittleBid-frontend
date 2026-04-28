@@ -14,15 +14,17 @@ import {
   leaveAuctionRoom,
   placeBid,
 } from "../socket/socketService.js";
-import ProductImageSlide from "../components/productPage/ProductImageSlide"
+import Swal from "sweetalert2";
+import AuctionResultModal from "../components/AuctionResultModal.jsx";
+import ProductImageSlide from "../components/productPage/ProductImageSlide.jsx";
 
 const AuctionBid = () => {
   // const [isLoading, setIsLoading] = useState(true)
   const { productById, allCategories, getProductsById } = useProductStore();
-  const { auctionById, getAuctionById, setCurrentPrice, currentPrice } = useAuctionStore();
-  console.log('auctionById.product.images', auctionById.product.images)
+  const { auctionById, getAuctionById, setCurrentPrice, currentPrice } =
+    useAuctionStore();
+  // console.log('auctionById.product.images', auctionById.product.images)
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
-  // console.log("socket", socket);
   const {
     newBid,
     bidData,
@@ -33,14 +35,12 @@ const AuctionBid = () => {
     setBidHistory,
     winner,
   } = useBidStore();
-  // console.log('bidData', bidData)
-  const { users, getAllUser } = useUserStore();
+  const { user, users, getAllUser } = useUserStore();
   const [isLoading, setIsLoading] = useState(true);
-  const { categoryId, description } = productById;
+  const { id, categoryId, name, description, sellerId, updatedAt, images } =
+    auctionById?.product || {};
   const { auctionId } = useParams();
   const { register, handleSubmit, reset } = useForm();
-
-  const filteredNewBid = newBid.filter((i) => i.auctionId === auctionById?.id);
   const filterCategoryName = allCategories.filter(
     (cate) => categoryId === cate.id,
   );
@@ -55,15 +55,14 @@ const AuctionBid = () => {
         `Please enter a valid price: (Minimum Increment: ${auctionById?.minIncrement})`,
       );
     }
-
     placeBid(amount, auctionId);
     reset();
   };
 
 
   useEffect(() => {
-    if(!auctionById) {
-      return
+    if (!auctionById) {
+      return;
     }
     connectSocket();
     joinAuctionRoom(auctionId);
@@ -74,28 +73,37 @@ const AuctionBid = () => {
       return;
     }
     setIsLoading(false);
-    setBidHistory(auctionById.bids)
-    getAllUser();
+    console.log('bids1', bids)
     return () => {
       leaveAuctionRoom();
     };
+  }, [auctionById, auctionId]);
+
+  useEffect(()=>{
+    getAllUser();
+    getAuctionById(auctionId);
+  },[auctionId, getAllUser])
+
+  useEffect(() => {
+    if (!auctionById?.bids) return; // ← guard: wait until data is real
+    setBidHistory(auctionById.bids);
   }, [auctionById]);
 
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
-      {/* {isLoading ? (
+      {isLoading ? (
         <div>...Loading</div>
-      ) : ( */}
+      ) : (
         <main className="pt-12 pb-24 px-6 md:px-12 max-w-screen-2xl mx-auto text-left">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             {/* Left Column: Image & Details */}
             <div className="lg:col-span-7 space-y-16">
               <div className="relative group">
                 <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-lg bg-[#f6f3f2]">
-                {/* {auctionById.product.images && auctionById.product.images> 0 && */}
-                <ProductImageSlide images={auctionById?.product.images}/>
-                {/* } */}
+                  {/* {auctionById.product.images && auctionById.product.images> 0 && */}
+                  <ProductImageSlide images={auctionById?.product?.images} />
+                  {/* } */}
                 </div>
                 <button className="absolute bottom-6 right-6 bg-white/70 backdrop-blur-md p-3 rounded-full hover:bg-white transition-colors">
                   <span className="material-symbols-outlined">fullscreen</span>
@@ -151,13 +159,13 @@ const AuctionBid = () => {
                       <p className="font-['Manrope'] text-[10px] text-stone-500 mb-2 uppercase tracking-widest">
                         Time Left
                       </p>
-                      <p className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]">
+                      <div className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]">
                         {auctionById?.product ? (
                           <TimeCountdown product={auctionById?.product} />
                         ) : (
                           "Loading timer..."
                         )}
-                      </p>
+                      </div>
                     </div>
                   </div>
 
@@ -245,29 +253,9 @@ const AuctionBid = () => {
               </div>
             </div>
           </div>
-          {winner && (
-            <dialog
-              open
-              className="modal"
-              style={{
-                border: "1px solid #ccc",
-                padding: "20px",
-                borderRadius: "8px",
-              }}
-            >
-              <div className="bg-red-300 w-50 border-2 shadow-2xl">
-                <p>Auction Ended! Winner is...</p>
-                <p>
-                  <strong>Winner ID:</strong> {winner.winnerId}
-                </p>
-                <p>
-                  <strong>Amount:</strong> {winner.amount}
-                </p>
-              </div>
-            </dialog>
-          )}
+          <AuctionResultModal currentUserId={user.id} />
         </main>
-      {/* )} */}
+      )}
     </div>
   );
 };
