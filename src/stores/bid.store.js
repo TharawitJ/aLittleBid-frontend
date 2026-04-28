@@ -28,20 +28,24 @@ const useBidStore = create()(
     // Actions
     setConnected: (status) => set({ isConnected: status }),
 
-    setBidHistory: (bids) =>
-      set({
+    setBidHistory: (bids) => {
+      console.log('setBidhistoty')
+       set({
         bids,
         currentHighestBid: bids[0] ?? null, // assume sorted desc from DB
         isBidsLoading: false,
-      }),
-
-    addBid: (bid) => {
-      set((state) => ({
-        bids: [bid, ...state.bids],
-        currentHighestBid: bid,
-      }));
-      console.log("currentHighestBid", get().currentHighestBid);
+      })
     },
+     
+
+      addBid: (bid) => {
+        console.log("add bid", bid)
+        set((state) => ({
+          bids: [bid, ...state.bids],
+          currentHighestBid: bid,
+        }));
+        console.log("currentHighestBid", get().currentHighestBid);
+      },
 
     setWinner: (winner) => {
       set({ winner });
@@ -49,11 +53,12 @@ const useBidStore = create()(
     },
     clearWinner: () => set({ winner: null }),
 
-    reset: () =>
-      set({ bids: [], winner: null, currentHighestBid: null, status: "idle" }),
-  })),
+          reset: () =>
+            set({ bids: [], winner: null, currentHighestBid: null, status: "idle" }),
+  }),
+  { name: 'bid-storage' }
+)
 
-  { name: "bid-storage" },
 );
 
 export default useBidStore;
