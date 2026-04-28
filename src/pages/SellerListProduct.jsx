@@ -31,7 +31,7 @@ const SellerUserListProduct = () => {
     }
 
     if (filter === "Done") {
-      return status === "SOLD" || status === "CLOSE_UNSOLD";
+      return status === "SOLD" || status === "CLOSED_UNSOLD";
     }
 
     return true;
