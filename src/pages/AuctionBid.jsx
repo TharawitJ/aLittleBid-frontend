@@ -12,8 +12,7 @@ import {
   connectSocket,
   joinAuctionRoom,
   leaveAuctionRoom,
-  placeBid,
-  updateBid
+  placeBid
 } from "../socket/socketService.js";
 import Swal from "sweetalert2";
 import AuctionResultModal from "../components/AuctionResultModal.jsx";
@@ -92,9 +91,7 @@ const AuctionBid = () => {
     if (!auctionById?.bids) return; // ← guard: wait until data is real
 
     setBidHistory(auctionById.bids);
-
-    updateBid()
-  }, [auctionById?.bids]);
+  }, [auctionById]);
 
   useEffect(() => {
   getAllUser();

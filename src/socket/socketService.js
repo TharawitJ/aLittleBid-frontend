@@ -17,11 +17,11 @@ export const connectSocket = () => {
     console.log('socket', 'socket is connected')
   })
 
-    socket.on('newest_bid', (bid) => {
-      console.log('newest bid socket socket', socket)
-    useBidStore.getState().addBid(bid);
-    console.log('bid from backend received', bid)
-  })
+  //   socket.on('newest_bid', (bid) => {
+  //     console.log('newest bid socket socket', socket)
+  //   useBidStore.getState().addBid(bid);
+  //   console.log('bid from backend received', bid)
+  // })
 
   socket.on('auction_ended', (winner) => {
     console.log('winnerrrrrrrrrr', winner)
@@ -37,17 +37,23 @@ export const connectSocket = () => {
 export const joinAuctionRoom = (auctionId) => {
   if (!socket) return
   socket.emit('join_auction', auctionId)
-}
 
-export const updateBid = () => {
-  socket.off('newest_bid')
-
-  socket.on('newest_bid', (bid) => {
-    console.log('newest bid socket socket', socket)
+   socket.on('newest_bid', (bid) => {
+      console.log('newest bid socket socket', socket)
     useBidStore.getState().addBid(bid);
     console.log('bid from backend received', bid)
   })
 }
+
+// export const updateBid = () => {
+//   socket.off('newest_bid')
+
+//   socket.on('newest_bid', (bid) => {
+//     console.log('newest bid socket socket', socket)
+//     useBidStore.getState().addBid(bid);
+//     console.log('bid from backend received', bid)
+//   })
+// }
 
 export const leaveAuctionRoom = (auctionId) => {
   if (!socket) return

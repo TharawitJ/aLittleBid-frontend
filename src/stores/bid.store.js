@@ -7,6 +7,8 @@ const useBidStore = create()(
     bidData: null,
     newBid: [],
     winner: null,
+    bids: null,
+    currentHighestBid: null,
     setNewBid: (newPrice) => {
       set((state) => ({
         newBid: typeof newPrice === 'function' ? newPrice(state.newBid) : newPrice
@@ -33,6 +35,7 @@ const useBidStore = create()(
       }),
 
       addBid: (bid) => {
+        console.log("add bid", bid)
         set((state) => ({
           bids: [bid, ...state.bids],
           currentHighestBid: bid,
@@ -48,9 +51,10 @@ const useBidStore = create()(
 
           reset: () =>
             set({ bids: [], winner: null, currentHighestBid: null, status: "idle" }),
-  })),
-
+  }),
   { name: 'bid-storage' }
+)
+
 );
 
 export default useBidStore;
