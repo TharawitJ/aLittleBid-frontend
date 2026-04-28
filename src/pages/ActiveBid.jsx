@@ -35,25 +35,31 @@ function ActiveBid() {
     filteredAuctions.some((auction) => auction.productId === product.id),
   );
 
-  useEffect(() => {
-    getAllBid();
-    getCategories()
-    getAllAuction();
-    getAllProducts(); // <--- Crucial: The list will be empty without this
-    clearAuctionById();
-    clearProductById();
-  }, []);
-
-  return (
-    <>
+  console.log("displayProducts", !displayProducts);
+  const hldNoActiveBid = () => {
+    if (displayProducts.length === 0) {
+      return <div className="flex justify-center items-center align-middle h-full w-full grow min-h-[calc(100vh-360px)]"><h1>Let's take a littile bid</h1></div>;
+    }
+    return (
       <div className="md:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 m-10">
         <DisplayProducts
           displayProducts={displayProducts}
           allCategories={allCategories}
         />
       </div>
-    </>
-  );
+    );
+  };
+
+  useEffect(() => {
+    getAllBid();
+    getCategories();
+    getAllAuction();
+    getAllProducts(); // <--- Crucial: The list will be empty without this
+    clearAuctionById();
+    clearProductById();
+  }, []);
+
+  return <>{hldNoActiveBid()}</>;
 }
 
 export default ActiveBid;
