@@ -23,7 +23,7 @@ const AuctionBid = () => {
   // const [isLoading, setIsLoading] = useState(true)
   const { productById, allCategories, getProductsById } = useProductStore();
   const { auctionById, getAuctionById, setCurrentPrice, currentPrice } = useAuctionStore();
-  console.log('auctionById.product.images', auctionById.product.images)
+  // console.log('auctionById.product.images', auctionById.product.images)
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
   const {
     newBid,
@@ -82,6 +82,8 @@ const AuctionBid = () => {
       );
       return;
     }
+      getAllUser();
+
     return () => {
       leaveAuctionRoom();
     };
@@ -93,9 +95,9 @@ const AuctionBid = () => {
     setBidHistory(auctionById.bids);
   }, [auctionById]);
 
-  useEffect(() => {
-  getAllUser();
-}, [getAllUser]);
+//   useEffect(() => {
+//   getAllUser();
+// }, [getAllUser]);
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
@@ -109,7 +111,7 @@ const AuctionBid = () => {
               <div className="relative group">
                 <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-lg bg-[#f6f3f2]">
                 {/* {auctionById.product.images && auctionById.product.images> 0 && */}
-                <ProductImageSlide images={auctionById?.product.images}/>
+                <ProductImageSlide images={auctionById?.product?.images}/>
                 {/* } */}
                 </div>
                 <button className="absolute bottom-6 right-6 bg-white/70 backdrop-blur-md p-3 rounded-full hover:bg-white transition-colors">
@@ -123,10 +125,10 @@ const AuctionBid = () => {
                     {filterCategoryName[0]?.name}
                   </span>
                   <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">
-                    {auctionById?.product.name}
+                    {auctionById?.product?.name}
                   </h1>
                   <p className="text-xl font-['Noto_Serif'] italic text-[#5e5e5e]">
-                    {auctionById?.product.description}
+                    {auctionById?.product?.description}
                   </p>
                 </div>
 
