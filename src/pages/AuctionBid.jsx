@@ -13,6 +13,7 @@ import {
   joinAuctionRoom,
   leaveAuctionRoom,
   placeBid,
+  updateBid
 } from "../socket/socketService.js";
 import { apiGetProductsById } from "../api/apiMain.js";
 import ProductImageSlide from "../components/productPage/ProductImageSlide.jsx";
@@ -21,7 +22,7 @@ const AuctionBid = () => {
   // const [isLoading, setIsLoading] = useState(true)
   const { productById, allCategories, getProductsById } = useProductStore();
   const { auctionById, getAuctionById, setCurrentPrice, currentPrice } = useAuctionStore();
-  console.log('auctionById.product.images', auctionById.product.images)
+  // console.log('auctionById.product.images', auctionById?.product.images)
   const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
   // console.log("socket", socket);
   const {
@@ -37,8 +38,7 @@ const AuctionBid = () => {
   // console.log('bidData', bidData)
   const { users, getAllUser } = useUserStore();
   const [isLoading, setIsLoading]= useState(true);
-  const { id, categoryId, name, description, sellerId, updatedAt, images } =
-    productById;
+  const { id, categoryId, name, description, sellerId, updatedAt, images } = productById;
   const { auctionId } = useParams();
   const { register, handleSubmit, reset } = useForm();
 
@@ -68,6 +68,7 @@ const AuctionBid = () => {
     }
     connectSocket();
     joinAuctionRoom(auctionId);
+    
     getAuctionById(auctionId);
     // getProductsById(auctionById?.productId);
 
@@ -83,15 +84,17 @@ const AuctionBid = () => {
     }
     getAllUser();
     return () => {
-      leaveAuctionRoom();
+      leaveAuctionRoom(auctionId);
     };
-  }, []);
+  }, [auctionId]);
 
   useEffect(() => {
     if (!auctionById?.bids) return; // ← guard: wait until data is real
 
     setBidHistory(auctionById.bids);
-  }, [auctionById]);
+
+    updateBid()
+  }, [auctionById?.bids]);
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
