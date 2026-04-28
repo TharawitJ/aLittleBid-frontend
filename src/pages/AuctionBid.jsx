@@ -66,8 +66,6 @@ const AuctionBid = () => {
     }
     connectSocket();
     joinAuctionRoom(auctionId);
-    getAuctionById(auctionId);
-    getProductsById(auctionById?.productId);
 
     setIsLoading(false);
     console.log('use effect is running')
@@ -86,7 +84,7 @@ const AuctionBid = () => {
     return () => {
       leaveAuctionRoom();
     };
-  }, [auctionId]);
+  }, [auctionById, auctionId]);
 
   useEffect(()=>{
     getAllUser();

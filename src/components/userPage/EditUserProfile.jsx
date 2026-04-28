@@ -23,6 +23,7 @@ function EditUserProfile() {
     // console.log("dataaa", data);
     setIsLoading(true);
     try {
+      console.log('data from edit front-end', data)
       const resp = await editUserProfile(user.id, data);
       Swal.fire({
         title: "Profile Updated",
