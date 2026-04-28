@@ -66,8 +66,8 @@ const useUserStore = create()(
           console.log('data at store', data)
           const resp = await apiEditUserProfileById(userId, data);
           console.log('resp', resp)
-          set({ user: resp.data.responses });
-          return resp.data.responses;
+          set({ user: resp?.data.responses });
+          return resp?.data.responses;
         } catch (error) {
           console.error("error", error);
           throw error;

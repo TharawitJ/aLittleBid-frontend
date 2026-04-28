@@ -28,9 +28,9 @@ export const apiDeleteUserById = (userid) => mainApi.delete(`/users/${userid}`);
 export const apiEditUserAddressById = (userId, addressId, data) =>
   mainApi.patch(`/users/${userId}/addresses/${addressId}`, data);
 
-export const apiEditUserProfileById = (userId, data) =>{
+export const apiEditUserProfileById = (userId, data) => {
 // console.log('authdata at apiMain', data)
-  mainApi.patch(`/users/${userId}`, data);
+  return mainApi.patch(`/users/${userId}`, data);
 }
 
 // PRODUCTS

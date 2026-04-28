@@ -25,15 +25,19 @@ function EditUserProfile() {
     try {
       console.log('user.id', user.id)
       const resp = await editUserProfile(user.id, data);
-      console.log('resp', resp)
+      console.log('resp in modal', resp)
       Swal.fire({
         title: "Profile Updated",
       });
-      document.getElementById("openeditprofile-modal").close();
+      
     } catch (error) {
+      console.log('error', error)
       Swal.fire({
         title: "Profile Update failed",
       });
+    }finally{
+
+      document.getElementById("openeditprofile-modal").close();
     }
   };
 
