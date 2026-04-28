@@ -17,6 +17,18 @@ export const connectSocket = () => {
     console.log('socket', 'socket is connected')
   })
 
+    socket.on('newest_bid', (bid) => {
+      console.log('newest bid socket socket', socket)
+    useBidStore.getState().addBid(bid);
+    console.log('bid from backend received', bid)
+  })
+
+  socket.on('auction_ended', (winner) => {
+    console.log('winnerrrrrrrrrr', winner)
+    useBidStore.getState().setWinner(winner)
+    // modal tell user that winner
+  })
+
   socket.on('disconnect', () => {
     useBidStore.getState().setConnected(false);
   })
@@ -25,12 +37,6 @@ export const connectSocket = () => {
 export const joinAuctionRoom = (auctionId) => {
   if (!socket) return
   socket.emit('join_auction', auctionId)
-
-  socket.on('auction_ended', (winner) => {
-    console.log('winnerrrrrrrrrr', winner)
-    useBidStore.getState().setWinner(winner)
-    // modal tell user that winner
-  })
 }
 
 export const updateBid = () => {
@@ -47,8 +53,8 @@ export const leaveAuctionRoom = (auctionId) => {
   if (!socket) return
   socket.emit('leave_auction', auctionId)
 
-  socket.off('newest_bid')
-  socket.off('auction_ended')
+  // socket.off('newest_bid')
+  // socket.off('auction_ended')
 
   useBidStore.getState().reset()
 }
