@@ -3,7 +3,7 @@ import axios from "axios";
 import useBidStore from "../stores/bid.store.js";
 import { apiGetUserById } from "../api/apiMain.js";
 
-export default function AuctionResultModal({ currentUserId }) {
+export default function AuctionResultModal({ currentUserId, auctionId }) {
   const { winner, clearWinner } = useBidStore();
   const hasShownRef = useRef(false);
   const [winnerUsername, setWinnerUsername] = useState(null);

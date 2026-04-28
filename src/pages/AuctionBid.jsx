@@ -260,7 +260,7 @@ const AuctionBid = () => {
               </div>
             </div>
           </div>
-              <AuctionResultModal currentUserId={user.id} />
+              <AuctionResultModal currentUserId={user.id} auctionId={auctionId}/>
       </main>
        {/* )} */}
     </div>
