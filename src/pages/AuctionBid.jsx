@@ -78,7 +78,7 @@ const AuctionBid = () => {
     return () => {
       leaveAuctionRoom(auctionId);
     };
-  }, [auctionById, auctionId]);
+  }, [auctionById,auctionId]);
 
   useEffect(()=>{
     getAllUser();
