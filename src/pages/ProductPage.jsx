@@ -6,24 +6,33 @@ import DisplayProducts from "../components/productPage/DisplayProducts.jsx";
 import useAuctionStore from "../stores/auction.store.js"
 
 const ProductPage = () => {
-  const productPage = useProductStore((state) => state.productPage)
-  const setProductPage = useProductStore((state) => state.setProductPage)
-  const allProducts = useProductStore((state) => state.allProducts)
-  const allCategories = useProductStore((state) => state.allCategories)
-  const getAllProducts = useProductStore((state) => state.getAllProducts)
-  const getCategories = useProductStore((state) => state.getCategories)
-  const clearAuctionById = useAuctionStore((state) => state.clearAuctionById)
-  const clearProductById = useProductStore((state) => state.clearProductById)
-  const getAllAuction = useAuctionStore(state => state.getAllAuction)
-  const allAuction = useAuctionStore(state => state.allAuction)
-  // console.log('allProducts', allProducts)
+  // const {
+  //   productPage,
+  //   setProductPage,
+  //   allProducts,
+  //   allCategories,
+  //   getAllProducts,
+  //   getCategories,
+  // } = useProductStore();
+
+  const productPage = useProductStore((state)=>state.productPage)
+  const setProductPage = useProductStore((state)=>state.setProductPage)
+  const allProducts = useProductStore((state)=>state.allProducts)
+  const allCategories = useProductStore((state)=>state.allCategories)
+  const getAllProducts = useProductStore((state)=>state.getAllProducts)
+  const getCategories = useProductStore((state)=>state.getCategories)
+  const clearAuctionById = useAuctionStore((state)=>state.clearAuctionById)
+  const clearProductById = useProductStore((state)=>state.clearProductById)
+  console.log('allProducts', allProducts)
   console.log('status', allProducts?.[0]?.auctions?.[0]?.status)
   // filter only active product
   // const {}
   const [selectCategoryId, setSelectCategoryId] = useState("");
   const [selectCategoryName, setSelectCategoryName] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentProducts, setCurrentProducts] = useState(allProducts);
+  const [currentProducts, setCurrentProducts] = useState(
+    Array.isArray(allProducts) ? allProducts : []
+  );
   useEffect(() => {
     getAllProducts();
     getCategories();
@@ -37,9 +46,7 @@ const ProductPage = () => {
     if (!Array.isArray(allProducts)) return;
     console.log('allProducts-in', allProducts)
 
-    console.log('Found Products:', allProducts.length);
-
-    let filtered = allProducts?.filter((p) => p.auctions?.[0].status === "ACTIVE");
+    let filtered = allProducts.filter((p)=>p?.auctions?.[0]?.status==="ACTIVE");
     console.log('filtered', filtered)
 
     // 1. Filter by Category

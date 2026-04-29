@@ -37,6 +37,7 @@ const AuctionBid = () => {
     winner,
   } = useBidStore();
   const { user, users, getAllUser } = useUserStore();
+  const usersList = Array.isArray(users) ? users : [];
   const [isLoading, setIsLoading] = useState(true);
   const { id, categoryId, name, description, sellerId, updatedAt, images } =
     auctionById?.product || {};
@@ -193,9 +194,15 @@ const AuctionBid = () => {
                       </span>
                       <span className="text-[14px] text-secondary mt-3 text-headline uppercase font-bold mx-2">
                         {currentHighestBid
+<<<<<<< HEAD
                           ? users.find(
                             (u) => u.id === currentHighestBid?.bidderId,
                           )?.username
+=======
+                          ? (usersList.find(
+                              (u) => u.id === currentHighestBid?.bidderId,
+                            )?.username ?? "Unknown bidder")
+>>>>>>> dev
                           : "No Bidder Yet"}
                       </span>
                     </div>
@@ -213,7 +220,7 @@ const AuctionBid = () => {
                       </div>
                     </div>
                   </div>
-                  {auctionById.status !== "ACTIVE" ? (
+                  {auctionById?.status !== "ACTIVE" ? (
                     <></>
                   ) : (
                     <form onSubmit={handleSubmit(hdlOnSubmit)}>
@@ -307,7 +314,7 @@ const AuctionBid = () => {
                         </div>
                         <button
                           className="w-full bg-gradient-to-r from-[#570000] to-[#800000] text-white font-['Manrope'] uppercase tracking-widest py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 disabled:scale-100 disabled:cursor-not-allowed"
-                          disabled={!isDirty || auctionById.status !== "ACTIVE"}
+                          disabled={!isDirty || auctionById?.status !== "ACTIVE"}
                         >
                           Place Bid
                         </button>
@@ -327,6 +334,7 @@ const AuctionBid = () => {
                     <div className="flex flex-col gap-3 overflow-y-auto max-h-[200px]">
                       {bids
                         ? bids.map((e, i) => (
+<<<<<<< HEAD
                           <div
                             key={i}
                             className="flex justify-between items-center"
@@ -338,6 +346,32 @@ const AuctionBid = () => {
                                   alt="Curator"
                                   className="w-full h-full object-cover"
                                 />
+=======
+                            <div
+                              key={i}
+                              className="flex justify-between items-center"
+                            >
+                              <div className="flex items-center gap-4 pt-4">
+                                <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
+                                  <img
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe"
+                                    alt="Curator"
+                                    className="w-full h-full object-cover"
+                                  />
+                                </div>
+                                <div className="text-left">
+                                  <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
+                                    {
+                                      usersList.find((i) => e.bidderId === i.id)
+                                        ?.username ?? "Unknown bidder"
+                                    }
+                                    {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
+                                  </p>
+                                  <p className="text-[14px] text-stone-500 uppercase tracking-widest">
+                                    {e.amount}
+                                  </p>
+                                </div>
+>>>>>>> dev
                               </div>
                               <div className="text-left">
                                 <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
@@ -364,7 +398,7 @@ const AuctionBid = () => {
               </div>
             </div>
           </div>
-          <AuctionResultModal currentUserId={user.id} />
+          <AuctionResultModal currentUserId={user?.id} />
         </main>
       )}
     </div>
