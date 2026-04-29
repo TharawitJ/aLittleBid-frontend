@@ -2,7 +2,7 @@ import useUserStore from "../stores/user.store.js";
 import axios from "axios";
 
 export const mainApi = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "/api",
   headers: {
     "Content-Type": "application/json",
   },

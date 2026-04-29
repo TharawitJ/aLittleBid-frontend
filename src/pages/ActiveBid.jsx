@@ -31,7 +31,7 @@ function ActiveBid() {
   const userAuctionIds = [...new Set(userBids.map((bid) => bid.auctionId))];
   // 4. Filter allAuction to get the auctions the user participated in
   const filteredAuctions = allAuction.filter((auction) =>
-    userAuctionIds.includes(auction.id),
+    userAuctionIds.includes(auction.id) && auction.status === "ACTIVE",
   );
   // 5. Get the products associated with those filtered auctions
   const displayProducts = allProducts.filter((product) =>
