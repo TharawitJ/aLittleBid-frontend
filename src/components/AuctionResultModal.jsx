@@ -44,7 +44,7 @@ export default function AuctionResultModal({ currentUserId, auctionId }) {
     }
   }, [winner]);
 
-  if (!winner || !hasShownRef.current) return null;
+  if (!winner || !hasShownRef.current || String(winner.auctionId) !== String(auctionId)) return null;
 
   const isWinner = winner.winnerId === currentUserId;
 
