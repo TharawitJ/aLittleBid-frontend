@@ -30,9 +30,9 @@ function DisplayProducts({ displayProducts, allCategories }) {
     if (!allAuction || !bidData) {
       return <div>Loading auctions...</div>;
     } else if (lastBid) {
-      return `$${lastBid?.amount}`;
+      return `${lastBid?.amount}`;
     }
-    return `$${auction?.startingPrice}`;
+    return `${auction?.startingPrice}`;
   };
 
   useEffect(() => {
@@ -42,11 +42,8 @@ function DisplayProducts({ displayProducts, allCategories }) {
 
   return (
     <>
-      {displayProducts.map((i, idx) => {
-        console.log('allAuction-inreturn', allAuction)
-        console.log('i.id', i.id)
+      {displayProducts?.map((i, idx) => {
         const category = allCategories.find((cat) => cat.id === i.categoryId);
-        console.log('i.id', i.id)
         const auction = allAuction?.find((a) => a.productId === i.id);
         console.log("auction", auction);
         const lastBid = bidData?.findLast((b) => b.auctionId === auction?.id);

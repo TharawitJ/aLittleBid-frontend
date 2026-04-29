@@ -62,6 +62,11 @@ const useProductStore = create()(
     }),
     {
       name: "product-page-storage",
+      partialize: (state) => ({ 
+        // เลือกเซฟเฉพาะตัวที่อยากให้คงอยู่หลัง Refresh
+        allCategories: state.allCategories,
+        productPage: state.productPage 
+      }),
     },
   ),
 );

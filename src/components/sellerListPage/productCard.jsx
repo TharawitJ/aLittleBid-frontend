@@ -56,9 +56,12 @@ function ProductSellerCard({product}) {
                   </span>
                 </div>
               </div>
+              <div className="flex justify-between">
               <button className="text-xs font-bold uppercase tracking-widest hover:text-[#7a0009] transition-colors flex items-center gap-1">
                 Edit
               </button>
+              <span className="text-xs font-bold uppercase tracking-widest text-primary transition-colors flex items-center gap-1">status</span>
+              </div>
             </div>
           </div>
         );
