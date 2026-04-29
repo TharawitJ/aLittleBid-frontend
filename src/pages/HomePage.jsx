@@ -19,14 +19,18 @@ const HomePage = () => {
   const { connect } = useSocketStore();
   const { auctionId } = useParams();
   const [timeLeft, setTimeLeft] = useState(0);
-  const lots = Array.isArray(popularAuction) ? popularAuction : [];
+  const lots = (Array.isArray(popularAuction) ? popularAuction : []).filter(
+    (lot) => lot.status === "ACTIVE",
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   // --- Smaller Lots Carousel ---
   const carouselRef = useRef(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
+  console.log('lots', lots)
 
   const hdlJoinClick = (id) => {
+    console.log('id', id)
     try {
       if (!id) return Swal.fire({title: "No auction"});
       getAuctionById(id);
