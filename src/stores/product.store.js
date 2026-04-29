@@ -7,6 +7,7 @@ import {
   apiCreateProduct,
   apiUpdateProduct,
   apiDeleteProduct,
+  apiCreateImages,
 } from "../api/apiMain.js";
 
 const useProductStore = create()(
@@ -14,25 +15,33 @@ const useProductStore = create()(
     (set, get) => ({
       allProducts: [],
       allCategories: [],
-      productById: [],
+      productById: null,
       productPage: 1,
       // productIdForAuction: null,
       setProductPage: (page) => set({ productPage: page }),
 
       getAllProducts: async () => {
         const resp = await apiGetAllProducts();
-        // console.log("getAllProducts", resp.data.responses);
-        set({ allProducts: resp.data.responses });
+        const responses = Array.isArray(resp.data.responses)
+          ? resp.data.responses
+          : [];
+        console.log("getAllProducts", resp.data.responses);
+        set({ allProducts: responses });
       },
       getCategories: async () => {
         const resp = await apiGetCategories();
+        const responses = Array.isArray(resp.data.responses)
+          ? resp.data.responses
+          : [];
         // console.log("getCategories", resp.data.responses);
-        set({ allCategories: resp.data.responses });
+        set({ allCategories: responses });
       },
       getProductsById: async (id) => {
+        console.log('id-productbyid', id)
         const resp = await apiGetProductsById(id);
-        set({ productById: resp.data.responses });
-        // console.log("getProductsById", resp.data.responses);
+        const response = resp.data.responses ?? null;
+        console.log("getProductsById", resp.data.responses);
+        set({ productById: response });
       },
       createProduct: async (body) => {
         const resp = await apiCreateProduct(body);
@@ -45,13 +54,27 @@ const useProductStore = create()(
       },
       updateProduct: async (productId, body) => {
         const resp = await apiUpdateProduct(productId, body);
-        set({ productById: resp.data.responses });
-        return resp.data.responses;
+        const response = resp.data.responses ?? null;
+        set({ productById: response });
+        return response;
       },
       // apiDeleteProduct
+      createImages: async (imagesUrl) => {
+        const resp = await apiCreateImages(imagesUrl)
+        console.log('resp-createimages', resp.data.responses)
+        return resp.data.responses
+      },
+      clearProductById: () => {
+        set({productById:null})
+      }
     }),
     {
-      name: "auction-storage",
+      name: "product-page-storage",
+      partialize: (state) => ({ 
+        // เลือกเซฟเฉพาะตัวที่อยากให้คงอยู่หลัง Refresh
+        allCategories: state.allCategories,
+        productPage: state.productPage 
+      }),
     },
   ),
 );

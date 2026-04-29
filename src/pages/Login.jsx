@@ -1,38 +1,47 @@
 import { useState } from "react";
-import { GoogleLogin } from "@react-oauth/google"; // เปลี่ยนจาก useGoogleLogin เป็น GoogleLogin
+import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
+import { mainApi as api } from "../api/apiMain.js";
 import useUserStore from "../stores/user.store.js";
-function validateEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
+import { loginSchema } from "../validations/RegisLogin.js";
+import { EyeIcon, EyeSlashIcon } from "../icons/index.jsx";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-  const login = useUserStore(state => state.login)
+  const [errors, setErrors] = useState({});
+  const login = useUserStore((state) => state.login);
   const navigate = useNavigate();
+  const token = useUserStore((state) => state.token);
 
-  const canSubmit = validateEmail(email) && password.length >= 8;
+  const parsed = loginSchema.safeParse({ email, password });
+  const canSubmit = parsed.success;
 
-  function handleLogin() {
-    if (!canSubmit) return;
+  async function handleLogin() {
+    if (loading) return; // re-entry guard while a request is in flight
+    const result = loginSchema.safeParse({ email, password });
+    if (!result.success) {
+      setErrors(result.error.flatten().fieldErrors);
+      return;
+    }
+    setErrors({});
     setLoading(true);
 
     try {
-      const response = login({ email, password });
-      // const data = response;
+      await login(result.data);
 
-      console.log("Login Success:", response);
-      // getUserById(data.id)
+      console.log("Login Success");
       alert("Login Successful!");
       navigate("/");
     } catch (error) {
       const message =
-        error.response?.data?.message || error.message || "Login failed";
+        error.response?.data?.message ||
+        error.message ||
+        "Login failed. Invalid credentials.";
       console.error("Login Error:", message);
-      alert(message);
+      setErrors({ submit: [message] });
     } finally {
       setLoading(false);
     }
@@ -49,7 +58,6 @@ export default function LoginPage() {
           </h2>
           <p className="text-sm text-gray-500">Login to your account</p>
         </div>
-
         {/* email */}
         <div className="mb-4">
           <label className="text-sm font-semibold text-gray-700">Email</label>
@@ -57,10 +65,13 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
-            className="w-full mt-1 px-4 py-3 border rounded-lg text-sm focus:ring-2 focus:ring-red-200 outline-none"
+            disabled={loading}
+            className="w-full mt-1 px-4 py-3 border rounded-lg text-sm focus:ring-2 focus:ring-red-200 outline-none disabled:bg-gray-50 disabled:text-gray-400"
           />
+          {errors.email && (
+            <p className="text-xs text-red-500 mt-1">⚠ {errors.email[0]}</p>
+          )}
         </div>
-
         {/* password */}
         <div className="mb-4">
           <label className="text-sm font-semibold text-gray-700">
@@ -73,19 +84,27 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              className="w-full mt-1 px-4 py-3 border rounded-lg text-sm focus:ring-2 focus:ring-red-200 outline-none"
+              disabled={loading}
+              className="w-full mt-1 px-4 py-3 border rounded-lg text-sm focus:ring-2 focus:ring-red-200 outline-none disabled:bg-gray-50 disabled:text-gray-400"
             />
 
             <button
               type="button"
               onClick={() => setShow(!show)}
-              className="absolute right-3 top-3 text-xs text-gray-500"
+              aria-label={show ? "Hide password" : "Show password"}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 p-1"
             >
-              {show ? "Hide" : "Show"}
+              {show ? (
+                <EyeSlashIcon className="w-5 h-5" />
+              ) : (
+                <EyeIcon className="w-5 h-5" />
+              )}
             </button>
           </div>
+          {errors.password && (
+            <p className="text-xs text-red-500 mt-1">⚠ {errors.password[0]}</p>
+          )}
         </div>
-
         {/* forgot */}
         <div className="text-right mb-4">
           <button
@@ -95,21 +114,29 @@ export default function LoginPage() {
             Forgot password
           </button>
         </div>
+        {/* api error */}
+        {errors.submit && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-xs text-red-700">
+            ⚠ {errors.submit[0]}
+          </div>
+        )}
 
         {/* login btn */}
         <button
           onClick={handleLogin}
           disabled={!canSubmit || loading}
-          className={`w-full py-3 rounded-lg font-bold transition
+          className={`w-full py-3 rounded-lg font-bold transition flex items-center justify-center gap-2
             ${
-              canSubmit
+              canSubmit && !loading
                 ? "bg-red-800 text-white hover:bg-red-900"
                 : "bg-gray-200 text-gray-400 cursor-not-allowed"
             }`}
         >
+          {loading && (
+            <span className="inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+          )}
           {loading ? "Logging in..." : "Login"}
         </button>
-
         {/* divider */}
         <div className="flex items-center gap-2 my-5">
           <div className="flex-1 h-px bg-gray-200" />
@@ -118,44 +145,33 @@ export default function LoginPage() {
         </div>
 
         {/* google */}
-        <div className="w-full flex justify-center">
-          <GoogleLogin
-            onSuccess={async (credentialResponse) => {
-              console.log("Google Credential Response:", credentialResponse);
+        <GoogleLogin
+          onSuccess={async (credentialResponse) => {
+            setLoading(true);
+            try {
+              const res = await api.post("/auth/google", {
+                token: credentialResponse.credential,
+              });
 
-              setLoading(true);
-              try {
-                // ส่ง idToken (credential) ไปที่ Backend
-                const res = await fetch(
-                  "http://localhost:5000/api/auth/google",
-                  {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                      token: credentialResponse.credential,
-                    }),
-                  },
-                );
-
-                const data = await res.json();
-                if (!res.ok)
-                  throw new Error(data.message || "Google Login failed");
-
-                localStorage.setItem("token", data.token);
-                alert("Login with Google Successful!");
-                navigate("/");
-              } catch (error) {
-                console.error("Google Login Error:", error.message);
-                alert(error.message);
-              } finally {
-                setLoading(false);
-              }
-            }}
-            onError={() => {
-              alert("Google Login Failed");
-            }}
-          />
-        </div>
+              const { token, user } = res.data;
+              localStorage.setItem("token", token);
+              localStorage.setItem("user", JSON.stringify(user));
+              useUserStore.setState({ token: token, user: user });
+              alert("Login with Google Successful!");
+              navigate("/");
+            } catch (error) {
+              const message =
+                error.response?.data?.message || "Google Login failed";
+              console.error("Google Login Error:", message);
+              alert(message);
+            } finally {
+              setLoading(false);
+            }
+          }}
+          onError={() => {
+            alert("Google Login Failed");
+          }}
+        />
 
         {/* register */}
         <p className="text-sm text-center mt-6 text-gray-500">

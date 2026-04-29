@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import useUserStore from "../../stores/user.store";
 import Swal from "sweetalert2";
+import useUserStore from "../../stores/user.store.js";
 
 function EditUserProfile() {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,22 +16,28 @@ function EditUserProfile() {
   );
 
   useEffect(() => {
-    getUserById();
+    getUserById(user.id);
   }, []);
 
   const onSubmit = async (data) => {
-    // console.log("dataaa", data);
+    console.log("dataaa", data);
     setIsLoading(true);
     try {
+      console.log('data from edit front-end', data)
       const resp = await editUserProfile(user.id, data);
+      console.log('resp in modal', resp)
       Swal.fire({
         title: "Profile Updated",
       });
-      document.getElementById("openeditprofile-modal").close();
+      
     } catch (error) {
+      console.log('error', error)
       Swal.fire({
         title: "Profile Update failed",
       });
+    }finally{
+
+      document.getElementById("openeditprofile-modal").close();
     }
   };
 

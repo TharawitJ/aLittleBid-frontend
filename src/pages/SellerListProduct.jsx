@@ -1,5 +1,5 @@
-import React from "react";
-import {NavLink, useNavigate } from "react-router";
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router";
 import ProductSellerCard from "../components/sellerListPage/productCard.jsx";
 import useProductStore from "../stores/product.store.js";
 import useUserStore from "../stores/user.store.js";
@@ -11,16 +11,35 @@ const SellerUserListProduct = () => {
   const hdlAddProduct = () => {
     navigate(`/add_product`);
   };
-    const navLinkClass = ({ isActive }) =>
+  const navLinkClass = ({ isActive }) =>
     `flex items-center gap-3 p-3 rounded-sm transition-all ${
-                  isActive
-                    ? "bg-white font-bold shadow-sm"
-                    : "text-[#59413e] hover:bg-[#efeeeb]"
-                }`;
+      isActive
+        ? "bg-white font-bold shadow-sm"
+        : "text-[#59413e] hover:bg-[#efeeeb]"
+    }`;
+
+  const [filter, setFilter] = useState("All");
+
+  const filteredProducts = allProducts.filter((product) => {
+    if (filter === "All") return true;
+
+    const status = product.auctions?.[0].status;
+
+    if (filter === "Active") {
+      console.log('filter', filter)
+      return status === "ACTIVE";
+    }
+
+    if (filter === "Done") {
+      return status === "SOLD" || status === "CLOSED_UNSOLD";
+    }
+
+    return true;
+  });
 
   return (
     <div className="min-h-screen bg-[#fbf9f6] text-[#1b1c1a] font-['Manrope']">
-      <main className="max-w-[1440px] mx-auto flex min-h-screen">
+      <main className="mx-auto flex min-h-screen">
         {/* SideNavBar */}
         <aside className="hidden md:flex flex-col gap-4 p-6 bg-[#f5f3f0] w-64 border-r border-[#efeeeb] sticky top-[73px] h-[calc(100vh-73px)]">
           <div className="mb-8">
@@ -33,25 +52,22 @@ const SellerUserListProduct = () => {
           </div>
           <nav className="flex flex-col gap-2">
             {[
-              { label: "All" },
-              { label: "Active Lots" },
-              { label: "Sold" },
+              { label:"All" },
+              { label:"Active" },
+              { label:"Done" },
               // { label: 'Collectibles', icon: 'auto_awesome' }
             ].map((nav) => (
-              <a
+              <button // Changed from <a> to <button> for better accessibility
                 key={nav.label}
-                href="#"
-                className={`${navLinkClass}`}
+                onClick={() => setFilter(nav.label)}
+                className={`${navLinkClass} ${
+                  filter === nav.label ? "bg-blue-100 text-blue-600" : "" // Active style
+                }`}
               >
-                <span
-                  className={`material-symbols-outlined`}
-                >
-                  {nav.icon}
-                </span>
                 <span className="text-xs uppercase tracking-widest">
                   {nav.label}
                 </span>
-              </a>
+              </button>
             ))}
           </nav>
         </aside>
@@ -69,8 +85,11 @@ const SellerUserListProduct = () => {
                 bidding status across your private gallery.
               </p>
             </div>
-            <button onClick={hdlAddProduct} className="bg-gradient-to-br from-[#7a0009] to-[#9e1b1b] text-white flex items-center gap-3 px-8 py-4 rounded-sm shadow-xl shadow-[#7a0009]/10 active:scale-[0.98] transition-all uppercase tracking-widest text-xs font-bold">
-              <span className="material-symbols-outlined">add</span>
+            <button
+              onClick={hdlAddProduct}
+              className="bg-gradient-to-br from-[#7a0009] to-[#9e1b1b] text-white flex items-center gap-3 px-8 py-4 rounded-sm shadow-xl shadow-[#7a0009]/10 active:scale-[0.98] transition-all uppercase tracking-widest text-xs font-bold"
+            >
+              <span className="material-symbols-outlined text-2xl font-extralight items-center">+</span>
               Add New Product
             </button>
           </div>
@@ -89,40 +108,10 @@ const SellerUserListProduct = () => {
 
           {/* Product Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <ProductSellerCard />
+            <ProductSellerCard product={filteredProducts} />
           </div>
         </section>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-[#efeeeb] w-full py-12 px-8 mt-24">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8 max-w-[1440px] mx-auto">
-          <div>
-            <span className="text-lg font-['Newsreader']">
-              The Digital Curator
-            </span>
-            <p className="text-xs uppercase tracking-tighter text-[#59413e] mt-2">
-              © 2024 The Digital Curator. All rights reserved.
-            </p>
-          </div>
-          <div className="flex flex-wrap justify-center gap-8">
-            {[
-              "Privacy Policy",
-              "Terms of Sale",
-              "Appraisal Services",
-              "Contact Us",
-            ].map((link) => (
-              <a
-                key={link}
-                className="text-xs uppercase tracking-tighter text-[#59413e] hover:text-[#9e1b1b] transition-colors"
-                href="#"
-              >
-                {link}
-              </a>
-            ))}
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

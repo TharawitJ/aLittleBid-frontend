@@ -4,8 +4,11 @@ import { apiGetAllBid, apiGetBidById } from "../api/apiMain";
 
 const useBidStore = create()(
   persist((set, get) => ({
-    bidData: null,
+    bidData: [],
     newBid: [],
+    winner: null,
+    bids: [],
+    currentHighestBid: null,
     setNewBid: (newPrice) => {
       set((state) => ({
         newBid:
@@ -14,52 +17,52 @@ const useBidStore = create()(
     },
     getAllBid: async () => {
       const resp = await apiGetAllBid();
+      const responses = Array.isArray(resp.data.responses)
+        ? resp.data.responses
+        : [];
       //   console.log("resp", resp.data.responses);
-      set({ bidData: resp.data.responses });
+      set({ bidData: responses });
       // console.log('getAllBid', resp.data.responses)
     },
     getBidById: async (bidId) => {
       const resp = await apiGetBidById(bidId);
       // console.log('apiGetBidById', resp)
     },
-    // Connection state
-    isConnected: false,
-
-    // Auction data
-    //   currentItem: null,
-    currentHighestBid: null,
-    bids: [],
-    winner: null,
-    status: "idle", // idle | active | ended
-
     // Actions
     setConnected: (status) => set({ isConnected: status }),
 
-    setBidHistory: (bids) =>
-      set({
-        bids,
-        currentHighestBid: bids[0] ?? null, // assume sorted desc from DB
+    setBidHistory: (bids) => {
+      const bidHistory = Array.isArray(bids) ? bids : [];
+      console.log('setBidhistoty')
+       set({
+        bids: bidHistory,
+        currentHighestBid: bidHistory[0] ?? null, // assume sorted desc from DB
         isBidsLoading: false,
-      }),
-
-    addBid: (bid) => {
-      set((state) => ({
-        bids: [bid, ...state.bids],
-        currentHighestBid: bid,
-      }));
-      console.log("currentHighestBid", get().currentHighestBid);
+      })
     },
+     
+
+      addBid: (bid) => {
+        console.log("add bid", bid)
+        set((state) => ({
+          bids: [bid, ...(state.bids ?? [])],
+          currentHighestBid: bid,
+        }));
+        console.log("currentHighestBid", get().currentHighestBid);
+      },
 
     setWinner: (winner) => {
-        set({ winner });
-        console.log('winner from zustand:', get().winner);
-},
+      set({ winner });
+      console.log("winner from zustand:", get().winner);
+    },
+    clearWinner: () => set({ winner: null }),
 
-    reset: () =>
-      set({ bids: [], winner: null, currentHighestBid: null, status: "idle" }),
-  })),
+          reset: () =>
+            set({ bids: [], winner: null, currentHighestBid: null, status: "idle" }),
+  }),
+  { name: 'bid-storage' }
+)
 
-  { name: "bid-storage" },
 );
 
 export default useBidStore;

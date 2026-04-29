@@ -2,6 +2,10 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useParams } from "react-router";
 import useSocketStore from "../stores/socket.store";
 import { io } from 'socket.io-client'
+import AuctionCard from "../components/AuctionCard.jsx"
+import useProductStore from "../stores/product.store.js"
+import useAuctionStore from "../stores/auction.store.js"
+import useBidStore from "../stores/bid.store.js"
 
 const AuctionPage = () => {
   const { auctionId } = useParams()
@@ -10,33 +14,36 @@ const AuctionPage = () => {
   // --- Smaller Lots Carousel ---
   const carouselRef = useRef(null)
   const [carouselIndex, setCarouselIndex] = useState(0)
-
-  const lots = [
-    {
-      title: "Patek Heritage '52",
-      price: "$18,200",
-      timeLeft: "59m 18s",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDpFpbxMtXrk-gAQTJlnM-kPYDSICNwrJ_1E-rbxKyIspXOg5Nk4ECjL2O9VpcWgm-Xut2g7IAUSLSCI5y_c7Rc9shIbIVlgm3BdTCVQ9wSbdxeHX2TguhQFgohftgqge20yA1wgx6vQIsXEC0hx4a9TTW10-ZQ-Sm6PIsNMa4qz4EMzlHsXvKGhBIR31IqTHcsBLyl9lR2mC8vo8bq1zarp-rp6N6cLKMxsgj67vkdT83XGerTFOkXa3GjNgT880lh0_A_JcsEcVcq",
-    },
-    {
-      title: "Royal Emerald Suite",
-      price: "$32,500",
-      timeLeft: "1h 44m",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuA7lNWJDmFn8e4aoRcuUAZrUzCFNtp6FMAzyu9zvjxHB-SflolrRjidTePqlBdkEm212h_7lQKkw2bMUX_uJyF_ghamrOsgpEhdFdPMDhOOaLXY7vVyX7cfIryPpfl5CaBezU8yzBQkPgLClVftaTZ9taQ9UoKvUNM7DtrD9OIKhetLjsaRFfBMEIkAfTzJ8eXjgyIHAqxNtI4oesSQ84AXvPa8P5Ta6r5fIls-UDa38RnKlBgFZ_RilSVqwNdeFe-zzwoM9RciG2dR",
-    },
-    {
-      title: "Brutalist Vessel No.3",
-      price: "$9,800",
-      timeLeft: "3h 02m",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuARgMOZMmzVNrDz1n4_Y5rdr1efWWp2BraAsv5xYqoW7kg9mWdx_UwxsYkxHwgVqs4I3pIKE-2_7BkqdrNrRjum_NLj_mBIwtTlLt943SCKE2yD606kQOZHLNcnnSCt3q7rrwBcddrnFZEDj0kxiGHqkwn7nx1qNwgq3JLBx-Ys3SEzv0--LZq5t_oOOl9PXcuzAtbueKCwW12TH7332Xig3N-MuWUxtdFnFC5p44AuyQHijUsyH7Zr3uqJFBbtXpO9N82ftUSQr2fO",
-    },
-    {
-      title: "Patek Heritage '52",
-      price: "$18,200",
-      timeLeft: "59m 18s",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDpFpbxMtXrk-gAQTJlnM-kPYDSICNwrJ_1E-rbxKyIspXOg5Nk4ECjL2O9VpcWgm-Xut2g7IAUSLSCI5y_c7Rc9shIbIVlgm3BdTCVQ9wSbdxeHX2TguhQFgohftgqge20yA1wgx6vQIsXEC0hx4a9TTW10-ZQ-Sm6PIsNMa4qz4EMzlHsXvKGhBIR31IqTHcsBLyl9lR2mC8vo8bq1zarp-rp6N6cLKMxsgj67vkdT83XGerTFOkXa3GjNgT880lh0_A_JcsEcVcq",
-    },
-  ]
+  const {allAuction} = useAuctionStore()
+  const {bidData} = useBidStore()
+  // const lots = bidData.
+//  console.log('allAuction', bidData)
+//   const lots = [
+//     {
+//       title: "Patek Heritage '52",
+//       price: "$18,200",
+//       timeLeft: "59m 18s",
+//       img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDpFpbxMtXrk-gAQTJlnM-kPYDSICNwrJ_1E-rbxKyIspXOg5Nk4ECjL2O9VpcWgm-Xut2g7IAUSLSCI5y_c7Rc9shIbIVlgm3BdTCVQ9wSbdxeHX2TguhQFgohftgqge20yA1wgx6vQIsXEC0hx4a9TTW10-ZQ-Sm6PIsNMa4qz4EMzlHsXvKGhBIR31IqTHcsBLyl9lR2mC8vo8bq1zarp-rp6N6cLKMxsgj67vkdT83XGerTFOkXa3GjNgT880lh0_A_JcsEcVcq",
+//     },
+//     {
+//       title: "Royal Emerald Suite",
+//       price: "$32,500",
+//       timeLeft: "1h 44m",
+//       img: "https://lh3.googleusercontent.com/aida-public/AB6AXuA7lNWJDmFn8e4aoRcuUAZrUzCFNtp6FMAzyu9zvjxHB-SflolrRjidTePqlBdkEm212h_7lQKkw2bMUX_uJyF_ghamrOsgpEhdFdPMDhOOaLXY7vVyX7cfIryPpfl5CaBezU8yzBQkPgLClVftaTZ9taQ9UoKvUNM7DtrD9OIKhetLjsaRFfBMEIkAfTzJ8eXjgyIHAqxNtI4oesSQ84AXvPa8P5Ta6r5fIls-UDa38RnKlBgFZ_RilSVqwNdeFe-zzwoM9RciG2dR",
+//     },
+//     {
+//       title: "Brutalist Vessel No.3",
+//       price: "$9,800",
+//       timeLeft: "3h 02m",
+//       img: "https://lh3.googleusercontent.com/aida-public/AB6AXuARgMOZMmzVNrDz1n4_Y5rdr1efWWp2BraAsv5xYqoW7kg9mWdx_UwxsYkxHwgVqs4I3pIKE-2_7BkqdrNrRjum_NLj_mBIwtTlLt943SCKE2yD606kQOZHLNcnnSCt3q7rrwBcddrnFZEDj0kxiGHqkwn7nx1qNwgq3JLBx-Ys3SEzv0--LZq5t_oOOl9PXcuzAtbueKCwW12TH7332Xig3N-MuWUxtdFnFC5p44AuyQHijUsyH7Zr3uqJFBbtXpO9N82ftUSQr2fO",
+//     },
+//     {
+//       title: "Patek Heritage '52",
+//       price: "$18,200",
+//       timeLeft: "59m 18s",
+//       img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDpFpbxMtXrk-gAQTJlnM-kPYDSICNwrJ_1E-rbxKyIspXOg5Nk4ECjL2O9VpcWgm-Xut2g7IAUSLSCI5y_c7Rc9shIbIVlgm3BdTCVQ9wSbdxeHX2TguhQFgohftgqge20yA1wgx6vQIsXEC0hx4a9TTW10-ZQ-Sm6PIsNMa4qz4EMzlHsXvKGhBIR31IqTHcsBLyl9lR2mC8vo8bq1zarp-rp6N6cLKMxsgj67vkdT83XGerTFOkXa3GjNgT880lh0_A_JcsEcVcq",
+//     },
+//   ]
 
   const scrollToIndex = useCallback((index) => {
     const el = carouselRef.current
@@ -79,7 +86,7 @@ const AuctionPage = () => {
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
             </div>
-            {/* Editorial Glass Overlay */}
+            {/* Editorial Glass Overlay */} 
             <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/70 backdrop-blur-[24px] flex flex-col md:flex-row justify-between items-end md:items-center">
               <div className="max-w-xl text-left mx-2">
                 <span className="font-['Manrope'] text-[10px] uppercase tracking-[0.2em] text-[#570000] mb-2 block font-semibold">
@@ -124,50 +131,17 @@ const AuctionPage = () => {
               {lots.map((lot, idx) => (
                 <div
                   key={idx}
-                  className="min-w-[280px] md:min-w-[320px] flex-shrink-0 flex flex-col group cursor-pointer snap-start overflow-hidden"
+                  className="min-w-[160px] md:min-w-[200px] flex-shrink-0 snap-start"
                 >
-                  {/* Image */}
-                  <div className="relative overflow-hidden rounded-2xl">
-                    <img
-                      className="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-108"
-                      alt={lot.title}
-                      src={lot.img}
-                    />
-
-                    {/* Gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-
-                    {/* Live badge */}
-                    <div className="absolute top-3 left-3 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
-                      <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse block" />
-                      <span className="font-['Manrope'] text-[9px] uppercase tracking-widest text-[#570000] font-bold">Live</span>
-                    </div>
-
-                    {/* Hover reveal */}
-                    <div className="absolute bottom-0 left-0 right-0 px-5 py-4 translate-y-full group-hover:translate-y-0 transition-transform duration-400 ease-out">
-                      <div className="flex justify-between items-end">
-                        <div>
-                          <p className="text-white/60 text-[10px] uppercase tracking-widest mb-0.5">Current Bid</p>
-                          <p className="text-white font-['Noto_Serif'] text-2xl font-bold">{lot.price}</p>
-                        </div>
-                        <button className="bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-2.5 rounded-sm font-['Manrope'] text-[11px] uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/30">
-                          Join
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Info */}
-                  <div className="mt-4 px-1 flex items-start gap-2">
-                    <div className="flex flex-1 justify-between min-w-0">
-                      <h4 className="font-['Noto_Serif'] text-xl leading-snug text-[#1c1b1b] truncate">{lot.title}</h4>
-                      <span className="text-[14px] text-primary mt-1 font-['Manrope'] tracking-wide">Time Left: {lot.timeLeft}</span>
-                    </div>
-                    {/* <div className="text-right shrink-0">
-                      <p className="text-[9px] uppercase tracking-widest text-stone-400 mb-0.5">Bid</p>
-                      <p className="font-['Noto_Serif'] text-lg text-[#800000] font-semibold">{lot.price}</p>
-                    </div> */}
-                  </div>
+                  <AuctionCard
+                    index={idx}
+                    img={lot.img}
+                    title={lot.title}
+                    badge="Live"
+                    price={lot.price}
+                    timeLeft={`Time Left: ${lot.timeLeft}`}
+                    aspectRatio="aspect-square"
+                  />
                 </div>
               ))}
             </div>
@@ -180,11 +154,10 @@ const AuctionPage = () => {
                   <button
                     key={idx}
                     onClick={() => scrollToIndex(idx)}
-                    className={`rounded-full transition-all duration-300 ${
-                      carouselIndex === idx
+                    className={`rounded-full transition-all duration-300 ${carouselIndex === idx
                         ? "w-6 h-2 bg-[#570000]"
                         : "w-2 h-2 bg-stone-300 hover:bg-stone-400"
-                    }`}
+                      }`}
                     aria-label={`Go to slide ${idx + 1}`}
                   />
                 ))}
@@ -195,26 +168,24 @@ const AuctionPage = () => {
                 <button
                   onClick={handlePrev}
                   disabled={carouselIndex === 0}
-                  className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-200 ${
-                    carouselIndex === 0
+                  className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-200 ${carouselIndex === 0
                       ? "border-stone-200 text-stone-300 cursor-not-allowed"
                       : "border-[#570000] text-[#570000] hover:bg-red hover:text-white active:scale-95"
-                  }`}
+                    }`}
                   aria-label="Previous"
                 >
-                  <span className="material-symbols-outlined text-[18px]"><img src="https://www.svgrepo.com/show/382820/pointer-left.svg" alt="arrow back" className="w-8 hover:w-12"/></span>
+                  <span className="material-symbols-outlined text-[18px]"><img src="https://www.svgrepo.com/show/382820/pointer-left.svg" alt="arrow back" className="w-8 hover:w-12" /></span>
                 </button>
                 <button
                   onClick={handleNext}
                   disabled={carouselIndex === lots.length - 1}
-                  className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-200 ${
-                    carouselIndex === lots.length - 1
+                  className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-200 ${carouselIndex === lots.length - 1
                       ? "border-stone-200 text-stone-300 cursor-not-allowed"
                       : "border-[#570000] text-[#570000] hover:bg-red hover:text-white active:scale-95"
-                  }`}
+                    }`}
                   aria-label="Next"
                 >
-                  <span className="material-symbols-outlined text-[18px]"><img src="https://www.svgrepo.com/show/382819/pointer-right.svg" alt="arrow forward" className="w-8 hover:w-12"/></span>
+                  <span className="material-symbols-outlined text-[18px]"><img src="https://www.svgrepo.com/show/382819/pointer-right.svg" alt="arrow forward" className="w-8 hover:w-12" /></span>
                 </button>
               </div>
             </div>
@@ -263,8 +234,7 @@ const AuctionPage = () => {
           </div>
         </section>
 
-        {/* Asymmetric Product Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 text-left">
+        <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10 text-left">
           {[
             {
               cat: "Horology",
@@ -277,7 +247,6 @@ const AuctionPage = () => {
               title: "Emerald Teardrop Earrings",
               price: "$45,000",
               img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDuAvm231iZr8vdySwn-kOte7I8FAZWRf2jZRJkTU8vDYgXT3E9mZGbYFV9_CAgoW6N6XLV15_OHLq06GyCMtN-3m6Jv2skc2A0d7g0wRFi0ITn8-TEMrEsrZxdNb-sEaizWSQ4T5g7t5BLzDsrqzZkuSWOKPcEA20CeRV-lD33sBnIgp8cUssEmNGamSEKA_et0tRwgUINpvfweDHNgvZ5Ztmhlx1McOG-JLoqD3IckFZ4I3OJ7oc5fw8PVy6tNSGkZWDRdUuYwaLa",
-              shift: true,
             },
             {
               cat: "Design",
@@ -285,59 +254,25 @@ const AuctionPage = () => {
               price: "$8,200",
               img: "https://lh3.googleusercontent.com/aida-public/AB6AXuARgMOZMmzVNrDz1n4_Y5rdr1efWWp2BraAsv5xYqoW7kg9mWdx_UwxsYkxHwgVqs4I3pIKE-2_7BkqdrNrRjum_NLj_mBIwtTlLt943SCKE2yD606kQOZHLNcnnSCt3q7rrwBcddrnFZEDj0kxiGHqkwn7nx1qNwgq3JLBx-Ys3SEzv0--LZq5t_oOOl9PXcuzAtbueKCwW12TH7332Xig3N-MuWUxtdFnFC5p44AuyQHijUsyH7Zr3uqJFBbtXpO9N82ftUSQr2fO",
             },
+            {
+              cat: "Fine Art",
+              title: "Abstract Canvas No. 7",
+              price: "$22,500",
+              img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDpFpbxMtXrk-gAQTJlnM-kPYDSICNwrJ_1E-rbxKyIspXOg5Nk4ECjL2O9VpcWgm-Xut2g7IAUSLSCI5y_c7Rc9shIbIVlgm3BdTCVQ9wSbdxeHX2TguhQFgohftgqge20yA1wgx6vQIsXEC0hx4a9TTW10-ZQ-Sm6PIsNMa4qz4EMzlHsXvKGhBIR31IqTHcsBLyl9lR2mC8vo8bq1zarp-rp6N6cLKMxsgj67vkdT83XGerTFOkXa3GjNgT880lh0_A_JcsEcVcq",
+            },
           ].map((product, i) => (
-            <div
+            <AuctionCard
               key={i}
-              className={`flex flex-col group cursor-pointer ${product.shift ? "md:mt-12" : ""}`}
-            >
-              {/* Image */}
-              <div className="relative overflow-hidden rounded-2xl">
-                <img
-                  src={product.img}
-                  alt={product.title}
-                  className="w-full aspect-[4/5] object-cover transition-transform duration-700 group-hover:scale-108"
-                />
-
-                {/* Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-
-                {/* Lot badge */}
-                <div className="absolute top-3 left-3 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse block" />
-                  <span className="font-['Manrope'] text-[9px] uppercase tracking-widest text-[#570000] font-bold">Lot #{812 + i}</span>
-                </div>
-
-                {/* Hover reveal */}
-                <div className="absolute bottom-0 left-0 right-0 px-5 py-4 translate-y-full group-hover:translate-y-0 transition-transform duration-400 ease-out">
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <p className="text-white/60 text-[10px] uppercase tracking-widest mb-0.5">Current Bid</p>
-                      <p className="text-white font-['Noto_Serif'] text-2xl font-bold">{product.price}</p>
-                    </div>
-                    <button className="bg-gradient-to-r from-[#570000] to-[#800000] text-white px-5 py-2.5 rounded-sm font-['Manrope'] text-[11px] uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/30">
-                      Join
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Info */}
-              <div className="mt-4 px-1 flex justify-between items-start gap-2">
-                <div className="flex flex-col flex-1 min-w-0">
-                  <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 mb-1 block">
-                    {product.cat}
-                  </span>
-                  <h3 className="font-['Noto_Serif'] text-xl leading-snug text-[#1c1b1b]">
-                    {product.title}
-                  </h3>
-                  <span className="text-[11px] text-[#570000] mt-1.5 font-['Manrope'] tracking-wide">Time Left: 50m 30s</span>
-                </div>
-                <div className="text-right shrink-0">
-                  <p className="text-[9px] uppercase tracking-widest text-stone-400 mb-0.5">Current Bid</p>
-                  <p className="font-['Noto_Serif'] text-lg text-[#800000] font-semibold">{product.price}</p>
-                </div>
-              </div>
-            </div>
+              index={i}
+              img={product.img}
+              title={product.title}
+              cat={product.cat}
+              badge={`Lot #${812 + i}`}
+              price={product.price}
+              timeLeft="50m 30s"
+              aspectRatio="aspect-[3/4]"
+              onJoin={() => { }}
+            />
           ))}
         </section>
       </main>

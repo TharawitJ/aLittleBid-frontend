@@ -7,13 +7,14 @@ import {
   apiUpdateAuction,
   apiDeleteAuction,
   apiGetAcutionByProductId,
+  apiGetPopularAuction,
 } from "../api/apiMain.js";
-import { connect } from "socket.io-client";
 
 const useAuctionStore = create()(
   persist(
-    (set, get) => ({
-      allAuction: null,
+    (set) => ({
+      allAuction: [],
+      popularAuction: [],
       auctionById: null,
       currentPrice: 0,
       endTime: 0,
@@ -30,44 +31,68 @@ const useAuctionStore = create()(
       updateEndtime: (endTime) => {
         set({ endTime });
       },
-
       getAllAuction: async () => {
         const resp = await apiGetAllAuction();
+        const responses = Array.isArray(resp.data.responses)
+          ? resp.data.responses
+          : [];
         // console.log("getAllAuction", resp.data.responses);
         // console.log("apiGetAllAuction",apiGetAllAuction)
-        set({ allAuction: resp.data.responses });
-        return resp.data.responses;
+        set({ allAuction: responses });
+        return responses;
       },
       createAuction: async (body) => {
         await apiCreateAuction(body);
         // console.log("apiCreateAuction", apiCreateAuction);
         const resp = await apiGetAllAuction();
-        set({ allAuction: resp.data.responses });
-        return resp.data.responses;
+        const responses = Array.isArray(resp.data.responses)
+          ? resp.data.responses
+          : [];
+        set({ allAuction: responses });
+        return responses;
       },
       getAuctionById: async (auctionId) => {
-        // console.log("auctionidddd", auctionId);
+        console.log("auctionidddd", typeof auctionId);
         const resp = await apiGetAuctionById(auctionId);
-        // console.log("respauctionbyid", resp.data.responses);
-        set({ auctionById: resp.data.responses });
-        return resp.data.responses;
+        const response = resp.data.responses ?? null;
+        // console.log("getAuctionById", resp.data.responses);
+        set({ auctionById: response });
+        return response;
       },
       getAuctionByProductId: async (productId) => {
-        const resp = await apiGetAcutionByProductId(productId);
+        await apiGetAcutionByProductId(productId);
         // console.log("getAuctionByProductId", resp.data.responses);
+      },
+      getPopularAuction: async () => {
+        const resp = await apiGetPopularAuction();
+        const responses = Array.isArray(resp.data.responses)
+          ? resp.data.responses
+          : [];
+        set({ popularAuction: responses });
+        console.log("getPopularAuction", resp.data.responses);
       },
 
       updateAuction: async (auctionId) => {
         const resp = await apiUpdateAuction(auctionId);
+        const responses = Array.isArray(resp.data.responses)
+          ? resp.data.responses
+          : [];
         // console.log("apiUpdateAuction", apiUpdateAuction);
-        set({ allAuction: resp.data.responses });
-        return resp.data.responses;
+        set({ allAuction: responses });
+        return responses;
       },
       deleteAuction: async (auctionId) => {
         const resp = await apiDeleteAuction(auctionId);
+        const responses = Array.isArray(resp.data.responses)
+          ? resp.data.responses
+          : [];
         // console.log("apiDeleteAuction", apiDeleteAuction);
-        set({ allAuction: resp.data.responses });
-        return resp.data.responses;
+        set({ allAuction: responses });
+        return responses;
+      },
+      clearAuctionById: () => {
+        console.log("clear");
+        set({ auctionById: null });
       },
     }),
     {
