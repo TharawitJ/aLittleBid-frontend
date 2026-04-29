@@ -124,7 +124,7 @@ const AuctionBid = () => {
       leaveAuctionRoom(auctionId);
       disconnectSocket();
     };
-  }, [auctionById, auctionId]);
+  }, []);
 
   useEffect(() => {
     getAllUser();
