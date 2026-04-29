@@ -18,14 +18,18 @@ const HomePage = () => {
   const { connect } = useSocketStore();
   const { auctionId } = useParams();
   const [timeLeft, setTimeLeft] = useState(0);
-  const lots = Array.isArray(popularAuction) ? popularAuction : [];
+  const lots = (Array.isArray(popularAuction) ? popularAuction : []).filter(
+    (lot) => lot.status === "ACTIVE",
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   // --- Smaller Lots Carousel ---
   const carouselRef = useRef(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
+  console.log('lots', lots)
 
   const hdlJoinClick = (id) => {
+    console.log('id', id)
     try {
       if (!id) return alert("no auction");
       getAuctionById(id);
@@ -175,7 +179,7 @@ const HomePage = () => {
                           timeLeft={lot?.product ? <TimeCountdown product={lot.product} /> : null}
                           auctionDetail={lot}
                           aspectRatio="aspect-[4/5]"
-                          onJoin={() => hdlJoinClick(lot.bids.auctionId)}
+                          onJoin={() => hdlJoinClick(lot.id)}
                         />
                       </div>
                     ))}
