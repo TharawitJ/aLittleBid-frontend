@@ -10,6 +10,7 @@ import useUserStore from "../stores/user.store.js";
 import TimeCountdown from "../components/TimeCountdown.jsx";
 import {
   connectSocket,
+  disconnectSocket,
   joinAuctionRoom,
   leaveAuctionRoom,
   placeBid,
@@ -100,9 +101,9 @@ const AuctionBid = () => {
   };
 
   useEffect(() => {
-    // if (!auctionById) {
-    //   return;
-    // }
+    if (!auctionById) {
+      return;
+    }
     connectSocket();
     joinAuctionRoom(auctionId);
 
@@ -121,8 +122,9 @@ const AuctionBid = () => {
 
     return () => {
       leaveAuctionRoom(auctionId);
+      disconnectSocket();
     };
-  }, []);
+  }, [auctionById, auctionId]);
 
   useEffect(() => {
     getAllUser();
