@@ -17,6 +17,7 @@ import {
 import Swal from "sweetalert2";
 import AuctionResultModal from "../components/AuctionResultModal.jsx";
 import ProductImageSlide from "../components/productPage/ProductImageSlide.jsx";
+import { BrownAuctionIcon } from "../icons/index.jsx";
 
 const AuctionBid = () => {
   // const [isLoading, setIsLoading] = useState(true)
@@ -41,7 +42,7 @@ const AuctionBid = () => {
   const { id, categoryId, name, description, sellerId, updatedAt, images } =
     auctionById?.product || {};
   const { auctionId } = useParams();
-  const { register, handleSubmit, reset, formState, setValue, getValues } =
+  const { register, handleSubmit, reset, formState, setValue, getValues, watch } =
     useForm();
   const filterCategoryName = allCategories.filter(
     (cate) => categoryId === cate.id,
@@ -49,10 +50,11 @@ const AuctionBid = () => {
 
   const { isDirty } = formState;
 
+  const minRequiredPrice = currentHighestBid
+    ? Number(currentHighestBid?.amount) + Number(auctionById?.minIncrement)
+    : Number(auctionById?.startingPrice) + Number(auctionById?.minIncrement);
+
   const hdlOnSubmit = ({ amount }) => {
-    const minRequiredPrice = currentHighestBid
-      ? Number(currentHighestBid?.amount) + Number(auctionById?.minIncrement)
-      : Number(auctionById?.startingPrice) + Number(auctionById?.minIncrement);
 
     if (!amount || Number(amount) <= 0 || Number(amount) < minRequiredPrice) {
       return alert(
@@ -63,7 +65,9 @@ const AuctionBid = () => {
     reset();
   };
 
-  const hdlUpdateAmountInput = (times) => {
+  // const currentVal = watch("amount");
+
+  const hdlIncreaseAmountInput = (times) => {
     const currentVal = getValues("amount");
 
     const baseValue = currentVal
@@ -74,8 +78,24 @@ const AuctionBid = () => {
 
     const increment = Number(auctionById?.minIncrement || 0);
     const newValue = baseValue + (increment * times);
-  
-    setValue("amount", newValue, {shouldDirty: true });
+
+    setValue("amount", newValue, { shouldDirty: true });
+    console.log(getValues("amount"))
+  };
+
+  const hdlDecreaseAmountInput = (times) => {
+    const currentVal = getValues("amount");
+
+    const baseValue = currentVal
+      ? Number(currentVal)
+      : currentHighestBid
+        ? Number(currentHighestBid.amount)
+        : Number(auctionById?.startingPrice);
+
+    const increment = Number(auctionById?.minIncrement || 0);
+    const newValue = baseValue - (increment * times);
+
+    setValue("amount", newValue, { shouldDirty: true });
     console.log(getValues("amount"))
   };
 
@@ -130,9 +150,9 @@ const AuctionBid = () => {
                   <ProductImageSlide images={auctionById?.product?.images} />
                   {/* } */}
                 </div>
-                <button className="absolute bottom-6 right-6 bg-white/70 backdrop-blur-md p-3 rounded-full hover:bg-white transition-colors">
+                {/* <button className="absolute bottom-6 right-6 bg-white/70 backdrop-blur-md p-3 rounded-full hover:bg-white transition-colors">
                   <span className="material-symbols-outlined">fullscreen</span>
-                </button>
+                </button> */}
               </div>
 
               <div className="space-y-12">
@@ -169,7 +189,7 @@ const AuctionBid = () => {
                           ? currentHighestBid.amount
                           : auctionById?.startingPrice}
                       </p>
-                      <span className="text-[14px] text-primary mt-5 text-headline uppercase">
+                      <span className="text-[14px] text-primary text-headline uppercase">
                         Highest Bidder:
                       </span>
                       <span className="text-[14px] text-secondary mt-3 text-headline uppercase font-bold mx-2">
@@ -204,52 +224,87 @@ const AuctionBid = () => {
                             Your Bid
                           </label>
                           <div className="relative flex items-center">
-                            <span className="absolute left-4 text-stone-400">
+                            {/* <span className="absolute right-2">
+                              <BrownAuctionIcon className="w-8"/>
+                            </span> */}
+                            {/* <span className="absolute left-4 text-stone-400">
                               B
-                            </span>
+                            </span> */}
                             <input
                               type="number"
-                              placeholder={`Minimum ${
-                                currentHighestBid
-                                  ? Number(currentHighestBid?.amount) +
-                                    Number(auctionById?.minIncrement)
-                                  : Number(auctionById?.startingPrice) +
-                                    Number(auctionById?.minIncrement)
-                              }`}
+                              placeholder={`Minimum ${currentHighestBid
+                                ? Number(currentHighestBid?.amount) +
+                                Number(auctionById?.minIncrement)
+                                : Number(auctionById?.startingPrice) +
+                                Number(auctionById?.minIncrement)
+                                }`}
                               {...register("amount")}
                               className="w-full bg-[#ebe7e7] border-none rounded-sm py-4 pl-8 pr-4 focus:ring-1 focus:ring-[#570000] focus:bg-white transition-all outline-none"
                             />
+                            {/* <div className="w-full bg-stone-300/50 p-4 rounded-xl">
+                              {`Minimum ${currentHighestBid
+                                ? Number(currentHighestBid?.amount) +
+                                Number(auctionById?.minIncrement)
+                                : Number(auctionById?.startingPrice) +
+                                Number(auctionById?.minIncrement)
+                                }`}
+                                </div> */}
+                            <div className="flex mx-2">                                                                           
+                                 <button
+                                onClick={() => hdlDecreaseAmountInput(1)}
+                                type="button"
+                                className="w-11 py-2 px-1 bg-gradient-to-r from-dark-red to-red text-white font-label rounded-l-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 cursor-pointer" disabled={Number(watch("amount")) <= minRequiredPrice}
+                              >
+                                -{auctionById?.minIncrement}
+                              </button>
+                              <button
+                                onClick={() => hdlIncreaseAmountInput(1)}
+                                type="button"
+                                className="w-11 py-2 bg-gradient-to-r from-dark-red to-red text-white font-label rounded-r-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 cursor-pointer"
+                              >
+                                +{auctionById?.minIncrement}
+                              </button>                                                                      
+                            </div>
                           </div>
-                          <div className="flex gap-5 justify-between">
-                          <button
-                            onClick={()=>hdlUpdateAmountInput(1)}
-                            type="button"
-                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
-                          >
-                            +{auctionById?.minIncrement}
-                          </button>
-                          <button
-                            onClick={()=>hdlUpdateAmountInput(2)}
-                            type="button"
-                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
-                          >
-                            +{auctionById?.minIncrement * 2}
-                          </button>
-                          <button
-                            onClick={()=>hdlUpdateAmountInput(3)}
-                            type="button"
-                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
-                          >
-                            +{auctionById?.minIncrement * 3}
-                          </button>
-                          <button
-                            onClick={()=>hdlUpdateAmountInput(4)}
-                            type="button"
-                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
-                          >
-                            +{auctionById?.minIncrement * 4}
-                          </button>
-                          </div>
+
+                          {/* <div className="flex gap-5 justify-between"> */}
+                            {/* <div className="flex flex-col items-center justify-center">
+                              <div className="flex items-center">
+                                <button
+                                  onClick={() => hdlDecreaseAmountInput(1)}
+                                  type="button"
+                                  className="w-8 py-4 bg-gradient-to-r from-dark-red to-red text-white font-label rounded-l-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 cursor-pointer" disabled={Number(watch("amount")) <= minRequiredPrice}
+                                >
+                                  -
+                                </button>
+                                <div className="bg-black py-3 px-1 text-white">5000</div>
+                                <button
+                                  onClick={() => hdlIncreaseAmountInput(1)}
+                                  type="button"
+                                  className="w-8 py-4 bg-gradient-to-r from-dark-red to-red text-white font-label rounded-r-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 cursor-pointer"
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </div> */}
+
+                            {/* <div className="flex">
+                              <button
+                                onClick={() => hdlDecreaseAmountInput(2)}
+                                type="button"
+                                className="w-16 bg-gradient-to-r from-dark-red to-red text-white font-label rounded-l-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 cursor-pointer" disabled={Number(watch("amount")) <= minRequiredPrice}
+                              >
+                                -{auctionById?.minIncrement * 2}
+                              </button>
+                              <button
+                                onClick={() => hdlIncreaseAmountInput(2)}
+                                type="button"
+                                className="w-16 bg-gradient-to-r from-dark-red to-red text-white font-label rounded-r-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 cursor-pointer" 
+                              >
+                                +{auctionById?.minIncrement * 2}
+                              </button>
+                            </div> */}
+                          {/* </div> */}
                         </div>
                         <button
                           className="w-full bg-gradient-to-r from-[#570000] to-[#800000] text-white font-['Manrope'] uppercase tracking-widest py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 disabled:scale-100 disabled:cursor-not-allowed"
@@ -261,7 +316,7 @@ const AuctionBid = () => {
                     </form>
                   )}
                 </div>
-
+                {bids && bids.length > 0 &&
                 <div className="bg-[#f6f3f2]  text-stone-50 p-8 rounded-lg relative max-h-[300px]">
                   <div className="relative z-10 space-y-4">
                     <h3 className="font-['Noto_Serif'] text-xl text-left font-bold text-red">
@@ -273,40 +328,41 @@ const AuctionBid = () => {
                     <div className="flex flex-col gap-3 overflow-y-auto max-h-[200px]">
                       {bids
                         ? bids.map((e, i) => (
-                            <div
-                              key={i}
-                              className="flex justify-between items-center"
-                            >
-                              <div className="flex items-center gap-4 pt-4">
-                                <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
-                                  <img
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe"
-                                    alt="Curator"
-                                    className="w-full h-full object-cover"
-                                  />
-                                </div>
-                                <div className="text-left">
-                                  <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
-                                    {
-                                      usersList.find((i) => e.bidderId === i.id)
-                                        ?.username ?? "Unknown bidder"
-                                    }
-                                    {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
-                                  </p>
-                                  <p className="text-[14px] text-stone-500 uppercase tracking-widest">
-                                    {e.amount}
-                                  </p>
-                                </div>
+                          <div
+                            key={i}
+                            className="flex justify-between items-center"
+                          >
+                            <div className="flex items-center gap-4 pt-4">
+                              <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
+                                <img
+                                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe"
+                                  alt="Curator"
+                                  className="w-full h-full object-cover"
+                                />
                               </div>
-                              <div className="text-[12px] text-stone-500 tracking-widest">
-                                {new Date(e?.createdAt).toLocaleTimeString()}
+                              <div className="text-left">
+                                <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
+                                  {
+                                    usersList.find((i) => e.bidderId === i.id)
+                                      ?.username ?? "Unknown bidder"
+                                  }
+                                  {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
+                                </p>
+                                <p className="text-[14px] text-stone-500 uppercase tracking-widest">
+                                  {e.amount}
+                                </p>
                               </div>
                             </div>
-                          ))
+                            <div className="text-[12px] text-stone-500 tracking-widest">
+                              {new Date(e?.createdAt).toLocaleTimeString()}
+                            </div>
+                          </div>
+                        ))
                         : "Loading bid data..."}
                     </div>
                   </div>
                 </div>
+              }
               </div>
             </div>
           </div>

@@ -21,7 +21,7 @@ function WelcomeUser() {
 
   return (
     <div>
-      <section className="relative h-[80vh] min-h-[600px] flex items-center px-6 md:px-12 overflow-hidden">
+      <section className="relative h-[80vh] min-h-[650px] flex items-center px-6 md:px-12 overflow-hidden">
         <motion.div 
           className="bg-home-bg absolute inset-0 z-0"
           initial={{ opacity: 0, scale: 1.05 }}
@@ -54,7 +54,7 @@ function WelcomeUser() {
             </motion.h1>
             <motion.div variants={itemVariants} className="flex items-center gap-4 mt-8">
               <div className="h-[1px] w-12 bg-[#800000]"></div>
-              <p className="font-['Noto_Serif'] text-3xl md:text-4xl text-[#1c1b1b] italic">
+              <p className="font-['Noto_Serif'] text-3xl md:text-4xl italic uppercase bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 {user?.username}
               </p>
             </motion.div>

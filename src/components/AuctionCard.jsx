@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router";
+import useAuctionStore from "../stores/auction.store";
 
 /**
  * AuctionCard — reusable card ที่ใช้ Framer Motion
@@ -175,7 +177,7 @@ const AuctionCard = ({
               Current Bid
             </p>
             <p className="font-['Noto_Serif'] text-lg text-[#800000] font-semibold tracking-wider">
-              {price}
+              ฿ {price}
             </p>
           </div>
         {/* )} */}
