@@ -42,7 +42,7 @@ const useBidStore = create()(
       addBid: (bid) => {
         console.log("add bid", bid);
         set((state) => ({
-          bids: [bid, ...state.bids],
+          bids: [bid, ...(state.bids ?? [])],
           currentHighestBid: bid,
         }));
         console.log("currentHighestBid", get().currentHighestBid);
