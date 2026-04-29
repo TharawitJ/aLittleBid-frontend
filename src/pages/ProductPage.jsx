@@ -21,6 +21,7 @@ const ProductPage = () => {
   const allCategories = useProductStore((state)=>state.allCategories)
   const getAllProducts = useProductStore((state)=>state.getAllProducts)
   const getCategories = useProductStore((state)=>state.getCategories)
+  const getAllAuction = useAuctionStore(state => state.getAllAuction)
   const clearAuctionById = useAuctionStore((state)=>state.clearAuctionById)
   const clearProductById = useProductStore((state)=>state.clearProductById)
   console.log('allProducts', allProducts)

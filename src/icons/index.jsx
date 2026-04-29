@@ -248,3 +248,25 @@ export function EyeSlashIcon(props) {
     </svg>
   );
 }
+
+export function PlusGreyIcon (props) {
+  return (
+   <svg
+      width=""
+      height=""
+      viewBox="0 0 24.00 24.00"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      stroke="#fff"
+      {...props}
+    >
+      <path
+        d="M4 12h16m-8-8v16"
+        stroke="#8f8f8f"
+        strokeWidth={1.6799999999999997}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}

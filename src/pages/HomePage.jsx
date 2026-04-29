@@ -89,15 +89,15 @@ const HomePage = () => {
   //   connect();
   // }, []);
 
-  const hdlJoinClick = (id) => {
-    try {
-      if (!id) return alert("no auction");
-      navigate(`/auction_bid/${id}`);
-      // getProductsById(auctionById.productId);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  // const hdlJoinClick = (id) => {
+  //   try {
+  //     if (!id) return alert("no auction");
+  //     navigate(`/auction_bid/${id}`);
+  //     // getProductsById(auctionById.productId);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
   return (
     <div className="bg-surface text-on-surface font-body min-h-screen">

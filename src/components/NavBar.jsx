@@ -148,7 +148,7 @@ const NavBar = () => {
                 <li>
                   <NavLink
                     to="/add_product"
-                    className="flex items-center gap-3 px-3 py-2 hover:bg-surface-container-high transition-colors rounded-lg"
+                    className="items-center gap-3 px-3 py-2 hover:bg-surface-container-high transition-colors rounded-lg"
                   >
                     <PlusGreyIcon className="w-6"/>
                     <span className="font-label text-[12px] uppercase tracking-widest text-primary">

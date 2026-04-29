@@ -38,10 +38,13 @@ export const joinAuctionRoom = (auctionId) => {
   if (!socket) return
   socket.emit('join_auction', auctionId)
 
-   socket.on('newest_bid', (bid) => {
-      console.log('newest bid socket socket', socket)
+  socket.off('newest_bid');
+  socket.on('newest_bid', (bid) => {
+    console.log('newest bid socket socket', socket)
     useBidStore.getState().addBid(bid);
     console.log('bid from backend received', bid)
+
+    // socket.off('newest_bid', (bid))
   })
 }
 
