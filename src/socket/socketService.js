@@ -40,6 +40,7 @@ export const connectSocket = () => {
       useAuctionStore.getState().getAllAuction();
       // get product id from zustand
       // alert user
+      useAuctionStore.getState().triggerExtension(object.auctionId);
     });
 
     socket.on("reserve_not_met", (message) => {

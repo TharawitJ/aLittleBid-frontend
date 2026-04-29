@@ -92,12 +92,12 @@ const AuctionBid = () => {
     console.log("auctionById", auctionById);
     console.log("auctionId", auctionId);
 
-    // if (!auctionById || String(auctionById?.id) !== String(auctionId)) {
-    //   console.warn(
-    //     `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
-    //   );
-    //   return;
-    // }
+    if (!auctionById || String(auctionById?.id) !== String(auctionId)) {
+      console.warn(
+        `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
+      );
+      return;
+    }
 
     return () => {
       leaveAuctionRoom(auctionId);
