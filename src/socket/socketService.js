@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import { io } from "socket.io-client";
 import useUserStore from "../stores/user.store.js";
 import useBidStore from "../stores/bid.store.js";
+=======
+import { io } from 'socket.io-client'
+import useUserStore from '../stores/user.store.js'
+import useBidStore from '../stores/bid.store.js'
+>>>>>>> dev
 import useAuctionStore from "../stores/auction.store.js";
 
 let socket = null;

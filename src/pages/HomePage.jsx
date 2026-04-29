@@ -8,6 +8,7 @@ import useAuctionStore from "../stores/auction.store.js";
 import AuctionCard from "../components/AuctionCard.jsx";
 import useSocketStore from "../stores/socket.store.js";
 import TimeCountdown from "../components/TimeCountdown.jsx";
+import Swal from "sweetalert2"
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -18,16 +19,20 @@ const HomePage = () => {
   const { connect } = useSocketStore();
   const { auctionId } = useParams();
   const [timeLeft, setTimeLeft] = useState(0);
-  const lots = Array.isArray(popularAuction) ? popularAuction : [];
+  const lots = (Array.isArray(popularAuction) ? popularAuction : []).filter(
+    (lot) => lot.status === "ACTIVE",
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   // --- Smaller Lots Carousel ---
   const carouselRef = useRef(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
+  console.log('lots', lots)
 
   const hdlJoinClick = (id) => {
+    console.log('id', id)
     try {
-      if (!id) return alert("no auction");
+      if (!id) return Swal.fire({title: "No auction"});
       getAuctionById(id);
       navigate(`/auction_bid/${id}`);
     } catch (error) {
@@ -175,7 +180,7 @@ const HomePage = () => {
                           timeLeft={lot?.product ? <TimeCountdown product={lot.product} /> : null}
                           auctionDetail={lot}
                           aspectRatio="aspect-[4/5]"
-                          onJoin={() => hdlJoinClick(lot.bids.auctionId)}
+                          onJoin={() => hdlJoinClick(lot.id)}
                         />
                       </div>
                     ))}

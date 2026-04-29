@@ -13,7 +13,7 @@ import {
   disconnectSocket,
   joinAuctionRoom,
   leaveAuctionRoom,
-  placeBid,
+  placeBid,disconnectSocket
 } from "../socket/socketService.js";
 import Swal from "sweetalert2";
 import AuctionResultModal from "../components/AuctionResultModal.jsx";
@@ -368,7 +368,7 @@ const AuctionBid = () => {
               </div>
             </div>
           </div>
-          <AuctionResultModal currentUserId={user?.id} />
+          <AuctionResultModal currentUserId={user?.id} auctionId={auctionId} />
         </main>
       )}
     </div>

@@ -1,13 +1,29 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router';
+import { Link ,useNavigate} from 'react-router';
 import usePaymentStore from '../stores/payment.store';
+import useBidStore from '../stores/bid.store';
 
 const OrderList = () => {
   const { myPayments, myPaymentsLoading, myPaymentsError, getMyPayments } = usePaymentStore();
+  const { setWinner, clearWinner } = useBidStore();
 
   useEffect(() => {
     getMyPayments();
   }, [getMyPayments]);
+
+  const navigate = useNavigate();
+
+  const hdlCompletePayment = (auction, winningBid) => {
+    clearWinner();
+    if (winningBid) {
+      setWinner({
+        amount: winningBid.amount,
+        bidId: winningBid.id,
+        winnerId: winningBid.bidderId,
+      });
+    }
+    navigate(`/payment/${auction.id}/${winningBid?.id}`);
+  };
 
   if (myPaymentsLoading) {
     return (
@@ -112,18 +128,12 @@ const OrderList = () => {
 
                       {/* Actions */}
                       <div className="mt-auto flex flex-wrap items-center gap-6 pt-4">
-                        {!isPaid ? (
-                          <Link 
-                            to={`/payment/${auction.id}/${winningBid?.id}`}
+                          <button 
+                            onClick={()=>hdlCompletePayment(auction,winningBid)}
                             className="bg-gradient-to-br from-[#7a0009] to-[#9e1b1b] text-white px-6 py-2.5 text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-opacity active:scale-[0.98]"
                           >
                             Complete Payment
-                          </Link>
-                        ) : (
-                          <button className="bg-[#59413e] text-white px-6 py-2.5 text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-opacity cursor-default">
-                            Paid
                           </button>
-                        )}
                         <a className="text-[#7a0009] text-xs font-bold uppercase tracking-widest hover:underline decoration-[#e1bebb]/50 transition-all" href="#">
                           View Auction Details
                         </a>
