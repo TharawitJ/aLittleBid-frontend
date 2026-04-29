@@ -89,7 +89,7 @@ const SellerUserListProduct = () => {
               onClick={hdlAddProduct}
               className="bg-gradient-to-br from-[#7a0009] to-[#9e1b1b] text-white flex items-center gap-3 px-8 py-4 rounded-sm shadow-xl shadow-[#7a0009]/10 active:scale-[0.98] transition-all uppercase tracking-widest text-xs font-bold"
             >
-              <span className="material-symbols-outlined">add</span>
+              <span className="material-symbols-outlined text-2xl font-extralight items-center">+</span>
               Add New Product
             </button>
           </div>

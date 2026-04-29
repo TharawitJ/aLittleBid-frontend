@@ -89,6 +89,16 @@ const HomePage = () => {
   //   connect();
   // }, []);
 
+  // const hdlJoinClick = (id) => {
+  //   try {
+  //     if (!id) return alert("no auction");
+  //     navigate(`/auction_bid/${id}`);
+  //     // getProductsById(auctionById.productId);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
+
   return (
     <div className="bg-surface text-on-surface font-body min-h-screen">
       <main className="">
@@ -96,13 +106,13 @@ const HomePage = () => {
         {/* <WelcomeUser/> */}
 
         {/* Ongoing Auctions (Masonry Style Grid) */}
-        <section id="auctions" className="px-6 md:px-12 py-24 bg-surface">
-        <div className="flex items-center">
-          <div className="font-headline text-4xl text-red my-8 mr-6">
-            Populars
+        <section id="auctions" className="px-6 md:px-12 py-16 bg-surface">
+          <div className="flex items-center">
+            <div className="font-headline text-4xl text-red my-16 mr-6">
+              Populars
+            </div>
+            <div className="h-[1px] flex-grow bg-stone-200"></div>
           </div>
-          <div className="h-[1px] flex-grow bg-stone-200"></div>
-        </div>
           {isLoading ? (
             <div>...Loading</div>
           ) : (
@@ -125,10 +135,9 @@ const HomePage = () => {
                         {lots?.[0]?.product?.name || "Untitled Lot"}
                       </h1>
                       <p className="font-['Manrope'] text-dark-red text-bold text-3xl max-w-md">
-                        {lots?.[0]?.bids?.[0]?.amount
-                          ? `$${lots[0].bids[0].amount}`
-                          : `$${lots?.[0]?.startingPrice || 0}`}
-                      </p>                    </div>
+                        ฿ {lots?.[0].bids?.[0]?.amount}
+                      </p>
+                    </div>
                     <div className="mt-8 md:mt-0 flex flex-col items-center">
                       <div className="flex gap-4 mb-6">
                         {lots?.[0]?.product && <TimeCountdown product={lots[0].product} />}
@@ -166,6 +175,7 @@ const HomePage = () => {
                           timeLeft={lot?.product ? <TimeCountdown product={lot.product} /> : null}
                           auctionDetail={lot}
                           aspectRatio="aspect-[4/5]"
+                          onJoin={() => hdlJoinClick(lot.bids.auctionId)}
                         />
                       </div>
                     ))}
@@ -179,11 +189,10 @@ const HomePage = () => {
                         <button
                           key={idx}
                           onClick={() => scrollToIndex(idx)}
-                          className={`rounded-full transition-all duration-300 ${
-                            carouselIndex === idx
+                          className={`rounded-full transition-all duration-300 ${carouselIndex === idx
                               ? "w-6 h-2 bg-[#570000]"
                               : "w-2 h-2 bg-stone-300 hover:bg-stone-400"
-                          }`}
+                            }`}
                           aria-label={`Go to slide ${idx + 1}`}
                         />
                       ))}
@@ -194,11 +203,10 @@ const HomePage = () => {
                       <button
                         onClick={handlePrev}
                         disabled={carouselIndex === 0}
-                        className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-200 ${
-                          carouselIndex === 0
+                        className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-200 ${carouselIndex === 0
                             ? "border-stone-200 text-stone-300 cursor-not-allowed"
                             : "border-[#570000] text-[#570000] hover:bg-red hover:text-white active:scale-95"
-                        }`}
+                          }`}
                         aria-label="Previous"
                       >
                         <span className="material-symbols-outlined text-[18px]">
@@ -212,11 +220,10 @@ const HomePage = () => {
                       <button
                         onClick={handleNext}
                         disabled={carouselIndex === lots.length - 1}
-                        className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-200 ${
-                          carouselIndex === lots.length - 1
+                        className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-200 ${carouselIndex === lots.length - 1
                             ? "border-stone-200 text-stone-300 cursor-not-allowed"
                             : "border-[#570000] text-[#570000] hover:bg-red hover:text-white active:scale-95"
-                        }`}
+                          }`}
                         aria-label="Next"
                       >
                         <span className="material-symbols-outlined text-[18px]">

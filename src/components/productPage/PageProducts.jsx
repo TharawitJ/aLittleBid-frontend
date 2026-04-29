@@ -4,7 +4,7 @@ import useProductStore from "../../stores/product.store.js";
 export const ProductListByPages = ({ allProducts,limit}) => {
   const productPage = useProductStore((state) => state.productPage);
   const setProductPage = useProductStore((state) => state.setProductPage);
-  const totalPages = Math.ceil(allProducts.length / limit);
+  const totalPages = Math.ceil(allProducts?.length / limit);
   
 
   return (
