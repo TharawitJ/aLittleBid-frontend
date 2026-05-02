@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import useProductStore from "../stores/product.store.js";
 import useAuctionStore from "../stores/auction.store.js";
 import { useParams } from "react-router";
@@ -19,12 +19,17 @@ import ProductImageSlide from "../components/productPage/ProductImageSlide.jsx";
 import { BrownAuctionIcon } from "../icons/index.jsx";
 
 const AuctionBid = () => {
-  const { allCategories } = useProductStore();
-  const { auctionById, getAuctionById } = useAuctionStore();
-  const { currentHighestBid, bids, setBidHistory } = useBidStore();
-  const { user, users, getAllUser } = useUserStore();
-  const usersList = Array.isArray(users) ? users : [];
+  const  allCategories  = useProductStore((state) => state.allCategories);
+  const  auctionById  = useAuctionStore((state) => state.auctionById);
+  const  getAuctionById  = useAuctionStore((state) => state.getAuctionById);
+  const  currentHighestBid  = useBidStore((state) => state.currentHighestBid);
+  const  bids  = useBidStore((state) => state.bids);
+  const  setBidHistory  = useBidStore((state) => state.setBidHistory);
+  const  user  = useUserStore((state) => state.user);
+  const  users  = useUserStore((state) => state.users);
+  const  getAllUser  = useUserStore((state) => state.getAllUser);
   const [isLoading, setIsLoading] = useState(true);
+  const usersList = Array.isArray(users) ? users : [];
   const { categoryId, description } = auctionById?.product || {};
   const { auctionId } = useParams();
   const {
@@ -36,9 +41,11 @@ const AuctionBid = () => {
     getValues,
     watch,
   } = useForm();
-  const filterCategoryName = allCategories.filter(
-    (cate) => categoryId === cate.id,
-  );
+
+  const categoryName = useMemo(() => {
+    const categoryId = auctionById?.product?.categoryId;
+    return allCategories.find((cate) => categoryId === cate.id)?.name;
+  }, [allCategories, auctionById?.product?.categoryId]);
 
   const { isDirty } = formState;
 
@@ -96,41 +103,46 @@ const AuctionBid = () => {
     }
     connectSocket();
     joinAuctionRoom(auctionId);
-
     setIsLoading(false);
-    console.log("use effect is running");
 
-    console.log("auctionById", auctionById);
-    console.log("auctionId", auctionId);
-
-    if (!auctionById || String(auctionById?.id) !== String(auctionId)) {
-      console.warn(
-        `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
-      );
-      return;
-    }
+    // if (!auctionById || String(auctionById?.id) !== String(auctionId)) {
+    //   console.warn(
+    //     `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
+    //   );
+    //   return;
+    // }
 
     return () => {
       leaveAuctionRoom(auctionId);
       disconnectSocket();
     };
-  }, [auctionById, auctionId]);
+  }, [auctionId]);
+  // auctionById
 
+  // useEffect(() => {
+  //   getAllUser();
+  //   getAuctionById(auctionId);
+  // }, [auctionId, getAllUser]);
+
+  // 2. Optimized Data Fetching
   useEffect(() => {
-    getAllUser();
-    getAuctionById(auctionId);
-  }, [auctionId, getAllUser]);
+    const fetchData = async () => {
+      setIsLoading(true);
+      await Promise.all([getAllUser(), getAuctionById(auctionId)]);
+      setIsLoading(false);
+    };
+    fetchData();
+  }, [auctionId, getAllUser, getAuctionById]);
 
   useEffect(() => {
     if (!auctionById?.bids) return; // ← guard: wait until data is real
-    console.log("auctionById2", auctionById);
     setBidHistory(auctionById.bids);
-  }, [auctionById]);
+  }, [auctionById?.id,setBidHistory]);
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
       {isLoading ? (
-        <div>...Loading</div>
+        <divc className="mx-auto w-full h-full text-8xl">...Loading</divc>
       ) : (
         <main className="pt-12 pb-24 px-6 md:px-12 max-w-screen-2xl mx-auto text-left">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -145,7 +157,8 @@ const AuctionBid = () => {
               <div className="space-y-12">
                 <div className="space-y-4">
                   <span className="font-['Manrope'] uppercase tracking-widest text-lg text-[#570000] font-bold">
-                    {filterCategoryName[0]?.name}
+                    {/* {filterCategoryName[0]?.name} */}
+                    {categoryName}
                   </span>
                   <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">
                     {auctionById?.product?.name}

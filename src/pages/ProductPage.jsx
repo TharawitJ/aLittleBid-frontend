@@ -78,16 +78,16 @@ const ProductPage = () => {
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
       <main className="pt-12 pb-24 px-12 max-w-screen-2xl mx-auto">
         <section className="mb-20 text-center">
-          <span className="text-[10px] font-semibold uppercase tracking-widest text-[#800000] mb-4 block">
+          {/* <span className="text-[10px] font-semibold uppercase tracking-widest text-[#800000] mb-4 block">
             Curated Selections
-          </span>
+          </span> */}
           <div className="max-w-3xl mx-auto relative group">
             <input
               type="text"
               placeholder="Search by product name or details"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-16 pl-16 pr-8 bg-[#f6f3f2] border-none rounded-full focus:ring-2 focus:ring-[#570000]/20 text-lg shadow-sm outline-none"
+              className="w-full h-12 pl-16 pr-8 bg-[#f6f3f2] border border-gray-300 rounded-full focus:ring-2 focus:ring-[#570000]/20 text-lg shadow-sm outline-none"
             />
           </div>
         </section>

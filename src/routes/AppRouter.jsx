@@ -10,7 +10,6 @@ import AddProduct from "../pages/AddProduct.jsx";
 import OrderList from "../pages/OrderList.jsx";
 import Payment from "../pages/Payment.jsx";
 import Complete from "../pages/Complete.jsx";
-import Favorite from "../pages/Favorite.jsx";
 import ActiveBid from "../pages/ActiveBid.jsx";
 import LoginPage from "../pages/Login.jsx";
 import Register from "../pages/Register.jsx";

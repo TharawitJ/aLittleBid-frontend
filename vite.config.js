@@ -1,3 +1,13 @@
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+})
+
+
 // import { defineConfig } from 'vite'
 // import react from '@vitejs/plugin-react'
 // import tailwindcss from '@tailwindcss/vite'
@@ -6,36 +16,21 @@
 // export default defineConfig({
 //   plugins: [react(), tailwindcss()],
 //   server: {
-//     allowedHosts: [
-//       'hawaii-nature-assignment-vip.trycloudflare.com'
-//     ]
+//     allowedHosts: ['somewhere-selling-spears-fax.trycloudflare.com'],
+//     proxy: {
+//       // สำหรับ API ปกติ
+//       '/api': {
+//         target: 'http://localhost:3000',
+//         changeOrigin: true,
+//         secure: false,
+//       },
+//       // สำหรับ Socket.io
+//       '/socket.io': {
+//         target: 'http://localhost:3000',
+//         changeOrigin: true,
+//         secure: false,
+//         ws: true, // 🌟 สำคัญมาก: ต้องเปิดเพื่อให้รองรับ WebSocket
+//       }
+//     }
 //   }
 // })
-
-
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-
-// https://vite.dev/config/
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  server: {
-    allowedHosts: ['somewhere-selling-spears-fax.trycloudflare.com'],
-    proxy: {
-      // สำหรับ API ปกติ
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        secure: false,
-      },
-      // สำหรับ Socket.io
-      '/socket.io': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        secure: false,
-        ws: true, // 🌟 สำคัญมาก: ต้องเปิดเพื่อให้รองรับ WebSocket
-      }
-    }
-  }
-})

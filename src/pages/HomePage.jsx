@@ -88,7 +88,7 @@ const HomePage = () => {
       <main className="">
         {userCheck()}
 
-        <section id="auctions" className="px-6 md:px-12 py-16 bg-surface">
+        <section id="auctions" className="px-6 md:px-12 bg-surface">
           <div className="flex items-center">
             <div className="font-headline text-4xl text-red my-16 mr-6">
               Populars
@@ -98,11 +98,11 @@ const HomePage = () => {
           {isLoading ? (
             <div>...Loading</div>
           ) : (
-            <main className=" pb-20 px-12 max-w-[1920px] mx-auto">
+            <main className=" pb-20 px-12 max-w-[1920px] mx-auto h-max-600">
               {/* Hero Section & Sidebar Grid */}
               <div className="grid grid-cols-2 lg:grid-cols-12 gap-8 mb-24 w-full px-4 md:px-8">
                 {/* Main Hero */}
-                <div className="lg:col-span-5 group cursor-pointer relative overflow-hidden rounded-2xl shadow-xl h-full md:h-full">
+                <div className="lg:col-span-5 group cursor-pointer relative overflow-hidden rounded-2xl shadow-xl h-[600px]">
                   <div className="relative w-full h-full">
                     <img
                       src={
@@ -110,7 +110,7 @@ const HomePage = () => {
                         "https://unsplash.com/photos/space-needle-landmark-against-a-clear-blue-sky-_FIJZSbYphE"
                       }
                       alt="Luxury watch detail"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-max-600 object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
                   {/* Editorial Glass Overlay */}
@@ -120,7 +120,7 @@ const HomePage = () => {
                         {lots?.[0]?.product?.name || "Untitled Lot"}
                       </h1>
                       <p className="font-['Manrope'] text-dark-red text-bold text-3xl max-w-md">
-                        ฿ {lots?.[0].bids?.[0]?.amount}
+                        ฿ {lots?.[0]?.bids?.[0]?.amount|| lots?.[0]?.startingPrice || 0}
                       </p>
                     </div>
                     <div className="mt-8 md:mt-0 flex flex-col items-center">
@@ -165,7 +165,7 @@ const HomePage = () => {
                           badge={lot?.status}
                           price={
                             lot?.bids?.[0]?.amount
-                              ? `$${lot.bids[0].amount}`
+                              ? `$${lot?.bids?.[0].amount}`
                               : `$${lot?.startingPrice || 0}`
                           }
                           timeLeft={
@@ -225,11 +225,11 @@ const HomePage = () => {
                         className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-200 ${
                           carouselIndex === lots.length - 1
                             ? "border-stone-200 text-stone-300 cursor-not-allowed"
-                            : "border-[#570000] text-[#570000] hover:bg-red hover:text-white active:scale-95"
+                            : "border-[#acaaaa] text-[#570000] hover:bg-[#ff00006b] hover:text-white active:scale-95"
                         }`}
                         aria-label="Next"
                       >
-                        <span className="material-symbols-outlined text-[18px]">
+                        <span className="material-symbols-outlined text-[18px] ">
                           <img
                             src="https://www.svgrepo.com/show/382819/pointer-right.svg"
                             alt="arrow forward"

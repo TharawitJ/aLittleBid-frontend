@@ -68,7 +68,7 @@ const NavBar = () => {
       }`}
     >
       <Link to="/">
-        <div className="font-headline italic text-2xl text-red">
+        <div className="font-headline font-bold text-3xl text-red">
           A Little Bid
         </div>
       </Link>
