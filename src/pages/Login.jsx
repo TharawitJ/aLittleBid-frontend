@@ -14,7 +14,6 @@ export default function LoginPage() {
   const [errors, setErrors] = useState({});
   const login = useUserStore((state) => state.login);
   const navigate = useNavigate();
-  const token = useUserStore((state) => state.token);
 
   const parsed = loginSchema.safeParse({ email, password });
   const canSubmit = parsed.success;
