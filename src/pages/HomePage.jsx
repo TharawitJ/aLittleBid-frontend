@@ -7,6 +7,7 @@ import useProductStore from "../stores/product.store.js";
 import useAuctionStore from "../stores/auction.store.js";
 import AuctionCard from "../components/AuctionCard.jsx";
 import TimeCountdown from "../components/TimeCountdown.jsx";
+import Swal from "sweetalert2"
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const HomePage = () => {
   const hdlJoinClick = (id) => {
     console.log("id", id);
     try {
-      if (!id) return alert("no auction");
+      if (!id) return Swal.fire({title: "No auction"});
       getAuctionById(id);
       navigate(`/auction_bid/${id}`);
     } catch (error) {

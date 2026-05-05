@@ -31,6 +31,7 @@ const AuctionCard = ({
   aspectRatio = "aspect-[4/5]",
 }) => {
   const [flipped, setFlipped] = useState(false);
+  console.log('auctionDetail', auctionDetail)
 
   return (
     <motion.div
@@ -141,9 +142,10 @@ const AuctionCard = ({
                 whileHover={{ scale: 1.03 }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  onJoin?.();
+                  onJoin(auctionDetail);
                 }}
-                className="w-full bg-white text-[#570000] font-['Manrope'] text-xs uppercase tracking-widest py-3 rounded-sm font-bold shadow-xl hover:bg-dark-red hover:text-white transition-colors"
+                className="w-full bg-white text-[#570000] font-['Manrope'] text-xs uppercase tracking-widest py-3 rounded-sm font-bold shadow-xl hover:bg-dark-red hover:text-white transition-colors disabled:bg-stone-300 disabled:text-grey"
+                
               >
                 Join Auction →
               </motion.button>
