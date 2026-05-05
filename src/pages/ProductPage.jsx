@@ -3,41 +3,62 @@ import useProductStore from "../stores/product.store.js";
 import TimeCountdown from "../components/TimeCountdown.jsx";
 import { ProductListByPages } from "../components/productPage/PageProducts.jsx";
 import DisplayProducts from "../components/productPage/DisplayProducts.jsx";
-import useAuctionStore from "../stores/auction.store.js"
+import useAuctionStore from "../stores/auction.store.js";
 
 const ProductPage = () => {
+  const productPage = useProductStore((state) => state.productPage);
+  const setProductPage = useProductStore((state) => state.setProductPage);
+  const allProducts = useProductStore((state) => state.allProducts);
+  const allCategories = useProductStore((state) => state.allCategories);
+  const getAllProducts = useProductStore((state) => state.getAllProducts);
+  const getCategories = useProductStore((state) => state.getCategories);
+  const getAllAuction = useAuctionStore((state) => state.getAllAuction);
+  const clearAuctionById = useAuctionStore((state) => state.clearAuctionById);
+  const clearProductById = useProductStore((state) => state.clearProductById);
 
-  const productPage = useProductStore((state)=>state.productPage)
-  const setProductPage = useProductStore((state)=>state.setProductPage)
-  const allProducts = useProductStore((state)=>state.allProducts)
-  const allCategories = useProductStore((state)=>state.allCategories)
-  const getAllProducts = useProductStore((state)=>state.getAllProducts)
-  const getCategories = useProductStore((state)=>state.getCategories)
-  const getAllAuction = useAuctionStore(state => state.getAllAuction)
-  const clearAuctionById = useAuctionStore((state)=>state.clearAuctionById)
-  const clearProductById = useProductStore((state)=>state.clearProductById)
-
+  const [productIsActive, setProductIsActive] = useState(true);
   const [selectCategoryId, setSelectCategoryId] = useState("");
   const [selectCategoryName, setSelectCategoryName] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentProducts, setCurrentProducts] = useState(
-    Array.isArray(allProducts) ? allProducts : []
+    Array.isArray(allProducts) ? allProducts : [],
   );
   useEffect(() => {
     getAllProducts();
     getCategories();
-    getAllAuction()
-    clearAuctionById()
-    clearProductById()
+    getAllAuction();
+    clearAuctionById();
+    clearProductById();
   }, []);
+
+  const hdlStatusToggle = () => {
+    if (productIsActive === true) {
+      let filtered = allProducts.filter(
+        (p) => p?.auctions?.[0]?.status === "WAITING",
+      );
+      setProductIsActive(false);
+      setCurrentProducts(filtered);
+      return;
+    } else {
+      let filtered = allProducts.filter(
+        (p) => p?.auctions?.[0]?.status === "ACTIVE",
+      );
+      setCurrentProducts(filtered);
+      setProductIsActive(true);
+      return;
+    }
+  };
+  console.log("currentProducts", currentProducts);
 
   // Use a unified useEffect for all filtering
   useEffect(() => {
     if (!Array.isArray(allProducts)) return;
-    console.log('allProducts-in', allProducts)
+    console.log("allProducts-in", allProducts);
 
-    let filtered = allProducts.filter((p)=>p?.auctions?.[0]?.status==="ACTIVE");
-    console.log('filtered', filtered)
+    let filtered = allProducts.filter(
+      (p) => p?.auctions?.[0]?.status === "ACTIVE",
+    );
+    console.log("filtered", filtered);
 
     // 1. Filter by Category
     if (selectCategoryId) {
@@ -50,7 +71,7 @@ const ProductPage = () => {
       filtered = filtered.filter(
         (p) =>
           p.name?.toLowerCase().includes(lowerQuery) ||
-          p.description?.toLowerCase().includes(lowerQuery)
+          p.description?.toLowerCase().includes(lowerQuery),
       );
     }
     setCurrentProducts(filtered);
@@ -66,13 +87,13 @@ const ProductPage = () => {
       document.activeElement.blur();
     }
   };
+
   const limit = 20;
   // 1. Calculate the slice indexes
   const startIndex = (productPage - 1) * limit;
   const endIndex = startIndex + limit;
   // 2. Slice the data for display
   const displayProducts = currentProducts.slice(startIndex, endIndex);
-
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
@@ -92,11 +113,20 @@ const ProductPage = () => {
           </div>
         </section>
 
-        <div className="flex justify-between items-end mb-12 text-left">
+        <div className="flex justify-between items-end mb-6 text-left">
           <div>
             <h2 className="text-4xl font-['Noto_Serif'] text-red">
               All Products
             </h2>
+            <div>
+              Product status
+              <button
+                className="ml-2 mt-4 w-20 px-1 border-b-2 font-bold border-red-400"
+                onClick={() => hdlStatusToggle()}
+              >
+                {productIsActive ? `ACTIVE` : `WAITING`}
+              </button>
+            </div>
           </div>
           <div className="dropdown dropdown-center">
             <div
