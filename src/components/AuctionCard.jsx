@@ -81,7 +81,7 @@ const AuctionCard = ({
 
             {/* Bottom hint */}
             <div className="absolute bottom-3 left-0 right-0 flex justify-center pointer-events-none">
-              <span className="text-white/50 text-[10px] font-['Manrope'] tracking-widest uppercase">
+              <span className="text-white bg-gray-800 px-2 rounded-2xl text-[10px] font-['Manrope'] tracking-widest uppercase">
                 hover to reveal
               </span>
             </div>
@@ -116,10 +116,12 @@ const AuctionCard = ({
               <h3 className="font-['Noto_Serif'] text-2xl text-dark-red leading-snug mb-4">
                 {title}
               </h3> */}
-              <p className="text-grey text-[10px] uppercase tracking-widest font-['Manrope'] mb-1">
+              <p className="text-black text-[16px] uppercase tracking-widest font-['Manrope'] mb-1 
+              bg-white
+              flex align-middle items-center justify-center rounded-full font-bold py-1">
                 product detail
               </p>
-              <p className="font-['Noto_Serif'] text-lg text-gray/50 leading-snug mb-4 font-extralight">{description}</p>
+              <p className="font-['Noto_Serif'] text-lg text-gray/50 leading-snug mb-4 font-extralight rounded-2xl bg-white px-3 h-50">{description}</p>
               <div className="h-px bg-white/20 mb-4" />
               {/* <p className="text-black text-[10px] uppercase tracking-widest font-['Manrope'] mb-1">
                 Current Bid

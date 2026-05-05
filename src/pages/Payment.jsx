@@ -152,21 +152,6 @@ export default function Payment() {
             </ul>
 
             {import.meta.env.DEV && !winner?.amount}
-            {/* && (
-              <button
-                type="button"
-                onClick={() =>
-                  setWinner({
-                    amount: 100,
-                    bidId: bidId ?? "test-bid-cuid",
-                    winnerId: 0,
-                  })
-                }
-                className="px-4 py-2 text-xs font-bold uppercase tracking-widest bg-[#7a0009] text-white hover:bg-[#9e1b1b] transition-colors"
-              >
-                🧪 Plant test winner (dev only)
-              </button>
-            )} */}
 
             <details className="text-xs">
               <summary className="cursor-pointer text-[#7a0009]">

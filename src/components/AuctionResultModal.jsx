@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import useBidStore from "../stores/bid.store.js";
 import { apiGetUserById } from "../api/apiMain.js";
 
@@ -13,7 +12,7 @@ export default function AuctionResultModal({ currentUserId, auctionId }) {
   const getUserById = async (id) => {
     const resp = await apiGetUserById(id);
     setWinnerUsername(resp.data.responses.username);
-  }
+  };
 
   // Fetch winner's username when a winner is set
   useEffect(() => {
@@ -24,12 +23,12 @@ export default function AuctionResultModal({ currentUserId, auctionId }) {
     }
 
     // Only fetch if there's actually a winner (not a no-bid close)
-    if (winner.winnerId) {
+    if (winner.winnerId && String(winner.auctionId) === String(auctionId)) {
       setLoadingUser(true);
       try {
         getUserById(winner.winnerId);
       } catch (error) {
-        console.log('error at get id', error)
+        console.log("error at get id", error);
       } finally {
         setLoadingUser(false);
       }
@@ -44,7 +43,12 @@ export default function AuctionResultModal({ currentUserId, auctionId }) {
     }
   }, [winner]);
 
-  if (!winner || !hasShownRef.current) return null;
+  if (
+    !winner ||
+    !hasShownRef.current ||
+    String(winner.auctionId) !== String(auctionId)
+  )
+    return null;
 
   const isWinner = winner.winnerId === currentUserId;
 
@@ -56,9 +60,7 @@ export default function AuctionResultModal({ currentUserId, auctionId }) {
         if (e.target === e.currentTarget) clearWinner();
       }}
     >
-      <div
-        className="relative w-full max-w-md rounded-2xl overflow-hidden bg-base-300"
-      >
+      <div className="relative w-full max-w-md rounded-2xl overflow-hidden bg-base-300">
         {isWinner ? (
           <WinnerContent
             amount={winner.amount}
@@ -96,10 +98,8 @@ function WinnerContent({ amount, bidId, auctionId, onClose }) {
         You won!
       </h2>
 
-       <div className="flex justify-center mb-5">
-        <div
-          className="w-20 h-20 rounded-full flex items-center justify-center text-4xl"
-        >
+      <div className="flex justify-center mb-5">
+        <div className="w-20 h-20 rounded-full flex items-center justify-center text-4xl">
           🏆
         </div>
       </div>
@@ -108,12 +108,8 @@ function WinnerContent({ amount, bidId, auctionId, onClose }) {
         Your bid was the highest and met the reserve price.
       </p>
 
-      <div
-        className="rounded-xl px-6 py-5 mb-3 bg-[#5a0000]/15"
-      >
-        <p
-          className="text-xs uppercase tracking-widest mb-1 text-black"
-        >
+      <div className="rounded-xl px-6 py-5 mb-3 bg-[#5a0000]/15">
+        <p className="text-xs uppercase tracking-widest mb-1 text-black">
           Winning bid
         </p>
         <p className="text-4xl font-bold" style={{ color: "#000000" }}>
@@ -121,9 +117,7 @@ function WinnerContent({ amount, bidId, auctionId, onClose }) {
         </p>
       </div>
 
-      <p className="text-xs mb-8 text-black">
-        Bid ref: {bidId}
-      </p>
+      <p className="text-xs mb-8 text-black">Bid ref: {bidId}</p>
 
       <button
         onClick={() => {
@@ -160,9 +154,7 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
         </div>
       </div>
 
-      <p
-        className="text-xs font-semibold tracking-widest uppercase mb-2 text-black"
-      >
+      <p className="text-xs font-semibold tracking-widest uppercase mb-2 text-black">
         Auction ended
       </p>
 
@@ -185,9 +177,7 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
           border: "1px solid rgba(255,255,255,0.08)",
         }}
       >
-        <p
-          className="text-xs uppercase tracking-widest mb-1 text-white"
-        >
+        <p className="text-xs uppercase tracking-widest mb-1 text-white">
           Won by
         </p>
         {loadingUser ? (

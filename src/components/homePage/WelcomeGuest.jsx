@@ -27,7 +27,7 @@ function WelcomeGuest() {
 
   return (
     <div>
-      <section className="relative h-[80vh] min-h-[650px] flex items-center px-6 md:px-12 overflow-hidden">
+      <section className="relative h-[80vh] min-h-[580px] flex items-center px-6 md:px-12 overflow-hidden">
         <motion.div 
           className="bg-home-bg absolute inset-0 z-0"
           initial={{ opacity: 0, scale: 1.05 }}

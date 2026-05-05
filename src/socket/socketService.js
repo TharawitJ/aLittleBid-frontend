@@ -8,11 +8,16 @@ let socket = null
 export const connectSocket = () => {
   if (socket?.connected) return
 
-  socket = io('/', {
+  socket = io('http://localhost:3000', {
     auth: { token: useUserStore.getState().token },
     reconnection: true,
     transports: ["websocket", "polling"]
   })
+  // socket = io('/', {
+  //   auth: { token: useUserStore.getState().token },
+  //   reconnection: true,
+  //   transports: ["websocket", "polling"]
+  // })
 
   socket.on("connect", () => {
     useBidStore.getState().setConnected(true);
