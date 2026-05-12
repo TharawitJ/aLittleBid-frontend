@@ -2,6 +2,7 @@ import { io } from "socket.io-client";
 import useUserStore from "../stores/user.store.js";
 import useBidStore from "../stores/bid.store.js";
 import useAuctionStore from "../stores/auction.store.js";
+import Swal from "sweetalert2";
 
 let socket = null;
 
@@ -45,10 +46,15 @@ export const connectSocket = () => {
     });
 
     socket.on("end_time_extended", (object) => {
+      Swal.fire({
+        title: "End Time Extended",
+        text: `New end time is ${object}`,
+        icon: "success",
+        confirmButtonText: "OK",
+      })
       console.log("alert new end time", object);
       useAuctionStore.getState().getAllAuction();
       // get product id from zustand
-      // alert user
       useAuctionStore.getState().triggerExtension(object.auctionId);
     });
 
