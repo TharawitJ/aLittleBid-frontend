@@ -101,7 +101,6 @@ const AuctionBid = () => {
       setIsLoading(false);
     console.log("use effect is running");
 
-    console.log("auctionById", auctionById);
     console.log("auctionId", auctionId);
 
     // if (!auctionById || String(auctionById?.id) !== String(auctionId)) {

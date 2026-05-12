@@ -60,7 +60,7 @@ function DisplayProducts({ displayProducts, allCategories }) {
             badge={auction?.status}
             price={hldPriceLoading(lastBid, auction)}
             timeLeft={<TimeCountdown product={i} />}
-            auctionDetail={auction.status}
+            auctionDetail={auction?.status}
             onJoin={() => hdlJoinClick(auctionId)}
           />
         );

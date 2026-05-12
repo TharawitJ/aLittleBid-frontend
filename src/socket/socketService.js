@@ -20,9 +20,12 @@ export const connectSocket = () => {
       console.log("socket is connected", socket.id);
     });
 
-    socket.on("disconnect", () => {
-      useBidStore.getState().setConnected(false);
-      console.log("socket disconnected");
+    socket.on("connect_error", (err) => {
+      console.log("Connection error:", err.message);
+    });
+
+    socket.on("disconnect", (reason) => {
+      console.log("Disconnected:", reason);
     });
 
     socket.on("newest_bid", (bid) => {
@@ -60,16 +63,19 @@ export const connectSocket = () => {
 
 export const joinAuctionRoom = (auctionId) => {
   if (!socket) return;
-  socket.emit("join_auction", auctionId);
+
+  if (socket.connected) {
+    socket.emit("join_auction", auctionId);
+  } else {
+    socket.once("connect", () => {
+      socket.emit("join_auction", auctionId);
+    });
+  }
 };
 
 export const leaveAuctionRoom = (auctionId) => {
   if (!socket) return;
   socket.emit("leave_auction", auctionId);
-
-  // socket.off('newest_bid')
-  // socket.off('auction_ended')
-
   useBidStore.getState().reset();
 };
 

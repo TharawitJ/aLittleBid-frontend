@@ -89,11 +89,6 @@ const HomePage = () => {
     return <WelcomeUser />;
   };
 
-  // ting remove
-  // useEffect(() => {
-  //   connect();
-  // }, []);
-
   // const hdlJoinClick = (id) => {
   //   try {
   //     if (!id) return alert("no auction");
@@ -140,7 +135,7 @@ const HomePage = () => {
                         {lots?.[0]?.product?.name || "Untitled Lot"}
                       </h1>
                       <p className="font-['Manrope'] text-dark-red text-bold text-3xl max-w-md">
-                        ฿ {lots?.[0].bids?.[0]?.amount}
+                        ฿ {lots?.[0]?.bids?.[0]?.amount}
                       </p>
                     </div>
                     <div className="mt-8 md:mt-0 flex flex-col items-center">
