@@ -1,19 +1,15 @@
-import { connect, io } from "socket.io-client";
 import React, { useEffect, useRef, useState } from "react";
 import useProductStore from "../stores/product.store.js";
 import useAuctionStore from "../stores/auction.store.js";
 import { useParams } from "react-router";
 import { useForm } from "react-hook-form";
-import useSocketStore from "../stores/socket.store.js";
 import useBidStore from "../stores/bid.store.js";
 import useUserStore from "../stores/user.store.js";
 import TimeCountdown from "../components/TimeCountdown.jsx";
 import {
-  connectSocket,
-  disconnectSocket,
   joinAuctionRoom,
   leaveAuctionRoom,
-  placeBid,disconnectSocket
+  placeBid
 } from "../socket/socketService.js";
 import Swal from "sweetalert2";
 import AuctionResultModal from "../components/AuctionResultModal.jsx";
@@ -21,12 +17,10 @@ import ProductImageSlide from "../components/productPage/ProductImageSlide.jsx";
 import { BrownAuctionIcon } from "../icons/index.jsx";
 
 const AuctionBid = () => {
-  // const [isLoading, setIsLoading] = useState(true)
   const { productById, allCategories, getProductsById } = useProductStore();
   const { auctionById, getAuctionById, setCurrentPrice, currentPrice } =
     useAuctionStore();
   // console.log('auctionById.product.images', auctionById?.product.images)
-  const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
   const {
     newBid,
     bidData,
@@ -101,30 +95,26 @@ const AuctionBid = () => {
   };
 
   useEffect(() => {
-    if (!auctionById) {
-      return;
-    }
-    connectSocket();
-    joinAuctionRoom(auctionId);
+    if (auctionId) {
+      joinAuctionRoom(auctionId);
 
-    setIsLoading(false);
+      setIsLoading(false);
     console.log("use effect is running");
 
     console.log("auctionById", auctionById);
     console.log("auctionId", auctionId);
 
-    if (!auctionById || String(auctionById?.id) !== String(auctionId)) {
-      console.warn(
-        `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
-      );
-      return;
+    // if (!auctionById || String(auctionById?.id) !== String(auctionId)) {
+    //   console.warn(
+    //     `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
+    //   );
+    //   return;
     }
 
     return () => {
       leaveAuctionRoom(auctionId);
-      disconnectSocket();
     };
-  }, []);
+  }, [auctionId]);
 
   useEffect(() => {
     getAllUser();

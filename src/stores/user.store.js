@@ -9,7 +9,6 @@ import {
   apiEditUserAddressById,
   apiEditUserProfileById,
 } from "../api/apiMain.js";
-import { connectSocket, disconnectSocket } from "../socket/socketService.js";
 
 const useUserStore = create()(
   persist(
@@ -24,8 +23,6 @@ const useUserStore = create()(
         console.log("login");
         const resp = await apiLogin(body);
         set({ token: resp.data.token, user: resp.data.user });
-        // connect to socket
-        connectSocket();
         return resp.data.user;
       },
       register: async (body) => {
@@ -52,7 +49,6 @@ const useUserStore = create()(
       },
       // Action to log out
       logout: () => {
-        disconnectSocket();
         set({ user: null, token: "" });
       },
       deleteUser: async (userId) => {
