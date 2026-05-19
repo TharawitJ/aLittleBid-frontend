@@ -46,6 +46,7 @@ export const connectSocket = () => {
     });
 
     socket.on("end_time_extended", (object) => {
+      console.log('object from end time extended', object)
       Swal.fire({
         title: "End Time Extended",
         text: `New end time is ${object}`,
@@ -73,9 +74,7 @@ export const joinAuctionRoom = (auctionId) => {
   if (socket.connected) {
     socket.emit("join_auction", auctionId);
   } else {
-    socket.once("connect", () => {
-      socket.emit("join_auction", auctionId);
-    });
+    throw new Error('socket not connected');
   }
 };
 
@@ -91,6 +90,7 @@ export const placeBid = (amount, auctionId) => {
 };
 
 export const disconnectSocket = () => {
+  socket?.off();
   socket?.disconnect();
   socket = null;
 };
