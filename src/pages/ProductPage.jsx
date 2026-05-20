@@ -24,8 +24,8 @@ const ProductPage = () => {
   const getAllAuction = useAuctionStore(state => state.getAllAuction)
   const clearAuctionById = useAuctionStore((state)=>state.clearAuctionById)
   const clearProductById = useProductStore((state)=>state.clearProductById)
-  console.log('allProducts', allProducts)
-  console.log('status', allProducts?.[0]?.auctions?.[0]?.status)
+  // console.log('allProducts', allProducts)
+  // console.log('status', allProducts?.[0]?.auctions?.[0]?.status)
   // filter only active product
   // const {}
   const [selectCategoryId, setSelectCategoryId] = useState("");
@@ -44,11 +44,12 @@ const ProductPage = () => {
 
   // Use a unified useEffect for all filtering
   useEffect(() => {
+    console.log('use effect running')
     if (!Array.isArray(allProducts)) return;
-    console.log('allProducts-in', allProducts)
+    // console.log('allProducts-in', allProducts)
 
     let filtered = allProducts.filter((p)=>p?.auctions?.[0]?.status==="ACTIVE");
-    console.log('filtered', filtered)
+    // console.log('filtered', filtered)
 
     // 1. Filter by Category
     if (selectCategoryId) {

@@ -32,8 +32,7 @@ const AuctionBid = () => {
     currentHighestBid,
     bids,
     setBidHistory,
-    clearWinner,
-    winner,
+    clearWinner
   } = useBidStore();
   const { user, users, getAllUser } = useUserStore();
   const usersList = Array.isArray(users) ? users : [];

@@ -7,7 +7,7 @@ const useBidStore = create()(
     (set, get) => ({
       bidData: null,
       newBid: [],
-      winner: null,
+      winners: {},
       bids: null,
       currentHighestBid: null,
       timeExtension: null,
@@ -48,11 +48,28 @@ const useBidStore = create()(
         console.log("currentHighestBid", get().currentHighestBid);
       },
 
-      setWinner: (winner) => {
-        set({ winner });
+      setWinner: (newWinner) => {
+        const { auctionId } = newWinner;
+
+        set((state) => ({
+          winners: {
+        ...state.winners,       
+        [auctionId]: newWinner, 
+        },
+       }));
         console.log("winner from zustand:", get().winner);
       },
-      clearWinner: () => set({ winner: null }),
+      
+      clearWinner: (auctionId) => {
+        set((state) => {
+          const { [auctionId]: removedWinner, ...remainingWinners } = state.winners;
+          return {
+            winners: remainingWinners
+          };
+        });
+        
+        console.log(`Cleared winner for room ${auctionId}. Remaining:`, get().winners);
+      },
 
       extendTime: () => {
         set({ timeExtension: true });
@@ -61,7 +78,7 @@ const useBidStore = create()(
       reset: () =>
         set({
           bids: [],
-          winner: null,
+          winner: {},
           currentHighestBid: null,
           status: "idle",
         }),
