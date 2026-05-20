@@ -3,6 +3,8 @@ import useUserStore from "../stores/user.store.js";
 import useBidStore from "../stores/bid.store.js";
 import useAuctionStore from "../stores/auction.store.js";
 import Swal from "sweetalert2";
+import { convertDateTimeTo24HrTime } from "../utils/time.js";
+import { mainButtonColor } from "../common/mainColor.js";
 
 let socket = null;
 
@@ -61,18 +63,17 @@ export const joinAuctionRoom = (auctionId) => {
       useAuctionStore.getState().getAuctionById(object.auctionId);
     });
 
-    socket.on("end_time_extended", (object) => {
-      console.log('object from end time extended', object)
+    socket.on("end_time_extended", (data) => {
+      console.log('data from end time extended', data);
       Swal.fire({
         title: "End Time Extended",
-        text: `New end time is ${object}`,
-        icon: "success",
+        text: `New end time is ${convertDateTimeTo24HrTime(data.newEndTime)}`,
+        icon: "info",
         confirmButtonText: "OK",
+        confirmButtonColor: mainButtonColor
       })
-      console.log("alert new end time", object);
       useAuctionStore.getState().getAllAuction();
       // get product id from zustand
-      useAuctionStore.getState().triggerExtension(object.auctionId);
     });
 
     socket.on("reserve_not_met", (message) => {

@@ -8,6 +8,7 @@ import useUserStore from "../stores/user.store.js";
 import Swal from "sweetalert2";
 import { uploadMultipleToCloudinary } from '../utils/uploadCloud.js'
 import { apiCreateImages } from "../api/apiMain.js";
+import { mainButtonColor } from "../common/mainColor.js";
 
 const AddProduct = () => {
   const { createProduct, allCategories, updateProduct, createImages } =
@@ -103,6 +104,8 @@ const AddProduct = () => {
 
       Swal.fire({
         title: "Product created!",
+        confirmButtonText: "OK",
+        confirmButtonColor: mainButtonColor
       });
       navigate("/seller_products")
     } catch (error) {

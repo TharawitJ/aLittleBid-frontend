@@ -19,14 +19,6 @@ const useAuctionStore = create()(
       currentPrice: 0,
       endTime: 0,
       serverOffset: 0,
-      extendedAuctions: {}, 
-  
-      triggerExtension: (auctionId) => set((state) => ({
-        extendedAuctions: { 
-          ...state.extendedAuctions, 
-          [auctionId]: true 
-        }
-      })),
       setCurrentPrice: (newBid) => {
         set({
           currentPrice: newBid,
