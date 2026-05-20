@@ -28,6 +28,17 @@ export const connectSocket = () => {
     socket.on("disconnect", (reason) => {
       console.log("Disconnected:", reason);
     });
+  } else {
+    socket.connect();
+  }
+};
+
+export const joinAuctionRoom = (auctionId) => {
+  if (!socket) {
+     connectSocket();
+  };
+
+    socket.emit("join_auction", auctionId);
 
     socket.on("newest_bid", (bid) => {
       console.log("bid from backend received", bid);
@@ -41,6 +52,11 @@ export const connectSocket = () => {
     });
 
     socket.on("auction_started", (object) => {
+        Swal.fire({
+        title: "Auction started",
+        icon: "success",
+        confirmButtonText: "OK",
+      })
       console.log("auction started", object);
       useAuctionStore.getState().getAuctionById(object.auctionId);
     });
@@ -60,27 +76,21 @@ export const connectSocket = () => {
     });
 
     socket.on("reserve_not_met", (message) => {
+       Swal.fire({
+        title: "No Winner...",
+        text: "Reserve price not met",
+        icon: "success",
+        confirmButtonText: "OK",
+      })
       // alert user with this message
       console.log("message from socket", message);
     });
-  } else {
-    socket.connect();
-  }
-};
-
-export const joinAuctionRoom = (auctionId) => {
-  if (!socket) return;
-
-  if (socket.connected) {
-    socket.emit("join_auction", auctionId);
-  } else {
-    throw new Error('socket not connected');
-  }
 };
 
 export const leaveAuctionRoom = (auctionId) => {
   if (!socket) return;
   socket.emit("leave_auction", auctionId);
+  socket?.off();
   useBidStore.getState().reset();
 };
 

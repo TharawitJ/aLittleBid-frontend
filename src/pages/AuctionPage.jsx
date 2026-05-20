@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { useParams } from "react-router";
-import useSocketStore from "../stores/socket.store";
 import { io } from 'socket.io-client'
 import AuctionCard from "../components/AuctionCard.jsx"
 import useProductStore from "../stores/product.store.js"

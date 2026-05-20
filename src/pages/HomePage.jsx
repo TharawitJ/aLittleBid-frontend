@@ -6,7 +6,6 @@ import useUserStore from "../stores/user.store.js";
 import useProductStore from "../stores/product.store.js";
 import useAuctionStore from "../stores/auction.store.js";
 import AuctionCard from "../components/AuctionCard.jsx";
-import useSocketStore from "../stores/socket.store.js";
 import TimeCountdown from "../components/TimeCountdown.jsx";
 import Swal from "sweetalert2"
 
@@ -16,7 +15,6 @@ const HomePage = () => {
   const { getAllAuction, getPopularAuction, popularAuction, getAuctionById } =
     useAuctionStore();
   const { getAllProducts, getCategories } = useProductStore();
-  const { connect } = useSocketStore();
   const { auctionId } = useParams();
   const [timeLeft, setTimeLeft] = useState(0);
   const lots = (Array.isArray(popularAuction) ? popularAuction : []).filter(
