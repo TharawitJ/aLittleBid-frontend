@@ -24,6 +24,7 @@ const UserProfilePage = () => {
     avatarUrl,
     phone,
     role,
+    wallet,
   } = user;
   useEffect(() => {
     if (id) {
@@ -308,8 +309,8 @@ const UserProfilePage = () => {
             <div className="space-y-12">
               {/* Auction Preferences */}
               <div className="bg-surface-container-low p-8 rounded-sm space-y-6">
-                <h2 className="text-xl font-serif italic font-headline text-on-surface">
-                  Auction Preferences
+                <h2 className="text-xl font-serif font-headline text-on-surface">
+                  WALLET
                 </h2>
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
@@ -319,30 +320,6 @@ const UserProfilePage = () => {
                       </span>
                       <span className="block text-xs text-on-surface-variant">
                         Instant alerts when you are no longer the highest bidder
-                      </span>
-                    </div>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        defaultChecked
-                        className="sr-only peer"
-                      />
-                      <div className="w-11 h-6 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-                    </label>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
-                      Preferred Currency
-                    </label>
-                    <div className="relative">
-                      <select className="w-full appearance-none bg-surface-container-lowest border border-outline-variant/30 py-3 px-4 text-sm pr-10 focus:ring-0 focus:border-primary">
-                        <option>GBP (£) - British Pound Sterling</option>
-                        <option>USD ($) - US Dollar</option>
-                        <option>EUR (€) - Euro</option>
-                        <option>CHF (Fr) - Swiss Franc</option>
-                      </select>
-                      <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-stone-400">
-                        expand_more
                       </span>
                     </div>
                   </div>
@@ -361,19 +338,6 @@ const UserProfilePage = () => {
             <EditUserProfile />
           </div>
         </dialog>
-
-        {/* <dialog
-          className="modal"
-          id="openeditaddress-modal"
-          onClose={() => navigate("/user_profile")}
-        >
-          {addresses?.map((e, i) => (
-            <div className="modal-box">
-              <EditUserAddress key={i} data={e} />
-            </div>
-          ))}
-        </dialog> */}
-
         <dialog
           className="modal"
           id="openeditaddress-modal"
