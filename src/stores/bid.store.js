@@ -10,7 +10,6 @@ const useBidStore = create()(
       winners: {},
       bids: null,
       currentHighestBid: null,
-      timeExtension: null,
       setNewBid: (newPrice) => {
         set((state) => ({
           newBid:
@@ -69,10 +68,6 @@ const useBidStore = create()(
         });
         
         console.log(`Cleared winner for room ${auctionId}. Remaining:`, get().winners);
-      },
-
-      extendTime: () => {
-        set({ timeExtension: true });
       },
 
       reset: () =>
