@@ -71,7 +71,7 @@ export const joinAuctionRoom = (auctionId) => {
         icon: "info",
         confirmButtonText: "OK",
         confirmButtonColor: mainButtonColor
-      })
+      });
       useAuctionStore.getState().getAllAuction();
       // get product id from zustand
     });

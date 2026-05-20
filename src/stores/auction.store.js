@@ -52,12 +52,17 @@ const useAuctionStore = create()(
         return responses;
       },
       getAuctionById: async (auctionId) => {
-        console.log("auctionidddd", typeof auctionId);
-        const resp = await apiGetAuctionById(auctionId);
-        const response = resp.data.responses ?? null;
-        // console.log("getAuctionById", resp.data.responses);
-        set({ auctionById: response });
-        return response;
+        try {
+          const resp = await apiGetAuctionById(auctionId);
+          const response = resp.data.responses ?? null;
+          // console.log("getAuctionById", resp.data.responses);
+          set({ auctionById: response });
+          return response;
+        } catch (error) {
+          if (error.status === 404) {
+            set({ auctionById: null });
+          }
+        }
       },
       getAuctionByProductId: async (productId) => {
         await apiGetAcutionByProductId(productId);

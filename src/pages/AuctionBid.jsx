@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import useProductStore from "../stores/product.store.js";
 import useAuctionStore from "../stores/auction.store.js";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useForm } from "react-hook-form";
 import useBidStore from "../stores/bid.store.js";
 import useUserStore from "../stores/user.store.js";
@@ -15,8 +15,11 @@ import Swal from "sweetalert2";
 import AuctionResultModal from "../components/AuctionResultModal.jsx";
 import ProductImageSlide from "../components/productPage/ProductImageSlide.jsx";
 import { BrownAuctionIcon } from "../icons/index.jsx";
+import { mainButtonColor } from "../common/mainColor.js";
 
 const AuctionBid = () => {
+  const navigate = useNavigate();
+
   const { productById, allCategories, getProductsById } = useProductStore();
   const { auctionById, getAuctionById, setCurrentPrice, currentPrice } =
     useAuctionStore();
@@ -29,11 +32,13 @@ const AuctionBid = () => {
     currentHighestBid,
     bids,
     setBidHistory,
+    clearWinner,
     winner,
   } = useBidStore();
   const { user, users, getAllUser } = useUserStore();
   const usersList = Array.isArray(users) ? users : [];
   const [isLoading, setIsLoading] = useState(true);
+  const [isFetching, setIsFetching] = useState(true);
   const { id, categoryId, name, description, sellerId, updatedAt, images } =
     auctionById?.product || {};
   const { auctionId } = useParams();
@@ -95,30 +100,49 @@ const AuctionBid = () => {
   };
 
   useEffect(() => {
+    console.log("use effect is running");
     if (auctionId) {
       joinAuctionRoom(auctionId);
-
       setIsLoading(false);
-      console.log("use effect is running");
-
       console.log("auctionId", auctionId);
     }
 
     return () => {
       leaveAuctionRoom(auctionId);
+      clearWinner();
     };
   }, [auctionId]);
 
   useEffect(() => {
-    getAllUser();
-    getAuctionById(auctionId);
+    const fetchData = async () => {
+      await getAllUser();
+      await getAuctionById(auctionId);
+      setIsFetching(false); 
+    }
+    fetchData();
   }, [auctionId, getAllUser]);
 
   useEffect(() => {
-    if (!auctionById?.bids) return; // ← guard: wait until data is real
-    console.log("auctionById2", auctionById);
-    setBidHistory(auctionById.bids);
-  }, [auctionById]);
+    if (isFetching) return; // guard
+
+    if (!auctionById) {
+    Swal.fire({
+      icon: "error",
+      title: "Sorry...",
+      text: "This auction does not exist.",
+      confirmButtonText: "OK",
+      confirmButtonColor: mainButtonColor
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate('/products'); 
+    }
+    });
+  }
+  
+  if (!auctionById?.bids) return; // ← guard: wait until data is real
+  console.log("auctionById2", auctionById);
+  setBidHistory(auctionById.bids);
+  }, [isFetching, auctionById]);
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">

@@ -79,6 +79,7 @@ export default function AuctionResultModal({ currentUserId, auctionId }) {
 }
 
 function WinnerContent({ amount, bidId, auctionId, onClose }) {
+   const { clearWinner } = useBidStore();
   const navigate = useNavigate();
   return (
     <div className="px-8 pt-10 pb-8 text-center">
@@ -127,7 +128,7 @@ function WinnerContent({ amount, bidId, auctionId, onClose }) {
 
       <button
         onClick={() => {
-          onClose();
+          clearWinner();
           navigate(`/payment/${auctionId}/${bidId}`);
         }}
         className="w-full py-3 rounded-xl font-semibold text-sm transition-all duration-150 active:scale-95"
