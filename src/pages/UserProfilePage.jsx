@@ -4,7 +4,7 @@ import EditUserProfile from "../components/userPage/EditUserProfile";
 import EditUserAddress from "../components/userPage/EditUserAddress";
 import useUserStore from "../stores/user.store.js";
 import { useEffect, useMemo } from "react";
-import Avatar from "../components/Avatar"
+import Avatar from "../components/Avatar";
 import Swal from "sweetalert2";
 
 const UserProfilePage = () => {
@@ -313,15 +313,16 @@ const UserProfilePage = () => {
                   WALLET
                 </h2>
                 <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <span className="block text-sm font-medium">
-                        Outbid Notifications
-                      </span>
-                      <span className="block text-xs text-on-surface-variant">
-                        Instant alerts when you are no longer the highest bidder
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center justify-start gap-4">
+                      <span className="mr-">BATH</span>
+                      <span className="text-xl font-medium">
+                        {wallet.amount ? wallet.amount : 0}
                       </span>
                     </div>
+                    <button className="rounded-2xl border w-18 h-10 mr-10">
+                      Top-up
+                    </button>
                   </div>
                 </div>
               </div>
