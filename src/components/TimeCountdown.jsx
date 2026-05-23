@@ -18,38 +18,55 @@ function TimeCountdown({ product }) {
 
   const endTime = (filteredProduct) =>
     new Date(filteredProduct?.[0]?.endTime).getTime();
-  
+  const startTime = (filteredProduct) =>
+    new Date(filteredProduct?.[0]?.startTime).getTime();
+
   // Safe version using optional chaining and a fallback
   const getEndTimeMs = (products) => {
     const endTimeStr = products[0]?.endTime;
     return endTimeStr ? new Date(endTimeStr).getTime() : 0;
   };
-  
-  const targetTime = getEndTimeMs(filteredProduct);
-  const diff = targetTime - now;
+  const getStartTimeMs = (products) => {
+    const startTimeStr = products[0]?.startTime;
+    return startTimeStr ? new Date(startTimeStr).getTime() : 0;
+  };
+
+  const targetEndTime = getEndTimeMs(filteredProduct);
+  const targetStartTime = getStartTimeMs(filteredProduct);
+  const diff = targetEndTime - now;
   // console.log("diff", diff);
-  const isEnded = now > targetTime;
+  const isEnded = now > targetEndTime;
+  const isStart = targetStartTime > now;
+  console.log('isStart', isStart)
+  const hdlTime = (diff) => {
+    if (!isStart) {
+      return formatTime(diff);
+    } else if (isEnded){
+      return "AUCTION CLOSED"
+    }
+    return "WAITING"
+  };
 
   // Simple formatting logic
-const formatTime = (ms) => {
-  if (ms <= 0) return "Auction Ended";
+  const formatTime = (ms) => {
+    if (ms <= 0) return "Auction Ended";
 
-  // 1. Calculate units
-  const d = Math.floor(ms / 86400000);
-  const h = Math.floor((ms % 86400000) / 3600000);
-  const m = Math.floor((ms % 3600000) / 60000);
-  const s = Math.floor((ms % 60000) / 1000);
+    // 1. Calculate units
+    const d = Math.floor(ms / 86400000);
+    const h = Math.floor((ms % 86400000) / 3600000);
+    const m = Math.floor((ms % 3600000) / 60000);
+    const s = Math.floor((ms % 60000) / 1000);
 
-  // 2. Helper to add leading zeros (e.g., "05" instead of "5")
-  const pad = (num) => String(num).padStart(2, '0');
+    // 2. Helper to add leading zeros (e.g., "05" instead of "5")
+    const pad = (num) => String(num).padStart(2, "0");
 
-  // 3. Conditional Return
-  if (d > 0) {
-    return `${d}d ${pad(h)}h ${pad(m)}m ${pad(s)}s`;
-  }
-  
-  return `${pad(h)}:${pad(m)}:${pad(s)}`;
-};
+    // 3. Conditional Return
+    if (d > 0) {
+      return `${d}d ${pad(h)}h ${pad(m)}m ${pad(s)}s`;
+    }
+
+    return `${pad(h)}:${pad(m)}:${pad(s)}`;
+  };
 
   useEffect(() => {
     getAllAuction();
@@ -64,11 +81,9 @@ const formatTime = (ms) => {
     <>
       {/* <div className="grid grid-cols-4 gap-4"> */}
       <div key={product.id} className="rounded-xl text-red-950">
-        <p className="uppercase text-[12px]">
-          Time Left
-        </p>
+        <p className="uppercase text-[10px]">Time Left</p>
         <div className="material-symbols-outlined text-[16px] text-primary">
-          {formatTime(diff)}
+          {hdlTime(diff)}
         </div>
       </div>
       {/* </div> */}

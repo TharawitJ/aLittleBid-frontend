@@ -157,7 +157,7 @@ const UserProfilePage = () => {
               </NavLink>
               {isSeller && (
                 <NavLink
-                  to="/seller_list_product"
+                  to="/seller_products"
                   className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300"
                   href="#"
                 >

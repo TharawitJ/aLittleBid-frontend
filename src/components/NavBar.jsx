@@ -5,6 +5,7 @@ import {
   BlackCartIcon,
   BlackHeartIcon,
   LogoutIcon,
+  PlusGreyIcon,
   UserIcon,
   UserIconNoCircle,
 } from "../icons";
@@ -67,7 +68,7 @@ const NavBar = () => {
       }`}
     >
       <Link to="/">
-        <div className="font-headline text-3xl text-red">
+        <div className="font-headline font-bold text-3xl text-red">
           A Little Bid
         </div>
       </Link>
@@ -139,6 +140,19 @@ const NavBar = () => {
                     <BagIcon />
                     <span className="font-label text-[14px] uppercase tracking-widest text-primary">
                       My products
+                    </span>
+                  </NavLink>
+                </li>              
+              )}
+              {isSeller && (
+                <li>
+                  <NavLink
+                    to="/add_product"
+                    className="items-center gap-3 px-3 py-2 hover:bg-surface-container-high transition-colors rounded-lg"
+                  >
+                    <PlusGreyIcon className="w-6"/>
+                    <span className="font-label text-[12px] uppercase tracking-widest text-primary">
+                      Add product
                     </span>
                   </NavLink>
                 </li>

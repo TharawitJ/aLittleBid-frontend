@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router";
+import useAuctionStore from "../stores/auction.store";
 
 /**
  * AuctionCard — reusable card ที่ใช้ Framer Motion
@@ -29,6 +31,7 @@ const AuctionCard = ({
   aspectRatio = "aspect-[4/5]",
 }) => {
   const [flipped, setFlipped] = useState(false);
+  console.log('auctionDetail', auctionDetail)
 
   return (
     <motion.div
@@ -78,7 +81,7 @@ const AuctionCard = ({
 
             {/* Bottom hint */}
             <div className="absolute bottom-3 left-0 right-0 flex justify-center pointer-events-none">
-              <span className="text-white/50 text-[12px] font-['Manrope'] tracking-widest uppercase">
+              <span className="text-white bg-gray-800 px-2 rounded-2xl text-[10px] font-['Manrope'] tracking-widest uppercase">
                 hover to reveal
               </span>
             </div>
@@ -113,10 +116,12 @@ const AuctionCard = ({
               <h3 className="font-['Noto_Serif'] text-3xl text-dark-red leading-snug mb-4">
                 {title}
               </h3> */}
-              <p className="text-grey text-[12px] uppercase tracking-widest font-['Manrope'] mb-1">
+              <p className="text-black text-[16px] uppercase tracking-widest font-['Manrope'] mb-1 
+              bg-white
+              flex align-middle items-center justify-center rounded-full font-bold py-1">
                 product detail
               </p>
-              <p className="font-['Noto_Serif'] text-xl text-gray/50 leading-snug mb-4 font-extralight">{description}</p>
+              <p className="font-['Noto_Serif'] text-lg text-gray/50 leading-snug mb-4 font-extralight rounded-2xl bg-white px-3 h-50">{description}</p>
               <div className="h-px bg-white/20 mb-4" />
               {/* <p className="text-black text-[12px] uppercase tracking-widest font-['Manrope'] mb-1">
                 Current Bid
@@ -137,9 +142,10 @@ const AuctionCard = ({
                 whileHover={{ scale: 1.03 }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  onJoin?.();
+                  onJoin(auctionDetail);
                 }}
-                className="w-full bg-white text-[#570000] font-['Manrope'] text-sm uppercase tracking-widest py-3 rounded-sm font-bold shadow-xl hover:bg-dark-red hover:text-white transition-colors"
+                className="w-full bg-white text-[#570000] font-['Manrope'] text-xs uppercase tracking-widest py-3 rounded-sm font-bold shadow-xl hover:bg-dark-red hover:text-white transition-colors disabled:bg-stone-300 disabled:text-grey"
+                
               >
                 Join Auction →
               </motion.button>
@@ -174,8 +180,8 @@ const AuctionCard = ({
             <p className="text-[11px] uppercase tracking-widest text-stone-400 mb-0.5">
               Current Bid
             </p>
-            <p className="font-['Noto_Serif'] text-xl text-[#800000] font-semibold tracking-wider">
-              {price}
+            <p className="font-['Noto_Serif'] text-lg text-[#800000] font-semibold tracking-wider">
+              ฿ {price}
             </p>
           </div>
         {/* )} */}
