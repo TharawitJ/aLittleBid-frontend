@@ -156,7 +156,8 @@ const AuctionBid = () => {
 
               <div className="space-y-12">
                 <div className="space-y-4">
-                  <span className="font-['Manrope'] uppercase tracking-widest text-xl text-[#570000] font-bold">
+                  <span className="font-['Manrope'] uppercase tracking-widest text-lg text-[#570000] font-bold">
+                    {/* {filterCategoryName[0]?.name} */}
                     {categoryName}
                   </span>
                   <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">
