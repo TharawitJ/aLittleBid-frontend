@@ -67,4 +67,6 @@ export const apiCreateCheckout = (auctionId, bidId, body) =>
 export const apiConfirmCheckout = (sessionId) =>
   mainApi.get(`/payments/session/${sessionId}`);
 
+export const apiCreateTopUp = (body) => mainApi.post("/payments/topup", body);
+
 export const apiGetMyPayments = () => mainApi.get(`/payments/me`);

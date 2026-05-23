@@ -98,7 +98,7 @@ const HomePage = () => {
         {/* Ongoing Auctions (Masonry Style Grid) */}
         <section id="auctions" className="px-6 md:px-12 py-24 bg-surface">
         <div className="flex items-center">
-          <div className="font-headline text-4xl text-red my-8 mr-6">
+          <div className="font-headline text-5xl text-red my-8 mr-6">
             Populars
           </div>
           <div className="h-[1px] flex-grow bg-stone-200"></div>
@@ -121,10 +121,10 @@ const HomePage = () => {
                   {/* Editorial Glass Overlay */}
                   <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/70 backdrop-blur-[24px] flex flex-col md:flex-row justify-between items-end md:items-center">
                     <div className="max-w-xl text-left mx-2">
-                      <h1 className="font-['Noto_Serif'] text-5xl md:text-2xl text-black mb-4 leading-tight">
+                      <h1 className="font-['Noto_Serif'] text-5xl md:text-3xl text-black mb-4 leading-tight">
                         {lots?.[0]?.product?.name || "Untitled Lot"}
                       </h1>
-                      <p className="font-['Manrope'] text-dark-red text-bold text-3xl max-w-md">
+                      <p className="font-['Manrope'] text-dark-red text-bold text-4xl max-w-md">
                         {lots?.[0]?.bids?.[0]?.amount
                           ? `$${lots[0].bids[0].amount}`
                           : `$${lots?.[0]?.startingPrice || 0}`}
@@ -135,7 +135,7 @@ const HomePage = () => {
                       </div>
                       <button 
                         onClick={() => hdlJoinClick(lots?.[0]?.id)}
-                        className="bg-gradient-to-r from-[#570000] to-[#800000] text-white px-10 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
+                        className="bg-gradient-to-r from-[#570000] to-[#800000] text-white px-10 py-4 rounded-sm font-['Manrope'] text-sm uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
                         Join Auction
                       </button>
                     </div>
@@ -240,3 +240,4 @@ const HomePage = () => {
 };
 
 export default HomePage;
+

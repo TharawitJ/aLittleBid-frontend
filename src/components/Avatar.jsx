@@ -23,3 +23,4 @@ const Avatar = ({ user }) => {
 };
 
 export default Avatar;
+

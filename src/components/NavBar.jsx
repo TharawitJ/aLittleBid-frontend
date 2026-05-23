@@ -52,7 +52,7 @@ const NavBar = () => {
   };
 
   const navLinkClass = ({ isActive }) =>
-    `text-black font-medium hover:text-red transition-colors duration-300 font-label uppercase tracking-widest text-[12px] ${
+    `text-black font-medium hover:text-red transition-colors duration-300 font-label uppercase tracking-widest text-[14px] ${
       isActive
         ? "text-red border-b-2 border-red font-bold"
         : "text-[#5f5e5e] font-medium"
@@ -67,7 +67,7 @@ const NavBar = () => {
       }`}
     >
       <Link to="/">
-        <div className="font-headline italic text-2xl text-red">
+        <div className="font-headline text-3xl text-red">
           A Little Bid
         </div>
       </Link>
@@ -125,7 +125,7 @@ const NavBar = () => {
                   className="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-colors rounded-lg"
                 >
                   <UserIconNoCircle className="w-5" />
-                  <span className="font-label text-[12px] uppercase tracking-widest text-primary">
+                  <span className="font-label text-[14px] uppercase tracking-widest text-primary">
                     My Profile
                   </span>
                 </NavLink>
@@ -137,7 +137,7 @@ const NavBar = () => {
                     className="flex items-center gap-3 px-4 py-2 hover:bg-surface-container-high transition-colors rounded-lg"
                   >
                     <BagIcon />
-                    <span className="font-label text-[12px] uppercase tracking-widest text-primary">
+                    <span className="font-label text-[14px] uppercase tracking-widest text-primary">
                       My products
                     </span>
                   </NavLink>
@@ -149,7 +149,7 @@ const NavBar = () => {
                   onClick={logout}
                 >
                   <LogoutIcon className="w-5" />
-                  <span className="font-label text-[12px] uppercase tracking-widest">
+                  <span className="font-label text-[14px] uppercase tracking-widest">
                     Log out
                   </span>
                 </button>
@@ -160,7 +160,7 @@ const NavBar = () => {
           /* ถ้ายังไม่ Login ให้แสดงปุ่ม LOGIN */
           <Link
             to="/login"
-            className="text-[12px] font-bold uppercase hover:text-red transition-colors"
+            className="text-[14px] font-bold uppercase hover:text-red transition-colors"
           >
             LOGIN
           </Link>
@@ -171,3 +171,4 @@ const NavBar = () => {
 };
 
 export default NavBar;
+

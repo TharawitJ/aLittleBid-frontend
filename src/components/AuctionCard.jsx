@@ -71,14 +71,14 @@ const AuctionCard = ({
             {/* Badge */}
             <div className="absolute top-3 left-3 bg-red/100 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm ">
               <span className="w-1.5 h-1.5 rounded-full bg-red-200 animate-pulse block" />
-              <span className="font-['Manrope'] text-[10px] uppercase tracking-widest text-white font-bold">
+              <span className="font-['Manrope'] text-[12px] uppercase tracking-widest text-white font-bold">
                 {badge}
               </span>
             </div>
 
             {/* Bottom hint */}
             <div className="absolute bottom-3 left-0 right-0 flex justify-center pointer-events-none">
-              <span className="text-white/50 text-[10px] font-['Manrope'] tracking-widest uppercase">
+              <span className="text-white/50 text-[12px] font-['Manrope'] tracking-widest uppercase">
                 hover to reveal
               </span>
             </div>
@@ -106,29 +106,29 @@ const AuctionCard = ({
 
             <div className="relative z-10">
               {/* {cat && (
-                <p className="text-black text-[10px] uppercase tracking-widest font-['Manrope'] mb-2">
+                <p className="text-black text-[12px] uppercase tracking-widest font-['Manrope'] mb-2">
                   {cat}
                 </p>
               )}
-              <h3 className="font-['Noto_Serif'] text-2xl text-dark-red leading-snug mb-4">
+              <h3 className="font-['Noto_Serif'] text-3xl text-dark-red leading-snug mb-4">
                 {title}
               </h3> */}
-              <p className="text-grey text-[10px] uppercase tracking-widest font-['Manrope'] mb-1">
+              <p className="text-grey text-[12px] uppercase tracking-widest font-['Manrope'] mb-1">
                 product detail
               </p>
-              <p className="font-['Noto_Serif'] text-lg text-gray/50 leading-snug mb-4 font-extralight">{description}</p>
+              <p className="font-['Noto_Serif'] text-xl text-gray/50 leading-snug mb-4 font-extralight">{description}</p>
               <div className="h-px bg-white/20 mb-4" />
-              {/* <p className="text-black text-[10px] uppercase tracking-widest font-['Manrope'] mb-1">
+              {/* <p className="text-black text-[12px] uppercase tracking-widest font-['Manrope'] mb-1">
                 Current Bid
               </p>
-              <p className="font-['Noto_Serif'] text-3xl text-red font-bold tracking-wide">
+              <p className="font-['Noto_Serif'] text-4xl text-red font-bold tracking-wide">
                 {price}
               </p> */}
             </div>
 
             <div className="relative z-10 flex flex-col gap-3">
               {/* {timeLeft && (
-                <p className="text-white/60 text-[11px] font-['Manrope'] tracking-widest">
+                <p className="text-white/60 text-[13px] font-['Manrope'] tracking-widest">
                   {timeLeft}
                 </p>
               )} */}
@@ -139,7 +139,7 @@ const AuctionCard = ({
                   e.stopPropagation();
                   onJoin?.();
                 }}
-                className="w-full bg-white text-[#570000] font-['Manrope'] text-xs uppercase tracking-widest py-3 rounded-sm font-bold shadow-xl hover:bg-dark-red hover:text-white transition-colors"
+                className="w-full bg-white text-[#570000] font-['Manrope'] text-sm uppercase tracking-widest py-3 rounded-sm font-bold shadow-xl hover:bg-dark-red hover:text-white transition-colors"
               >
                 Join Auction →
               </motion.button>
@@ -152,11 +152,11 @@ const AuctionCard = ({
       <div className="mt-4 px-3 flex justify-between items-start">
         <div className="flex flex-col flex-1 min-w-0">
           {cat && (
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 mb-1 block">
+            <span className="text-[12px] font-semibold uppercase tracking-widest text-stone-400 mb-1 block">
               {cat}
             </span>
           )}
-          <h3 className="font-['Noto_Serif'] text-lg leading-snug text-[#1c1b1b] truncate mb-2 hover:text-2xl hover:text-dark-red"
+          <h3 className="font-['Noto_Serif'] text-xl leading-snug text-[#1c1b1b] truncate mb-2 hover:text-3xl hover:text-dark-red"
             onClick={(e) => {
               e.stopPropagation();
               onJoin?.();
@@ -164,17 +164,17 @@ const AuctionCard = ({
             {title}
           </h3>
           {timeLeft && (
-            <span className="text-[11px] text-[#570000] mt-1.5 font-['Manrope'] tracking-wide">
+            <span className="text-[13px] text-[#570000] mt-1.5 font-['Manrope'] tracking-wide">
               {timeLeft}
             </span>
           )}
         </div>
         {/* {auctionDetail && ( */}
           <div className="text-right shrink-0">
-            <p className="text-[9px] uppercase tracking-widest text-stone-400 mb-0.5">
+            <p className="text-[11px] uppercase tracking-widest text-stone-400 mb-0.5">
               Current Bid
             </p>
-            <p className="font-['Noto_Serif'] text-lg text-[#800000] font-semibold tracking-wider">
+            <p className="font-['Noto_Serif'] text-xl text-[#800000] font-semibold tracking-wider">
               {price}
             </p>
           </div>
@@ -185,3 +185,4 @@ const AuctionCard = ({
 };
 
 export default AuctionCard;
+

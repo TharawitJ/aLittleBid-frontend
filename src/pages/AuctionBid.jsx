@@ -137,18 +137,18 @@ const AuctionBid = () => {
 
               <div className="space-y-12">
                 <div className="space-y-4">
-                  <span className="font-['Manrope'] uppercase tracking-widest text-lg text-[#570000] font-bold">
+                  <span className="font-['Manrope'] uppercase tracking-widest text-xl text-[#570000] font-bold">
                     {filterCategoryName[0]?.name}
                   </span>
                   <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">
                     {auctionById?.product?.name}
                   </h1>
-                  {/* <p className="text-xl font-['Noto_Serif'] italic text-[#5e5e5e]">
+                  {/* <p className="text-2xl font-['Noto_Serif'] text-[#5e5e5e]">
                     {auctionById?.product?.description}
                   </p> */}
                 </div>
 
-                <div className="max-w-none text-lg text-[#5a413d] leading-relaxed font-light space-y-4">
+                <div className="max-w-none text-xl text-[#5a413d] leading-relaxed font-light space-y-4">
                   <p>{description}</p>
                 </div>
               </div>
@@ -160,19 +160,19 @@ const AuctionBid = () => {
                 <div className="bg-[#f6f3f2] p-8 md:p-10 rounded-lg border border-[#e2bfb9]/10">
                   <div className="flex justify-between items-start mb-10">
                     <div>
-                      <p className="font-['Manrope'] text-[12px] text-black mb-2 uppercase tracking-widest">
+                      <p className="font-['Manrope'] text-[14px] text-black mb-2 uppercase tracking-widest">
                         Current Bid
                       </p>
-                      <p className="text-4xl font-['Noto_Serif'] text-dark-red font-bold tracking-wider">
+                      <p className="text-5xl font-['Noto_Serif'] text-dark-red font-bold tracking-wider">
                         {/* {filteredNewBid.length > 0 ? filteredNewBid[0].amount : auctionById?.startingPrice || 0} */}
                         {currentHighestBid
                           ? currentHighestBid.amount
                           : auctionById?.startingPrice}
                       </p>
-                      <span className="text-[14px] text-primary mt-5 text-headline uppercase">
+                      <span className="text-base text-primary mt-5 text-headline uppercase">
                         Highest Bidder:
                       </span>
-                      <span className="text-[14px] text-secondary mt-3 text-headline uppercase font-bold mx-2">
+                      <span className="text-base text-secondary mt-3 text-headline uppercase font-bold mx-2">
                         {currentHighestBid
                           ? (usersList.find(
                               (u) => u.id === currentHighestBid?.bidderId,
@@ -181,11 +181,11 @@ const AuctionBid = () => {
                       </span>
                     </div>
                     <div className="text-right">
-                      <p className="uppercase text-[10px]">Status</p>
-                      <p className="font-['Manrope'] text-[12px] text-dark-red uppercase tracking-widest font-bold mb-9">
+                      <p className="uppercase text-[12px]">Status</p>
+                      <p className="font-['Manrope'] text-[14px] text-dark-red uppercase tracking-widest font-bold mb-9">
                         {auctionById?.status}
                       </p>
-                      <div className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]">
+                      <div className="text-3xl font-['Noto_Serif'] text-[#1c1b1b]">
                         {auctionById?.product ? (
                           <TimeCountdown product={auctionById?.product} />
                         ) : (
@@ -200,7 +200,7 @@ const AuctionBid = () => {
                     <form onSubmit={handleSubmit(hdlOnSubmit)}>
                       <div className="space-y-6">
                         <div className="space-y-2">
-                          <label className="font-['Manrope'] uppercase tracking-widest text-[10px] text-stone-500">
+                          <label className="font-['Manrope'] uppercase tracking-widest text-[12px] text-stone-500">
                             Your Bid
                           </label>
                           <div className="relative flex items-center">
@@ -224,35 +224,35 @@ const AuctionBid = () => {
                           <button
                             onClick={()=>hdlUpdateAmountInput(1)}
                             type="button"
-                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
+                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-sm font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
                           >
                             +{auctionById?.minIncrement}
                           </button>
                           <button
                             onClick={()=>hdlUpdateAmountInput(2)}
                             type="button"
-                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
+                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-sm font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
                           >
                             +{auctionById?.minIncrement * 2}
                           </button>
                           <button
                             onClick={()=>hdlUpdateAmountInput(3)}
                             type="button"
-                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
+                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-sm font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
                           >
                             +{auctionById?.minIncrement * 3}
                           </button>
                           <button
                             onClick={()=>hdlUpdateAmountInput(4)}
                             type="button"
-                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
+                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-sm font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
                           >
                             +{auctionById?.minIncrement * 4}
                           </button>
                           </div>
                         </div>
                         <button
-                          className="w-full bg-gradient-to-r from-[#570000] to-[#800000] text-white font-['Manrope'] uppercase tracking-widest py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 disabled:scale-100 disabled:cursor-not-allowed"
+                          className="w-full bg-gradient-to-r from-[#570000] to-[#800000] text-white font-['Manrope'] uppercase tracking-widest py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-sm font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 disabled:scale-100 disabled:cursor-not-allowed"
                           disabled={!isDirty || auctionById?.status !== "ACTIVE"}
                         >
                           Place Bid
@@ -264,10 +264,10 @@ const AuctionBid = () => {
 
                 <div className="bg-[#f6f3f2]  text-stone-50 p-8 rounded-lg relative max-h-[300px]">
                   <div className="relative z-10 space-y-4">
-                    <h3 className="font-['Noto_Serif'] text-xl text-left font-bold text-red">
+                    <h3 className="font-['Noto_Serif'] text-2xl text-left font-bold text-red">
                       Live Bid
                     </h3>
-                    {/* <p className="text-xs text-stone-400 font-light leading-relaxed italic text-left">
+                    {/* <p className="text-sm text-stone-400 font-light leading-relaxed text-left">
                     "This specific canvas represents the pinnacle of 18th-century veduta painting. The 'ghostly' architecture is a signature mark of Guardi's later style."
                   </p> */}
                     <div className="flex flex-col gap-3 overflow-y-auto max-h-[200px]">
@@ -286,19 +286,19 @@ const AuctionBid = () => {
                                   />
                                 </div>
                                 <div className="text-left">
-                                  <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
+                                  <p className="text-[14px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
                                     {
                                       usersList.find((i) => e.bidderId === i.id)
                                         ?.username ?? "Unknown bidder"
                                     }
                                     {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
                                   </p>
-                                  <p className="text-[14px] text-stone-500 uppercase tracking-widest">
+                                  <p className="text-base text-stone-500 uppercase tracking-widest">
                                     {e.amount}
                                   </p>
                                 </div>
                               </div>
-                              <div className="text-[12px] text-stone-500 tracking-widest">
+                              <div className="text-[14px] text-stone-500 tracking-widest">
                                 {new Date(e?.createdAt).toLocaleTimeString()}
                               </div>
                             </div>
@@ -318,3 +318,4 @@ const AuctionBid = () => {
 };
 
 export default AuctionBid;
+

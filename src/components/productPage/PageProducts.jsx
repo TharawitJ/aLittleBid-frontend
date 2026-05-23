@@ -35,3 +35,4 @@ export const ProductListByPages = ({ allProducts,limit}) => {
     </div>
   );
 };
+

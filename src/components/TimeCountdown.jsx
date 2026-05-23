@@ -64,7 +64,7 @@ const formatTime = (ms) => {
     <>
       {/* <div className="grid grid-cols-4 gap-4"> */}
       <div key={product.id} className="rounded-xl text-red-950">
-        <p className="uppercase text-[10px]">
+        <p className="uppercase text-[12px]">
           Time Left
         </p>
         <div className="material-symbols-outlined text-[16px] text-primary">
@@ -77,3 +77,4 @@ const formatTime = (ms) => {
 }
 
 export default TimeCountdown;
+

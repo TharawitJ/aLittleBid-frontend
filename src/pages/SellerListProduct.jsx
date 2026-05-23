@@ -43,10 +43,10 @@ const SellerUserListProduct = () => {
         {/* SideNavBar */}
         <aside className="hidden md:flex flex-col gap-4 p-6 bg-[#f5f3f0] w-64 border-r border-[#efeeeb] sticky top-[73px] h-[calc(100vh-73px)]">
           <div className="mb-8">
-            <h2 className="text-sm uppercase tracking-widest text-[#9e1b1b] font-bold">
+            <h2 className="text-base uppercase tracking-widest text-[#9e1b1b] font-bold">
               Inventory
             </h2>
-            <p className="text-xs text-[#59413e]/60 mt-1">
+            <p className="text-sm text-[#59413e]/60 mt-1">
               Curating your collection
             </p>
           </div>
@@ -64,7 +64,7 @@ const SellerUserListProduct = () => {
                   filter === nav.label ? "bg-blue-100 text-blue-600" : "" // Active style
                 }`}
               >
-                <span className="text-xs uppercase tracking-widest">
+                <span className="text-sm uppercase tracking-widest">
                   {nav.label}
                 </span>
               </button>
@@ -87,7 +87,7 @@ const SellerUserListProduct = () => {
             </div>
             <button
               onClick={hdlAddProduct}
-              className="bg-gradient-to-br from-[#7a0009] to-[#9e1b1b] text-white flex items-center gap-3 px-8 py-4 rounded-sm shadow-xl shadow-[#7a0009]/10 active:scale-[0.98] transition-all uppercase tracking-widest text-xs font-bold"
+              className="bg-gradient-to-br from-[#7a0009] to-[#9e1b1b] text-white flex items-center gap-3 px-8 py-4 rounded-sm shadow-xl shadow-[#7a0009]/10 active:scale-[0.98] transition-all uppercase tracking-widest text-sm font-bold"
             >
               <span className="material-symbols-outlined">add</span>
               Add New Product
@@ -97,10 +97,10 @@ const SellerUserListProduct = () => {
           {/* Bento Filter Bar */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
             <div className="bg-[#f5f3f0] p-4 flex items-center justify-between rounded-sm cursor-pointer">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#59413e]">
+              <span className="text-sm font-bold uppercase tracking-widest text-[#59413e]">
                 Sort By
               </span>
-              <span className="material-symbols-outlined text-lg text-[#59413e]">
+              <span className="material-symbols-outlined text-xl text-[#59413e]">
                 filter_list
               </span>
             </div>
@@ -117,3 +117,4 @@ const SellerUserListProduct = () => {
 };
 
 export default SellerUserListProduct;
+

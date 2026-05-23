@@ -176,32 +176,32 @@ const AddProduct = () => {
               {/* Section 1: Identification */}
               <section>
                 <div className="flex items-center gap-4 mb-10">
-                  <span className="font-['Newsreader'] text-3xl italic bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  <span className="font-['Newsreader'] text-4xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                     1
                   </span>
-                  <h2 className="font-['Newsreader'] text-2xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  <h2 className="font-['Newsreader'] text-3xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                     Product Detail
                   </h2>
                 </div>
                 <div className="space-y-8">
                   <div className="flex flex-col">
-                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
+                    <label className="text-sm uppercase tracking-widest text-dark-red mb-2 font-bold">
                       Product Name
                     </label>
                     <input
                       type="text"
                       placeholder="Product Name"
-                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
+                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-xl focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
                       {...register("name")}
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
+                    <label className="text-sm uppercase tracking-widest text-dark-red mb-2 font-bold">
                       Category
                     </label>
                     <select
                       onChange={(e) => console.log(e.target.value)}
-                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-2 text-base focus:ring-0 focus:border-[#7a0009] transition-all appearance-none"
+                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-2 text-lg focus:ring-0 focus:border-[#7a0009] transition-all appearance-none"
                       {...register("category")}
                     >
                       <option>Select a category</option>
@@ -213,13 +213,13 @@ const AddProduct = () => {
                     </select>
                   </div>
                   <div className="flex flex-col">
-                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
+                    <label className="text-sm uppercase tracking-widest text-dark-red mb-2 font-bold">
                       Description
                     </label>
                     <textarea
                       rows="4"
                       placeholder="product details"
-                      className="border-1 border-[#8d706d]/30 bg-transparent px-3 py-3 text-base focus:ring-0 focus:border-[#7a0009] transition-all resize-none"
+                      className="border-1 border-[#8d706d]/30 bg-transparent px-3 py-3 text-lg focus:ring-0 focus:border-[#7a0009] transition-all resize-none"
                       {...register("description")}
                     ></textarea>
                   </div>
@@ -229,33 +229,33 @@ const AddProduct = () => {
 
               <section>
                 <div className="flex items-center gap-4 mb-10">
-                  <span className="font-['Newsreader'] text-3xl italic bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  <span className="font-['Newsreader'] text-4xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                     2
                   </span>
-                  <h2 className="font-['Newsreader'] text-2xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  <h2 className="font-['Newsreader'] text-3xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                     Auction Detail
                   </h2>
                 </div>
                 {/* <form action=""> */}
                 <div className="space-y-8 grid grid-cols-2 gap-5">
                   <div className="flex flex-col">
-                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
+                    <label className="text-sm uppercase tracking-widest text-dark-red mb-2 font-bold">
                       Start Time
                     </label>
                     <input
                       type="datetime-local"
                       placeholder=""
-                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
+                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-xl focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
                       {...register("startTime")}
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
+                    <label className="text-sm uppercase tracking-widest text-dark-red mb-2 font-bold">
                       End Time
                     </label>
                     <select
                       name="durationEndTime"
-                      className="min-h-[37px] border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
+                      className="min-h-[37px] border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-xl focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
                       {...register("durationEndTime")}
                     >
                       <option value="24">1 day</option>
@@ -264,32 +264,32 @@ const AddProduct = () => {
                     </select>
                   </div>
                   <div className="flex flex-col">
-                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
+                    <label className="text-sm uppercase tracking-widest text-dark-red mb-2 font-bold">
                       Starting Price (Bath)
                     </label>
                     <input
                       type="text"
-                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
+                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-xl focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
                       {...register("startingPrice")}
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
+                    <label className="text-sm uppercase tracking-widest text-dark-red mb-2 font-bold">
                       Reserve Price (Bath)
                     </label>
                     <input
                       type="text"
-                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
+                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-xl focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
                       {...register("reservePrice")}
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
+                    <label className="text-sm uppercase tracking-widest text-dark-red mb-2 font-bold">
                       Minimum Increment (Bath)
                     </label>
                     <input
                       type="text"
-                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
+                      className="border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-xl focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
                       {...register("minIncrement")}
                     />
                   </div>
@@ -301,7 +301,7 @@ const AddProduct = () => {
             {/* Right Side: Media & Context */}
             <div className="lg:col-span-5 space-y-12">
               <div className="bg-white p-8 border border-[#e1bebb]/15 rounded-sm">
-                <h3 className="font-['Newsreader'] text-xl mb-8 bg-gradient-to-r from-dark-red to-secondary bg-clip-text text-transparent">
+                <h3 className="font-['Newsreader'] text-2xl mb-8 bg-gradient-to-r from-dark-red to-secondary bg-clip-text text-transparent">
                   Product Images
                 </h3>
                 <div>
@@ -359,14 +359,14 @@ const AddProduct = () => {
                     onChange={handleFileChange} />
                   {images.length > 0 ? (
                     <div className="flex flex-col items-center">
-                      <span className="material-symbols-outlined text-3xl text-green-600 mb-4">
+                      <span className="material-symbols-outlined text-4xl text-green-600 mb-4">
                         check_circle
                       </span>
-                      <p className="text-sm font-semibold mb-1">
+                      <p className="text-base font-semibold mb-1">
                         Selected {images.length} files
                       </p>
                       <button type="button"
-                        className="mt-2 text-xs text-red-600 underline hover:text-red-800"
+                        className="mt-2 text-sm text-red-600 underline hover:text-red-800"
                         onClick={(e) => {
                           removePic(); // ฟังก์ชันล้างรูปทั้งหมด
                         }}
@@ -378,13 +378,13 @@ const AddProduct = () => {
                     : (
                       // แสดง UI ปกติเมื่อยังไม่มีรูป
                       <>
-                        <span className="material-symbols-outlined text-3xl text-[#7a0009] mb-4">
+                        <span className="material-symbols-outlined text-4xl text-[#7a0009] mb-4">
                           cloud_upload
                         </span>
-                        <p className="text-sm font-semibold mb-1">
+                        <p className="text-base font-semibold mb-1">
                           Drag & drop files here
                         </p>
-                        <p className="text-xs text-[#59413e]">
+                        <p className="text-sm text-[#59413e]">
                           PNG, JPG or JPEG (max. 10MB)
                         </p>
                       </>
@@ -399,11 +399,11 @@ const AddProduct = () => {
         <div className="flex justify-center items-center gap-6 pt-30">
           <button
             onClick={handleSubmit(onSubmit)}
-            className="bg-gradient-to-br from-dark-red to-red-600 text-white px-8 py-4 rounded-sm text-sm font-bold tracking-widest uppercase hover:shadow-lg hover:shadow-[#7a0009]/20 transition-all active:scale-[0.98]"
+            className="bg-gradient-to-br from-dark-red to-red-600 text-white px-8 py-4 rounded-sm text-base font-bold tracking-widest uppercase hover:shadow-lg hover:shadow-[#7a0009]/20 transition-all active:scale-[0.98]"
           >
             Create New Product
           </button>
-          <button className="text-white bg-gradient-to-r from-primary to-secondary text-on-primary w-30 py-4 rounded-l hover:text-[#7a0009] transition-colors text-sm font-bold tracking-widest uppercase decoration-[#e1bebb]/30">
+          <button className="text-white bg-gradient-to-r from-primary to-secondary text-on-primary w-30 py-4 rounded-l hover:text-[#7a0009] transition-colors text-base font-bold tracking-widest uppercase decoration-[#e1bebb]/30">
             Save Draft
           </button>
         </div>
@@ -413,3 +413,4 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
+

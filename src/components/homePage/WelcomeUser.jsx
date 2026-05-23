@@ -43,7 +43,7 @@ function WelcomeUser() {
             initial="hidden"
             animate="visible"
           >
-            <motion.span variants={itemVariants} className="font-['Manrope'] uppercase tracking-[0.3em] text-[#800000] mb-4 block text-sm font-bold">
+            <motion.span variants={itemVariants} className="font-['Manrope'] uppercase tracking-[0.3em] text-[#800000] mb-4 block text-base font-bold">
               Exclusive Member
             </motion.span>
             <motion.h1 variants={itemVariants} className="font-['Noto_Serif'] text-5xl md:text-7xl text-[#1c1b1b] leading-tight">
@@ -54,7 +54,7 @@ function WelcomeUser() {
             </motion.h1>
             <motion.div variants={itemVariants} className="flex items-center gap-4 mt-8">
               <div className="h-[1px] w-12 bg-[#800000]"></div>
-              <p className="font-['Noto_Serif'] text-3xl md:text-4xl text-[#1c1b1b] italic">
+              <p className="font-['Noto_Serif'] text-4xl md:text-5xl text-[#1c1b1b]">
                 {user?.username}
               </p>
             </motion.div>

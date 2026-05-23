@@ -70,7 +70,7 @@ const AuctionPage = () => {
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
       <main className=" pb-20 px-12 max-w-[1920px] mx-auto">
         <div className="flex items-center">
-          <div className="font-headline text-4xl text-red my-8 mr-6">
+          <div className="font-headline text-5xl text-red my-8 mr-6">
             Populars
           </div>
           <div className="h-[1px] flex-grow bg-stone-200"></div>
@@ -89,13 +89,13 @@ const AuctionPage = () => {
             {/* Editorial Glass Overlay */} 
             <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/70 backdrop-blur-[24px] flex flex-col md:flex-row justify-between items-end md:items-center">
               <div className="max-w-xl text-left mx-2">
-                <span className="font-['Manrope'] text-[10px] uppercase tracking-[0.2em] text-[#570000] mb-2 block font-semibold">
+                <span className="font-['Manrope'] text-[12px] uppercase tracking-[0.2em] text-[#570000] mb-2 block font-semibold">
                   Premium Lot 041
                 </span>
-                <h1 className="font-['Noto_Serif'] text-5xl md:text-2xl text-black mb-4 leading-tight">
-                  Golden Model <span className="italic">Signature</span>
+                <h1 className="font-['Noto_Serif'] text-5xl md:text-3xl text-black mb-4 leading-tight">
+                  Golden Model Signature
                 </h1>
-                <p className="font-['Manrope'] text-dark-red text-bold text-3xl max-w-md">
+                <p className="font-['Manrope'] text-dark-red text-bold text-4xl max-w-md">
                   $40000
                 </p>
               </div>
@@ -103,16 +103,16 @@ const AuctionPage = () => {
                 <div className="flex gap-4 mb-6">
                   {["Hrs", "Min", "Sec"].map((label, i) => (
                     <div key={label} className="text-center">
-                      <span className="block font-['Noto_Serif'] text-2xl">
+                      <span className="block font-['Noto_Serif'] text-3xl">
                         0{8 + i}
                       </span>
-                      <span className="font-['Manrope'] text-[9px] uppercase tracking-widest text-stone-500">
+                      <span className="font-['Manrope'] text-[11px] uppercase tracking-widest text-stone-500">
                         {label}
                       </span>
                     </div>
                   ))}
                 </div>
-                <button className="bg-gradient-to-r from-[#570000] to-[#800000] text-white px-10 py-4 rounded-sm font-['Manrope'] text-xs uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
+                <button className="bg-gradient-to-r from-[#570000] to-[#800000] text-white px-10 py-4 rounded-sm font-['Manrope'] text-sm uppercase tracking-widest hover:opacity-90 transition-all active:scale-95 shadow-lg shadow-[#570000]/20">
                   Join Auction
                 </button>
               </div>
@@ -196,7 +196,7 @@ const AuctionPage = () => {
         <section className="mt-20">
           <div className="flex flex-col gap-2 mb-12">
             <div className="flex items-center gap-6">
-              <h2 className="font-['Noto_Serif'] text-4xl text-red">Timeout</h2>
+              <h2 className="font-['Noto_Serif'] text-5xl text-red">Timeout</h2>
               <div className="h-[1px] flex-grow bg-stone-200"></div>
               <div className="dropdown dropdown-center">
                 <div
@@ -281,3 +281,4 @@ const AuctionPage = () => {
 };
 
 export default AuctionPage;
+

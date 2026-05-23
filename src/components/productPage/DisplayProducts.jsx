@@ -71,3 +71,4 @@ function DisplayProducts({ displayProducts, allCategories }) {
 }
 
 export default DisplayProducts;
+
