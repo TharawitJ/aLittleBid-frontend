@@ -139,7 +139,7 @@ const AuctionBid = () => {
     setBidHistory(auctionById.bids);
   }, [auctionById?.id,setBidHistory]);
 
-  return (
+   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
       {isLoading ? (
         <divc className="mx-auto w-full h-full text-8xl">...Loading</divc>
@@ -163,16 +163,12 @@ const AuctionBid = () => {
                   <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">
                     {auctionById?.product?.name}
                   </h1>
-                  {/* <p className="text-2xl font-['Noto_Serif'] text-[#5e5e5e]">
-                    {auctionById?.product?.description}
-                  </p> */}
                 </div>
 
-                <div className="max-w-none text-xl text-[#5a413d] leading-relaxed font-light space-y-4">
+                <div className="max-w-none text-lg text-[#5a413d] leading-relaxed font-light space-y-4">
                   <p>{description}</p>
                 </div>
               </div>
-            </div>
             </div>
 
             {/* Right Column: Bidding Panel */}
@@ -181,19 +177,18 @@ const AuctionBid = () => {
                 <div className="bg-[#f6f3f2] p-8 md:p-10 rounded-lg border border-[#e2bfb9]/10">
                   <div className="flex justify-between items-start mb-10">
                     <div>
-                      <p className="font-['Manrope'] text-[14px] text-black mb-2 uppercase tracking-widest">
+                      <p className="font-['Manrope'] text-[12px] text-black mb-2 uppercase tracking-widest">
                         Current Bid
                       </p>
-                      <p className="text-5xl font-['Noto_Serif'] text-dark-red font-bold tracking-wider">
-                        {/* {filteredNewBid.length > 0 ? filteredNewBid[0].amount : auctionById?.startingPrice || 0} */}
+                      <p className="text-4xl font-['Noto_Serif'] text-dark-red font-bold tracking-wider">
                         {currentHighestBid
                           ? currentHighestBid.amount
                           : auctionById?.startingPrice}
                       </p>
-                      <span className="text-base text-primary mt-5 text-headline uppercase">
+                      <span className="text-[14px] text-primary text-headline uppercase">
                         Highest Bidder:
                       </span>
-                      <span className="text-base text-secondary mt-3 text-headline uppercase font-bold mx-2">
+                      <span className="text-[14px] text-secondary mt-3 text-headline uppercase font-bold mx-2">
                         {currentHighestBid
                           ? (usersList.find(
                               (u) => u.id === currentHighestBid?.bidderId,
@@ -202,11 +197,11 @@ const AuctionBid = () => {
                       </span>
                     </div>
                     <div className="text-right">
-                      <p className="uppercase text-[12px]">Status</p>
-                      <p className="font-['Manrope'] text-[14px] text-dark-red uppercase tracking-widest font-bold mb-9">
+                      <p className="uppercase text-[10px]">Status</p>
+                      <p className="font-['Manrope'] text-[12px] text-dark-red uppercase tracking-widest font-bold mb-9">
                         {auctionById?.status}
                       </p>
-                      <div className="text-3xl font-['Noto_Serif'] text-[#1c1b1b]">
+                      <div className="text-2xl font-['Noto_Serif'] text-[#1c1b1b]">
                         {auctionById?.product ? (
                           <TimeCountdown product={auctionById?.product} />
                         ) : (
@@ -221,7 +216,7 @@ const AuctionBid = () => {
                     <form onSubmit={handleSubmit(hdlOnSubmit)}>
                       <div className="space-y-6">
                         <div className="space-y-2">
-                          <label className="font-['Manrope'] uppercase tracking-widest text-[12px] text-stone-500">
+                          <label className="font-['Manrope'] uppercase tracking-widest text-[10px] text-stone-500">
                             Your Bid
                           </label>
                           <div className="relative flex items-center">
@@ -237,41 +232,33 @@ const AuctionBid = () => {
                               {...register("amount")}
                               className="w-full bg-[#ebe7e7] border-none rounded-sm py-4 pl-8 pr-4 focus:ring-1 focus:ring-[#570000] focus:bg-white transition-all outline-none"
                             />
-                          </div>
-                          <div className="flex gap-5 justify-between">
-                          <button
-                            onClick={()=>hdlUpdateAmountInput(1)}
-                            type="button"
-                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-sm font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
-                          >
-                            +{auctionById?.minIncrement}
-                          </button>
-                          <button
-                            onClick={()=>hdlUpdateAmountInput(2)}
-                            type="button"
-                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-sm font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
-                          >
-                            +{auctionById?.minIncrement * 2}
-                          </button>
-                          <button
-                            onClick={()=>hdlUpdateAmountInput(3)}
-                            type="button"
-                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-sm font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
-                          >
-                            +{auctionById?.minIncrement * 3}
-                          </button>
-                          <button
-                            onClick={()=>hdlUpdateAmountInput(4)}
-                            type="button"
-                            className="w-30 bg-gradient-to-r from-[#00008B] to-[#0000CD] text-white font-['Manrope'] py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-sm font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500"
-                          >
-                            +{auctionById?.minIncrement * 4}
-                          </button>
+
+                            <div className="flex mx-2">
+                              <button
+                                onClick={() => hdlDecreaseAmountInput(1)}
+                                type="button"
+                                className="w-11 py-2 px-1 bg-gradient-to-r from-dark-red to-red text-white font-label rounded-l-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 cursor-pointer"
+                                disabled={
+                                  Number(watch("amount")) <= minRequiredPrice
+                                }
+                              >
+                                -{auctionById?.minIncrement}
+                              </button>
+                              <button
+                                onClick={() => hdlIncreaseAmountInput(1)}
+                                type="button"
+                                className="w-11 py-2 bg-gradient-to-r from-dark-red to-red text-white font-label rounded-r-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 cursor-pointer"
+                              >
+                                +{auctionById?.minIncrement}
+                              </button>
+                            </div>
                           </div>
                         </div>
                         <button
-                          className="w-full bg-gradient-to-r from-[#570000] to-[#800000] text-white font-['Manrope'] uppercase tracking-widest py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-sm font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 disabled:scale-100 disabled:cursor-not-allowed"
-                          disabled={!isDirty || auctionById?.status !== "ACTIVE"}
+                          className="w-full bg-gradient-to-r from-[#570000] to-[#800000] text-white font-['Manrope'] uppercase tracking-widest py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 disabled:scale-100 disabled:cursor-not-allowed"
+                          disabled={
+                            !isDirty || auctionById?.status !== "ACTIVE"
+                          }
                         >
                           Place Bid
                         </button>
@@ -279,48 +266,49 @@ const AuctionBid = () => {
                     </form>
                   )}
                 </div>
-
-                <div className="bg-[#f6f3f2]  text-stone-50 p-8 rounded-lg relative max-h-[300px]">
-                  <div className="relative z-10 space-y-4">
-                    <h3 className="font-['Noto_Serif'] text-2xl text-left font-bold text-red">
-                      Live Bid
-                    </h3>
-                    <div className="flex flex-col gap-3 overflow-y-auto max-h-[200px]">
-                      {bids
-                        ? bids.map((e, i) => (
-                            <div
-                              key={i}
-                              className="flex justify-between items-center"
-                            >
-                              <div className="flex items-center gap-4 pt-4">
-                                <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
-                                  <img
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe"
-                                    alt="Curator"
-                                    className="w-full h-full object-cover"
-                                  />
+                {bids && bids.length > 0 && (
+                  <div className="bg-[#f6f3f2]  text-stone-50 p-8 rounded-lg relative max-h-[300px]">
+                    <div className="relative z-10 space-y-4">
+                      <h3 className="font-['Noto_Serif'] text-xl text-left font-bold text-red">
+                        Live Bid
+                      </h3>
+                      <div className="flex flex-col gap-3 overflow-y-auto max-h-[200px]">
+                        {bids
+                          ? bids.map((e, i) => (
+                              <div
+                                key={i}
+                                className="flex justify-between items-center"
+                              >
+                                <div className="flex items-center gap-4 pt-4">
+                                  <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
+                                    <img
+                                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe"
+                                      alt="Curator"
+                                      className="w-full h-full object-cover"
+                                    />
+                                  </div>
+                                  <div className="text-left">
+                                    <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
+                                      {usersList.find(
+                                        (i) => e.bidderId === i.id,
+                                      )?.username ?? "Unknown bidder"}
+                                      {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
+                                    </p>
+                                    <p className="text-[14px] text-stone-500 uppercase tracking-widest">
+                                      {e.amount}
+                                    </p>
+                                  </div>
                                 </div>
-                                <div className="text-left">
-                                  <p className="text-[14px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
-                                    {
-                                      usersList.find((i) => e.bidderId === i.id)
-                                        ?.username ?? "Unknown bidder"
-                                    }
-                                    {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
-                                  </p>
-                                  <p className="text-base text-stone-500 uppercase tracking-widest">
-                                    {e.amount}
-                                  </p>
+                                <div className="text-[12px] text-stone-500 tracking-widest">
+                                  {new Date(e?.createdAt).toLocaleTimeString()}
                                 </div>
                               </div>
-                              <div className="text-[14px] text-stone-500 tracking-widest">
-                                {new Date(e?.createdAt).toLocaleTimeString()}
-                              </div>
-                            </div>
-                          ))
-                        : "Loading bid data..."}
+                            ))
+                          : "Loading bid data..."}
+                      </div>
                     </div>
                   </div>
+                )}
               </div>
             </div>
           </div>
@@ -332,4 +320,3 @@ const AuctionBid = () => {
 };
 
 export default AuctionBid;
-
