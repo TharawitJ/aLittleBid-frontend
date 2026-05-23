@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router";
 import {
   EmbeddedCheckoutProvider,
@@ -8,6 +8,7 @@ import { stripePromise } from "../lib/stripe.js";
 import usePaymentStore from "../stores/payment.store.js";
 import useAuctionStore from "../stores/auction.store.js";
 import useBidStore from "../stores/bid.store.js";
+import { apiGetBidById } from "../api/apiMain.js";
 
 export default function Payment() {
   const { auctionId, bidId } = useParams();
@@ -15,6 +16,7 @@ export default function Payment() {
     usePaymentStore();
   const { auctionById, getAuctionById } = useAuctionStore();
   const { winner, setWinner } = useBidStore();
+  const [fetchingBid, setFetchingBid] = useState(false);
 
   // Ensure we have product data for the routed auction
   useEffect(() => {
@@ -23,9 +25,35 @@ export default function Payment() {
     }
   }, [auctionId, auctionById, getAuctionById]);
 
+  // If winner is missing (e.g. page refresh), fetch it by bidId
+  useEffect(() => {
+    if (!winner && bidId) {
+      const fetchBid = async () => {
+        try {
+          setFetchingBid(true);
+          const resp = await apiGetBidById(bidId);
+          if (resp.data.responses) {
+            setWinner({
+              amount: resp.data.responses.amount,
+              bidId: resp.data.responses.id,
+              winnerId: resp.data.responses.bidderId,
+            });
+          }
+        } catch (err) {
+          console.error("Failed to fetch bid for winner context:", err);
+        } finally {
+          setFetchingBid(false);
+        }
+      };
+      fetchBid();
+    }
+  }, [winner, bidId, setWinner]);
+
+  console.log('winner', winner)
+
   // Kick off checkout once we have everything we need
   useEffect(() => {
-    if (clientSecret || loading || error) return;
+    if (clientSecret || loading || error || fetchingBid) return;
     if (!auctionById?.product) return;
     if (!winner?.amount) return;
 
@@ -51,6 +79,7 @@ export default function Payment() {
     loading,
     error,
     createCheckout,
+    fetchingBid,
   ]);
 
   // Diagnostic: figure out what (if anything) is blocking createCheckout
@@ -122,21 +151,7 @@ export default function Payment() {
               ))}
             </ul>
 
-            {import.meta.env.DEV && !winner?.amount && (
-              <button
-                type="button"
-                onClick={() =>
-                  setWinner({
-                    amount: 100,
-                    bidId: bidId ?? "test-bid-cuid",
-                    winnerId: 0,
-                  })
-                }
-                className="px-4 py-2 text-sm font-bold uppercase tracking-widest bg-[#7a0009] text-white hover:bg-[#9e1b1b] transition-colors"
-              >
-                🧪 Plant test winner (dev only)
-              </button>
-            )}
+            {import.meta.env.DEV && !winner?.amount}
 
             <details className="text-sm">
               <summary className="cursor-pointer text-[#7a0009]">

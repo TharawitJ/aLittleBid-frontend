@@ -5,6 +5,7 @@ import { mainApi as api } from "../api/apiMain.js";
 import useUserStore from "../stores/user.store.js";
 import { loginSchema } from "../validations/RegisLogin.js";
 import { EyeIcon, EyeSlashIcon } from "../icons/index.jsx";
+import Swal from "sweetalert2"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -14,7 +15,6 @@ export default function LoginPage() {
   const [errors, setErrors] = useState({});
   const login = useUserStore((state) => state.login);
   const navigate = useNavigate();
-  const token = useUserStore((state) => state.token);
 
   const parsed = loginSchema.safeParse({ email, password });
   const canSubmit = parsed.success;
@@ -33,7 +33,10 @@ export default function LoginPage() {
       await login(result.data);
 
       console.log("Login Success");
-      alert("Login Successful!");
+      Swal.fire({
+        title: "Login Successful!"
+      })
+      // alert("Login Successful!");
       navigate("/");
     } catch (error) {
       const message =

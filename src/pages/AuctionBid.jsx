@@ -1,10 +1,8 @@
-import { connect, io } from "socket.io-client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import useProductStore from "../stores/product.store.js";
 import useAuctionStore from "../stores/auction.store.js";
 import { useParams } from "react-router";
 import { useForm } from "react-hook-form";
-import useSocketStore from "../stores/socket.store.js";
 import useBidStore from "../stores/bid.store.js";
 import useUserStore from "../stores/user.store.js";
 import TimeCountdown from "../components/TimeCountdown.jsx";
@@ -13,47 +11,49 @@ import {
   joinAuctionRoom,
   leaveAuctionRoom,
   placeBid,
+  disconnectSocket,
 } from "../socket/socketService.js";
 import Swal from "sweetalert2";
 import AuctionResultModal from "../components/AuctionResultModal.jsx";
 import ProductImageSlide from "../components/productPage/ProductImageSlide.jsx";
+import { BrownAuctionIcon } from "../icons/index.jsx";
 
 const AuctionBid = () => {
-  // const [isLoading, setIsLoading] = useState(true)
-  const { productById, allCategories, getProductsById } = useProductStore();
-  const { auctionById, getAuctionById, setCurrentPrice, currentPrice } =
-    useAuctionStore();
-  // console.log('auctionById.product.images', auctionById?.product.images)
-  const { socket, joinAuction, leaveAuction, connect } = useSocketStore();
-  const {
-    newBid,
-    bidData,
-    setNewBid,
-    getAllBid,
-    currentHighestBid,
-    bids,
-    setBidHistory,
-    winner,
-  } = useBidStore();
-  const { user, users, getAllUser } = useUserStore();
-  const usersList = Array.isArray(users) ? users : [];
+  const  allCategories  = useProductStore((state) => state.allCategories);
+  const  auctionById  = useAuctionStore((state) => state.auctionById);
+  const  getAuctionById  = useAuctionStore((state) => state.getAuctionById);
+  const  currentHighestBid  = useBidStore((state) => state.currentHighestBid);
+  const  bids  = useBidStore((state) => state.bids);
+  const  setBidHistory  = useBidStore((state) => state.setBidHistory);
+  const  user  = useUserStore((state) => state.user);
+  const  users  = useUserStore((state) => state.users);
+  const  getAllUser  = useUserStore((state) => state.getAllUser);
   const [isLoading, setIsLoading] = useState(true);
-  const { id, categoryId, name, description, sellerId, updatedAt, images } =
-    auctionById?.product || {};
+  const usersList = Array.isArray(users) ? users : [];
+  const { categoryId, description } = auctionById?.product || {};
   const { auctionId } = useParams();
-  const { register, handleSubmit, reset, formState, setValue, getValues } =
-    useForm();
-  const filterCategoryName = allCategories.filter(
-    (cate) => categoryId === cate.id,
-  );
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState,
+    setValue,
+    getValues,
+    watch,
+  } = useForm();
+
+  const categoryName = useMemo(() => {
+    const categoryId = auctionById?.product?.categoryId;
+    return allCategories.find((cate) => categoryId === cate.id)?.name;
+  }, [allCategories, auctionById?.product?.categoryId]);
 
   const { isDirty } = formState;
 
-  const hdlOnSubmit = ({ amount }) => {
-    const minRequiredPrice = currentHighestBid
-      ? Number(currentHighestBid?.amount) + Number(auctionById?.minIncrement)
-      : Number(auctionById?.startingPrice) + Number(auctionById?.minIncrement);
+  const minRequiredPrice = currentHighestBid
+    ? Number(currentHighestBid?.amount) + Number(auctionById?.minIncrement)
+    : Number(auctionById?.startingPrice) + Number(auctionById?.minIncrement);
 
+  const hdlOnSubmit = ({ amount }) => {
     if (!amount || Number(amount) <= 0 || Number(amount) < minRequiredPrice) {
       return alert(
         `Please enter a valid price: (Minimum Increment: ${auctionById?.minIncrement})`,
@@ -63,7 +63,9 @@ const AuctionBid = () => {
     reset();
   };
 
-  const hdlUpdateAmountInput = (times) => {
+  // const currentVal = watch("amount");
+
+  const hdlIncreaseAmountInput = (times) => {
     const currentVal = getValues("amount");
 
     const baseValue = currentVal
@@ -73,10 +75,26 @@ const AuctionBid = () => {
         : Number(auctionById?.startingPrice);
 
     const increment = Number(auctionById?.minIncrement || 0);
-    const newValue = baseValue + (increment * times);
-  
-    setValue("amount", newValue, {shouldDirty: true });
-    console.log(getValues("amount"))
+    const newValue = baseValue + increment * times;
+
+    setValue("amount", newValue, { shouldDirty: true });
+    console.log(getValues("amount"));
+  };
+
+  const hdlDecreaseAmountInput = (times) => {
+    const currentVal = getValues("amount");
+
+    const baseValue = currentVal
+      ? Number(currentVal)
+      : currentHighestBid
+        ? Number(currentHighestBid.amount)
+        : Number(auctionById?.startingPrice);
+
+    const increment = Number(auctionById?.minIncrement || 0);
+    const newValue = baseValue - increment * times;
+
+    setValue("amount", newValue, { shouldDirty: true });
+    console.log(getValues("amount"));
   };
 
   useEffect(() => {
@@ -85,40 +103,46 @@ const AuctionBid = () => {
     }
     connectSocket();
     joinAuctionRoom(auctionId);
-
     setIsLoading(false);
-    console.log("use effect is running");
 
-    console.log("auctionById", auctionById);
-    console.log("auctionId", auctionId);
-
-    if (!auctionById || String(auctionById?.id) !== String(auctionId)) {
-      console.warn(
-        `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
-      );
-      return;
-    }
+    // if (!auctionById || String(auctionById?.id) !== String(auctionId)) {
+    //   console.warn(
+    //     `[AuctionBid] auctionId mismatch: expected ${auctionId}, got ${auctionById?.id}. Join cancelled.`,
+    //   );
+    //   return;
+    // }
 
     return () => {
       leaveAuctionRoom(auctionId);
+      disconnectSocket();
     };
-  }, [auctionById, auctionId]);
+  }, [auctionId]);
+  // auctionById
 
+  // useEffect(() => {
+  //   getAllUser();
+  //   getAuctionById(auctionId);
+  // }, [auctionId, getAllUser]);
+
+  // 2. Optimized Data Fetching
   useEffect(() => {
-    getAllUser();
-    getAuctionById(auctionId);
-  }, [auctionId, getAllUser]);
+    const fetchData = async () => {
+      setIsLoading(true);
+      await Promise.all([getAllUser(), getAuctionById(auctionId)]);
+      setIsLoading(false);
+    };
+    fetchData();
+  }, [auctionId, getAllUser, getAuctionById]);
 
   useEffect(() => {
     if (!auctionById?.bids) return; // ← guard: wait until data is real
-    console.log("auctionById2", auctionById);
     setBidHistory(auctionById.bids);
-  }, [auctionById]);
+  }, [auctionById?.id,setBidHistory]);
 
   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
       {isLoading ? (
-        <div>...Loading</div>
+        <divc className="mx-auto w-full h-full text-8xl">...Loading</divc>
       ) : (
         <main className="pt-12 pb-24 px-6 md:px-12 max-w-screen-2xl mx-auto text-left">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -126,19 +150,14 @@ const AuctionBid = () => {
             <div className="lg:col-span-7 space-y-16">
               <div className="relative group">
                 <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-lg bg-[#f6f3f2]">
-                  {/* {auctionById.product.images && auctionById.product.images> 0 && */}
                   <ProductImageSlide images={auctionById?.product?.images} />
-                  {/* } */}
                 </div>
-                <button className="absolute bottom-6 right-6 bg-white/70 backdrop-blur-md p-3 rounded-full hover:bg-white transition-colors">
-                  <span className="material-symbols-outlined">fullscreen</span>
-                </button>
               </div>
 
               <div className="space-y-12">
                 <div className="space-y-4">
                   <span className="font-['Manrope'] uppercase tracking-widest text-xl text-[#570000] font-bold">
-                    {filterCategoryName[0]?.name}
+                    {categoryName}
                   </span>
                   <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">
                     {auctionById?.product?.name}
@@ -152,6 +171,7 @@ const AuctionBid = () => {
                   <p>{description}</p>
                 </div>
               </div>
+            </div>
             </div>
 
             {/* Right Column: Bidding Panel */}
@@ -204,9 +224,6 @@ const AuctionBid = () => {
                             Your Bid
                           </label>
                           <div className="relative flex items-center">
-                            <span className="absolute left-4 text-stone-400">
-                              B
-                            </span>
                             <input
                               type="number"
                               placeholder={`Minimum ${
@@ -267,9 +284,6 @@ const AuctionBid = () => {
                     <h3 className="font-['Noto_Serif'] text-2xl text-left font-bold text-red">
                       Live Bid
                     </h3>
-                    {/* <p className="text-sm text-stone-400 font-light leading-relaxed text-left">
-                    "This specific canvas represents the pinnacle of 18th-century veduta painting. The 'ghostly' architecture is a signature mark of Guardi's later style."
-                  </p> */}
                     <div className="flex flex-col gap-3 overflow-y-auto max-h-[200px]">
                       {bids
                         ? bids.map((e, i) => (
@@ -306,11 +320,10 @@ const AuctionBid = () => {
                         : "Loading bid data..."}
                     </div>
                   </div>
-                </div>
               </div>
             </div>
           </div>
-          <AuctionResultModal currentUserId={user?.id} />
+          <AuctionResultModal currentUserId={user?.id} auctionId={auctionId} />
         </main>
       )}
     </div>

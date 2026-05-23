@@ -30,9 +30,9 @@ function DisplayProducts({ displayProducts, allCategories }) {
     if (!allAuction || !bidData) {
       return <div>Loading auctions...</div>;
     } else if (lastBid) {
-      return `$${lastBid?.amount}`;
+      return `${lastBid?.amount}`;
     }
-    return `$${auction?.startingPrice}`;
+    return `${auction?.startingPrice}`;
   };
 
   useEffect(() => {
@@ -42,13 +42,12 @@ function DisplayProducts({ displayProducts, allCategories }) {
 
   return (
     <>
-      {displayProducts.map((i, idx) => {
+      {displayProducts?.map((i, idx) => {
         const category = allCategories.find((cat) => cat.id === i.categoryId);
-        console.log('i.id', i.id)
         const auction = allAuction?.find((a) => a.productId === i.id);
-        console.log("auction",auction);
+        console.log("auction", auction);
         const lastBid = bidData?.findLast((b) => b.auctionId === auction?.id);
-        console.log("lastBid", i.name, lastBid);
+        // console.log("lastBid", i.name, lastBid);
         const auctionId = auction?.id;
         return (
           <AuctionCard
@@ -61,7 +60,7 @@ function DisplayProducts({ displayProducts, allCategories }) {
             badge={auction?.status}
             price={hldPriceLoading(lastBid, auction)}
             timeLeft={<TimeCountdown product={i} />}
-            auctionDetail={auction}
+            auctionDetail={auction.status}
             onJoin={() => hdlJoinClick(auctionId)}
           />
         );

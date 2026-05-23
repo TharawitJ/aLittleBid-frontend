@@ -1,13 +1,29 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router';
+import { Link ,useNavigate} from 'react-router';
 import usePaymentStore from '../stores/payment.store';
+import useBidStore from '../stores/bid.store';
 
 const OrderList = () => {
   const { myPayments, myPaymentsLoading, myPaymentsError, getMyPayments } = usePaymentStore();
+  const { setWinner, clearWinner } = useBidStore();
 
   useEffect(() => {
     getMyPayments();
   }, [getMyPayments]);
+
+  const navigate = useNavigate();
+
+  const hdlCompletePayment = (auction, winningBid) => {
+    clearWinner();
+    if (winningBid) {
+      setWinner({
+        amount: winningBid.amount,
+        bidId: winningBid.id,
+        winnerId: winningBid.bidderId,
+      });
+    }
+    navigate(`/payment/${auction.id}/${winningBid?.id}`);
+  };
 
   if (myPaymentsLoading) {
     return (

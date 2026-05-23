@@ -7,6 +7,12 @@ export const mainApi = axios.create({
     "Content-Type": "application/json",
   },
 });
+// export const mainApi = axios.create({
+//   baseURL: "/api",
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// });
 
 mainApi.interceptors.request.use((config) => {
   const token = useUserStore.getState().token;
