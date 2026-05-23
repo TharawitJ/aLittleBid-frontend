@@ -156,8 +156,7 @@ const AuctionBid = () => {
 
               <div className="space-y-12">
                 <div className="space-y-4">
-                  <span className="font-['Manrope'] uppercase tracking-widest text-lg text-[#570000] font-bold">
-                    {/* {filterCategoryName[0]?.name} */}
+                  <span className="font-['Manrope'] uppercase tracking-widest text-xl text-[#570000] font-bold">
                     {categoryName}
                   </span>
                   <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">
@@ -169,6 +168,7 @@ const AuctionBid = () => {
                   <p>{description}</p>
                 </div>
               </div>
+            </div>
             </div>
 
             {/* Right Column: Bidding Panel */}
@@ -266,49 +266,36 @@ const AuctionBid = () => {
                     </form>
                   )}
                 </div>
-                {bids && bids.length > 0 && (
-                  <div className="bg-[#f6f3f2]  text-stone-50 p-8 rounded-lg relative max-h-[300px]">
-                    <div className="relative z-10 space-y-4">
-                      <h3 className="font-['Noto_Serif'] text-xl text-left font-bold text-red">
-                        Live Bid
-                      </h3>
-                      <div className="flex flex-col gap-3 overflow-y-auto max-h-[200px]">
-                        {bids
-                          ? bids.map((e, i) => (
-                              <div
-                                key={i}
-                                className="flex justify-between items-center"
-                              >
-                                <div className="flex items-center gap-4 pt-4">
-                                  <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
-                                    <img
-                                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe"
-                                      alt="Curator"
-                                      className="w-full h-full object-cover"
-                                    />
-                                  </div>
-                                  <div className="text-left">
-                                    <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
-                                      {usersList.find(
-                                        (i) => e.bidderId === i.id,
-                                      )?.username ?? "Unknown bidder"}
-                                      {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
-                                    </p>
-                                    <p className="text-[14px] text-stone-500 uppercase tracking-widest">
-                                      {e.amount}
-                                    </p>
-                                  </div>
+
+                <div className="bg-[#f6f3f2]  text-stone-50 p-8 rounded-lg relative max-h-[300px]">
+                  <div className="relative z-10 space-y-4">
+                    <h3 className="font-['Noto_Serif'] text-2xl text-left font-bold text-red">
+                      Live Bid
+                    </h3>
+                    <div className="flex flex-col gap-3 overflow-y-auto max-h-[200px]">
+                      {bids
+                        ? bids.map((e, i) => (
+                            <div
+                              key={i}
+                              className="flex justify-between items-center"
+                            >
+                              <div className="flex items-center gap-4 pt-4">
+                                <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-700">
+                                  <img
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI9pSLzM2C7nGW835doACIRA-VV2iSSbtmcyioc8l2PFHVZbOgPD8AU6e1rUgyTzQNNFmR0LyUqDyfi8DSQjf0Nsh4xGxSg_yzBXa5qQPPyWl5MO-9QOufbyZ8HNMh77Kyu3yfUONSmw-jkrKydj4Pxr8uaode4P22rnLg5KnHe-9pakz6ndCVwAdgmqT_t02R-kaPe-qQwUl2zkokkDHwDDUaBaZiam4feZxuNbHupTPVsui7CU1XJOf9FA4Ip7JZiyGwD6U1FVYe"
+                                    alt="Curator"
+                                    className="w-full h-full object-cover"
+                                  />
                                 </div>
                                 <div className="text-[12px] text-stone-500 tracking-widest">
                                   {new Date(e?.createdAt).toLocaleTimeString()}
                                 </div>
                               </div>
+                            </div>
                             ))
                           : "Loading bid data..."}
-                      </div>
                     </div>
                   </div>
-                )}
               </div>
             </div>
           </div>
