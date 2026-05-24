@@ -30,17 +30,6 @@ export const connectSocket = () => {
     socket.on("disconnect", (reason) => {
       console.log("Disconnected:", reason);
     });
-  } else {
-    socket.connect();
-  }
-};
-
-export const joinAuctionRoom = (auctionId) => {
-  if (!socket) {
-     connectSocket();
-  };
-
-    socket.emit("join_auction", auctionId);
 
     socket.on("newest_bid", (bid) => {
       console.log("bid from backend received", bid);
@@ -76,16 +65,42 @@ export const joinAuctionRoom = (auctionId) => {
       // get product id from zustand
     });
 
-    socket.on("reserve_not_met", (message) => {
+    socket.on("reserve_not_met", (obj) => {
        Swal.fire({
         title: "No Winner...",
-        text: "Reserve price not met",
-        icon: "success",
+        text: obj.message,
+        icon: "info",
         confirmButtonText: "OK",
-      })
-      // alert user with this message
-      console.log("message from socket", message);
+        confirmButtonColor: mainButtonColor
+      });
+      // for auction status to reload
+      useAuctionStore.getState().getAuctionById(obj.auctionId);
     });
+
+    socket.on("no_bids", (obj) => {
+       Swal.fire({
+        title: "No Winner...",
+        text: obj.message,
+        icon: "info",
+        confirmButtonText: "OK",
+        confirmButtonColor: mainButtonColor
+      });
+      // for auction status to reload
+      useAuctionStore.getState().getAuctionById(obj.auctionId);
+    });
+
+
+  } else {
+    socket.connect();
+  }
+};
+
+export const joinAuctionRoom = (auctionId) => {
+  if (!socket) {
+     connectSocket();
+  };
+
+  socket.emit("join_auction", auctionId);
 };
 
 export const leaveAuctionRoom = (auctionId) => {

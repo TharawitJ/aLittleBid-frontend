@@ -274,45 +274,6 @@ const AuctionBid = () => {
                               </button>                                                                      
                             </div>
                           </div>
-
-                          {/* <div className="flex gap-5 justify-between"> */}
-                            {/* <div className="flex flex-col items-center justify-center">
-                              <div className="flex items-center">
-                                <button
-                                  onClick={() => hdlDecreaseAmountInput(1)}
-                                  type="button"
-                                  className="w-8 py-4 bg-gradient-to-r from-dark-red to-red text-white font-label rounded-l-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 cursor-pointer" disabled={Number(watch("amount")) <= minRequiredPrice}
-                                >
-                                  -
-                                </button>
-                                <div className="bg-black py-3 px-1 text-white">5000</div>
-                                <button
-                                  onClick={() => hdlIncreaseAmountInput(1)}
-                                  type="button"
-                                  className="w-8 py-4 bg-gradient-to-r from-dark-red to-red text-white font-label rounded-r-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 cursor-pointer"
-                                >
-                                  +
-                                </button>
-                              </div>
-                            </div> */}
-
-                            {/* <div className="flex">
-                              <button
-                                onClick={() => hdlDecreaseAmountInput(2)}
-                                type="button"
-                                className="w-16 bg-gradient-to-r from-dark-red to-red text-white font-label rounded-l-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 cursor-pointer" disabled={Number(watch("amount")) <= minRequiredPrice}
-                              >
-                                -{auctionById?.minIncrement * 2}
-                              </button>
-                              <button
-                                onClick={() => hdlIncreaseAmountInput(2)}
-                                type="button"
-                                className="w-16 bg-gradient-to-r from-dark-red to-red text-white font-label rounded-r-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 cursor-pointer" 
-                              >
-                                +{auctionById?.minIncrement * 2}
-                              </button>
-                            </div> */}
-                          {/* </div> */}
                         </div>
                         <button
                           className="w-full bg-gradient-to-r from-[#570000] to-[#800000] text-white font-['Manrope'] uppercase tracking-widest py-4 rounded-sm shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 disabled:scale-100 disabled:cursor-not-allowed"
