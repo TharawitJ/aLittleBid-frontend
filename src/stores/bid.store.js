@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { apiGetAllBid, apiGetBidById } from "../api/apiMain";
+import useAuctionStore from "./auction.store.js";
 
 const useBidStore = create()(
   persist(
@@ -43,8 +44,9 @@ const useBidStore = create()(
         set((state) => ({
           bids: [bid, ...(state.bids ?? [])],
           currentHighestBid: bid,
-        }));
+        }));   
         console.log("currentHighestBid", get().currentHighestBid);
+        useAuctionStore.getState().getAuctionById(bid.auctionId);
       },
 
       setWinner: (newWinner) => {
