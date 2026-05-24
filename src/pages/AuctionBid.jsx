@@ -35,7 +35,7 @@ const AuctionBid = () => {
     clearWinner
   } = useBidStore();
   const { user, users, getAllUser } = useUserStore();
-  const usersList = Array.isArray(users) ? users : [];
+  // const usersList = Array.isArray(users) ? users : [];
   const [isLoading, setIsLoading] = useState(true);
   const [isFetching, setIsFetching] = useState(true);
   const { id, categoryId, name, description, sellerId, updatedAt, images } =
@@ -56,9 +56,13 @@ const AuctionBid = () => {
   const hdlOnSubmit = ({ amount }) => {
 
     if (!amount || Number(amount) <= 0 || Number(amount) < minRequiredPrice) {
-      return alert(
-        `Please enter a valid price: (Minimum Increment: ${auctionById?.minIncrement})`,
-      );
+      Swal.fire({
+      icon: "error",
+      title: "Sorry...",
+      text: `Please enter a minimum bid: ${minRequiredPrice} ฿ \n Minimum increment: ${auctionById?.minIncrement} ฿`,
+      confirmButtonText: "OK",
+      confirmButtonColor: mainButtonColor
+      });
     }
     placeBid(amount, auctionId);
     reset();
@@ -202,7 +206,7 @@ const AuctionBid = () => {
                       </span>
                       <span className="text-[14px] text-secondary mt-3 text-headline uppercase font-bold mx-2">
                         {currentHighestBid
-                          ? (usersList.find(
+                          ? (users.find(
                               (u) => u.id === currentHighestBid?.bidderId,
                             )?.username ?? "Unknown bidder")
                           : "No Bidder Yet"}
@@ -312,7 +316,7 @@ const AuctionBid = () => {
                               <div className="text-left">
                                 <p className="text-[12px] font-bold font-['Manrope'] text-primary uppercase tracking-widest">
                                   {
-                                    usersList.find((i) => e.bidderId === i.id)
+                                    users.find((i) => e.bidderId === i.id)
                                       ?.username ?? "Unknown bidder"
                                   }
                                   {/* {e.bidderId == user.id ? user.username : `User ${e.bidderId}`}  */}
