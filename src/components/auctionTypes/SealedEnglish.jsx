@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import TimeCountdown from "../TimeCountdown.jsx";
 import { placeBid } from "../../socket/socketService.js";
@@ -6,12 +6,17 @@ import Swal from "sweetalert2";
 import { mainButtonColor } from "../../common/mainColor.js";
 import useAuctionStore from "../../stores/auction.store.js";
 import useUserStore from "../../stores/user.store.js";
+import { Envelope } from "../../icons/index.jsx";
+import BidEnvelope from "./BidEnvelope.jsx";
 
 function SealedEnglish(props) {
   const { auctionId, users } = props;
-  const [ yourBids, setYourBids ]  = useState({});
+  const [yourBids, setYourBids] = useState({});
+  const [bidStatus, setBidStatus] = useState("idle"); // "idle" | "animating"
+  const [bidAmount, setBidAmount] = useState("");
+  const envelopeRef = useRef(null);
   const { user } = useUserStore();
-   const { auctionById, getAuctionById } = useAuctionStore();
+  const { auctionById, getAuctionById } = useAuctionStore();
 
   const {
     register,
@@ -26,15 +31,34 @@ function SealedEnglish(props) {
   const { isDirty } = formState;
 
   const hdlOnSubmit = ({ amount }) => {
-    console.log("submit auctionId at sealed bid bid", auctionId);
-
-    let yourCurrentHighestBid = 0;
-    // yourBids.forEach( bid => Number(bid.amount) > yourCurrentHighestBid ? yourCurrentHighestBid = amount : // fail )
     // guard that it's higher than your previous bids
-    console.log('yourBids', yourBids);
+    const yourCurrentHighestBid = yourBids.reduce((max, cur) => {
+      const currentAmount = Number(cur.amount);
+      return currentAmount > max ? currentAmount : max;
+    }, 0);
+
+    if (amount < yourCurrentHighestBid) {
+      Swal.fire({
+        icon: "error",
+        title: "Sorry...",
+        html: `Amount must be higher than your previous bid: ${yourCurrentHighestBid} ฿`,
+        confirmButtonText: "OK",
+        confirmButtonColor: mainButtonColor,
+      });
+    }
     placeBid(amount, auctionId);
+    setBidAmount(amount);
+    setBidStatus("animating");
     reset();
   };
+
+  useEffect(() => {
+    if (bidStatus === 'idle') return;
+
+    if (bidStatus === "animating" && envelopeRef.current) {
+      envelopeRef.current.triggerAnimation();
+    }
+  }, [bidStatus]);
 
   // const currentVal = watch("amount");
 
@@ -49,7 +73,7 @@ function SealedEnglish(props) {
     const newValue = baseValue + increment * times;
 
     setValue("amount", newValue, { shouldDirty: true });
-    console.log(getValues("amount"));
+    // console.log(getValues("amount"));
   };
 
   const hdlDecreaseAmountInput = (times) => {
@@ -63,25 +87,29 @@ function SealedEnglish(props) {
     const newValue = baseValue - increment * times;
 
     setValue("amount", newValue, { shouldDirty: true });
-    console.log(getValues("amount"));
+    // console.log(getValues("amount"));
   };
 
-   useEffect(() => {
-      const fetchData = async () => {
-        await getAuctionById(auctionId);
-        if (auctionById?.bids) {
-            const filteredCurrentUserBids = auctionById.bids.filter( bid => bid.bidderId === user.id);
-            setYourBids(filteredCurrentUserBids);
-        }
-      }
-      fetchData();
-    }, []);
-
-    useEffect(() => {
-        console.log('use effect running sealed bid is updated')
-        const filteredCurrentUserBids = auctionById?.bids.filter( bid => bid.bidderId === user.id);
+  useEffect(() => {
+    const fetchData = async () => {
+      await getAuctionById(auctionId);
+      if (auctionById?.bids) {
+        const filteredCurrentUserBids = auctionById.bids.filter(
+          (bid) => bid.bidderId === user.id,
+        );
         setYourBids(filteredCurrentUserBids);
-    }, [auctionById]);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    console.log("use effect running sealed bid is updated");
+    const filteredCurrentUserBids = auctionById?.bids.filter(
+      (bid) => bid.bidderId === user.id,
+    );
+    setYourBids(filteredCurrentUserBids);
+  }, [auctionById]);
 
   return (
     <>
@@ -94,9 +122,12 @@ function SealedEnglish(props) {
                 <p className="font-['Manrope'] text-[12px] text-black mb-2 uppercase tracking-widest">
                   Number of Bids
                 </p>
-                <p className="text-4xl font-['Noto_Serif'] text-dark-red font-bold tracking-wider">
-                  {auctionById?.bids?.length}
-                </p>
+                <div className="flex gap-4">
+                  <p className="text-4xl font-['Noto_Serif'] text-dark-red font-bold tracking-wider">
+                    {auctionById?.bids?.length}
+                  </p>
+                  <Envelope width="35" height="35"/>
+                </div>
               </div>
               <div className="text-right">
                 <p className="uppercase text-[10px] text-right">
@@ -139,7 +170,10 @@ function SealedEnglish(props) {
                           onClick={() => hdlDecreaseAmountInput(1)}
                           type="button"
                           className="w-11 py-2 px-1 bg-gradient-to-r from-dark-red to-red text-white font-label rounded-l-xl shadow-lg hover:scale-[1.01] active:scale-95 transition-all text-xs font-bold disabled:bg-none disabled:bg-gray-300 disabled:text-gray-500 cursor-pointer"
-                          disabled={Number(watch("amount")) <= auctionById?.startingPrice}
+                          disabled={
+                            Number(watch("amount")) <=
+                            auctionById?.startingPrice
+                          }
                         >
                           -{auctionById?.minIncrement}
                         </button>
@@ -163,14 +197,20 @@ function SealedEnglish(props) {
               </form>
             )}
           </div>
-          {/* Show Your bid here */}
-            {yourBids && yourBids.length > 0 && (
-          <div className="bg-[#f6f3f2]  text-stone-50 p-8 rounded-lg relative max-h-[300px]">
-            <div className="relative z-10 space-y-4">
-              <h3 className="font-['Noto_Serif'] text-xl text-left font-bold text-red">
-                Your Bid
-              </h3>
-                           <div className="flex flex-col gap-3 overflow-y-auto max-h-[200px]">
+            <div className="flex justify-center items-center">
+            {/* Only show the animation when a bid is in progress */}
+            { bidStatus === "animating" &&
+            <BidEnvelope ref={envelopeRef} amount={bidAmount} onComplete={() => setBidStatus("idle")}/>
+            }
+            </div> 
+            {/* Show Your bid here */}
+          {yourBids && yourBids.length > 0 && (
+            <div className="bg-[#f6f3f2]  text-stone-50 p-8 rounded-lg relative max-h-[300px]">
+              <div className="relative z-10 space-y-4">
+                <h3 className="font-['Noto_Serif'] text-xl text-left font-bold text-red">
+                  Your Bid
+                </h3>
+                <div className="flex flex-col gap-3 overflow-y-auto max-h-[200px]">
                   {yourBids
                     ? yourBids.map((e, i) => (
                         <div
@@ -202,9 +242,9 @@ function SealedEnglish(props) {
                       ))
                     : "Loading bid data..."}
                 </div>
+              </div>
             </div>
-          </div>
-               )}
+          )}
         </div>
       </div>
     </>
