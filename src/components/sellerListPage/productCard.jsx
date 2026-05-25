@@ -30,7 +30,7 @@ function ProductSellerCard({product}) {
 
               {item.status && (
                 <div
-                  className={`absolute top-4 left-4 ${item.statusColor || "bg-[#7a0009]"} text-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest`}
+                  className={`absolute top-4 left-4 ${item.statusColor || "bg-[#7a0009]"} text-white px-3 py-1 text-[12px] font-bold uppercase tracking-widest`}
                 >
                   {item.status}
                 </div>
@@ -38,20 +38,20 @@ function ProductSellerCard({product}) {
             </div>
             <div className="pt-6 pb-4 px-1">
               <div>
-                <h3 className="text-lg font-['Newsreader'] italic mb-1">
+                <h3 className="text-xl font-['Newsreader'] mb-1">
                   {item.name}
                 </h3>
-                <p className="text-xs text-[#59413e] uppercase tracking-tighter mb-4">
+                <p className="text-sm text-[#59413e] uppercase tracking-tighter mb-4">
                   {category?.name}
                 </p>
               </div>
 
               <div className="flex justify-between items-end border-t border-[#e1bebb]/15 pt-4">
                 <div>
-                  <span className="block text-[10px] uppercase tracking-widest text-[#59413e]">
+                  <span className="block text-[12px] uppercase tracking-widest text-[#59413e]">
                     {item.priceLabel}
                   </span>
-                  <span className="text-xl font-['Newsreader'] text-[#7a0009]">
+                  <span className="text-2xl font-['Newsreader'] text-[#7a0009]">
                     {item.price}
                   </span>
                 </div>
@@ -71,3 +71,4 @@ function ProductSellerCard({product}) {
 }
 
 export default ProductSellerCard;
+

@@ -16,7 +16,6 @@ export default function LoginPage() {
   const [errors, setErrors] = useState({});
   const login = useUserStore((state) => state.login);
   const navigate = useNavigate();
-  const token = useUserStore((state) => state.token);
 
   const parsed = loginSchema.safeParse({ email, password });
   const canSubmit = parsed.success;
@@ -60,28 +59,28 @@ export default function LoginPage() {
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
         {/* title */}
         <div className="mb-6">
-          <h2 className="text-2xl font-extrabold text-gray-900">
+          <h2 className="text-3xl font-extrabold text-gray-900">
             Welcome back
           </h2>
-          <p className="text-sm text-gray-500">Login to your account</p>
+          <p className="text-base text-gray-500">Login to your account</p>
         </div>
         {/* email */}
         <div className="mb-4">
-          <label className="text-sm font-semibold text-gray-700">Email</label>
+          <label className="text-base font-semibold text-gray-700">Email</label>
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
             disabled={loading}
-            className="w-full mt-1 px-4 py-3 border rounded-lg text-sm focus:ring-2 focus:ring-red-200 outline-none disabled:bg-gray-50 disabled:text-gray-400"
+            className="w-full mt-1 px-4 py-3 border rounded-lg text-base focus:ring-2 focus:ring-red-200 outline-none disabled:bg-gray-50 disabled:text-gray-400"
           />
           {errors.email && (
-            <p className="text-xs text-red-500 mt-1">⚠ {errors.email[0]}</p>
+            <p className="text-sm text-red-500 mt-1">⚠ {errors.email[0]}</p>
           )}
         </div>
         {/* password */}
         <div className="mb-4">
-          <label className="text-sm font-semibold text-gray-700">
+          <label className="text-base font-semibold text-gray-700">
             Password
           </label>
 
@@ -92,7 +91,7 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               disabled={loading}
-              className="w-full mt-1 px-4 py-3 border rounded-lg text-sm focus:ring-2 focus:ring-red-200 outline-none disabled:bg-gray-50 disabled:text-gray-400"
+              className="w-full mt-1 px-4 py-3 border rounded-lg text-base focus:ring-2 focus:ring-red-200 outline-none disabled:bg-gray-50 disabled:text-gray-400"
             />
 
             <button
@@ -109,13 +108,13 @@ export default function LoginPage() {
             </button>
           </div>
           {errors.password && (
-            <p className="text-xs text-red-500 mt-1">⚠ {errors.password[0]}</p>
+            <p className="text-sm text-red-500 mt-1">⚠ {errors.password[0]}</p>
           )}
         </div>
         {/* forgot */}
         <div className="text-right mb-4">
           <button
-            className="text-sm text-red-800 font-semibold cursor-pointer"
+            className="text-base text-red-800 font-semibold cursor-pointer"
             onClick={() => navigate("/request-otp")}
           >
             Forgot password
@@ -123,7 +122,7 @@ export default function LoginPage() {
         </div>
         {/* api error */}
         {errors.submit && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-xs text-red-700">
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
             ⚠ {errors.submit[0]}
           </div>
         )}
@@ -147,7 +146,7 @@ export default function LoginPage() {
         {/* divider */}
         <div className="flex items-center gap-2 my-5">
           <div className="flex-1 h-px bg-gray-200" />
-          <span className="text-xs text-gray-400">OR</span>
+          <span className="text-sm text-gray-400">OR</span>
           <div className="flex-1 h-px bg-gray-200" />
         </div>
 
@@ -181,7 +180,7 @@ export default function LoginPage() {
         />
 
         {/* register */}
-        <p className="text-sm text-center mt-6 text-gray-500">
+        <p className="text-base text-center mt-6 text-gray-500">
           Don't have an account?{" "}
           <span
             className="text-red-800 font-semibold cursor-pointer"
@@ -194,3 +193,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

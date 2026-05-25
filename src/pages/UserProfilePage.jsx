@@ -1,16 +1,19 @@
-import { NavLink, useNavigate } from "react-router";
+import { NavLink, useNavigate, useSearchParams } from "react-router";
 import { LogoutIcon } from "../icons";
 import EditUserProfile from "../components/userPage/EditUserProfile";
 import EditUserAddress from "../components/userPage/EditUserAddress";
 import useUserStore from "../stores/user.store.js";
-import { useEffect, useMemo } from "react";
-import Avatar from "../components/Avatar"
+import usePaymentStore from "../stores/payment.store.js";
+import { useEffect, useMemo, useState } from "react";
+import Avatar from "../components/Avatar";
 import Swal from "sweetalert2";
 
 const UserProfilePage = () => {
   const { logout, getUserById } = useUserStore();
   const user = useUserStore((state) => state.user);
-  console.log("userprofile", user);
+  const { createTopUpSession, confirmCheckout } = usePaymentStore();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [topUpAmount, setTopUpAmount] = useState("");
 
   const userAddresses = useUserStore((state) => state.userAddresses);
   const navigate = useNavigate();
@@ -24,12 +27,49 @@ const UserProfilePage = () => {
     avatarUrl,
     phone,
     role,
+    wallet,
   } = user;
+
   useEffect(() => {
     if (id) {
       getUserById(id);
     }
   }, [id, getUserById]);
+
+  useEffect(() => {
+    const status = searchParams.get("status");
+    const sessionId = searchParams.get("session_id");
+
+    if (status === "success" && sessionId) {
+      confirmCheckout(sessionId)
+        .then(() => {
+          Swal.fire({
+            title: "Success",
+            text: "Your wallet has been topped up!",
+            icon: "success",
+          });
+          if (id) getUserById(id);
+        })
+        .catch((err) => {
+          Swal.fire({
+            title: "Error",
+            text: "Failed to confirm payment.",
+            icon: "error",
+          });
+        })
+        .finally(() => {
+          // Clear query params
+          setSearchParams({});
+        });
+    } else if (status === "cancel") {
+      Swal.fire({
+        title: "Cancelled",
+        text: "Payment was cancelled.",
+        icon: "info",
+      });
+      setSearchParams({});
+    }
+  }, [searchParams, id, getUserById, confirmCheckout, setSearchParams]);
 
   const defaultAddress = useMemo(() => {
     return userAddresses?.find((item) => item.isDefault === true);
@@ -40,8 +80,6 @@ const UserProfilePage = () => {
   const showName = firstname || name?.split(" ")[0] || "n/a";
   const showLastname = lastname || name?.split(" ")[1] || "n/a";
   const showUsername = username || name?.split(" ")[1] || "n/a";
-
-  // console.log('defaultAddress', defaultAddress)
 
   const isSeller = user?.role === "SELLER";
 
@@ -65,6 +103,29 @@ const UserProfilePage = () => {
     }
   };
 
+  const hdlOpenTopUpModal = () => {
+    try {
+      document.getElementById("topup-modal").showModal();
+    } catch (error) {
+      Swal.fire({
+        title: "Cannot Open Modal",
+      });
+    }
+  };
+
+  const hdlTopUp = async () => {
+    if (!topUpAmount || isNaN(topUpAmount) || topUpAmount <= 0) {
+      return Swal.fire("Error", "Please enter a valid amount", "error");
+    }
+
+    try {
+      const url = await createTopUpSession(topUpAmount);
+      window.location.href = url;
+    } catch (error) {
+      Swal.fire("Error", error.message, "error");
+    }
+  };
+
   return (
     <div className="bg-surface text-on-surface min-h-screen font-body selection:bg-primary-container selection:text-white">
       <main className="pt-12 pb-20 max-w-screen-2xl mx-auto px-8 flex gap-12">
@@ -73,7 +134,7 @@ const UserProfilePage = () => {
           <div className="sticky top-32 space-y-2">
             <nav className="flex flex-col gap-1">
               <NavLink className="flex items-center gap-3 px-4 py-3 text-[#7a0009] font-semibold border-l-2 border-[#7a0009] bg-surface-container-low transition-all duration-300">
-                <span className="text-sm tracking-wide uppercase font-medium">
+                <span className="text-base tracking-wide uppercase font-medium">
                   Profile
                 </span>
               </NavLink>
@@ -81,7 +142,7 @@ const UserProfilePage = () => {
                 to="/my_active_bids"
                 className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300"
               >
-                <span className="text-sm tracking-wide uppercase font-medium">
+                <span className="text-base tracking-wide uppercase font-medium">
                   Bidding Activity
                 </span>
               </NavLink>
@@ -90,7 +151,7 @@ const UserProfilePage = () => {
                 className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300"
                 href="#"
               >
-                <span className="text-sm tracking-wide uppercase font-medium">
+                <span className="text-base tracking-wide uppercase font-medium">
                   Watchlist
                 </span>
               </NavLink>
@@ -100,7 +161,7 @@ const UserProfilePage = () => {
                   className="flex items-center gap-3 px-4 py-3 text-stone-600 hover:text-stone-900 hover:bg-surface-container-low transition-all duration-300"
                   href="#"
                 >
-                  <span className="text-sm tracking-wide uppercase font-medium">
+                  <span className="text-base tracking-wide uppercase font-medium">
                     Consignments
                   </span>
                 </NavLink>
@@ -113,7 +174,7 @@ const UserProfilePage = () => {
                   className="text-label uppercase items-center gap-3 px-4 py-3 text-stone-400 hover:text-dark-red transition-all duration-300 flex"
                 >
                   <LogoutIcon className="w-5" />
-                  <span className="text-sm">Logout</span>
+                  <span className="text-base">Logout</span>
                 </button>
               </div>
             </nav>
@@ -130,7 +191,7 @@ const UserProfilePage = () => {
                   <Avatar user={user} />
                 </div>
                 <button className="bg-gray-300  text-grey/60 shadow-lg hover:bg-white transition-transform w-full">
-                  <span className="material-symbols-outlined text-sm">
+                  <span className="material-symbols-outlined text-base">
                     edit
                   </span>
                 </button>
@@ -138,35 +199,35 @@ const UserProfilePage = () => {
               <div className="flex flex-col gap-5">
                 <div className="space-y-1">
                   <div className="flex items-center gap-3">
-                    <h1 className="text-4xl font-serif italic text-red font-headline">
+                    <h1 className="text-5xl font-serif text-red font-headline">
                       {showName} {showLastname}
                     </h1>
 
                     {/* Status Buyer */}
 
-                    <span className="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] uppercase tracking-[0.2em] font-bold rounded-sm">
+                    <span className="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed text-[12px] uppercase tracking-[0.2em] font-bold rounded-sm">
                       {role}
                     </span>
                   </div>
 
-                  <p className="text-stone-500 font-light tracking-wide italic">
+                  <p className="text-stone-500 font-light tracking-wide">
                     Member since November 2019 • London, UK
                   </p>
                 </div>
                 <div className="flex gap-12">
                   <div className="text-center">
-                    <span className="block text-3xl font-serif text-primary font-headline">
+                    <span className="block text-4xl font-serif text-primary font-headline">
                       12
                     </span>
-                    <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                    <span className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
                       Active Bids
                     </span>
                   </div>
                   <div className="text-center">
-                    <span className="block text-3xl font-serif text-primary font-headline">
+                    <span className="block text-4xl font-serif text-primary font-headline">
                       47
                     </span>
-                    <span className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                    <span className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
                       Won Items
                     </span>
                   </div>
@@ -180,12 +241,12 @@ const UserProfilePage = () => {
             {/* Personal Details Card */}
             <div className="bg-surface-container-lowest p-8 rounded-sm space-y-8">
               <div className="flex justify-between items-baseline">
-                <h2 className="text-xl font-serif italic font-headline text-on-surface text-dark-red">
+                <h2 className="text-2xl font-serif font-headline text-on-surface text-dark-red">
                   Personal Details
                 </h2>
                 <button
                   type="button"
-                  className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4"
+                  className="text-sm uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4"
                   onClick={hdlOpenEditProfileModal}
                 >
                   Edit Profile
@@ -194,45 +255,45 @@ const UserProfilePage = () => {
 
               <div className="grid grid-cols-2 gap-x-8 gap-y-10">
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                  <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
                     First Name
                   </label>
                   <p
-                    className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
+                    className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body"
                     defaultValue=""
                   >
                     {showName}
                   </p>
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                  <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
                     Last Name
                   </label>
-                  <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                  <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body">
                     {showLastname}
                   </p>
                 </div>
                 <div className="col-span-2 space-y-1">
-                  <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                  <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
                     Username
                   </label>
-                  <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                  <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body">
                     {showUsername}
                   </p>
                 </div>
                 <div className="col-span-2 space-y-1">
-                  <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                  <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
                     Email Address
                   </label>
-                  <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                  <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body">
                     {email}
                   </p>
                 </div>
                 <div className="col-span-2 space-y-1">
-                  <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                  <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
                     Phone Number
                   </label>
-                  <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                  <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body">
                     {phone}
                   </p>
                 </div>
@@ -241,12 +302,12 @@ const UserProfilePage = () => {
               {/* Address form */}
               <div className="">
                 <div className="flex justify-between items-baseline w-full my-10">
-                  <h2 className="text-xl font-serif italic font-headline text-on-surface text-dark-red">
+                  <h2 className="text-2xl font-serif font-headline text-on-surface text-dark-red">
                     Address
                   </h2>
                   <button
                     type="button"
-                    className="text-xs uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4"
+                    className="text-sm uppercase tracking-widest text-primary font-bold hover:underline decoration-1 underline-offset-4"
                     onClick={hdlOpenEditAddressModal}
                   >
                     Edit Address
@@ -254,50 +315,50 @@ const UserProfilePage = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-x-8 gap-y-10">
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                    <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
                       Label
                     </label>
-                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body">
                       {defaultAddress?.label}
                     </p>
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                    <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
                       Street
                     </label>
-                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body">
                       {defaultAddress?.street}
                     </p>
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                    <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
                       City
                     </label>
-                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body">
                       {defaultAddress?.city}
                     </p>
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                    <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
                       State
                     </label>
-                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body">
                       {defaultAddress?.state}
                     </p>
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                    <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
                       Postal Code
                     </label>
-                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body">
                       {defaultAddress?.postalCode}
                     </p>
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                    <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
                       Country
                     </label>
-                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body">
+                    <p className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body">
                       {defaultAddress?.country}
                     </p>
                   </div>
@@ -308,43 +369,26 @@ const UserProfilePage = () => {
             <div className="space-y-12">
               {/* Auction Preferences */}
               <div className="bg-surface-container-low p-8 rounded-sm space-y-6">
-                <h2 className="text-xl font-serif italic font-headline text-on-surface">
-                  Auction Preferences
+                <h2 className="text-2xl font-serif font-headline text-on-surface">
+                  WALLET
                 </h2>
                 <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <span className="block text-sm font-medium">
-                        Outbid Notifications
-                      </span>
-                      <span className="block text-xs text-on-surface-variant">
-                        Instant alerts when you are no longer the highest bidder
-                      </span>
-                    </div>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        defaultChecked
-                        className="sr-only peer"
-                      />
-                      <div className="w-11 h-6 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-                    </label>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
-                      Preferred Currency
-                    </label>
-                    <div className="relative">
-                      <select className="w-full appearance-none bg-surface-container-lowest border border-outline-variant/30 py-3 px-4 text-sm pr-10 focus:ring-0 focus:border-primary">
-                        <option>GBP (£) - British Pound Sterling</option>
-                        <option>USD ($) - US Dollar</option>
-                        <option>EUR (€) - Euro</option>
-                        <option>CHF (Fr) - Swiss Franc</option>
-                      </select>
-                      <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-stone-400">
-                        expand_more
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center justify-start gap-4">
+                      <span className="mr-">BATH</span>
+                      <span className="text-2xl font-medium">
+                        {(wallet?.[0]?.amount || 0).toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       </span>
                     </div>
+                    <button
+                      onClick={hdlOpenTopUpModal}
+                      className="rounded-2xl border w-18 h-10 mr-10 hover:bg-surface-container-high transition-colors"
+                    >
+                      Top-up
+                    </button>
                   </div>
                 </div>
               </div>
@@ -361,19 +405,6 @@ const UserProfilePage = () => {
             <EditUserProfile />
           </div>
         </dialog>
-
-        {/* <dialog
-          className="modal"
-          id="openeditaddress-modal"
-          onClose={() => navigate("/user_profile")}
-        >
-          {addresses?.map((e, i) => (
-            <div className="modal-box">
-              <EditUserAddress key={i} data={e} />
-            </div>
-          ))}
-        </dialog> */}
-
         <dialog
           className="modal"
           id="openeditaddress-modal"
@@ -383,6 +414,46 @@ const UserProfilePage = () => {
             <EditUserAddress defaultAddress={defaultAddress} />
           </div>
         </dialog>
+
+        {/* Top-up Modal */}
+        <dialog id="topup-modal" className="modal">
+          <div className="modal-box bg-surface-container-lowest">
+            <h3 className="font-serif text-3xl text-dark-red mb-6">
+              Top-up Wallet
+            </h3>
+            <div className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
+                  Amount (THB)
+                </label>
+                <input
+                  type="number"
+                  value={topUpAmount}
+                  onChange={(e) => setTopUpAmount(e.target.value)}
+                  placeholder="Enter amount"
+                  className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-xl focus:outline-none focus:border-primary transition-colors font-body"
+                />
+              </div>
+              <div className="modal-action flex gap-3">
+                <button
+                  onClick={hdlTopUp}
+                  className="px-6 py-2 bg-primary text-white text-base uppercase tracking-widest font-bold rounded-sm hover:bg-primary-container transition-colors"
+                >
+                  Continue to Payment
+                </button>
+                <button
+                  onClick={() => document.getElementById("topup-modal").close()}
+                  className="px-6 py-2 border border-outline text-base uppercase tracking-widest font-bold rounded-sm hover:bg-surface-container-low transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+          <form method="dialog" className="modal-backdrop">
+            <button>close</button>
+          </form>
+        </dialog>
       </main>
       {/* Footer */}
     </div>
@@ -390,3 +461,4 @@ const UserProfilePage = () => {
 };
 
 export default UserProfilePage;
+

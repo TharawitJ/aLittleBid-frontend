@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { apiCreateCheckout, apiGetMyPayments } from "../api/apiMain.js";
+import { apiCreateCheckout, apiGetMyPayments, apiCreateTopUp, apiConfirmCheckout } from "../api/apiMain.js";
 
 const usePaymentStore = create((set) => ({
   clientSecret: null,
@@ -34,6 +34,29 @@ const usePaymentStore = create((set) => ({
       const message =
         err?.response?.data?.message ?? err?.message ?? "Payment service unavailable";
       set({ error: message, loading: false });
+    }
+  },
+
+  createTopUpSession: async (amount) => {
+    set({ loading: true, error: null });
+    try {
+      const resp = await apiCreateTopUp({ amount });
+      set({ loading: false });
+      return resp.data.url;
+    } catch (err) {
+      const message = err?.response?.data?.message ?? err?.message ?? "Payment service unavailable";
+      set({ error: message, loading: false });
+      throw new Error(message);
+    }
+  },
+
+  confirmCheckout: async (sessionId) => {
+    try {
+      const resp = await apiConfirmCheckout(sessionId);
+      return resp.data;
+    } catch (err) {
+      console.error("Error confirming checkout:", err);
+      throw err;
     }
   },
 

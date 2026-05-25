@@ -99,7 +99,7 @@ export default function Payment() {
     <div className="min-h-screen bg-[#fbf9f6] text-[#1b1c1a] font-['Manrope'] py-12 px-4">
       <main className="max-w-2xl mx-auto space-y-8">
         <header className="space-y-2">
-          <nav className="text-[10px] tracking-[0.2em] font-bold text-[#59413e]/60 uppercase">
+          <nav className="text-[12px] tracking-[0.2em] font-bold text-[#59413e]/60 uppercase">
             Payment
           </nav>
           <h1 className="text-4xl font-['Newsreader'] italic">Complete your acquisition</h1>
@@ -121,10 +121,10 @@ export default function Payment() {
         {error && (
           <div className="bg-white p-8 rounded-sm shadow-sm space-y-4">
             <p className="text-[#7a0009] font-bold">Could not start payment</p>
-            <p className="text-sm text-[#59413e]">{error}</p>
+            <p className="text-base text-[#59413e]">{error}</p>
             <Link
               to="/my_orders"
-              className="inline-block text-xs font-bold uppercase tracking-widest text-[#7a0009] hover:underline"
+              className="inline-block text-sm font-bold uppercase tracking-widest text-[#7a0009] hover:underline"
             >
               ← Back to My Orders
             </Link>
@@ -143,37 +143,22 @@ export default function Payment() {
         )}
 
         {stuck && (
-          <div className="bg-yellow-50 border border-yellow-300 p-6 rounded-sm space-y-3 text-sm text-[#59413e]">
+          <div className="bg-yellow-50 border border-yellow-300 p-6 rounded-sm space-y-3 text-base text-[#59413e]">
             <p className="font-bold text-yellow-800">⏳ Waiting on data</p>
             <p>The checkout cannot start until these arrive:</p>
-            <ul className="list-disc list-inside text-xs">
+            <ul className="list-disc list-inside text-sm">
               {missing.map((m) => (
                 <li key={m}>{m}</li>
               ))}
             </ul>
 
             {import.meta.env.DEV && !currentRoomWinner?.amount}
-            {/* && (
-              <button
-                type="button"
-                onClick={() =>
-                  setWinner({
-                    amount: 100,
-                    bidId: bidId ?? "test-bid-cuid",
-                    winnerId: 0,
-                  })
-                }
-                className="px-4 py-2 text-xs font-bold uppercase tracking-widest bg-[#7a0009] text-white hover:bg-[#9e1b1b] transition-colors"
-              >
-                🧪 Plant test winner (dev only)
-              </button>
-            )} */}
 
-            <details className="text-xs">
+            <details className="text-sm">
               <summary className="cursor-pointer text-[#7a0009]">
                 Debug snapshot
               </summary>
-              <pre className="mt-2 p-2 bg-white rounded text-[10px] overflow-x-auto">
+              <pre className="mt-2 p-2 bg-white rounded text-[12px] overflow-x-auto">
                 {JSON.stringify(
                   {
                     auctionId,
@@ -193,3 +178,4 @@ export default function Payment() {
     </div>
   );
 }
+

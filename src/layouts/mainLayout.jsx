@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router";
+import { Outlet,ScrollRestoration } from "react-router";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 
@@ -11,8 +11,10 @@ function MainLayout() {
         <Outlet />
       </main>
       <Footer />
+      <ScrollRestoration/>
     </div>
   );
 }
 
 export default MainLayout;
+

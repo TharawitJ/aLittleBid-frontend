@@ -59,6 +59,12 @@ const AuctionBid = () => {
     };
   }, [auctionId]);
 
+  // useEffect(() => {
+  //   getAllUser();
+  //   getAuctionById(auctionId);
+  // }, [auctionId, getAllUser]);
+
+  // 2. Optimized Data Fetching
   useEffect(() => {
     const fetchData = async () => {
       await getAllUser();
@@ -90,10 +96,10 @@ const AuctionBid = () => {
   setBidHistory(auctionById.bids);
   }, [isFetching, auctionById]);
 
-  return (
+   return (
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] antialiased min-h-screen">
       {isLoading ? (
-        <div>...Loading</div>
+        <div className="mx-auto w-full h-full text-8xl">...Loading</div>
       ) : (
         <main className="pt-12 pb-24 px-6 md:px-12 max-w-screen-2xl mx-auto text-left">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
@@ -102,14 +108,10 @@ const AuctionBid = () => {
               <div className="relative group">
                 <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-lg bg-[#f6f3f2]">
                   <ProductImageSlide images={auctionById?.product?.images} />
-                  {/* } */}
                 </div>
-                {/* <button className="absolute bottom-6 right-6 bg-white/70 backdrop-blur-md p-3 rounded-full hover:bg-white transition-colors">
-                  <span className="material-symbols-outlined">fullscreen</span>
-                </button> */}
               </div>
 
-              <div className="space-y-12">
+                 <div className="space-y-12">
                 <div className="space-y-4">
                   <span className="font-['Manrope'] uppercase tracking-widest text-lg text-[#570000] font-bold">
                     {filterCategoryName[0]?.name}
@@ -117,18 +119,21 @@ const AuctionBid = () => {
                   <h1 className="text-5xl md:text-6xl font-['Noto_Serif'] text-[#1c1b1b] leading-tight">
                     {auctionById?.product?.name}
                   </h1>
+                  {/* <p className="text-xl font-['Noto_Serif'] italic text-[#5e5e5e]">
+                    {auctionById?.product?.description}
+                  </p> */}
                 </div>
+
                 <div className="max-w-none text-lg text-[#5a413d] leading-relaxed font-light space-y-4">
                   <p>{description}</p>
                 </div>
               </div>
             </div>
-
+          </div>
           {auctionById && 
           auctionById.type === 'ENGLISH' ? <EnglishBids currentHighestBid={currentHighestBid} auctionById={auctionById} bids={bids} auctionId={auctionId} users={users}/> : <SealedEnglish auctionById={auctionById} auctionId={auctionId} users={users}/>}
-          </div>
           <AuctionResultModal currentUserId={user?.id} auctionId={auctionId} />
-        </main>
+          </main>
       )}
     </div>
   );

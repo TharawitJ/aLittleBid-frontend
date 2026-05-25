@@ -4,7 +4,10 @@ import useProductStore from "../../stores/product.store.js";
 export const ProductListByPages = ({ allProducts,limit}) => {
   const productPage = useProductStore((state) => state.productPage);
   const setProductPage = useProductStore((state) => state.setProductPage);
-  const totalPages = Math.ceil(allProducts?.length / limit);
+  const [totalPages,setTotalPages] = useState(Math.ceil(allProducts?.length / limit))
+  if(totalPages===0){
+    return setTotalPages(1)
+  }
   
 
   return (
@@ -24,7 +27,7 @@ export const ProductListByPages = ({ allProducts,limit}) => {
         </span>
 
         <button
-          disabled={productPage === totalPages}
+          disabled={productPage <= totalPages}
           onClick={() => setProductPage(Number(productPage) + 1)}
           className="px-4 py-2 bg-gray-200 disabled:opacity-50"
         >
@@ -35,3 +38,4 @@ export const ProductListByPages = ({ allProducts,limit}) => {
     </div>
   );
 };
+
