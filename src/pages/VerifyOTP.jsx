@@ -41,10 +41,10 @@ const VerifyOTP = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-2 text-gray-800 text-center">
+        <h2 className="text-3xl font-bold mb-2 text-gray-800 text-center">
           ยืนยันรหัส OTP
         </h2>
-        <p className="text-gray-600 mb-6 text-center text-sm">
+        <p className="text-gray-600 mb-6 text-center text-base">
           เราได้ส่งรหัส 6 หลักไปที่{" "}
           <span className="font-semibold text-blue-600">{email}</span>
         </p>
@@ -55,13 +55,13 @@ const VerifyOTP = () => {
               type="text"
               placeholder="0 0 0 0 0 0"
               maxLength={6}
-              className="w-full px-4 py-3 border-2 rounded-lg text-center text-2xl font-bold tracking-[0.5em] focus:outline-none focus:border-blue-500 transition-all"
+              className="w-full px-4 py-3 border-2 rounded-lg text-center text-3xl font-bold tracking-[0.5em] focus:outline-none focus:border-blue-500 transition-all"
               value={otp}
               onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ""))} // รับเฉพาะตัวเลข
               required
             />
             {errorMessage && (
-              <p className="text-red-500 text-center text-sm mt-3">
+              <p className="text-red-500 text-center text-base mt-3">
                 {errorMessage}
               </p>
             )}
@@ -82,7 +82,7 @@ const VerifyOTP = () => {
 
         <button
           onClick={() => navigate("/request-otp")}
-          className="w-full mt-4 text-sm text-gray-500 hover:text-blue-600 transition-colors"
+          className="w-full mt-4 text-base text-gray-500 hover:text-blue-600 transition-colors"
         >
           เปลี่ยนอีเมลใหม่
         </button>
@@ -92,3 +92,4 @@ const VerifyOTP = () => {
 };
 
 export default VerifyOTP;
+

@@ -63,16 +63,16 @@ const ResetPassword = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-2 text-gray-800 text-center">
+        <h2 className="text-3xl font-bold mb-2 text-gray-800 text-center">
           ตั้งรหัสผ่านใหม่
         </h2>
-        <p className="text-gray-500 mb-6 text-center text-sm">
+        <p className="text-gray-500 mb-6 text-center text-base">
           สร้างรหัสผ่านใหม่ที่ปลอดภัยสำหรับบัญชีของคุณ
         </p>
 
         <form onSubmit={handleResetPassword}>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
+            <label className="block text-gray-700 text-base font-bold mb-2">
               รหัสผ่านใหม่
             </label>
             <input
@@ -85,7 +85,7 @@ const ResetPassword = () => {
           </div>
 
           <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
+            <label className="block text-gray-700 text-base font-bold mb-2">
               ยืนยันรหัสผ่านใหม่
             </label>
             <input
@@ -98,7 +98,7 @@ const ResetPassword = () => {
           </div>
 
           {error && (
-            <p className="text-red-500 text-xs mb-4 text-center">{error}</p>
+            <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
           )}
 
           <button
@@ -119,3 +119,4 @@ const ResetPassword = () => {
 };
 
 export default ResetPassword;
+
