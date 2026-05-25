@@ -8,6 +8,7 @@ import useUserStore from "../stores/user.store.js";
 import Swal from "sweetalert2";
 import { uploadMultipleToCloudinary } from '../utils/uploadCloud.js'
 import { apiCreateImages } from "../api/apiMain.js";
+import { mainButtonColor } from "../common/mainColor.js";
 
 const AddProduct = () => {
   const { createProduct, allCategories, updateProduct, createImages } =
@@ -43,7 +44,8 @@ const AddProduct = () => {
       reservePrice,
       minIncrement,
       category,
-      images
+      images,
+      type
     } = data;
     // const selectedCategory = allCategories.find(c => c.name === data.categoryName);
 
@@ -85,6 +87,8 @@ const AddProduct = () => {
       // const resp = createImages(imagePayload)
       // console.log('imagesssss')
 
+      console.log('type submitting at product at', type)
+
       const auctionTableData = {
         // Converts to 2026-04-22T12:31:00.000Z
         startTime: start.toISOString(),
@@ -93,7 +97,8 @@ const AddProduct = () => {
         reservePrice: Number(reservePrice),
         minIncrement: Number(minIncrement),
         productId: newProduct.id,
-        status: "WAITING"
+        status: "WAITING",
+        type: type
       };
       const auctionAfterCreated = await createAuction(auctionTableData);
       console.log('auctionAfterCreated', auctionAfterCreated)
@@ -103,6 +108,8 @@ const AddProduct = () => {
 
       Swal.fire({
         title: "Product created!",
+        confirmButtonText: "OK",
+        confirmButtonColor: mainButtonColor
       });
       navigate("/seller_products")
     } catch (error) {
@@ -264,7 +271,20 @@ const AddProduct = () => {
                     </select>
                   </div>
                   <div className="flex flex-col">
-                    <label className="text-sm uppercase tracking-widest text-dark-red mb-2 font-bold">
+                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
+                      Auction Type
+                    </label>
+                       <select
+                      name="type"
+                      className="min-h-[37px] border-0 border-b border-[#8d706d]/30 bg-transparent px-2 py-1 font-['Newsreader'] text-lg focus:ring-0 focus:border-[#7a0009] transition-all placeholder:text-[#59413e]/30"
+                      {...register("type")}
+                    >
+                      <option value="ENGLISH">Public Ascending Auction (English)</option>
+                      <option value="SEALED_ENGLISH">First-Price Blind Auction</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-xs uppercase tracking-widest text-dark-red mb-2 font-bold">
                       Starting Price (Bath)
                     </label>
                     <input

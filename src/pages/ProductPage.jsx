@@ -52,13 +52,12 @@ const ProductPage = () => {
 
   // Use a unified useEffect for all filtering
   useEffect(() => {
+    console.log('use effect running')
     if (!Array.isArray(allProducts)) return;
-    console.log("allProducts-in", allProducts);
+    // console.log('allProducts-in', allProducts)
 
-    let filtered = allProducts.filter(
-      (p) => p?.auctions?.[0]?.status === "ACTIVE",
-    );
-    console.log("filtered", filtered);
+    let filtered = allProducts.filter((p)=>p?.auctions?.[0]?.status==="ACTIVE");
+    // console.log('filtered', filtered)
 
     // 1. Filter by Category
     if (selectCategoryId) {

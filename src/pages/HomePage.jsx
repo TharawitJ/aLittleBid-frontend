@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback, useParams } from "react";
 import { NavLink, useNavigate } from "react-router";
 import WelcomeGuest from "../components/homePage/WelcomeGuest";
 import WelcomeUser from "../components/homePage/WelcomeUser";
@@ -15,6 +15,8 @@ const HomePage = () => {
   const { getAllAuction, getPopularAuction, popularAuction, getAuctionById } =
     useAuctionStore();
   const { getAllProducts, getCategories } = useProductStore();
+  // const { auctionId } = useParams();
+  const [timeLeft, setTimeLeft] = useState(0);
   const lots = (Array.isArray(popularAuction) ? popularAuction : []).filter(
     (lot) => lot.status === "ACTIVE",
   );
@@ -84,6 +86,16 @@ const HomePage = () => {
     return <WelcomeUser />;
   };
 
+  // const hdlJoinClick = (id) => {
+  //   try {
+  //     if (!id) return alert("no auction");
+  //     navigate(`/auction_bid/${id}`);
+  //     // getProductsById(auctionById.productId);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
+
   return (
     <div className="bg-surface text-on-surface font-body min-h-screen">
       <main className="">
@@ -93,6 +105,8 @@ const HomePage = () => {
             <div className="font-headline text-5xl text-red my-8 mr-6">
               Populars
             </div>
+              {/* <div className="h-[1px] flex-grow bg-stone-200"></div>
+          </div> */}
             {isLoading ? (
               <div>...Loading</div>
             ) : (

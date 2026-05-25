@@ -4,75 +4,82 @@ import useBidStore from "../stores/bid.store.js";
 import { apiGetUserById } from "../api/apiMain.js";
 
 export default function AuctionResultModal({ currentUserId, auctionId }) {
-  const { winner, clearWinner } = useBidStore();
+  // 1. Extract 'winners' object instead of a single global 'winner'
+  const { winners, clearWinner } = useBidStore();
   const hasShownRef = useRef(false);
   const [winnerUsername, setWinnerUsername] = useState(null);
   const [loadingUser, setLoadingUser] = useState(false);
 
+  // 2. Safely grab the specific winner for THIS specific auction room
+  const currentRoomWinner = winners[auctionId];
+
   const getUserById = async (id) => {
-    const resp = await apiGetUserById(id);
-    setWinnerUsername(resp.data.responses.username);
+    try {
+      const resp = await apiGetUserById(id);
+      setWinnerUsername(resp.data.responses.username);
+    } catch (error) {
+      console.log('error at get id', error);
+    } finally {
+      setLoadingUser(false);
+    }
   };
 
-  // Fetch winner's username when a winner is set
+  // Fetch winner's username when a winner is set for this room
   useEffect(() => {
-    if (!winner) return;
+    if (!currentRoomWinner) return;
 
     if (!hasShownRef.current) {
       hasShownRef.current = true;
     }
 
-    // Only fetch if there's actually a winner (not a no-bid close)
-    if (winner.winnerId && String(winner.auctionId) === String(auctionId)) {
+    if (currentRoomWinner.winnerId && String(currentRoomWinner.auctionId) === String(auctionId)) {
       setLoadingUser(true);
       try {
-        getUserById(winner.winnerId);
+        getUserById(currentRoomWinner.winnerId);
       } catch (error) {
         console.log("error at get id", error);
       } finally {
         setLoadingUser(false);
       }
     }
-  }, [winner]);
+  }, [currentRoomWinner]);
 
-  // Reset guard when winner is cleared
+  // Reset guard when this room's winner is cleared
   useEffect(() => {
-    if (!winner) {
+    if (!currentRoomWinner) {
       hasShownRef.current = false;
       setWinnerUsername(null);
     }
-  }, [winner]);
+  }, [currentRoomWinner]);
 
-  if (
-    !winner ||
-    !hasShownRef.current ||
-    String(winner.auctionId) !== String(auctionId)
-  )
-    return null;
+  // Guard clause using this room's winner state
+  if (!currentRoomWinner || !hasShownRef.current) return null;
 
-  const isWinner = winner.winnerId === currentUserId;
+  // 3. Correctly evaluate if the current user is the winner of this specific room
+  const isWinner = currentRoomWinner.winnerId === currentUserId;
 
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ backgroundColor: "rgba(0,0,0,0.6)" }}
       onClick={(e) => {
-        if (e.target === e.currentTarget) clearWinner();
+        if (e.target === e.currentTarget) clearWinner(auctionId);
       }}
     >
       <div className="relative w-full max-w-md rounded-2xl overflow-hidden bg-base-300">
+        {/* 4. Use the correct boolean flag to swap content views */}
         {isWinner ? (
           <WinnerContent
-            amount={winner.amount}
-            bidId={winner.bidId}
+            amount={currentRoomWinner.amount}
+            bidId={currentRoomWinner.bidId}
             auctionId={auctionId}
-            onClose={clearWinner}
+            onClose={() => clearWinner(auctionId)} // 5. Wrapped inside an arrow function
           />
         ) : (
           <LoserContent
             winnerUsername={winnerUsername}
             loadingUser={loadingUser}
-            onClose={clearWinner}
+            onClose={() => clearWinner(auctionId)} // 6. Fixed immediate execution bug
           />
         )}
       </div>
@@ -98,7 +105,7 @@ function WinnerContent({ amount, bidId, auctionId, onClose }) {
         You won!
       </h2>
 
-      <div className="flex justify-center mb-5">
+       <div className="flex justify-center mb-5">
         <div className="w-20 h-20 rounded-full flex items-center justify-center text-4xl">
           🏆
         </div>
@@ -112,8 +119,8 @@ function WinnerContent({ amount, bidId, auctionId, onClose }) {
         <p className="text-xs uppercase tracking-widest mb-1 text-black">
           Winning bid
         </p>
-        <p className="text-5xl font-bold" style={{ color: "#000000" }}>
-          {amount.toLocaleString()} <span className="text-2xl">฿</span>
+        <p className="text-4xl font-bold" style={{ color: "#000000" }}>
+          {amount ? amount.toLocaleString() : 0} <span className="text-xl">฿</span>
         </p>
       </div>
 
@@ -121,13 +128,12 @@ function WinnerContent({ amount, bidId, auctionId, onClose }) {
 
       <button
         onClick={() => {
-          onClose();
+          onClose(); // Uses the passed down clearWinner logic
           navigate(`/payment/${auctionId}/${bidId}`);
         }}
         className="w-full py-3 rounded-xl font-semibold text-base transition-all duration-150 active:scale-95"
         style={{
-          background:
-            "linear-gradient(135deg, rgb(122, 0, 0) 0%, #450a0a 100%)",
+          background: "linear-gradient(135deg, rgb(122, 0, 0) 0%, #450a0a 100%)",
           color: "#fff",
           border: "none",
           cursor: "pointer",
@@ -169,7 +175,6 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
         This auction has closed. You didn't place the winning bid.
       </p>
 
-      {/* Winner callout */}
       <div
         className="rounded-xl px-5 py-4 mb-8"
         style={{
@@ -203,9 +208,8 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
         )}
       </div>
 
-      <p className="text-sm mb-8 text-black">
-        Any bids you placed have been released and no charge will be made to
-        your account.
+      <p className="text-xs mb-8 text-black">
+        Any bids you placed have been released and no charge will be made to your account.
       </p>
 
       <button
@@ -223,4 +227,3 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
     </div>
   );
 }
-

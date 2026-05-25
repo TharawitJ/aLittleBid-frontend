@@ -5,7 +5,8 @@ import { mainApi as api } from "../api/apiMain.js";
 import useUserStore from "../stores/user.store.js";
 import { loginSchema } from "../validations/RegisLogin.js";
 import { EyeIcon, EyeSlashIcon } from "../icons/index.jsx";
-import Swal from "sweetalert2"
+import Swal from "sweetalert2";
+import { mainButtonColor } from "../common/mainColor.js";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -34,7 +35,9 @@ export default function LoginPage() {
 
       console.log("Login Success");
       Swal.fire({
-        title: "Login Successful!"
+        title: "Login Successful!",
+        confirmButtonText: "OK",
+        confirmButtonColor: mainButtonColor
       })
       // alert("Login Successful!");
       navigate("/");
