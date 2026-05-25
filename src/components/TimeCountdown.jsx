@@ -11,15 +11,15 @@ function TimeCountdown({ product }) {
   const filteredProduct = allAuction.filter(
     (item) => item.productId === product.id,
   );
-  const filteredProductByStatus = allAuction.filter(
-    (item) => item.productId === "ACTIVE",
-  );
+  // const filteredProductByStatus = allAuction.filter(
+  //   (item) => item.productId === "ACTIVE",
+  // );
   // console.log("filteredProductByStatus", filteredProductByStatus);
 
-  const endTime = (filteredProduct) =>
-    new Date(filteredProduct?.[0]?.endTime).getTime();
-  const startTime = (filteredProduct) =>
-    new Date(filteredProduct?.[0]?.startTime).getTime();
+  // const endTime = (filteredProduct) =>
+  //   new Date(filteredProduct?.[0]?.endTime).getTime();
+  // const startTime = (filteredProduct) =>
+  //   new Date(filteredProduct?.[0]?.startTime).getTime();
 
   // Safe version using optional chaining and a fallback
   const getEndTimeMs = (products) => {
@@ -33,18 +33,29 @@ function TimeCountdown({ product }) {
 
   const targetEndTime = getEndTimeMs(filteredProduct);
   const targetStartTime = getStartTimeMs(filteredProduct);
-  const diff = targetEndTime - now;
+
   // console.log("diff", diff);
   const isEnded = now > targetEndTime;
   const isStart = targetStartTime > now;
-  console.log('isStart', isStart)
-  const hdlTime = (diff) => {
+  console.log("isStart", isStart);
+  const hdlTime = () => {
+    const endDiff = targetEndTime - now;
+    const startDiff = targetStartTime - now;
+
     if (!isStart) {
-      return formatTime(diff);
-    } else if (isEnded){
-      return "AUCTION CLOSED"
+      return (
+        <div className="">
+          Ends in <span className="font-bold">{formatTime(endDiff)}</span>
+        </div>
+      );
+    } else if (isEnded) {
+      return "AUCTION CLOSED";
     }
-    return "WAITING"
+    return (
+      <div>
+        Starts in <span className="font-bold">{formatTime(startDiff)}</span>
+      </div>
+    );
   };
 
   // Simple formatting logic
@@ -81,9 +92,9 @@ function TimeCountdown({ product }) {
     <>
       {/* <div className="grid grid-cols-4 gap-4"> */}
       <div key={product.id} className="rounded-xl text-red-950">
-        <p className="uppercase text-[10px]">Time Left</p>
+        <p className="uppercase text-[12px]">Time</p>
         <div className="material-symbols-outlined text-[16px] text-primary">
-          {hdlTime(diff)}
+          {hdlTime()}
         </div>
       </div>
       {/* </div> */}
