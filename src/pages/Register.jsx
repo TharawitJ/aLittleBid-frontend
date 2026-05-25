@@ -72,7 +72,7 @@ function UnderlineInput({
       {label && (
         <label
           htmlFor={id}
-          className="text-[11px] font-semibold text-gray-700 tracking-wide "
+          className="text-[13px] font-semibold text-gray-700 tracking-wide "
         >
           {label}
         </label>
@@ -93,7 +93,7 @@ function UnderlineInput({
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           className={[
-            "w-full bg-transparent outline-none text-sm text-gray-800 py-2 border-b transition-colors duration-200 placeholder:text-gray-400",
+            "w-full bg-transparent outline-none text-base text-gray-800 py-2 border-b transition-colors duration-200 placeholder:text-gray-400",
             prefixIcon ? "pl-6" : "pl-0",
             togglePassword ? "pr-7" : "",
             error
@@ -119,7 +119,7 @@ function UnderlineInput({
           </button>
         )}
       </div>
-      {error && <p className="text-[11px] text-red-500 mt-0.5">⚠ {error}</p>}
+      {error && <p className="text-[13px] text-red-500 mt-0.5">⚠ {error}</p>}
     </div>
   );
 }
@@ -137,14 +137,14 @@ function AvatarStack() {
         {avatars.map((a, i) => (
           <div
             key={i}
-            className="w-9 h-9 rounded-full border-2 border-[#1a1a1a] flex items-center justify-center text-[10px] font-bold text-white"
+            className="w-9 h-9 rounded-full border-2 border-[#1a1a1a] flex items-center justify-center text-[12px] font-bold text-white"
             style={{ background: a.bg, zIndex: avatars.length - i }}
           >
             {a.initials}
           </div>
         ))}
       </div>
-      <p className="text-sm text-gray-400 leading-tight">
+      <p className="text-base text-gray-400 leading-tight">
         Joined by <span className="text-white font-semibold">12,000+</span>{" "}
         elite collectors
       </p>
@@ -295,17 +295,17 @@ export default function ALittleBidRegister() {
             ⚖
           </div>
           <div className="relative z-10">
-            <h1 className="font-display text-3xl font-bold leading-none text-[#B91C1C]">
+            <h1 className="font-display text-4xl font-bold leading-none text-[#B91C1C]">
               A little Bid
             </h1>
-            <p className="mt-4 text-[15px] font-light text-gray-400">
+            {/* <p className="mt-4 text-[15px] font-light text-gray-400">
               Curating the world's most{" "}
               <span className="text-[#B91C1C]">prestigious</span> collections.
-            </p>
+            </p> */}
           </div>
           <div className="relative z-10 space-y-5">
             <AvatarStack />
-            <p className="text-[11px] tracking-widest  text-gray-600">
+            <p className="text-[13px] tracking-widest  text-gray-600">
               © 2024 The Prestigious Gallery. Est. 1894.
             </p>
           </div>
@@ -316,14 +316,9 @@ export default function ALittleBidRegister() {
           className="flex-1 flex flex-col items-center justify-center px-6 py-14 min-h-screen"
           style={{ background: "#AEAAA4" }}
         >
-          <div className="w-full max-w-[480px] mb-8">
-            <p className="text-[10px] font-semibold tracking-[0.2em]  mb-3 text-[#8B1A1A]">
-              Collector Membership
-            </p>
-            <h2 className="font-display text-[42px] font-bold leading-[1.1] text-gray-900">
-              Begin your <br /> acquisition journey.
-            </h2>
-          </div>
+            <h1 className="font-semibold tracking-[0.2em] text-5xl mb-8 text-[#8B1A1A]">
+              Register
+            </h1>
 
           {success ? (
             <div className="w-full max-w-[480px] bg-white rounded-sm px-10 py-12 text-center">
@@ -340,15 +335,15 @@ export default function ALittleBidRegister() {
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               </div>
-              <h3 className="font-display text-2xl font-bold text-gray-900 mb-2">
-                Welcome to the gallery.
+              <h3 className="font-display text-3xl font-bold text-gray-900 mb-2">
+                Welcome to A Little Bid.
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-base text-gray-500">
                 Your collector account has been created.
               </p>
               <Link
                 to="/login"
-                className="inline-block mt-8 text-sm font-semibold underline text-[#8B1A1A]"
+                className="inline-block mt-8 text-base font-semibold underline text-[#8B1A1A]"
               >
                 Go to Login
               </Link>
@@ -357,7 +352,7 @@ export default function ALittleBidRegister() {
             <form
               onSubmit={handleSubmit}
               noValidate
-              className="w-full max-w-[480px] bg-white rounded-sm px-10 py-10 shadow-xl"
+              className="w-full max-w-[1000px] bg-white rounded-sm px-10 py-10 shadow-xl"
             >
               <fieldset disabled={loading} className="contents">
               {/* 3. เพิ่มปุ่ม Google Login ด้านบน */}
@@ -365,7 +360,7 @@ export default function ALittleBidRegister() {
                 type="button"
                 onClick={() => loginWithGoogle()}
                 disabled={loading}
-                className="w-full mb-6 py-3 border border-gray-200 flex items-center justify-center gap-3 hover:bg-gray-50 transition-all text-[12px] font-semibold tracking-wider text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full mb-6 py-3 border border-gray-200 flex items-center justify-center gap-3 hover:bg-gray-50 transition-all text-[14px] font-semibold tracking-wider text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24">
                   <path
@@ -446,13 +441,13 @@ export default function ALittleBidRegister() {
               </div>
 
               <div className="mb-7">
-                <p className="text-[11px] font-semibold text-gray-700  tracking-wide mb-3">
+                <p className="text-[13px] font-semibold text-gray-700  tracking-wide mb-3">
                   Account Type
                 </p>
 
                 <div className="flex gap-40">
                   {/* ตัวเลือก BUYER */}
-                  <label className="flex items-center gap-2 cursor-pointer text-sm capitalize group">
+                  <label className="flex items-center gap-2 cursor-pointer text-base capitalize group">
                     <input
                       type="radio"
                       name="role"
@@ -467,7 +462,7 @@ export default function ALittleBidRegister() {
                   </label>
 
                   {/* ตัวเลือก SELLER */}
-                  <label className="flex items-center gap-2 cursor-pointer text-sm capitalize group">
+                  <label className="flex items-center gap-2 cursor-pointer text-base capitalize group">
                     <input
                       type="radio"
                       name="role"
@@ -483,7 +478,7 @@ export default function ALittleBidRegister() {
                 </div>
 
                 {errors.role && (
-                  <p className="text-[11px] text-red-500 mt-1">
+                  <p className="text-[13px] text-red-500 mt-1">
                     ⚠ {errors.role}
                   </p>
                 )}
@@ -512,7 +507,7 @@ export default function ALittleBidRegister() {
                 />
               </div>
 
-              <p className="text-[11px] font-semibold text-gray-700  tracking-wide mb-3">
+              <p className="text-[13px] font-semibold text-gray-700  tracking-wide mb-3">
                 Address
               </p>
               <div className="grid grid-cols-2 gap-x-6 gap-y-4 mb-7">
@@ -569,7 +564,7 @@ export default function ALittleBidRegister() {
                   onChange={() => setAgreed(!agreed)}
                   className="mt-1 accent-[#8B1A1A]"
                 />
-                <span className="text-[12px] text-gray-600">
+                <span className="text-[14px] text-gray-600">
                   I agree to the{" "}
                   <Link to="/terms" className="text-gray-900 underline">
                     Terms
@@ -582,13 +577,13 @@ export default function ALittleBidRegister() {
                 </span>
               </label>
               {errors.terms && (
-                <p className="text-[11px] text-red-500 -mt-6 mb-6">
+                <p className="text-[13px] text-red-500 -mt-6 mb-6">
                   ⚠ {errors.terms}
                 </p>
               )}
 
               {errors.submit && (
-                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-sm text-[11px] text-red-700">
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-sm text-[13px] text-red-700">
                   ⚠ {errors.submit}
                 </div>
               )}
@@ -596,7 +591,7 @@ export default function ALittleBidRegister() {
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full py-4 text-white text-[11px] font-semibold tracking-[0.2em]  transition-all flex items-center justify-center gap-2 ${loading ? "bg-[#6B1313] opacity-70 cursor-not-allowed" : "bg-[#8B1A1A] hover:bg-[#6B1313]"}`}
+                className={`w-full py-4 text-white text-[13px] font-semibold tracking-[0.2em]  transition-all flex items-center justify-center gap-2 ${loading ? "bg-[#6B1313] opacity-70 cursor-not-allowed" : "bg-[#8B1A1A] hover:bg-[#6B1313]"}`}
               >
                 {loading && (
                   <span className="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -607,7 +602,7 @@ export default function ALittleBidRegister() {
             </form>
           )}
 
-          <div className="flex items-center gap-1.5 mt-6 text-[11px] text-[#4B4540]">
+          <div className="flex items-center gap-1.5 mt-6 text-[13px] text-[#4B4540]">
             <InfoIcon /> <span>Need assistance with your registration?</span>
           </div>
         </div>
@@ -615,3 +610,4 @@ export default function ALittleBidRegister() {
     </>
   );
 }
+

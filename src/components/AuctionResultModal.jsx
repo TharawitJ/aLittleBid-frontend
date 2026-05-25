@@ -85,14 +85,14 @@ function WinnerContent({ amount, bidId, auctionId, onClose }) {
   return (
     <div className="px-8 pt-10 pb-8 text-center">
       <p
-        className="text-xs font-semibold tracking-widest uppercase mb-2"
+        className="text-sm font-semibold tracking-widest uppercase mb-2"
         style={{ color: "#000000" }}
       >
         Congratulations
       </p>
 
       <h2
-        className="text-3xl font-bold text-black mb-2"
+        className="text-4xl font-bold text-black mb-2"
         style={{ fontFamily: "Georgia, serif" }}
       >
         You won!
@@ -104,7 +104,7 @@ function WinnerContent({ amount, bidId, auctionId, onClose }) {
         </div>
       </div>
 
-      <p className="text-sm mb-8 text-black">
+      <p className="text-base mb-8 text-black">
         Your bid was the highest and met the reserve price.
       </p>
 
@@ -112,8 +112,8 @@ function WinnerContent({ amount, bidId, auctionId, onClose }) {
         <p className="text-xs uppercase tracking-widest mb-1 text-black">
           Winning bid
         </p>
-        <p className="text-4xl font-bold" style={{ color: "#000000" }}>
-          {amount.toLocaleString()} <span className="text-xl">฿</span>
+        <p className="text-5xl font-bold" style={{ color: "#000000" }}>
+          {amount.toLocaleString()} <span className="text-2xl">฿</span>
         </p>
       </div>
 
@@ -124,7 +124,7 @@ function WinnerContent({ amount, bidId, auctionId, onClose }) {
           onClose();
           navigate(`/payment/${auctionId}/${bidId}`);
         }}
-        className="w-full py-3 rounded-xl font-semibold text-sm transition-all duration-150 active:scale-95"
+        className="w-full py-3 rounded-xl font-semibold text-base transition-all duration-150 active:scale-95"
         style={{
           background:
             "linear-gradient(135deg, rgb(122, 0, 0) 0%, #450a0a 100%)",
@@ -144,7 +144,7 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
     <div className="px-8 pt-10 pb-8 text-center">
       <div className="flex justify-center mb-5">
         <div
-          className="w-20 h-20 rounded-full flex items-center justify-center text-4xl"
+          className="w-20 h-20 rounded-full flex items-center justify-center text-5xl"
           style={{
             background: "rgba(255,255,255,0.05)",
             border: "1px solid rgba(255,255,255,0.1)",
@@ -159,13 +159,13 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
       </p>
 
       <h2
-        className="text-3xl font-bold text-black mb-2"
+        className="text-4xl font-bold text-black mb-2"
         style={{ fontFamily: "Georgia, serif" }}
       >
         Better luck next time
       </h2>
 
-      <p className="text-sm mb-6 text-black">
+      <p className="text-base mb-6 text-black">
         This auction has closed. You didn't place the winning bid.
       </p>
 
@@ -190,27 +190,27 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
               }}
             />
             <span
-              className="text-sm"
+              className="text-base"
               style={{ color: "rgba(255,255,255,0.3)" }}
             >
               Loading...
             </span>
           </div>
         ) : (
-          <p className="text-lg font-semibold text-white">
+          <p className="text-xl font-semibold text-white">
             {winnerUsername ?? "Another bidder"}
           </p>
         )}
       </div>
 
-      <p className="text-xs mb-8 text-black">
+      <p className="text-sm mb-8 text-black">
         Any bids you placed have been released and no charge will be made to
         your account.
       </p>
 
       <button
         onClick={onClose}
-        className="w-full py-3 rounded-xl font-semibold text-sm transition-all duration-150 active:scale-95"
+        className="w-full py-3 rounded-xl font-semibold text-base transition-all duration-150 active:scale-95"
         style={{
           background: "rgba(122,0,0,0.8)",
           color: "rgba(255,255,255, 1)",
@@ -223,3 +223,4 @@ function LoserContent({ winnerUsername, loadingUser, onClose }) {
     </div>
   );
 }
+

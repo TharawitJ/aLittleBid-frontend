@@ -99,23 +99,23 @@ const ProductPage = () => {
     <div className="bg-[#fcf9f8] text-[#1c1b1b] font-['Manrope'] min-h-screen">
       <main className="pt-12 pb-24 px-12 max-w-screen-2xl mx-auto">
         <section className="mb-20 text-center">
-          {/* <span className="text-[10px] font-semibold uppercase tracking-widest text-[#800000] mb-4 block">
+          <span className="text-[12px] font-semibold uppercase tracking-widest text-[#800000] mb-4 block">
             Curated Selections
-          </span> */}
+          </span>
           <div className="max-w-3xl mx-auto relative group">
             <input
               type="text"
               placeholder="Search by product name or details"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-12 pl-16 pr-8 bg-[#f6f3f2] border border-gray-300 rounded-full focus:ring-2 focus:ring-[#570000]/20 text-lg shadow-sm outline-none"
+              className="w-full h-16 pl-16 pr-8 bg-[#f6f3f2] border-none rounded-full focus:ring-2 focus:ring-[#570000]/20 text-xl shadow-sm outline-none"
             />
           </div>
         </section>
 
         <div className="flex justify-between items-end mb-6 text-left">
           <div>
-            <h2 className="text-4xl font-['Noto_Serif'] text-red">
+            <h2 className="text-5xl font-['Noto_Serif'] text-red">
               All Products
             </h2>
             <div>
@@ -162,7 +162,7 @@ const ProductPage = () => {
           Category : {selectCategoryName}
         </div>
         <div className="mt-2  text-primary ">
-          <span className="text-gray-700 font-bold text-xl">
+          <span className="text-gray-700 font-bold text-2xl">
             {currentProducts.length}
           </span>
           <span className="text-gray-600 ml-2">Products in total</span>
@@ -187,3 +187,4 @@ const ProductPage = () => {
 };
 
 export default ProductPage;
+

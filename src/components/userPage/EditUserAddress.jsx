@@ -49,18 +49,18 @@ function EditUserAddress({ defaultAddress }) {
 
   return (
     <div>
-      <div className="text-center mb-10 font-headline uppercase text-dark-red tracking-wider text-2xl">
+      <div className="text-center mb-10 font-headline uppercase text-dark-red tracking-wider text-3xl">
         Edit Address
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-2 gap-x-8 gap-y-10">
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+            <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
               Label
             </label>
             <input
-              className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
+              className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body"
               type="text"
               //   defaultValue={defaultAddress?.label}
               {...register("label")}
@@ -68,11 +68,11 @@ function EditUserAddress({ defaultAddress }) {
           </div>
 
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+            <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
               Street
             </label>
             <input
-              className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
+              className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body"
               type="text"
               //   defaultValue={defaultAddress?.street}
               {...register("street")}
@@ -80,11 +80,11 @@ function EditUserAddress({ defaultAddress }) {
           </div>
 
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+            <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
               City
             </label>
             <input
-              className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
+              className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body"
               type="text"
               //   defaultValue={defaultAddress?.city}
               {...register("city")}
@@ -92,11 +92,11 @@ function EditUserAddress({ defaultAddress }) {
           </div>
 
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+            <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
               State
             </label>
             <input
-              className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
+              className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body"
               type="text"
               //   defaultValue={defaultAddress?.state}
               {...register("state")}
@@ -104,11 +104,11 @@ function EditUserAddress({ defaultAddress }) {
           </div>
 
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+            <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
               Postal Code
             </label>
             <input
-              className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
+              className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body"
               type="text"
               //   defaultValue={defaultAddress?.postalCode}
               {...register("postalCode")}
@@ -116,11 +116,11 @@ function EditUserAddress({ defaultAddress }) {
           </div>
 
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+            <label className="text-[12px] uppercase tracking-widest text-on-surface-variant font-bold">
               Country
             </label>
             <input
-              className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-sm focus:outline-none focus:border-primary transition-colors font-body"
+              className="w-full bg-transparent border-0 border-b border-outline/30 py-2 px-0 text-base focus:outline-none focus:border-primary transition-colors font-body"
               type="text"
               //   defaultValue={defaultAddress?.country}
               {...register("country")}
@@ -145,3 +145,4 @@ function EditUserAddress({ defaultAddress }) {
 }
 
 export default EditUserAddress;
+

@@ -92,3 +92,4 @@ function TimeCountdown({ product }) {
 }
 
 export default TimeCountdown;
+

@@ -47,14 +47,14 @@ function WelcomeGuest() {
           initial="hidden"
           animate="visible"
         >
-          <motion.span variants={itemVariants} className="font-['Manrope'] uppercase tracking-[0.2em] bg-gradient-to-r from-[#570000] to-[#800000] bg-clip-text text-transparent mb-4 block font-semibold text-sm">Curated Excellence</motion.span>
+          <motion.span variants={itemVariants} className="font-['Manrope'] uppercase tracking-[0.2em] bg-gradient-to-r from-[#570000] to-[#800000] bg-clip-text text-transparent mb-4 block font-semibold text-base">Curated Excellence</motion.span>
           <motion.h1 variants={itemVariants} className="font-['Noto_Serif'] text-6xl md:text-8xl text-[#1c1b1b] leading-tight">Join the Thrill</motion.h1>
           <motion.h1 variants={itemVariants} className="font-['Noto_Serif'] text-6xl md:text-8xl text-[#1c1b1b] leading-tight mb-10">of the Bid</motion.h1>
           <motion.div variants={itemVariants} className="flex gap-4">
-            <button onClick={hdnNavRegister} className="bg-gradient-to-r from-[#570000] to-[#800000] text-white px-10 py-4 rounded-sm font-['Manrope'] uppercase tracking-widest text-xs hover:shadow-lg shadow-[#570000]/30 transition-all active:scale-95 duration-200">
+            <button onClick={hdnNavRegister} className="bg-gradient-to-r from-[#570000] to-[#800000] text-white px-10 py-4 rounded-sm font-['Manrope'] uppercase tracking-widest text-sm hover:shadow-lg shadow-[#570000]/30 transition-all active:scale-95 duration-200">
               Register
             </button>
-            <button onClick={hdnNavLogin} className="bg-white border border-stone-200 text-[#1c1b1b] px-10 py-4 rounded-sm font-['Manrope'] uppercase tracking-widest text-xs hover:bg-stone-50 transition-all active:scale-95 duration-200 shadow-sm">
+            <button onClick={hdnNavLogin} className="bg-white border border-stone-200 text-[#1c1b1b] px-10 py-4 rounded-sm font-['Manrope'] uppercase tracking-widest text-sm hover:bg-stone-50 transition-all active:scale-95 duration-200 shadow-sm">
               Login
             </button>
           </motion.div>
