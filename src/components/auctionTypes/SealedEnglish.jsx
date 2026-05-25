@@ -76,7 +76,7 @@ function SealedEnglish(props) {
 
     useEffect(() => {
         console.log('use effect running sealed bid is updated')
-        const filteredCurrentUserBids = auctionById.bids.filter( bid => bid.bidderId === user.id);
+        const filteredCurrentUserBids = auctionById?.bids.filter( bid => bid.bidderId === user.id);
         setYourBids(filteredCurrentUserBids);
     }, [auctionById]);
 
