@@ -37,7 +37,7 @@ function TimeCountdown({ product }) {
   // console.log("diff", diff);
   const isEnded = now > targetEndTime;
   const isStart = targetStartTime > now;
-  console.log('isStart', isStart)
+  // console.log('isStart', isStart)
   const hdlTime = (diff) => {
     if (!isStart) {
       return formatTime(diff);

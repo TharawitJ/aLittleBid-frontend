@@ -1,3 +1,28 @@
+export function Envelope(props) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      id="Layer_1"
+      data-name="Layer 1"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="#000"
+      {...props}
+    >
+      <g id="SVGRepo_iconCarrier">
+        <defs>
+          <style>
+            {
+              ".cls-1{fill:none;stroke:#020202;stroke-miterlimit:10;stroke-width:1.91px}"
+            }
+          </style>
+        </defs>
+        <path className="cls-1" d="M1.5 4.36H22.5V19.63H1.5z" />
+        <path className="cls-1" d="M1.5 4.36L12 14.86 22.5 4.36" />
+      </g>
+    </svg>
+  )
+}
+
 export function BlackCartIcon (props) {
   return (
     <svg
