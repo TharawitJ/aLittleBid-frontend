@@ -45,6 +45,7 @@ function SealedEnglish(props) {
         confirmButtonText: "OK",
         confirmButtonColor: mainButtonColor,
       });
+      return;
     }
     placeBid(amount, auctionId);
     setBidAmount(amount);
@@ -197,12 +198,12 @@ function SealedEnglish(props) {
               </form>
             )}
           </div>
-            <div className="flex justify-center items-center">
             {/* Only show the animation when a bid is in progress */}
             { bidStatus === "animating" &&
+            <div className="flex justify-center items-center">
             <BidEnvelope ref={envelopeRef} amount={bidAmount} onComplete={() => setBidStatus("idle")}/>
-            }
             </div> 
+            }
             {/* Show Your bid here */}
           {yourBids && yourBids.length > 0 && (
             <div className="bg-[#f6f3f2]  text-stone-50 p-8 rounded-lg relative max-h-[300px]">

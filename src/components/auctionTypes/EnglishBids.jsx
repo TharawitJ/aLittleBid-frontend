@@ -1,12 +1,16 @@
-import React from "react";
+import React, {useRef, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import TimeCountdown from "../TimeCountdown.jsx";
 import { placeBid } from "../../socket/socketService.js";
 import Swal from "sweetalert2";
 import { mainButtonColor } from "../../common/mainColor.js";
+import GavelAnimation from "./GavelAnimation.jsx";
 
 function EnglishBids(props) {
     const { currentHighestBid, auctionById, bids, auctionId, users} = props;
+    const gavelRef = useRef(null);
+    const [bidStatus, setBidStatus] = useState("idle"); // "idle" | "animating"
+    const [bidAmount, setBidAmount] = useState("");
 
       const { register, handleSubmit, reset, formState, setValue, getValues, watch } =
     useForm();
@@ -18,7 +22,7 @@ function EnglishBids(props) {
         : Number(auctionById?.startingPrice) + Number(auctionById?.minIncrement);
     
       const hdlOnSubmit = ({ amount }) => {
-    
+  
         if (!amount || Number(amount) <= 0 || Number(amount) < minRequiredPrice) {
           Swal.fire({
           icon: "error",
@@ -27,9 +31,12 @@ function EnglishBids(props) {
           confirmButtonText: "OK",
           confirmButtonColor: mainButtonColor
           });
+          return;
         }
         console.log('auctionId at English bid', auctionId);
         placeBid(amount, auctionId);
+        setBidAmount(amount);
+        setBidStatus("animating");
         reset();
       };
     
@@ -66,6 +73,14 @@ function EnglishBids(props) {
         setValue("amount", newValue, { shouldDirty: true });
         console.log(getValues("amount"))
       };
+
+        useEffect(() => {
+          if (bidStatus === 'idle') return;
+      
+          if (bidStatus === "animating" && gavelRef.current) {
+            gavelRef.current?.triggerBid();
+          }
+        }, [bidStatus]);
 
   return (
     <>
@@ -170,6 +185,12 @@ function EnglishBids(props) {
               </form>
             )}
           </div>
+             {/* Only show the animation when a bid is in progress */}
+            { bidStatus === "animating" &&
+              <div className="flex justify-center items-center">
+          <GavelAnimation ref={gavelRef} bidAmount={bidAmount} onComplete={() => setBidStatus("idle")} />
+          </div> 
+            }
           {bids && bids.length > 0 && (
             <div className="bg-[#f6f3f2]  text-stone-50 p-8 rounded-lg relative max-h-[300px]">
               <div className="relative z-10 space-y-4">
