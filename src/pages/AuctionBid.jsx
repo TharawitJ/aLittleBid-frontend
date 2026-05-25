@@ -129,9 +129,9 @@ const AuctionBid = () => {
                 </div>
               </div>
             </div>
-          </div>
           {auctionById && 
           auctionById.type === 'ENGLISH' ? <EnglishBids currentHighestBid={currentHighestBid} auctionById={auctionById} bids={bids} auctionId={auctionId} users={users}/> : <SealedEnglish auctionById={auctionById} auctionId={auctionId} users={users}/>}
+          </div>
           <AuctionResultModal currentUserId={user?.id} auctionId={auctionId} />
           </main>
       )}

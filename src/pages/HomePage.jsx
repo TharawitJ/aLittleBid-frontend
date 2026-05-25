@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback, useParams } from "react";
 import { NavLink, useNavigate } from "react-router";
 import WelcomeGuest from "../components/homePage/WelcomeGuest";
 import WelcomeUser from "../components/homePage/WelcomeUser";
@@ -15,7 +15,7 @@ const HomePage = () => {
   const { getAllAuction, getPopularAuction, popularAuction, getAuctionById } =
     useAuctionStore();
   const { getAllProducts, getCategories } = useProductStore();
-  const { auctionId } = useParams();
+  // const { auctionId } = useParams();
   const [timeLeft, setTimeLeft] = useState(0);
   const lots = (Array.isArray(popularAuction) ? popularAuction : []).filter(
     (lot) => lot.status === "ACTIVE",
