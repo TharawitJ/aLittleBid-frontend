@@ -278,7 +278,7 @@ export default function ALittleBidRegister() {
       <div className="font-body flex min-h-screen">
         {/* LEFT PANEL (คงเดิม) */}
         <div
-          className="hidden lg:flex flex-col justify-between w-[420px] shrink-0 px-10 py-12 relative overflow-hidden"
+          className="hidden lg:flex flex-col justify-between w-[320px] shrink-0 px-10 py-12 relative overflow-hidden"
           style={{ background: "#161412" }}
         >
           <div
@@ -295,13 +295,12 @@ export default function ALittleBidRegister() {
             ⚖
           </div>
           <div className="relative z-10">
-            <h1 className="font-display text-4xl font-bold leading-none text-[#B91C1C]">
-              A little Bid
+            <h1 className="font-display text-3xl font-bold leading-none text-[#B91C1C]">
+              A Little Bid
             </h1>
-            {/* <p className="mt-4 text-[15px] font-light text-gray-400">
-              Curating the world's most{" "}
-              <span className="text-[#B91C1C]">prestigious</span> collections.
-            </p> */}
+            <p className="mt-4 text-[15px] font-light text-gray-400">
+              Let's make a bid.
+            </p>
           </div>
           <div className="relative z-10 space-y-5">
             <AvatarStack />
@@ -316,9 +315,11 @@ export default function ALittleBidRegister() {
           className="flex-1 flex flex-col items-center justify-center px-6 py-14 min-h-screen"
           style={{ background: "#AEAAA4" }}
         >
-            <h1 className="font-semibold tracking-[0.2em] text-5xl mb-8 text-[#8B1A1A]">
-              Register
-            </h1>
+          <div className="w-full mb-8 flex justify-center">
+            <h2 className="font-display text-[42px] font-bold leading-[1.1] text-gray-900">
+              Membership Register
+            </h2>
+          </div>
 
           {success ? (
             <div className="w-full max-w-[480px] bg-white rounded-sm px-10 py-12 text-center">
@@ -352,7 +353,7 @@ export default function ALittleBidRegister() {
             <form
               onSubmit={handleSubmit}
               noValidate
-              className="w-full max-w-[1000px] bg-white rounded-sm px-10 py-10 shadow-xl"
+              className="w-full max-w-[800px] bg-white rounded-sm px-10 py-10 shadow-xl"
             >
               <fieldset disabled={loading} className="contents">
               {/* 3. เพิ่มปุ่ม Google Login ด้านบน */}
