@@ -27,7 +27,10 @@ function SealedEnglish(props) {
 
   const hdlOnSubmit = ({ amount }) => {
     console.log("submit auctionId at sealed bid bid", auctionId);
-    // guard that it's higher than your previous bid∫
+
+    let yourCurrentHighestBid = 0;
+    // yourBids.forEach( bid => Number(bid.amount) > yourCurrentHighestBid ? yourCurrentHighestBid = amount : // fail )
+    // guard that it's higher than your previous bids
     console.log('yourBids', yourBids);
     placeBid(amount, auctionId);
     reset();
